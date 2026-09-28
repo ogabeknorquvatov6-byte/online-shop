@@ -8,6 +8,7 @@ import { dedupeBrands, normalizeBrandInput } from '../brands';
 import { BrandField } from './BrandField';
 import { CategoryPicker } from './CategoryPicker';
 import { sanitizeOrFilterTerm } from '../search';
+import { slugify } from '../slug';
 import { pageCount, pageRange, pageSummary, useDebounced } from '../adminPagination';
 import { useToast } from '../toast';
 import { Plus, Pencil, Trash2, ImageOff, AlertTriangle } from 'lucide-react';
@@ -354,12 +355,6 @@ function RowActions({
     </div>
   );
 }
-
-const slugify = (s: string) =>
-  s.toLowerCase().trim()
-    .replace(/[’'`]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
 
 function ProductForm({
   product, categories, knownBrands, onClose, onSaved,

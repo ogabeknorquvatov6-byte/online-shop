@@ -10,10 +10,9 @@ import {
   FormActions, FormField, FormToggle, ImageUrlField,
 } from '../AdminShared';
 import { button, card, cx, focusRing, selectBase } from '../design';
+import { slugify } from '../slug';
 import { Img } from '../Img';
 
-const slugify = (s: string) =>
-  s.toLowerCase().trim().replace(/[’'`]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 /**
  * Oʻchirishdan oldingi ogohlantirish matni.

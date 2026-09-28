@@ -88,6 +88,18 @@ export function normalizeApostrophes(value: string): string {
 }
 
 /**
+ * Apostroflarni BUTUNLAY olib tashlaydi (slug uchun).
+ *
+ * `normalizeApostrophes` dan farqi — u belgini saqlaydi, bu esa oʻchiradi.
+ * Ikkalasi ham AYNI `APOSTROPHE_CLASS` ga tayanadi va shu muhim: "apostrof
+ * nima?" degan savolga ilovada faqat BITTA javob boʻlishi kerak. Ilgari
+ * javob ikkita edi — qidiruv bir xil, slug generatori boshqacha oʻylardi.
+ */
+export function stripApostrophes(value: string): string {
+  return value.replace(APOSTROPHE_CLASS, '');
+}
+
+/**
  * `ilike` uchun naqsh: `%…%`, apostroflar `_` bilan almashtirilgan.
  *
  * NEGA `_`, normalizatsiya emas? Chunki solishtirish JSʼda emas,
