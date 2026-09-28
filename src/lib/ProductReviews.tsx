@@ -9,7 +9,7 @@ import { formatOrderDate, type ProductReview } from './types';
 import { AnimatedButton, ResponsiveModal, StaggerGroup, StaggerItem } from './AnimatedPrimitives';
 import { EmptyState, ErrorState } from './ProductCard';
 import { summarizeReviews, type ReviewStats } from './productUtils';
-import { button, cx, focusRing, skeleton, textarea } from './design';
+import { badge, badgeTone, button, cx, focusRing, skeleton, textarea } from './design';
 import { STAR, springs } from './motion';
 
 /*
@@ -320,7 +320,7 @@ export function ProductReviews({
                       {r.author_name.trim() || 'Mijoz'}
                     </span>
                     {r.verified_purchase && (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-700">
+                      <span className={cx(badge, badgeTone.success)}>
                         <BadgeCheck className="h-3.5 w-3.5" aria-hidden="true" />
                         Xarid tasdiqlangan
                       </span>
@@ -329,7 +329,7 @@ export function ProductReviews({
 
                   <div className="mt-1.5 flex flex-wrap items-center gap-x-2.5 gap-y-1">
                     <StarRating value={r.rating} />
-                    <span className="text-xs text-ink-400">{formatOrderDate(r.created_at, false)}</span>
+                    <span className="text-xs text-ink-600">{formatOrderDate(r.created_at, false)}</span>
                   </div>
 
                   <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-ink-700">{r.body}</p>

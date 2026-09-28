@@ -37,7 +37,7 @@ const buttonBase =
 export const buttonSize = {
   sm: 'h-9 px-3 text-sm',
   md: 'h-11 px-5 text-sm',
-  lg: 'h-12 px-6 text-[0.9375rem]',
+  lg: 'h-12 px-6 text-base',
   /*
    * Mahsulot kartasidagi asosiy amal ("Savatga" / son tanlagich).
    *
@@ -227,8 +227,9 @@ export function glassPanel(tone: keyof typeof glassTone = 'neutral', extra?: str
 }
 
 /* ── Badges & chips ──────────────────────────────────────────────────────*/
+// 12px — shkaladagi eng kichik qadam (ilgari 11px, shkaladan tashqarida).
 export const badge =
-  'inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold leading-5';
+  'inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold leading-5';
 
 export const badgeTone = {
   brand: 'bg-orange-50 text-orange-700',

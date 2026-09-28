@@ -225,7 +225,7 @@ function product(id: string): Product {
   return {
     id, name: 'M', slug: 'm', description: null, price: 1000, old_price: null, brand: null,
     category_id: null, sku: null, stock: 10, sales_count: 0, rating: 0, reviews_count: 0,
-    is_new: false, status: 'active', created_at: '2026-01-01', updated_at: '2026-01-01',
+    is_new: false, status: 'active', created_at: '2026-01-01', updated_at: '2026-01-01', warranty: null,
   };
 }
 

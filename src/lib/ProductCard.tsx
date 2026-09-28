@@ -39,7 +39,7 @@ type CartActionProps = {
   product: Product;
   /** Uchish animatsiyasi boshlanadigan element (odatda rasm). */
   flyFrom?: RefObject<HTMLElement | null>;
-  /** `card` — kartochkadagi 44px (desktopda 36px); `lg` — kengroq joylar. */
+  /** `card` — kartochkadagi 44px; `lg` — kengroq joylardagi 48px. */
   size?: 'card' | 'lg';
   /** Boʻsh holatdagi tugma koʻrinishi. Spotlight toʻq fonda — toʻldirilgan. */
   tone?: 'outline' | 'primary';
@@ -560,7 +560,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
               matn edi. `ink-500` (#78756e) 4.6:1 beradi va iyerarxiya
               saqlanadi: u hamon nomdan ochiqroq.
             */
-            <p className="line-clamp-1 text-xs font-medium uppercase tracking-[0.04em] text-ink-500">
+            <p className="line-clamp-1 text-xs font-medium uppercase tracking-[0.04em] text-ink-600">
               {product.brand}
             </p>
           )}
@@ -602,7 +602,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
               <Star className="h-3 w-3 shrink-0 fill-amber-400 text-amber-400" aria-hidden="true" />
               <span className="font-semibold tabular-nums text-ink-700">{product.rating.toFixed(1)}</span>
               {product.reviews_count > 0 && (
-                <span className="tabular-nums text-ink-500">({product.reviews_count})</span>
+                <span className="tabular-nums text-ink-600">({product.reviews_count})</span>
               )}
             </p>
           )}
@@ -624,7 +624,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
               </span>
               {product.old_price != null && (
                 // `ink-500` — brend nomi bilan ayni sabab: `ink-400` 2.6:1.
-                <span className="text-xs tabular-nums text-ink-500 line-through">
+                <span className="text-xs tabular-nums text-ink-600 line-through">
                   {formatPrice(product.old_price)}
                 </span>
               )}
@@ -952,7 +952,7 @@ function QuickViewBody({ product, onClose }: { product: Product; onClose: () => 
               {formatPrice(product.price)}
             </span>
             {product.old_price != null && (
-              <span className="text-sm tabular-nums text-ink-500 line-through">
+              <span className="text-sm tabular-nums text-ink-600 line-through">
                 {formatPrice(product.old_price)}
               </span>
             )}

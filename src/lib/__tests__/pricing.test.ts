@@ -21,6 +21,7 @@ function makeProduct(overrides: Partial<Product> = {}): Product {
     price: 100_000, old_price: null, brand: null, category_id: null, sku: null,
     stock: 10, sales_count: 0, rating: 0, reviews_count: 0, is_new: false,
     status: 'active', created_at: '2026-01-01T00:00:00Z', updated_at: '2026-01-01T00:00:00Z',
+    warranty: null,
     ...overrides,
   };
 }

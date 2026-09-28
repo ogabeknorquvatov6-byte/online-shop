@@ -39,6 +39,7 @@ export type ProductRow = {
   brand: string; category_id: string | null; sku: string; stock: number;
   sales_count: number; rating: number; reviews_count: number;
   is_active: boolean; created_at: string;
+  warranty?: string | null;
   image_url?: string | null;
   product_images?: {
     id: string; product_id: string; image_url: string; sort_order: number; is_primary?: boolean;
@@ -80,6 +81,9 @@ export function adaptProduct(row: ProductRow, promoDiscountPercent?: number | nu
     reviews_count: row.reviews_count ?? 0,
     is_new: Date.now() - new Date(row.created_at).getTime() < NEW_THRESHOLD_MS,
     status: row.is_active ? 'active' : 'inactive',
+    // Boʻsh satr `null` ga keltiriladi — chaqiruv joyi faqat bitta
+    // shartni ("bormi?") tekshirsin, ikkitasini emas.
+    warranty: row.warranty?.trim() || null,
     created_at: row.created_at,
     updated_at: row.created_at,
     category: row.categories ?? null,

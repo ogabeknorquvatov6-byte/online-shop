@@ -2,14 +2,13 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { supabase } from './supabase';
 import { useIsVisible } from './uiHooks';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-// `DURATION`/`EASE` endi kerak emas: oxirgi qoʻlda yozilgan `motion.button`
-// ham `AnimatedButton` ga oʻtdi va oʻz vaqt tokenlarini oʻzi biladi.
-import { springs } from './motion';
+// `DURATION`/`EASE` — tab ostidagi suriladigan nur uchun (`layoutId`).
+import { springs, DURATION, EASE } from './motion';
 import { Link, useRouter } from './router';
 import type { Product } from './types';
 import { formatPrice, discountPercent, hasSellablePrice } from './types';
 import { useCart } from './cart';
-import { maxQuantityFor } from './cartUtils';
+import { maxQuantityFor, quantityForProduct } from './cartUtils';
 import { useFavorites } from './favorites';
 import { useToast } from './toast';
 import { useSettings } from './settings';
@@ -27,6 +26,7 @@ import { PRODUCT_SELECT, adaptProduct, adaptProducts, fetchPromoDiscountMap, typ
 import { ImageGallery } from './ImageGallery';
 import type { ProductVariant } from './types';
 import { AnimatedButton } from './AnimatedPrimitives';
+import { AnimatedNumber } from './AnimatedNumber';
 import { ProductReviews } from './ProductReviews';
 import { button, card, cx, discountBadge, focusRing, glassPanel, shell, skeleton } from './design';
 import { Img } from './Img';
@@ -40,7 +40,7 @@ const VARIANT_LABELS: Record<string, string> = {
 
 export function ProductPage({ slug }: { slug: string }) {
   const { navigate } = useRouter();
-  const { addItem } = useCart();
+  const { items, addItem } = useCart();
   const { toggle, isFavorite } = useFavorites();
   const { notify } = useToast();
   const { settings } = useSettings();
@@ -63,7 +63,6 @@ export function ProductPage({ slug }: { slug: string }) {
    * kerak emas.
    */
   const [reviewStats, setReviewStats] = useState<ReviewStats | null>(null);
-  const [added, setAdded] = useState(false);
 
   /*
    * Yopishqoq CTA paneli FAQAT asosiy "Savatga qoʻshish" tugmasi ekrandan
@@ -314,6 +313,24 @@ export function ProductPage({ slug }: { slug: string }) {
   const reviewRating = reviewStats?.rating ?? product.rating;
   const delivery = quoteDelivery(settings, price * qty);
 
+  /*
+   * ── SAVATDAGI HAQIQIY SON ───────────────────────────────────────
+   *
+   * Ilgari "Savatga qoʻshish" bosilgach tugma 1.6 soniyaga "Savatga
+   * qoʻshildi" boʻlib, keyin asl holiga qaytardi. Yaʼni sahifa
+   * savatda NIMA borligini aytmasdi — faqat "bosildi" deb javob
+   * berardi, xuddi mahsulot kartochkasidagi kabi.
+   *
+   * Endi manba bitta: `quantityForProduct` — mahsulot kartochkasi
+   * ishlatadigan AYNI funksiya. Shu sababli bitta mahsulot
+   * kartochkada 2 dona boʻlib, sahifasida boshqacha koʻrina olmaydi.
+   *
+   * Son BARCHA variantlarni qoʻshadi: xaridor qora va oq variantdan
+   * bittadan olgan boʻlsa, sahifa 2 koʻrsatadi. Aynan shu qiymat
+   * savat sahifasida ham turadi.
+   */
+  const inCartQty = quantityForProduct(items, product.id);
+
   const selectVariant = (type: string, value: string) => {
     setSelectedVariants((s) => ({ ...s, [type]: value }));
     setQty(1);
@@ -334,9 +351,7 @@ export function ProductPage({ slug }: { slug: string }) {
   const handleAdd = () => {
     if (!inStock || !ensureVariantChosen()) return;
     addItem(product, qty, variantLabel || undefined, pricingVariant?.id);
-    setAdded(true);
     notify(`${product.name} savatga qoʻshildi`, 'success');
-    setTimeout(() => setAdded(false), 1600);
   };
 
   const handleBuy = () => {
@@ -426,12 +441,12 @@ export function ProductPage({ slug }: { slug: string }) {
           {/* Brend — `SectionHeader` bilan bir xil "urg'u chizig'i" uslubida,
               shunda mahsulot sahifasi ham bir xil tilda gapiradi. */}
           {product.brand && (
-            <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-orange-700">
+            <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-orange-700">
               <span aria-hidden="true" className="h-px w-6 shrink-0 bg-orange-400/70" />
               {product.brand}
             </p>
           )}
-          <h1 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-ink-900 md:text-3xl lg:text-[2.125rem] lg:leading-[1.15]">
+          <h1 className="mt-2 text-display-md text-ink-900 lg:text-display-lg">
             {product.name}
           </h1>
 
@@ -440,7 +455,7 @@ export function ProductPage({ slug }: { slug: string }) {
               <span className="flex items-center gap-1">
                 <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
                 <span className="font-semibold text-ink-900">{reviewRating.toFixed(1)}</span>
-                {reviewCount > 0 && <span className="text-ink-400">· {reviewCount} sharh</span>}
+                {reviewCount > 0 && <span className="text-ink-600">· {reviewCount} sharh</span>}
               </span>
             )}
             {/*
@@ -455,7 +470,7 @@ export function ProductPage({ slug }: { slug: string }) {
                 {sold}
               </span>
             )}
-            {product.sku && <span className="text-ink-400">Artikul: {product.sku}</span>}
+            {product.sku && <span className="text-ink-600">Artikul: {product.sku}</span>}
           </div>
 
           {/*
@@ -475,15 +490,17 @@ export function ProductPage({ slug }: { slug: string }) {
           */}
           <div className={glassPanel(discount != null && oldPrice != null ? 'brand' : 'neutral', 'mt-5 p-4')}>
             <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-              <span className="text-[2rem] font-bold leading-none tracking-tight text-ink-900">
+              {/* 28px — shkaladagi qadam. Ilgari `text-[2rem]` (32px) edi,
+                  yaʼni oltita oʻlchamdan tashqaridagi qiymat. */}
+              <span className="text-display-md leading-none tabular-nums text-ink-900">
                 {formatPrice(price)}
               </span>
               {oldPrice != null && (
-                <span className="text-lg text-ink-400 line-through">{formatPrice(oldPrice)}</span>
+                <span className="text-base tabular-nums text-ink-600 line-through">{formatPrice(oldPrice)}</span>
               )}
             </div>
             {discount != null && oldPrice != null && (
-              <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-orange-700 px-2.5 py-1 text-xs font-semibold text-white">
+              <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-orange-700 px-2.5 py-1 text-xs font-semibold tabular-nums text-white">
                 −{discount}% · {formatPrice(oldPrice - price)} tejaysiz
               </p>
             )}
@@ -492,7 +509,7 @@ export function ProductPage({ slug }: { slug: string }) {
           <p
             className={cx(
               'mt-3 flex items-center gap-1.5 text-sm font-medium',
-              !purchasable ? 'text-ink-500' : stock === 'in' ? 'text-emerald-600' : stock === 'low' ? 'text-amber-600' : 'text-red-600'
+              !purchasable ? 'text-ink-500' : stock === 'in' ? 'text-emerald-700' : stock === 'low' ? 'text-amber-700' : 'text-red-700'
             )}
           >
             {!purchasable ? (
@@ -551,17 +568,31 @@ export function ProductPage({ slug }: { slug: string }) {
               </AnimatedButton>
             </div>
 
+            {/*
+              Savatda bor boʻlsa tugma ISHLASHDA DAVOM ETADI — u faqat
+              savatda nima borligini qoʻshimcha qilib aytadi. "Yana
+              qoʻshish" soʻzi shuning uchun: bosish yana `qty` dona
+              qoʻshadi, tugma esa tanlov emas, xabar bilan birga keladi.
+            */}
             <AnimatedButton
               sink="lifted"
               ref={setPrimaryCta}
               onClick={handleAdd}
               disabled={!inStock}
-              className={cx(
-                'min-w-[12rem] flex-1',
-                added ? button('success', 'lg') : button('primary', 'lg')
-              )}
+              className={cx('min-w-[12rem] flex-1', button('primary', 'lg'))}
             >
-              {added ? (<><CheckCircle2 className="h-4.5 w-4.5" /> Savatga qoʻshildi</>) : (<><ShoppingCart className="h-4.5 w-4.5" /> Savatga qoʻshish</>)}
+              {inCartQty > 0 ? (
+                <>
+                  <CheckCircle2 className="h-4.5 w-4.5 shrink-0" />
+                  Savatda · <AnimatedNumber value={inCartQty} className="tabular-nums" />
+                  {/* `AnimatedNumber` — `inline-flex`, yaʼni yonidagi matn
+                      bilan orasida boʻshliq hosil boʻlmaydi. Shuning uchun
+                      boʻshliq span ICHIDA yoziladi. */}
+                  <span className="font-normal opacity-80">&nbsp;— yana qoʻshish</span>
+                </>
+              ) : (
+                <><ShoppingCart className="h-4.5 w-4.5 shrink-0" /> Savatga qoʻshish</>
+              )}
             </AnimatedButton>
 
             <button
@@ -594,7 +625,7 @@ export function ProductPage({ slug }: { slug: string }) {
                   . Respublika boʻylab 2–3 kun.
                 </p>
                 {delivery.freeThreshold > 0 && (
-                  <p className="mt-1 text-xs text-emerald-600">
+                  <p className="mt-1 text-xs text-emerald-700">
                     {formatPrice(delivery.freeThreshold)} dan yuqori buyurtmalarda bepul
                   </p>
                 )}
@@ -627,6 +658,20 @@ export function ProductPage({ slug }: { slug: string }) {
 
       {/* ── Tavsif / Xususiyatlar ────────────────────────────── */}
       <section className="mt-8 lg:mt-12">
+        {/*
+          Faol tab chizigʻi — `border-bottom` EMAS, `layoutId` bilan
+          SURILADIGAN nur.
+
+          Ilgari har bir tugmaning oʻz pastki chegarasi bor edi va tab
+          almashganda chiziq bir joyda oʻchib, ikkinchisida yonardi.
+          Endi u bitta element boʻlib bir tabdan ikkinchisiga suriladi —
+          koʻz harakatni kuzatadi va qaysi tabdan qaysisiga oʻtganini
+          koʻradi. Motion buni `layoutId` bilan oʻzi hisoblaydi.
+
+          `prefers-reduced-motion` da Motion `layout` animatsiyasini
+          oʻtkazib yuboradi (`<MotionConfig reducedMotion="user">`,
+          `main.tsx`), yaʼni nur darhol joyiga tushadi.
+        */}
         <div className="flex gap-1 border-b border-ink-200" role="tablist" aria-label="Mahsulot maʼlumotlari">
           {([
             ['desc', 'Tavsif'],
@@ -639,12 +684,21 @@ export function ProductPage({ slug }: { slug: string }) {
               aria-selected={tab === k}
               onClick={() => setTab(k)}
               className={cx(
-                'relative border-b-2 px-4 py-3 text-sm font-medium transition-colors',
+                'relative px-4 py-3 text-sm font-medium transition-colors',
                 focusRing,
-                tab === k ? 'border-orange-600 text-orange-700' : 'border-transparent text-ink-500 hover:text-ink-900'
+                // `ink-600` — `ink-500` tab qatorida 4.33:1 berardi (AA 4.5).
+                tab === k ? 'text-orange-700' : 'text-ink-600 hover:text-ink-900'
               )}
             >
               {label}
+              {tab === k && (
+                <motion.span
+                  layoutId="product-tab-underline"
+                  aria-hidden="true"
+                  transition={{ duration: DURATION.drawer, ease: EASE.standard }}
+                  className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-orange-600"
+                />
+              )}
             </button>
           ))}
         </div>
@@ -669,7 +723,7 @@ export function ProductPage({ slug }: { slug: string }) {
             (product.description?.trim() ? (
               <p className="whitespace-pre-line">{product.description}</p>
             ) : (
-              <p className="text-ink-400">Bu mahsulot uchun batafsil tavsif hali qoʻshilmagan.</p>
+              <p className="text-ink-500">Bu mahsulot uchun batafsil tavsif hali qoʻshilmagan.</p>
             ))}
 
           {tab === 'specs' && (
@@ -677,6 +731,9 @@ export function ProductPage({ slug }: { slug: string }) {
               <SpecRow label="Brend" value={product.brand} />
               <SpecRow label="Kategoriya" value={product.category?.name} />
               <SpecRow label="Artikul (SKU)" value={product.sku} />
+              {/* `SpecRow` qiymat boʻsh boʻlsa qatorni chizmaydi — hozirgi
+                  bazada `warranty` hamma joyda `null`, yaʼni qator koʻrinmaydi. */}
+              <SpecRow label="Kafolat" value={product.warranty} />
               <SpecRow label="Omborda" value={product.stock > 0 ? `${product.stock} dona` : 'Yoʻq'} />
               {variantGroups.map((g) => (
                 <SpecRow key={g.type} label={g.label} value={g.values.map((v) => v.value).join(', ')} />
@@ -742,9 +799,9 @@ export function ProductPage({ slug }: { slug: string }) {
           >
             <div className="mx-auto flex max-w-shell items-center gap-3">
               <div className="min-w-0 flex-1">
-                <p className="truncate text-lg font-bold tabular-nums text-ink-900">{formatPrice(price * qty)}</p>
+                <p className="truncate text-xl font-bold tabular-nums text-ink-900">{formatPrice(price * qty)}</p>
                 {oldPrice != null && (
-                  <p className="truncate text-xs text-ink-400 line-through">{formatPrice(oldPrice * qty)}</p>
+                  <p className="truncate text-xs tabular-nums text-ink-600 line-through">{formatPrice(oldPrice * qty)}</p>
                 )}
               </div>
               {/*
@@ -752,13 +809,21 @@ export function ProductPage({ slug }: { slug: string }) {
                 `flat`, `lifted` emas: panel tubida turibdi va ostida
                 soya uchun joy yo'q (pastki navigatsiya darhol boshlanadi).
               */}
+              {/* Qisqa variant — panelda joy tor, "yana qoʻshish" sigʻmaydi. */}
               <AnimatedButton
                 sink="flat"
                 onClick={handleAdd}
                 disabled={!inStock}
-                className={cx('shrink-0', added ? button('success', 'lg') : button('primary', 'lg'))}
+                className={cx('shrink-0', button('primary', 'lg'))}
               >
-                {added ? (<><CheckCircle2 className="h-4 w-4" /> Qoʻshildi</>) : (<><ShoppingCart className="h-4 w-4" /> Savatga</>)}
+                {inCartQty > 0 ? (
+                  <>
+                    <CheckCircle2 className="h-4 w-4 shrink-0" />
+                    Savatda · <AnimatedNumber value={inCartQty} className="tabular-nums" />
+                  </>
+                ) : (
+                  <><ShoppingCart className="h-4 w-4 shrink-0" /> Savatga</>
+                )}
               </AnimatedButton>
             </div>
           </motion.div>
@@ -860,7 +925,7 @@ function VariantGroup({
               )}
               {v.label || v.value}
               {delta !== 0 && (
-                <span className="text-xs text-ink-400">
+                <span className="text-xs text-ink-500">
                   {delta > 0 ? '+' : '−'}{formatPrice(Math.abs(delta))}
                 </span>
               )}
@@ -870,7 +935,7 @@ function VariantGroup({
       </div>
 
       {chosen?.stock != null && chosen.stock > 0 && chosen.stock <= 5 && (
-        <p className="mt-2 text-xs text-amber-600">Bu variantdan {chosen.stock} dona qoldi</p>
+        <p className="mt-2 text-xs text-amber-700">Bu variantdan {chosen.stock} dona qoldi</p>
       )}
       {chosen && basePrice > 0 && (chosen.price_adjustment ?? 0) !== 0 && (
         <p className="mt-2 text-xs text-ink-500">

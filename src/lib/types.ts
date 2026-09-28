@@ -31,6 +31,15 @@ export type Product = {
   status: string;
   created_at: string;
   updated_at: string;
+  /**
+   * Kafolat muddati — erkin matn ("12 oy", "2 yil rasmiy kafolat").
+   *
+   * Ustun `20260907000000` migratsiyasida qoʻshilgan va katalog importi
+   * uni toʻldiradi, lekin tipda yoʻq edi — yaʼni maʼlumot bazadan
+   * kelib turib, mijozga hech qachon koʻrsatilmasdi. Boʻsh boʻlsa
+   * "Xususiyatlar" jadvalida qator umuman chizilmaydi.
+   */
+  warranty: string | null;
   /*
    * Bogʻliq kategoriyaning FAQAT koʻrsatish uchun kerakli qismi.
    *
