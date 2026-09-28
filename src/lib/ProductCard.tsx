@@ -70,7 +70,13 @@ function CartAction({
   const variants = hasSelectableVariants(product);
 
   const btnSize = size === 'card' ? 'card' : 'lg';
-  const height = size === 'card' ? 'h-11 xl:h-9' : 'h-12';
+  /*
+   * Tanlagich balandligi "Savatga" tugmasi bilan AYNAN teng
+   * (`buttonSize.card` = 44px, `lg` = 48px). Ular bir-birini
+   * almashtiradi — farq boʻlsa savatga qoʻshgan zahoti karta
+   * balandligi sakrardi.
+   */
+  const height = size === 'card' ? 'h-11' : 'h-12';
 
   /* ── Sotib boʻlmaydigan holatlar ─────────────────────────────── */
   if (!purchasable || stock === 'out') {
@@ -129,8 +135,17 @@ function CartAction({
         role="group"
         aria-label={`${product.name} — savatda ${qty} dona`}
         className={cx(
-          'relative z-10 flex items-center overflow-hidden rounded-control border',
-          'border-emerald-200 bg-emerald-50 text-emerald-700',
+          'relative z-10 flex items-center overflow-hidden rounded-control',
+          /*
+           * Chegara `border` EMAS, `ring-inset`.
+           *
+           * `border` element ICHIDAN 1px yeydi: 44px konteynerda
+           * tugmalar uchun atigi 42px qoladi. `ring` esa layoutga
+           * umuman tegmaydi — u element ustiga chiziladi. Natijada
+           * chegara koʻrinadi, "−" va "+" esa toʻliq 44×44 boʻlib,
+           * barmoq nishoni talabini buzmaydi.
+           */
+          'bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-200',
           height,
           className
         )}
@@ -1060,7 +1075,9 @@ export function ProductCardSkeleton() {
           = `h-11 lg:h-9`. Ilgari bu yerda qat'iy `h-9` turardi va mobil/planshet
           ko'rinishida yuklanish tugagach har bir kartochka 8px sakrardi (CLS).
         */}
-        <div className={cx('h-11 w-full rounded-control xl:h-9', skeleton)} />
+        {/* Balandlik HAQIQIY tugma bilan bir xil (`buttonSize.card` = 44px),
+            aks holda yuklanish tugagach kartochka sakrardi (CLS). */}
+        <div className={cx('h-11 w-full rounded-control', skeleton)} />
       </div>
     </div>
   );

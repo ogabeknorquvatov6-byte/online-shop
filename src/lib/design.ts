@@ -39,31 +39,38 @@ export const buttonSize = {
   md: 'h-11 px-5 text-sm',
   lg: 'h-12 px-6 text-[0.9375rem]',
   /*
-   * Mahsulot kartasidagi asosiy amal ("Savatga").
+   * Mahsulot kartasidagi asosiy amal ("Savatga" / son tanlagich).
    *
-   * Mobilda va planshetda 44px — barmoq uchun minimal qulay balandlik;
-   * desktopda 36px, shunda karta ixcham qoladi.
+   * ── 44px HAR QANDAY KENGLIKDA ─────────────────────────────────
    *
-   * Chegara ATAYLAB `xl` (1280px).
+   * Ilgari bu `h-11 px-3 text-sm xl:h-9` edi: desktopda tugma 36px
+   * ga tushardi, "karta ixcham qolsin" degan mulohaza bilan.
    *
-   * Avval `sm` (640px) edi — oʻshanda barcha planshetlar 36px tugma
-   * olardi. Keyin `lg` (1024px) — lekin 1024px hamon sensorli qurilma
-   * (iPad Pro landscape). Endi `xl`: barmoq oʻlchamiga bogʻliq boʻlgan
-   * hamma narsa planshetlarning butun diapazonini qamrab oladi.
+   * Endi `xl:h-9` OLIB TASHLANDI va buning ikkita sababi bor.
    *
-   * DIQQAT: bu NAVIGATSIYA chegarasidan farq qiladi. Navigatsiya `tab`
-   * (820px) da desktop koʻrinishiga oʻtadi, teginish nishonlari esa
-   * `xl` gacha 44px boʻlib qoladi. Ikkalasi turli savolga javob beradi:
-   * "ekran keng-mi?" va "barmoq bilan bosiladimi?".
+   * 1. KARTA BALANDLIGI SAKRARDI. Tugma endi ikki koʻrinishga ega:
+   *    "Savatga" va savatdagi sonni koʻrsatuvchi tanlagich. Ular
+   *    bir-birini ALMASHTIRADI. Agar biri 36px, ikkinchisi 44px
+   *    boʻlsa, savatga qoʻshgan zahoti karta 8px oʻsib, toʻrdagi
+   *    butun qator qayta joylashardi — xarid qilish paytida
+   *    sahifaning oʻzi qimirlaydi.
    *
-   * Nega alohida oʻlcham, `button('sm', 'h-11 sm:h-9')` emas?
-   * Chunki u holda class roʻyxatida `h-9` ham, `h-11` ham boʻlardi.
-   * Ikkalasi ham bitta utility, spetsifikatsiyasi teng — gʻolibi
-   * CSSʼdagi tartibga bogʻliq boʻlib qolardi (tekshirildi: `h-9`
-   * yutdi va tugma 36px boʻlib qolgandi). Bitta qatorda yozilsa
-   * bunday toʻqnashuv umuman boʻlmaydi.
+   *    Ikkalasini 36px qilib ham tenglashtirish mumkin edi, lekin
+   *    u holda tanlagichning "−" va "+" tugmalari desktopda 36px
+   *    boʻlib qolardi — quyidagi sabab buni taqiqlaydi.
+   *
+   * 2. `xl` "BARMOQ YOʻQ" DEGANI EMAS. 1280px — sensorli
+   *    noutbuklar, planshet-transformerlar va sensorli monitorlar
+   *    diapazoni. Kenglik kirish usulini KAFOLATLAMAYDI; u faqat
+   *    hover BOR boʻlishi EHTIMOLINI oshiradi. Hover'ga bogʻliq
+   *    BEZAK uchun bu yetarli (tezkor koʻrish tugmasi shunday
+   *    qoladi), bosish nishoni uchun esa emas.
+   *
+   * Narxi: desktopda karta 8px balandroq. Oʻlchandi — 1280px da
+   * karta eni 218px, ya'ni tugma kenglikning atigi 20% i; 8px
+   * balandlik bu yerda hech narsani siqmaydi.
    */
-  card: 'h-11 px-3 text-sm xl:h-9',
+  card: 'h-11 px-3 text-sm',
 } as const;
 
 export const buttonVariant = {
