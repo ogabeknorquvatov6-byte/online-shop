@@ -8,11 +8,11 @@ import { migrateLegacyHashUrl } from './lib/router.tsx';
 import './index.css';
 
 /*
- * Ilova hash-marshrutdan (`#/catalog`) toza manzilga (`/catalog`) ko'chdi.
- * Eski havolalar — Telegram bot xabarlari, foydalanuvchi xatcho'plari,
+ * Ilova hash-marshrutdan (`#/catalog`) toza manzilga (`/catalog`) koʻchdi.
+ * Eski havolalar — Telegram bot xabarlari, foydalanuvchi xatchoʻplari,
  * tashqi saytlardagi havolalar — buzilmasligi kerak, shuning uchun ular
- * REACT RENDER BO'LISHIDAN OLDIN almashtiriladi. Aks holda foydalanuvchi
- * avval bosh sahifani ko'rib, keyin kerakli sahifaga sakrardi.
+ * REACT RENDER BOʻLISHIDAN OLDIN almashtiriladi. Aks holda foydalanuvchi
+ * avval bosh sahifani koʻrib, keyin kerakli sahifaga sakrardi.
  */
 migrateLegacyHashUrl();
 

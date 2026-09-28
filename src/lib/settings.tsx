@@ -5,7 +5,7 @@ import type { Settings } from './types';
 type SettingsContextValue = {
   settings: Settings | null;
   loading: boolean;
-  /** So'rov muvaffaqiyatsiz tugagan bo'lsa true (UI zaxira qiymatlarga o'tadi). */
+  /** Soʻrov muvaffaqiyatsiz tugagan boʻlsa true (UI zaxira qiymatlarga oʻtadi). */
   error: boolean;
   refresh: () => Promise<void>;
 };
@@ -14,21 +14,21 @@ const SettingsContext = createContext<SettingsContextValue | undefined>(undefine
 
 /*
  * Aniq ustunlar — `select('*')` EMAS. `types.ts` dagi `Settings` shakli
- * bilan bir xil. Do'kon sozlamalariga kelajakda ichki maydon qo'shilsa
+ * bilan bir xil. Doʻkon sozlamalariga kelajakda ichki maydon qoʻshilsa
  * (masalan hisob raqami yoki API kaliti), `*` uni jimgina HAR BIR
- * mijozning brauzeriga yuborardi — sozlamalar ommaviy o'qiladigan jadval.
+ * mijozning brauzeriga yuborardi — sozlamalar ommaviy oʻqiladigan jadval.
  */
 /*
  * BITTA QATORDA — `+` bilan BIRLASHTIRILMAYDI.
  *
  * supabase-js natija turini `select()` ga berilgan LITERAL satrdan
- * chiqaradi (template literal type). Ikki bo'lakni `+` bilan qo'shsak,
+ * chiqaradi (template literal type). Ikki boʻlakni `+` bilan qoʻshsak,
  * tur oddiy `string` ga aylanadi va inference buziladi:
  *
  *     TS2352: Conversion of type 'GenericStringError | null' to type
  *             'Settings' may be a mistake…
  *
- * Ya'ni uzunligi uchun qatorni bo'lish tur xavfsizligini yo'qotadi.
+ * Yaʼni uzunligi uchun qatorni boʻlish tur xavfsizligini yoʻqotadi.
  */
 const SETTINGS_SELECT = 'id, store_name, logo_url, phone, email, address, delivery_fee_tashkent, delivery_fee_republic, free_delivery_threshold, instagram_url, telegram_url, facebook_url, youtube_url, updated_at';
 
@@ -38,10 +38,10 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState(false);
 
   const refresh = useCallback(async () => {
-    // Ilgari xatolik bo'lsa `loading` abadiy `true` bo'lib qolardi va
-    // sozlamalarga bog'liq bloklar (footer kontaktlari, yetkazib berish
-    // narxi) hech qachon ko'rinmasdi. Endi xato aniq belgilanadi va
-    // chaqiruvchi zaxira qiymatlarga o'tadi.
+    // Ilgari xatolik boʻlsa `loading` abadiy `true` boʻlib qolardi va
+    // sozlamalarga bogʻliq bloklar (footer kontaktlari, yetkazib berish
+    // narxi) hech qachon koʻrinmasdi. Endi xato aniq belgilanadi va
+    // chaqiruvchi zaxira qiymatlarga oʻtadi.
     const { data, error: err } = await supabase
       .from('store_settings')
       .select(SETTINGS_SELECT)

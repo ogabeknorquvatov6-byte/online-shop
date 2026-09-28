@@ -3,10 +3,10 @@ import { normalizePhone } from './phone';
 /*
  * Login identifikatori.
  *
- * Foydalanuvchi Telegram botda o'ziga LOGIN o'ylab topadi (masalan
+ * Foydalanuvchi Telegram botda oʻziga LOGIN oʻylab topadi (masalan
  * `alibek` yoki `ali_2024`). Supabase Auth esa email talab qiladi,
  * shuning uchun ichkarida `<login>@telegram.local` ishlatiladi — bu
- * manzil hech qachon foydalanuvchiga ko'rsatilmaydi va unga xat
+ * manzil hech qachon foydalanuvchiga koʻrsatilmaydi va unga xat
  * yuborilmaydi, u faqat texnik identifikator.
  */
 
@@ -25,7 +25,7 @@ export function phoneToLoginEmail(rawPhone: string): string {
   return `${normalizePhone(rawPhone)}${LOGIN_EMAIL_DOMAIN}`;
 }
 
-/** Kiritilgan matn telefon raqamiga o'xshaydimi? */
+/** Kiritilgan matn telefon raqamiga oʻxshaydimi? */
 export function looksLikePhone(value: string): boolean {
   return !value.includes('@') && normalizePhone(value).length >= 9;
 }
@@ -33,7 +33,7 @@ export function looksLikePhone(value: string): boolean {
 /**
  * Botda ruxsat etilgan login shakli. Sayt ham shu qoidani ishlatadi,
  * shunda foydalanuvchi bir joyda qabul qilingan loginni boshqa joyda
- * "noto'g'ri" degan xabar bilan uchratmaydi.
+ * "notoʻgʻri" degan xabar bilan uchratmaydi.
  */
 export function isValidLogin(value: string): boolean {
   return /^[a-z0-9._-]{3,32}$/.test(normalizeLogin(value));

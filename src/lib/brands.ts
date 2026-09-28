@@ -1,30 +1,30 @@
 /*
  * BREND — MAHSULOT XUSUSIYATI, KATEGORIYA EMAS.
  *
- * Bazada alohida `brands` jadvali YO'Q: brend faqat `products.brand`
- * ustunida matn sifatida saqlanadi. Shu sababli mavjud brendlar ro'yxati
+ * Bazada alohida `brands` jadvali YOʻQ: brend faqat `products.brand`
+ * ustunida matn sifatida saqlanadi. Shu sababli mavjud brendlar roʻyxati
  * mahsulotlardan olinadi va bu yerda hech qanday yangi "brend tizimi"
- * yaratilmaydi — faqat mavjud ma'lumot ustida ishlanadi.
+ * yaratilmaydi — faqat mavjud maʼlumot ustida ishlanadi.
  *
  * ── MUAMMO ────────────────────────────────────────────────────────
  *
- * Brend erkin matn bo'lgani uchun bir xil brend turli xil yozilishi
+ * Brend erkin matn boʻlgani uchun bir xil brend turli xil yozilishi
  * mumkin: "Apple", "apple", "APPLE", " Apple ". Katalogdagi brend
- * filtri ularni ALOHIDA variantlar deb ko'rsatadi va foydalanuvchi
- * bitta brendni to'rt marta ko'radi.
+ * filtri ularni ALOHIDA variantlar deb koʻrsatadi va foydalanuvchi
+ * bitta brendni toʻrt marta koʻradi.
  *
  * ── YECHIM ────────────────────────────────────────────────────────
  *
  * Yangi qiymat kiritilganda u mavjud brendlar bilan REGISTRGA
- * BOG'LIQ BO'LMAGAN holda solishtiriladi. Moslik topilsa — bazada
+ * BOGʻLIQ BOʻLMAGAN holda solishtiriladi. Moslik topilsa — bazada
  * allaqachon ishlatilayotgan YOZILISH qaytariladi.
  *
  * MUHIM: bu faqat YANGI kiritishlarga taalluqli. Mavjud yozuvlar
- * jimgina qayta yozilmaydi — ommaviy o'zgartirish alohida, ataylab
- * qilinadigan ish bo'lishi kerak.
+ * jimgina qayta yozilmaydi — ommaviy oʻzgartirish alohida, ataylab
+ * qilinadigan ish boʻlishi kerak.
  */
 
-/** Solishtirish uchun yagona shakl. Ko'rsatish uchun ISHLATILMAYDI. */
+/** Solishtirish uchun yagona shakl. Koʻrsatish uchun ISHLATILMAYDI. */
 export function canonicalBrand(value: string): string {
   return value.trim().toLocaleLowerCase();
 }
@@ -42,17 +42,17 @@ export function matchExistingBrand(input: string, existing: readonly string[]): 
 /**
  * Saqlashdan oldingi yakuniy qiymat.
  *
- * Mavjud brend bilan mos kelsa — o'sha brendning bazadagi yozilishi
+ * Mavjud brend bilan mos kelsa — oʻsha brendning bazadagi yozilishi
  * qaytariladi ("apple" → "Apple"). Aks holda kiritilgan matn faqat
- * chetki bo'shliqlardan tozalanadi: yangi brendning yozilishini
- * admin o'zi hal qiladi, biz uni "to'g'rilamaymiz".
+ * chetki boʻshliqlardan tozalanadi: yangi brendning yozilishini
+ * admin oʻzi hal qiladi, biz uni "toʻgʻrilamaymiz".
  */
 export function normalizeBrandInput(input: string, existing: readonly string[]): string {
   return matchExistingBrand(input, existing) ?? input.trim();
 }
 
 /**
- * Kiritilayotgan matn bo'yicha takliflar.
+ * Kiritilayotgan matn boʻyicha takliflar.
  *
  * Avval BOSHLANISHI mos kelganlar, keyin ichida uchraganlar — shunda
  * "Ap" yozilganda "Apple" birinchi chiqadi.
@@ -76,9 +76,9 @@ export function suggestBrands(
 }
 
 /**
- * Ro'yxatdagi registr dublikatlarini yig'ib, har bir brenddan bittasini
- * qoldiradi. Qaysi biri qoladi — eng ko'p uchragani; teng bo'lsa
- * alifbo tartibida birinchisi. Shunda ro'yxat barqaror bo'ladi.
+ * Roʻyxatdagi registr dublikatlarini yigʻib, har bir brenddan bittasini
+ * qoldiradi. Qaysi biri qoladi — eng koʻp uchragani; teng boʻlsa
+ * alifbo tartibida birinchisi. Shunda roʻyxat barqaror boʻladi.
  */
 export function dedupeBrands(list: readonly string[]): string[] {
   const groups = new Map<string, Map<string, number>>();
@@ -106,8 +106,8 @@ export function dedupeBrands(list: readonly string[]): string[] {
 }
 
 /**
- * Kiritilgan qiymat YANGI brendmi (ya'ni ro'yxatda yo'qmi)?
- * Formada «+ "X" qo'shish» ni ko'rsatish uchun.
+ * Kiritilgan qiymat YANGI brendmi (yaʼni roʻyxatda yoʻqmi)?
+ * Formada «+ "X" qoʻshish» ni koʻrsatish uchun.
  */
 export function isNewBrand(input: string, existing: readonly string[]): boolean {
   return canonicalBrand(input).length > 0 && matchExistingBrand(input, existing) === null;

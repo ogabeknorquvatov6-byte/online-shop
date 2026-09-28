@@ -23,34 +23,34 @@ import {
  *
  * `sink` berilmasa — avvalgidek `tapScale` (kichrayish).
  *
- * `sink` — JISMONIY BOTISH: tugma yuzaga 2px cho'kadi va prujina bilan
- * ko'tariladi.
+ * `sink` — JISMONIY BOTISH: tugma yuzaga 2px choʻkadi va prujina bilan
+ * koʻtariladi.
  *   `flat`   — tekis tugmalar (miqdor steppери): faqat botish.
  *   `lifted` — soyasi bor asosiy tugma: botish + soyaning qisqarishi.
  *
  * SOYA NEGA ALOHIDA ELEMENT.
  *
- * `box-shadow` ni animatsiya qilish oson bo'lardi, lekin u har kadrda
+ * `box-shadow` ni animatsiya qilish oson boʻlardi, lekin u har kadrda
  * qayta chizishni talab qiladi va loyihada faqat `transform`/`opacity`
  * animatsiya qilinadi. Shuning uchun soya — tugma OSTIDAGI mustaqil
- * blur qilingan element: u `scale` va `opacity` bilan qisqaradi, ya'ni
+ * blur qilingan element: u `scale` va `opacity` bilan qisqaradi, yaʼni
  * blur BIR MARTA hisoblanadi va keyin faqat kompozitsiya qilinadi.
  *
- * Soya `top-full` da, ya'ni tugma qutisidan BUTUNLAY tashqarida.
- * Ichkarida bo'lsa manfiy `z-index` kerak bo'lardi, u esa ishlamasdi:
+ * Soya `top-full` da, yaʼni tugma qutisidan BUTUNLAY tashqarida.
+ * Ichkarida boʻlsa manfiy `z-index` kerak boʻlardi, u esa ishlamasdi:
  * Motion transform beradi, transform stacking context yaratadi va
- * manfiy z-index'li bola ota fonining USTIDA chizilib qolardi.
+ * manfiy z-indexʼli bola ota fonining USTIDA chizilib qolardi.
  */
 type SinkKind = 'flat' | 'lifted';
 
 /*
- * `children` ATAYLAB qayta e'lon qilingan.
+ * `children` ATAYLAB qayta eʼlon qilingan.
  *
  * `HTMLMotionProps` bolalar sifatida `MotionValue` ni ham qabul qiladi
- * (Motion matnni to'g'ridan-to'g'ri motion value'dan chizishi mumkin).
+ * (Motion matnni toʻgʻridan-toʻgʻri motion valueʼdan chizishi mumkin).
  * Bu yerda esa bolalar yonida soya elementi ham turadi va TypeScript
  * ikkalasini bitta `ReactNode` massiviga keltira olmaydi. Tugma hech
- * qachon `MotionValue` matn ko'rsatmaydi, shuning uchun tip toraytirildi.
+ * qachon `MotionValue` matn koʻrsatmaydi, shuning uchun tip toraytirildi.
  */
 type AnimatedButtonProps = Omit<HTMLMotionProps<'button'>, 'children'> & {
   sink?: SinkKind;
@@ -83,8 +83,8 @@ export const AnimatedButton = forwardRef<HTMLButtonElement, AnimatedButtonProps>
         /*
          * Nom bilan berilgan variantlar — obyekt bilan emas.
          *
-         * Motion variant NOMINI bolalarga uzatadi, obyekt ko'rinishidagi
-         * `whileTap` esa faqat shu elementga ta'sir qiladi. Soya tugma
+         * Motion variant NOMINI bolalarga uzatadi, obyekt koʻrinishidagi
+         * `whileTap` esa faqat shu elementga taʼsir qiladi. Soya tugma
          * bilan BIR VAQTDA harakat qilishi uchun ikkalasi ham bitta
          * nomga ("pressed") javob berishi kerak.
          */
@@ -151,21 +151,21 @@ export function AnimatedModal({
    * ── VIZUAL CHIQISH ≠ MANTIQIY HOLAT ──────────────────────────────
    *
    * `useIsPresent()` — `AnimatePresence` yopishni BOSHLAGAN zahoti
-   * `false` bo'ladi: element hali DOM'da turadi va chiqish animatsiyasi
-   * hali o'ynayapti, lekin dialog MANTIQAN allaqachon yopiq.
+   * `false` boʻladi: element hali DOMʼda turadi va chiqish animatsiyasi
+   * hali oʻynayapti, lekin dialog MANTIQAN allaqachon yopiq.
    *
    * Nega bu muhim: ilgari bu yerda `useBodyScrollLock(true)` yozilgan
-   * edi, ya'ni qulf faqat element DOM'dan olib tashlanganda bo'shardi.
+   * edi, yaʼni qulf faqat element DOMʼdan olib tashlanganda boʻshardi.
    * Element esa faqat chiqish animatsiyasi TUGAGANDA olib tashlanadi.
-   * Agar animatsiya biror sababga ko'ra tugamasa — masalan brauzer
-   * sahifani fon rejimiga o'tkazsa va `requestAnimationFrame` to'xtasa
-   * (o'lchandi: 600ms ichida 0 ta kadr) — sahifa SCROLL QULFIDA
+   * Agar animatsiya biror sababga koʻra tugamasa — masalan brauzer
+   * sahifani fon rejimiga oʻtkazsa va `requestAnimationFrame` toʻxtasa
+   * (oʻlchandi: 600ms ichida 0 ta kadr) — sahifa SCROLL QULFIDA
    * qolib ketardi va foydalanuvchi uchun butunlay ishlamay qolardi.
    *
-   * Endi qulf, fokus tuzog'i va Escape tinglovchisi "dialog ochiqmi"
-   * holatiga bog'langan, "element DOM'da bormi" holatiga emas.
-   * Animatsiya avvalgidek to'liq o'ynaydi — u shunchaki endi
-   * TO'G'RILIK uchun javobgar emas.
+   * Endi qulf, fokus tuzogʻi va Escape tinglovchisi "dialog ochiqmi"
+   * holatiga bogʻlangan, "element DOMʼda bormi" holatiga emas.
+   * Animatsiya avvalgidek toʻliq oʻynaydi — u shunchaki endi
+   * TOʻGʻRILIK uchun javobgar emas.
    */
   const present = useIsPresent();
   useEscapeKey(present, onClose);
@@ -217,28 +217,28 @@ export function ResponsiveModal({
   onClose: () => void;
   children: ReactNode;
   title?: ReactNode;
-  /** Faqat DESKTOP kengligiga ta'sir qiladi; mobil har doim pastki varaq. */
+  /** Faqat DESKTOP kengligiga taʼsir qiladi; mobil har doim pastki varaq. */
   size?: 'md' | 'wide';
 }) {
   /*
    * ── VIZUAL CHIQISH ≠ MANTIQIY HOLAT ──────────────────────────────
    *
    * `useIsPresent()` — `AnimatePresence` yopishni BOSHLAGAN zahoti
-   * `false` bo'ladi: element hali DOM'da turadi va chiqish animatsiyasi
-   * hali o'ynayapti, lekin dialog MANTIQAN allaqachon yopiq.
+   * `false` boʻladi: element hali DOMʼda turadi va chiqish animatsiyasi
+   * hali oʻynayapti, lekin dialog MANTIQAN allaqachon yopiq.
    *
    * Nega bu muhim: ilgari bu yerda `useBodyScrollLock(true)` yozilgan
-   * edi, ya'ni qulf faqat element DOM'dan olib tashlanganda bo'shardi.
+   * edi, yaʼni qulf faqat element DOMʼdan olib tashlanganda boʻshardi.
    * Element esa faqat chiqish animatsiyasi TUGAGANDA olib tashlanadi.
-   * Agar animatsiya biror sababga ko'ra tugamasa — masalan brauzer
-   * sahifani fon rejimiga o'tkazsa va `requestAnimationFrame` to'xtasa
-   * (o'lchandi: 600ms ichida 0 ta kadr) — sahifa SCROLL QULFIDA
+   * Agar animatsiya biror sababga koʻra tugamasa — masalan brauzer
+   * sahifani fon rejimiga oʻtkazsa va `requestAnimationFrame` toʻxtasa
+   * (oʻlchandi: 600ms ichida 0 ta kadr) — sahifa SCROLL QULFIDA
    * qolib ketardi va foydalanuvchi uchun butunlay ishlamay qolardi.
    *
-   * Endi qulf, fokus tuzog'i va Escape tinglovchisi "dialog ochiqmi"
-   * holatiga bog'langan, "element DOM'da bormi" holatiga emas.
-   * Animatsiya avvalgidek to'liq o'ynaydi — u shunchaki endi
-   * TO'G'RILIK uchun javobgar emas.
+   * Endi qulf, fokus tuzogʻi va Escape tinglovchisi "dialog ochiqmi"
+   * holatiga bogʻlangan, "element DOMʼda bormi" holatiga emas.
+   * Animatsiya avvalgidek toʻliq oʻynaydi — u shunchaki endi
+   * TOʻGʻRILIK uchun javobgar emas.
    */
   const present = useIsPresent();
   useEscapeKey(present, onClose);
@@ -287,9 +287,9 @@ export function ResponsiveModal({
            * Ilgari u ishlatilardi va `AdminModal` "wide" holatida DESKTOP
            * sinflarini (`relative max-w-2xl …`) uzatardi — mobilda ular
            * `fixed inset-x-0 bottom-0` ni almashtirib yuborar, natijada
-           * varaq oddiy oqimda, qora fon ORTIDA render bo'lardi va
-           * ekranda umuman ko'rinmasdi. Shu sababli mahsulot/banner/
-           * aksiya qo'shish oynalari telefonda ochilmayotgandek tuyulardi.
+           * varaq oddiy oqimda, qora fon ORTIDA render boʻlardi va
+           * ekranda umuman koʻrinmasdi. Shu sababli mahsulot/banner/
+           * aksiya qoʻshish oynalari telefonda ochilmayotgandek tuyulardi.
            */
           className="fixed inset-x-0 bottom-0 z-[80] flex max-h-[88vh] flex-col overflow-hidden rounded-t-surface bg-white shadow-overlay"
         >
@@ -388,21 +388,21 @@ export function AnimatedDrawer({
    * ── VIZUAL CHIQISH ≠ MANTIQIY HOLAT ──────────────────────────────
    *
    * `useIsPresent()` — `AnimatePresence` yopishni BOSHLAGAN zahoti
-   * `false` bo'ladi: element hali DOM'da turadi va chiqish animatsiyasi
-   * hali o'ynayapti, lekin dialog MANTIQAN allaqachon yopiq.
+   * `false` boʻladi: element hali DOMʼda turadi va chiqish animatsiyasi
+   * hali oʻynayapti, lekin dialog MANTIQAN allaqachon yopiq.
    *
    * Nega bu muhim: ilgari bu yerda `useBodyScrollLock(true)` yozilgan
-   * edi, ya'ni qulf faqat element DOM'dan olib tashlanganda bo'shardi.
+   * edi, yaʼni qulf faqat element DOMʼdan olib tashlanganda boʻshardi.
    * Element esa faqat chiqish animatsiyasi TUGAGANDA olib tashlanadi.
-   * Agar animatsiya biror sababga ko'ra tugamasa — masalan brauzer
-   * sahifani fon rejimiga o'tkazsa va `requestAnimationFrame` to'xtasa
-   * (o'lchandi: 600ms ichida 0 ta kadr) — sahifa SCROLL QULFIDA
+   * Agar animatsiya biror sababga koʻra tugamasa — masalan brauzer
+   * sahifani fon rejimiga oʻtkazsa va `requestAnimationFrame` toʻxtasa
+   * (oʻlchandi: 600ms ichida 0 ta kadr) — sahifa SCROLL QULFIDA
    * qolib ketardi va foydalanuvchi uchun butunlay ishlamay qolardi.
    *
-   * Endi qulf, fokus tuzog'i va Escape tinglovchisi "dialog ochiqmi"
-   * holatiga bog'langan, "element DOM'da bormi" holatiga emas.
-   * Animatsiya avvalgidek to'liq o'ynaydi — u shunchaki endi
-   * TO'G'RILIK uchun javobgar emas.
+   * Endi qulf, fokus tuzogʻi va Escape tinglovchisi "dialog ochiqmi"
+   * holatiga bogʻlangan, "element DOMʼda bormi" holatiga emas.
+   * Animatsiya avvalgidek toʻliq oʻynaydi — u shunchaki endi
+   * TOʻGʻRILIK uchun javobgar emas.
    */
   const present = useIsPresent();
   useEscapeKey(present, onClose);
@@ -414,15 +414,15 @@ export function AnimatedDrawer({
   /*
    * Pastdan chiqadigan varaqni pastga surib yopish mumkin.
    *
-   * Ilgari `CatalogPage` filtr varag'i tepasida "tortish" chizig'i
-   * chizilardi, lekin bu komponentda `drag` UMUMAN yo'q edi — ya'ni
-   * afforder yolg'on gapirardi: foydalanuvchi varaqni pastga suradi va
-   * hech narsa bo'lmaydi. Ayni mantiq `ResponsiveModal` da allaqachon
-   * ishlab turibdi, shuning uchun bu yerda o'sha yechim takrorlanadi
-   * (ichki ro'yxat `overscroll-contain` bilan o'z scroll'ini ushlab qoladi).
+   * Ilgari `CatalogPage` filtr varagʻi tepasida "tortish" chizigʻi
+   * chizilardi, lekin bu komponentda `drag` UMUMAN yoʻq edi — yaʼni
+   * afforder yolgʻon gapirardi: foydalanuvchi varaqni pastga suradi va
+   * hech narsa boʻlmaydi. Ayni mantiq `ResponsiveModal` da allaqachon
+   * ishlab turibdi, shuning uchun bu yerda oʻsha yechim takrorlanadi
+   * (ichki roʻyxat `overscroll-contain` bilan oʻz scrollʼini ushlab qoladi).
    *
-   * Yon panellarda (chap/o'ng) surish yo'q — u yerda tortish chizig'i ham
-   * yo'q, demak va'da ham berilmagan.
+   * Yon panellarda (chap/oʻng) surish yoʻq — u yerda tortish chizigʻi ham
+   * yoʻq, demak vaʼda ham berilmagan.
    */
   const swipeToDismiss = side === 'bottom' && !reduce;
 

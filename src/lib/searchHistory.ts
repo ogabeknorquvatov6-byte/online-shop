@@ -1,6 +1,6 @@
 /*
- * So'nggi qidiruvlar — localStorage'da, serverga so'rov yubormasdan.
- * Foydalanuvchi odatda o'xshash so'zlarni qayta-qayta qidiradi, shuning
+ * Soʻnggi qidiruvlar — localStorageʼda, serverga soʻrov yubormasdan.
+ * Foydalanuvchi odatda oʻxshash soʻzlarni qayta-qayta qidiradi, shuning
  * uchun bu kichik xotira qidiruv sahifasini sezilarli qulaylashtiradi.
  */
 

@@ -2,9 +2,9 @@
  * Statik sahifalar mazmuni.
  *
  * Ilgari /about, /contact, /delivery, /returns va /faq bitta qatorlik
- * matndan iborat edi ("Tez-tez beriladigan savollar." — savollarning o'zi
- * yo'q). Bunday sahifalar mijozda "sayt tugallanmagan" taassurotini
- * qoldiradi va aynan ular xarid oldidan eng ko'p o'qiladigan sahifalardir.
+ * matndan iborat edi ("Tez-tez beriladigan savollar." — savollarning oʻzi
+ * yoʻq). Bunday sahifalar mijozda "sayt tugallanmagan" taassurotini
+ * qoldiradi va aynan ular xarid oldidan eng koʻp oʻqiladigan sahifalardir.
  *
  * Matn markaziy joyda saqlanadi, chunki u bir necha sahifada takrorlanadi
  * (yetkazib berish shartlari footer va mahsulot sahifasida ham keladi).
@@ -172,10 +172,10 @@ const PAGES = {
  * `/about` | `/contact` | `/delivery` | `/returns` | `/faq`
  *
  * Ilgari `STATIC_PAGES` `Record<string, …>` edi: TypeScript uchun ISTALGAN
- * satr yaroqli kalit bo'lib ko'rinar, `STATIC_PAGES['/xyz']` tekshiruvdan
- * o'tib ketar, lekin ish vaqtida `undefined` qaytarib sahifani oq ekranga
+ * satr yaroqli kalit boʻlib koʻrinar, `STATIC_PAGES['/xyz']` tekshiruvdan
+ * oʻtib ketar, lekin ish vaqtida `undefined` qaytarib sahifani oq ekranga
  * aylantirardi. `satisfies` kalitlarni literal birlashma sifatida saqlaydi
- * — endi marshrut jadvali ham, sitemap ham shu ro'yxatga tayanadi.
+ * — endi marshrut jadvali ham, sitemap ham shu roʻyxatga tayanadi.
  */
 export type StaticPagePath = keyof typeof PAGES;
 

@@ -9,24 +9,24 @@ import { playMotor, playFeedTick, playStopClick, playFiberSnap, playTear, type S
 /*
  * CHEK PRINTERI — YAGONA JISMONIY TIZIM.
  *
- * Ikki ko'rinish, bitta kod:
- *   `printer`    — to'lov tugagach. Mashina chekni bosib chiqaradi,
+ * Ikki koʻrinish, bitta kod:
+ *   `printer`    — toʻlov tugagach. Mashina chekni bosib chiqaradi,
  *                  foydalanuvchi uni tortib YIRTIB oladi.
- *   `standalone` — Buyurtmalarim. Buyurtma allaqachon o'tgan, chek
+ *   `standalone` — Buyurtmalarim. Buyurtma allaqachon oʻtgan, chek
  *                  allaqachon bor: mashina ham, bosish ham kerak emas.
- *                  Chek YOLG'IZ turadi va 360° aylanadi.
+ *                  Chek YOLGʻIZ turadi va 360° aylanadi.
  *
- * QOG'OZ TEPADAN CHIQADI. Haqiqiy kassa printerida qog'oz korpusning
+ * QOGʻOZ TEPADAN CHIQADI. Haqiqiy kassa printerida qogʻoz korpusning
  * ustidagi tirqishdan chiqib, mashinaning OLD TOMONIGA osilib tushadi.
- * Ilgari bu yerda qog'oz qutining ostidan chiqardi va shuning uchun
- * "mashinadan chiqyapti" degan tuyg'u umuman yo'q edi.
+ * Ilgari bu yerda qogʻoz qutining ostidan chiqardi va shuning uchun
+ * "mashinadan chiqyapti" degan tuygʻu umuman yoʻq edi.
  *
- * ME'MORIY O'ZAK: BITTA QADAM, BITTA HODISA. Har qadamda ayni bir
- * tikda qog'oz siljiydi, qator bosiladi va mexanik tovush chiqadi —
- * ular bitta funksiya ichida tug'ilgani uchun ajralib keta olmaydi
- * (o'lchangan: o'rtacha 6.7ms).
+ * MEʼMORIY OʻZAK: BITTA QADAM, BITTA HODISA. Har qadamda ayni bir
+ * tikda qogʻoz siljiydi, qator bosiladi va mexanik tovush chiqadi —
+ * ular bitta funksiya ichida tugʻilgani uchun ajralib keta olmaydi
+ * (oʻlchangan: oʻrtacha 6.7ms).
  *
- * Bu fayl backend'ga TEGMAYDI: `supabase` ham, RPC ham yo'q.
+ * Bu fayl backendʼga TEGMAYDI: `supabase` ham, RPC ham yoʻq.
  */
 
 export type ReceiptData = {
@@ -51,30 +51,30 @@ const STEP_MS = 82;
 const FEED_START = 170;
 const TEAR_PAUSE = 300;
 
-/* Tortish: shu masofadan keyin qog'oz uziladi. */
+/* Tortish: shu masofadan keyin qogʻoz uziladi. */
 const PULL_MAX = 132;
 const PULL_TEAR_AT = 86;
 
 /**
- * QIYA YIRTIQ — QO'L BILAN YIRTILGANDEK.
+ * QIYA YIRTIQ — QOʻL BILAN YIRTILGANDEK.
  *
- * Qiymatlar chapdan o'ngga PASAYIB boradi (0% → ~5%), ya'ni chiziq
- * gorizontal emas, qiya. Ustiga notekislik qo'shilgan.
+ * Qiymatlar chapdan oʻngga PASAYIB boradi (0% → ~5%), yaʼni chiziq
+ * gorizontal emas, qiya. Ustiga notekislik qoʻshilgan.
  *
- * Nega qiya: qo'l chekni bir chetidan ushlab yirtadi va chok o'sha
- * tomondan boshlanib, qarama-qarshi tomonga qarab "ketadi". To'g'ri
- * gorizontal chiziq qaychida qirqilgandek ko'rinadi, qo'lda
+ * Nega qiya: qoʻl chekni bir chetidan ushlab yirtadi va chok oʻsha
+ * tomondan boshlanib, qarama-qarshi tomonga qarab "ketadi". Toʻgʻri
+ * gorizontal chiziq qaychida qirqilgandek koʻrinadi, qoʻlda
  * yirtilgandek emas.
  *
- * Qiymatlar QAT'IY — `Math.random()` emas. Aks holda har renderda
- * yirtiq shakli sakrab o'zgarardi.
+ * Qiymatlar QATʼIY — `Math.random()` emas. Aks holda har renderda
+ * yirtiq shakli sakrab oʻzgarardi.
  */
 const TEAR_PROFILE: [number, number][] = [
   [0, 0], [8, 0.9], [17, 0.35], [26, 1.75], [35, 1.15], [44, 2.5],
   [53, 1.95], [62, 3.3], [71, 2.85], [80, 4.15], [89, 3.7], [100, 5.0],
 ];
 
-/** Bekor qilingan chek shu balandlikda ikkiga bo'linadi. */
+/** Bekor qilingan chek shu balandlikda ikkiga boʻlinadi. */
 const RIP_AT = 56;
 
 function ripPolygons() {
@@ -84,13 +84,13 @@ function ripPolygons() {
   return { top, bottom };
 }
 
-/** Yirtib olingan chekning yuqori qirrasi — o'sha qiya chok. */
+/** Yirtib olingan chekning yuqori qirrasi — oʻsha qiya chok. */
 const TORN_TOP = `polygon(${TEAR_PROFILE.map(([x, dy]) => `${x}% ${dy}%`).join(', ')}, 100% 100%, 0% 100%)`;
 
 /*
- * Chek qatorlari MA'LUMOT sifatida quriladi: qadamlar soni qatorlar
- * soniga TENG bo'lishi shart. JSX ichida qo'lda sanasak, bitta qator
- * qo'shilganda haydovchi undan bexabar qolardi.
+ * Chek qatorlari MAʼLUMOT sifatida quriladi: qadamlar soni qatorlar
+ * soniga TENG boʻlishi shart. JSX ichida qoʻlda sanasak, bitta qator
+ * qoʻshilganda haydovchi undan bexabar qolardi.
  */
 function buildLines(data: ReceiptData, cancelled: boolean) {
   const shown = data.items.slice(0, MAX_ITEMS);
@@ -112,7 +112,7 @@ function buildLines(data: ReceiptData, cancelled: boolean) {
     { key: 'num', node: <p className="text-xs font-semibold tabular-nums">#{data.number}</p> },
   ];
 
-  // Sana FAQAT haqiqatan mavjud bo'lsa chiziladi.
+  // Sana FAQAT haqiqatan mavjud boʻlsa chiziladi.
   if (when) {
     lines.push({ key: 'date', node: <p className="text-[10px] tabular-nums text-ink-400">{when}</p> });
   }
@@ -188,11 +188,11 @@ const Dashed = () => <div className="border-t border-dashed border-ink-300" />;
  * YIRTILISH BOSQICHLARI.
  *
  *   `tearing`  — chok KETAYOTGAN payt (~300ms). Ilgari bu bosqich
- *                umuman yo'q edi: qo'yib yuborilishi bilan chek
- *                birdan "tayyor" bo'lib qolardi va shuning uchun
- *                yirtilish sezilmasdi — oddiy almashinuvga o'xshardi.
+ *                umuman yoʻq edi: qoʻyib yuborilishi bilan chek
+ *                birdan "tayyor" boʻlib qolardi va shuning uchun
+ *                yirtilish sezilmasdi — oddiy almashinuvga oʻxshardi.
  *   `detached` — yirtib olingan chek. Butun, 360° aylanadi.
- *   `ripped`   — bekor qilingan chek ikkiga bo'linadi.
+ *   `ripped`   — bekor qilingan chek ikkiga boʻlinadi.
  */
 type Phase = 'idle' | 'printing' | 'printed' | 'tearing' | 'detached' | 'ripped';
 
@@ -210,12 +210,12 @@ export function OrderReceiptPrinter({
   /** Chek MATNI. */
   mode?: ReceiptMode;
   /**
-   * `printer` — mashina bosib chiqaradi, so'ng tortib yirtiladi.
-   * `standalone` — tayyor chek yolg'iz turadi va aylanadi.
+   * `printer` — mashina bosib chiqaradi, soʻng tortib yirtiladi.
+   * `standalone` — tayyor chek yolgʻiz turadi va aylanadi.
    */
   variant?: ReceiptVariant;
   /**
-   * Chek O'ZI ikkiga bo'linadimi (tovush bilan). MATNDAN ALOHIDA:
+   * Chek OʻZI ikkiga boʻlinadimi (tovush bilan). MATNDAN ALOHIDA:
    * yirtilish — HODISA ("hozir bekor qilindi"), holat emas.
    */
   autoRip?: boolean;
@@ -228,7 +228,7 @@ export function OrderReceiptPrinter({
   const lines = useMemo(() => buildLines(data, cancelled), [data, cancelled]);
   const total = lines.length;
 
-  /* Yolg'iz chek allaqachon bosilgan — u hech narsa kutmaydi. */
+  /* Yolgʻiz chek allaqachon bosilgan — u hech narsa kutmaydi. */
   const [step, setStep] = useState(reduce || standalone ? total : 0);
   const [phase, setPhase] = useState<Phase>(() => {
     if (standalone) return autoRip ? 'ripped' : 'detached';
@@ -255,7 +255,7 @@ export function OrderReceiptPrinter({
    *
    * Ilgari bu bitta qadam edi: bosildi → chek tayyor. Shuning uchun
    * yirtilish "oddiy" tuyulardi. Endi avval CHOK KETADI (`tearing`,
-   * 300ms) va faqat undan keyin chek yakuniy holatiga o'tadi.
+   * 300ms) va faqat undan keyin chek yakuniy holatiga oʻtadi.
    * Tovush ham aynan chok ketgan paytda boshlanadi.
    */
   const startTear = useCallback(
@@ -293,9 +293,9 @@ export function OrderReceiptPrinter({
         k += 1;
 
         /*
-         * SINXRONLIKNING O'ZAGI: tovush va holat ayni bir tikda
+         * SINXRONLIKNING OʻZAGI: tovush va holat ayni bir tikda
          * beriladi. Orada animatsiya tizimi ham, ikkinchi taymer ham
-         * yo'q — ular ajralib keta olmaydi.
+         * yoʻq — ular ajralib keta olmaydi.
          */
         playFeedTick(k);
         setStep(k);
@@ -384,57 +384,57 @@ export function OrderReceiptPrinter({
 const PILL =
   'inline-flex min-h-[2.75rem] items-center gap-2 rounded-full border border-ink-200 bg-white px-4 text-sm font-medium text-ink-700 transition-colors hover:border-orange-300 hover:bg-orange-50 hover:text-orange-700';
 
-/* Qog'oz kengligi — barcha ko'rinishlarda bir xil. */
+/* Qogʻoz kengligi — barcha koʻrinishlarda bir xil. */
 const PAPER_W = 'w-[15.5rem] min-[380px]:w-[16.5rem] sm:w-[17.5rem] lg:w-[18.5rem]';
-/* Korpus qog'ozdan kengroq — qog'oz uning old tomoniga tushadi. */
+/* Korpus qogʻozdan kengroq — qogʻoz uning old tomoniga tushadi. */
 const BODY_W = 'w-[19rem] min-[380px]:w-[20rem] sm:w-[21rem] lg:w-[22rem]';
 
-/* ── MASHINA + QOG'OZ ─────────────────────────────────────────────── */
+/* ── MASHINA + QOGʻOZ ─────────────────────────────────────────────── */
 
 /*
- * QO'L BILAN TORTISH.
+ * QOʻL BILAN TORTISH.
  *
  * NEGA MOTION'NING `drag` I EMAS.
  *
- * `drag` barmoqni QAT'IY nisbatda kuzatadi: `dragElastic` doimiy va
- * `dragConstraints` oxirida qattiq to'xtatadi. Natijada qog'oz emas,
+ * `drag` barmoqni QATʼIY nisbatda kuzatadi: `dragElastic` doimiy va
+ * `dragConstraints` oxirida qattiq toʻxtatadi. Natijada qogʻoz emas,
  * QUTI sudralgandek tuyulardi — qarshilik boshidan oxirigacha bir xil.
  *
- * Haqiqiy qog'oz esa boshqacha: avval tirqishdan yengil sirg'alib
- * chiqadi, so'ng taranglashadi va oxirida deyarli qimirlamay qoladi.
- * Aynan shu "qotib borish" qo'lga "hozir uziladi" deb aytadi.
+ * Haqiqiy qogʻoz esa boshqacha: avval tirqishdan yengil sirgʻalib
+ * chiqadi, soʻng taranglashadi va oxirida deyarli qimirlamay qoladi.
+ * Aynan shu "qotib borish" qoʻlga "hozir uziladi" deb aytadi.
  *
  * Shuning uchun bu yerda barmoq masofasi EKSPONENSIAL egri chiziq
- * orqali o'tkaziladi:
+ * orqali oʻtkaziladi:
  *
- *     ko'chish = PULL_MAX · (1 − e^(−masofa / RESIST))
+ *     koʻchish = PULL_MAX · (1 − e^(−masofa / RESIST))
  *
- * Boshida hosila ≈ 1 (qog'oz barmoq bilan birga ketadi), oxirida esa
- * nolga intiladi (qancha tortmang, deyarli qo'shimcha ko'chish yo'q).
- * Barmoq va qog'oz orasidagi shu farq — qarshilikning o'zi.
+ * Boshida hosila ≈ 1 (qogʻoz barmoq bilan birga ketadi), oxirida esa
+ * nolga intiladi (qancha tortmang, deyarli qoʻshimcha koʻchish yoʻq).
+ * Barmoq va qogʻoz orasidagi shu farq — qarshilikning oʻzi.
  */
 /*
  * `RESIST = PULL_MAX` — TASODIF EMAS, SHART.
  *
- * Egri chiziqning boshlang'ich qiyaligi `PULL_MAX / RESIST` ga teng.
- * Ular teng bo'lsa qiyalik aynan 1 bo'ladi, ya'ni birinchi
- * piksellarda qog'oz barmoq bilan BIR XIL tezlikda ketadi — xuddi
- * haqiqiy qog'oz tirqishdan sirg'alib chiqqandek.
+ * Egri chiziqning boshlangʻich qiyaligi `PULL_MAX / RESIST` ga teng.
+ * Ular teng boʻlsa qiyalik aynan 1 boʻladi, yaʼni birinchi
+ * piksellarda qogʻoz barmoq bilan BIR XIL tezlikda ketadi — xuddi
+ * haqiqiy qogʻoz tirqishdan sirgʻalib chiqqandek.
  *
- * O'lchov shuni ko'rsatdi: alohida qiymat (62) berilganda qiyalik
- * 2.13 bo'lib qolardi va 10px tortilganda qog'oz 19.7px siljirdi —
- * qog'oz qo'ldan O'ZIB ketardi. Bu darhol "rezina" tuyg'usini berardi.
+ * Oʻlchov shuni koʻrsatdi: alohida qiymat (62) berilganda qiyalik
+ * 2.13 boʻlib qolardi va 10px tortilganda qogʻoz 19.7px siljirdi —
+ * qogʻoz qoʻldan OʻZIB ketardi. Bu darhol "rezina" tuygʻusini berardi.
  *
- * Uzilish nuqtasida (86px) qiyalik ~0.35 ga tushadi: qog'oz hamon
+ * Uzilish nuqtasida (86px) qiyalik ~0.35 ga tushadi: qogʻoz hamon
  * javob beradi, lekin aniq qarshilik qiladi.
  */
 const RESIST = PULL_MAX;
 const resist = (raw: number) => PULL_MAX * (1 - Math.exp(-Math.max(0, raw) / RESIST));
 
 /*
- * Tola uzilish ostonalari. Taranglik shu nuqtalardan o'tganda bittadan
- * "qirs" eshitiladi — har biri bir marta, chunki qo'l orqaga-oldinga
- * qimirlaganda tovush takrorlanib, "shitirlash" bo'lib ketardi.
+ * Tola uzilish ostonalari. Taranglik shu nuqtalardan oʻtganda bittadan
+ * "qirs" eshitiladi — har biri bir marta, chunki qoʻl orqaga-oldinga
+ * qimirlaganda tovush takrorlanib, "shitirlash" boʻlib ketardi.
  */
 const SNAP_AT = [0.5, 0.66, 0.78, 0.87, 0.94, 0.985];
 
@@ -473,17 +473,17 @@ function PrinterStage({
     ['0 14px 26px -18px rgba(23,20,17,0.3)', '0 26px 38px -20px rgba(23,20,17,0.55)']
   );
   /*
-   * Qog'oz TEPASI cho'ziladi, matn EMAS. Ilgari butun varaqqa `scaleY`
-   * berilgan edi va harflar ham cho'zilardi — bu darhol "raqamli"
-   * ko'rinardi. Endi faqat tirqish ostidagi bo'sh tasma tortiladi.
+   * Qogʻoz TEPASI choʻziladi, matn EMAS. Ilgari butun varaqqa `scaleY`
+   * berilgan edi va harflar ham choʻzilardi — bu darhol "raqamli"
+   * koʻrinardi. Endi faqat tirqish ostidagi boʻsh tasma tortiladi.
    */
   const neckScale = useTransform(tension, [0, 1], [1, 1.5]);
-  // Bir qo'l bilan tortilgani uchun qog'oz ozgina qiyshayadi.
+  // Bir qoʻl bilan tortilgani uchun qogʻoz ozgina qiyshayadi.
   const tilt = useTransform(tension, [0, 1], [0, 0.7]);
   /*
-   * Boshlang'ich yirtiqning ko'rinishi. Bu YUQORIDA hisoblanadi, JSX
+   * Boshlangʻich yirtiqning koʻrinishi. Bu YUQORIDA hisoblanadi, JSX
    * ichida emas: u `canPull && (...)` shartining ichida chaqirilganda
-   * hook'lar tartibi renderdan renderga o'zgarardi va `canPull`
+   * hookʼlar tartibi renderdan renderga oʻzgarardi va `canPull`
    * almashgan zahoti React yiqilardi.
    */
   const nickOpacity = useTransform(tension, [0.7, 1], [0, 1]);
@@ -530,9 +530,9 @@ function PrinterStage({
     }
 
     /*
-     * Yetarli tortilmadi. Ilgari bu `pull.set(0)` edi — qog'oz bir
-     * kadrда joyiga "sakrab" qaytardi. Haqiqiy qog'oz esa tarangligini
-     * yo'qotib, bir oz tebranib joyiga qaytadi.
+     * Yetarli tortilmadi. Ilgari bu `pull.set(0)` edi — qogʻoz bir
+     * kadrда joyiga "sakrab" qaytardi. Haqiqiy qogʻoz esa tarangligini
+     * yoʻqotib, bir oz tebranib joyiga qaytadi.
      */
     setReady(false);
     firedSnaps.current.clear();
@@ -560,9 +560,9 @@ function PrinterStage({
             clipPath: `inset(0% 0% ${hiddenPct}% 0%)`,
             transformOrigin: '50% 0%',
             /*
-             * Tortish paytida sahifa SIRG'ALMASIN — lekin faqat qog'oz
-             * ustida va faqat tortish mumkin bo'lganda. Qolgan joyda
-             * brauzerning odatdagi scroll'i buzilmaydi.
+             * Tortish paytida sahifa SIRGʻALMASIN — lekin faqat qogʻoz
+             * ustida va faqat tortish mumkin boʻlganda. Qolgan joyda
+             * brauzerning odatdagi scrollʼi buzilmaydi.
              */
             touchAction: canPull ? 'none' : undefined,
             cursor: canPull ? (pulling ? 'grabbing' : 'grab') : undefined,
@@ -639,10 +639,10 @@ function PrinterStage({
  * MASHINA KORPUSI.
  *
  * Havola rasmdagi shakl: qora-grafit korpus, yumaloqlangan ustki
- * qopqoq, old tomonda to'q sariq yorug'lik chizig'i va OpenShop
- * yozuvi. Qog'oz USTKI tirqishdan chiqadi.
+ * qopqoq, old tomonda toʻq sariq yorugʻlik chizigʻi va OpenShop
+ * yozuvi. Qogʻoz USTKI tirqishdan chiqadi.
  *
- * Hammasi CSS — rasm ham, SVG ham, canvas ham yo'q.
+ * Hammasi CSS — rasm ham, SVG ham, canvas ham yoʻq.
  */
 function PrinterBody({ feeding, reduce }: { feeding: boolean; reduce: boolean }) {
   return (
@@ -718,24 +718,24 @@ function PrinterBody({ feeding, reduce }: { feeding: boolean; reduce: boolean })
 /* ── CHOK KETAYOTGAN PAYT ─────────────────────────────────────────── */
 
 /*
- * YIRTILISHNING O'ZI — eng muhim 300ms.
+ * YIRTILISHNING OʻZI — eng muhim 300ms.
  *
- * Uch narsa BIR VAQTDA sodir bo'ladi va aynan shu uchligi uni
- * "haqiqiy" qiladi. Ilgari uchalasi ham yo'q edi: chek shunchaki
- * yo'qolib, yangisi paydo bo'lardi.
+ * Uch narsa BIR VAQTDA sodir boʻladi va aynan shu uchligi uni
+ * "haqiqiy" qiladi. Ilgari uchalasi ham yoʻq edi: chek shunchaki
+ * yoʻqolib, yangisi paydo boʻlardi.
  *
- *  1. CHOK BIR TOMONDAN KETADI. Aylanish o'qi CHAP chekkada
- *     (`transformOrigin: 0% 0%`), shuning uchun o'ng chekka ko'proq
- *     pastga tushadi — chok chapdan o'ngga "ketayotgandek" ko'rinadi.
+ *  1. CHOK BIR TOMONDAN KETADI. Aylanish oʻqi CHAP chekkada
+ *     (`transformOrigin: 0% 0%`), shuning uchun oʻng chekka koʻproq
+ *     pastga tushadi — chok chapdan oʻngga "ketayotgandek" koʻrinadi.
  *     Markazdan aylantirilsa, ikkala chekka barobar tushib, qaychida
  *     qirqilgandek chiqardi.
  *
- *  2. QOLGAN QOG'OZ ORQAGA SAKRAYDI. Tarang qog'oz uzilganda ichkarida
+ *  2. QOLGAN QOGʻOZ ORQAGA SAKRAYDI. Tarang qogʻoz uzilganda ichkarida
  *     qolgan qismi keskin yuqoriga tortiladi. Bu juda kichik detal,
- *     lekin usiz uzilish "bo'sh" tuyuladi.
+ *     lekin usiz uzilish "boʻsh" tuyuladi.
  *
  *  3. TEZLIK NOTEKIS. `EASE.standard` — boshida keskin, oxirida
- *     sekin: qo'l yulqib tortganda shunday bo'ladi.
+ *     sekin: qoʻl yulqib tortganda shunday boʻladi.
  */
 function TearingStage({
   lines,
@@ -774,13 +774,13 @@ function TearingStage({
   );
 }
 
-/** Mashinada qolgan parchaning pastki qirrasi — o'sha qiya chok. */
+/** Mashinada qolgan parchaning pastki qirrasi — oʻsha qiya chok. */
 const STUB_BOTTOM = `polygon(0% 0%, 100% 0%, ${[...TEAR_PROFILE]
   .reverse()
   .map(([x, dy]) => `${x}% ${60 + dy * 4}%`)
   .join(', ')})`;
 
-/* ── IKKIGA BO'LINGAN CHEK (bekor qilingan) ───────────────────────── */
+/* ── IKKIGA BOʻLINGAN CHEK (bekor qilingan) ───────────────────────── */
 
 function RippedReceipt({
   lines,
@@ -816,7 +816,7 @@ function RippedReceipt({
   );
 }
 
-/* ── YOLG'IZ CHEK: 360° ───────────────────────────────────────────── */
+/* ── YOLGʻIZ CHEK: 360° ───────────────────────────────────────────── */
 
 function DetachedReceipt({
   data,
@@ -834,7 +834,7 @@ function DetachedReceipt({
   const [flipped, setFlipped] = useState(false);
 
   /*
-   * Orqa tomon ko'rinayotganini BURCHAKdan hisoblaymiz, alohida
+   * Orqa tomon koʻrinayotganini BURCHAKdan hisoblaymiz, alohida
    * holatdan emas: aks holda sudrab aylantirilganda tugma matni
    * haqiqatga mos kelmay qolardi.
    */
@@ -856,7 +856,7 @@ function DetachedReceipt({
     if (!dragging.current) return;
     const dx = e.clientX - lastX.current;
     lastX.current = e.clientX;
-    // 0.55°/px — to'liq aylanish uchun ~650px, ataylab "og'ir".
+    // 0.55°/px — toʻliq aylanish uchun ~650px, ataylab "ogʻir".
     rot.set(rot.get() + dx * 0.55);
   };
   const up = (e: React.PointerEvent) => {
@@ -867,7 +867,7 @@ function DetachedReceipt({
     } catch {
       // Ushlanmagan bo'lsa — muammo emas.
     }
-    // Eng yaqin yuzga o'tiradi: chek hech qachon qiyshiq qolmaydi.
+    // Eng yaqin yuzga oʻtiradi: chek hech qachon qiyshiq qolmaydi.
     rot.set(Math.round(rot.get() / 180) * 180);
   };
 
@@ -889,7 +889,7 @@ function DetachedReceipt({
             style={{
               rotateY: spring,
               transformStyle: 'preserve-3d',
-              // Vertikal sirg'alish SAHIFAGA tegishli, gorizontal esa
+              // Vertikal sirgʻalish SAHIFAGA tegishli, gorizontal esa
               // chekni aylantiradi. Bitta qiymat ikkalasini ajratadi.
               touchAction: 'pan-y',
               cursor: reduce ? undefined : 'ew-resize',
@@ -921,7 +921,7 @@ function DetachedReceipt({
  * CHEKNING ORQA TOMONI.
  *
  * Ataylab kam: bu yerda soxta QR kod, soxta kuzatuv raqami yoki soxta
- * aloqa ma'lumoti YO'Q. Loyihada bunday ma'lumot manbai yo'q, o'ylab
+ * aloqa maʼlumoti YOʻQ. Loyihada bunday maʼlumot manbai yoʻq, oʻylab
  * topish esa mumkin emas. Brend yuzasi va buyurtma raqami — ikkalasi
  * ham haqiqiy.
  */
@@ -945,7 +945,7 @@ function ReceiptBack({ data }: { data: ReceiptData }) {
   );
 }
 
-/* ── QOG'OZ VARAG'I ───────────────────────────────────────────────── */
+/* ── QOGʻOZ VARAGʻI ───────────────────────────────────────────────── */
 
 function PaperSheet({
   lines,
@@ -957,17 +957,17 @@ function PaperSheet({
   lines: { key: string; node: React.ReactNode }[];
   step: number;
   reduce: boolean;
-  /** Tirqishdan chiqyaptimi — tepasiga egrilik soyasi qo'yiladi. */
+  /** Tirqishdan chiqyaptimi — tepasiga egrilik soyasi qoʻyiladi. */
   fromSlot?: boolean;
-  /** Yirtib olingan chekning tepasi qiya chok bo'ladi. */
+  /** Yirtib olingan chekning tepasi qiya chok boʻladi. */
   tornTop?: boolean;
 }) {
   return (
     <div
       className={cx(
         'relative bg-[#fbfaf8] px-4 pb-5',
-        // Tirqishdan chiqayotgan qog'ozning tepasi mashina ichida
-        // qoladi, shuning uchun unga qo'shimcha joy kerak.
+        // Tirqishdan chiqayotgan qogʻozning tepasi mashina ichida
+        // qoladi, shuning uchun unga qoʻshimcha joy kerak.
         fromSlot ? 'pt-12' : 'pt-5',
         !tornTop && 'shadow-[0_12px_24px_-16px_rgba(23,20,17,0.55)]'
       )}

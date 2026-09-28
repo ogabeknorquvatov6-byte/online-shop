@@ -1,17 +1,17 @@
 import type { Settings } from './types';
 
 /*
- * Yetkazib berish narxi — mijozga ko'rsatiladigan YAGONA hisob-kitob joyi.
+ * Yetkazib berish narxi — mijozga koʻrsatiladigan YAGONA hisob-kitob joyi.
  *
  * Ilgari savat, savat sahifasi va checkout narxni alohida-alohida
- * `subtotal > 500000 ? 0 : 30000` deb qattiq yozib qo'ygan edi, admin
+ * `subtotal > 500000 ? 0 : 30000` deb qattiq yozib qoʻygan edi, admin
  * panelidagi "Yetkazib berish" sozlamalari esa hech qayerda ishlatilmasdi.
  * Endi manba `store_settings` — va aynan shu qoida serverda ham
  * (`public.delivery_fee_for`) takrorlanadi, shuning uchun checkoutda
- * ko'rsatilgan "Jami" bazada saqlangan summa bilan doim bir xil bo'ladi.
+ * koʻrsatilgan "Jami" bazada saqlangan summa bilan doim bir xil boʻladi.
  */
 
-/** Sozlamalar hali yuklanmagan bo'lsa ishlatiladigan zaxira qiymatlar. */
+/** Sozlamalar hali yuklanmagan boʻlsa ishlatiladigan zaxira qiymatlar. */
 const FALLBACK = {
   tashkent: 30000,
   republic: 30000,
@@ -24,11 +24,11 @@ export function isTashkent(city: string | null | undefined): boolean {
 }
 
 export type DeliveryQuote = {
-  /** So'mda yetkazib berish narxi (0 = bepul). */
+  /** Soʻmda yetkazib berish narxi (0 = bepul). */
   fee: number;
-  /** Bepul yetkazib berishgacha qolgan summa; 0 bo'lsa allaqachon bepul. */
+  /** Bepul yetkazib berishgacha qolgan summa; 0 boʻlsa allaqachon bepul. */
   remainingForFree: number;
-  /** Bepul yetkazib berish chegarasi (0 = bunday aksiya yo'q). */
+  /** Bepul yetkazib berish chegarasi (0 = bunday aksiya yoʻq). */
   freeThreshold: number;
   isFree: boolean;
 };

@@ -15,20 +15,20 @@ import { OrderDetail } from './OrderDetail';
 /*
  * BUYURTMALARIM.
  *
- * Ro'yxat va bitta buyurtma bir MARSHRUTDA yashaydi:
- *   /account/orders          — ro'yxat
+ * Roʻyxat va bitta buyurtma bir MARSHRUTDA yashaydi:
+ *   /account/orders          — roʻyxat
  *   /account/orders/<id>     — bitta buyurtma
  *
  * Nega marshrut, nega oddiy holat emas: brauzerning "orqaga" tugmasi
- * ishlashi kerak va havolani yuborib bo'lishi kerak. Holat bilan
- * qilinganda "orqaga" foydalanuvchini do'kondan butunlay chiqarib
+ * ishlashi kerak va havolani yuborib boʻlishi kerak. Holat bilan
+ * qilinganda "orqaga" foydalanuvchini doʻkondan butunlay chiqarib
  * yuborardi.
  *
  * XAVFSIZLIK: bu yerda buyurtma kimga tegishliligi TEKSHIRILMAYDI va
  * tekshirilishi ham mumkin emas — mijoz aytgan `user_id` ga hech
- * qachon ishonilmaydi. Ro'yxat `user_id = auth.uid()` bilan so'raladi
- * va ustidan RLS turadi, ya'ni birovning id'si manzilga yozilsa
- * ro'yxatdan shunchaki topilmaydi va "topilmadi" ko'rsatiladi.
+ * qachon ishonilmaydi. Roʻyxat `user_id = auth.uid()` bilan soʻraladi
+ * va ustidan RLS turadi, yaʼni birovning idʼsi manzilga yozilsa
+ * roʻyxatdan shunchaki topilmaydi va "topilmadi" koʻrsatiladi.
  */
 
 const IN_PROGRESS = ['Yangi', 'Qabul qilindi', 'Tayyorlanmoqda', 'Yetkazilmoqda'];
@@ -59,7 +59,7 @@ export function OrdersTab({
   const [filter, setFilter] = useState<Filter>('all');
   const [confirmCancel, setConfirmCancel] = useState<Order | null>(null);
   const [cancelling, setCancelling] = useState(false);
-  /** Bekor qilish backend'da tasdiqlangan buyurtma — chek yirtiladi. */
+  /** Bekor qilish backendʼda tasdiqlangan buyurtma — chek yirtiladi. */
   const [cancelledId, setCancelledId] = useState<string | null>(null);
 
   const selected = useMemo(
@@ -67,7 +67,7 @@ export function OrdersTab({
     [orders, orderId]
   );
 
-  /* Ro'yxatdan chiqilganda "yangi bekor qilindi" belgisi tozalanadi. */
+  /* Roʻyxatdan chiqilganda "yangi bekor qilindi" belgisi tozalanadi. */
   useEffect(() => {
     if (!orderId) setCancelledId(null);
   }, [orderId]);
@@ -87,12 +87,12 @@ export function OrdersTab({
   const back = () => navigate('/account/orders');
 
   /*
-   * BEKOR QILISH — mavjud oqim, o'zgartirilmagan.
+   * BEKOR QILISH — mavjud oqim, oʻzgartirilmagan.
    *
-   * Tartib QAT'IY: avval `cancel_own_order`, so'ng — faqat u
-   * muvaffaqiyatli tugasa — animatsiya. Xato bo'lsa chek butun qoladi
-   * va haqiqiy xato ko'rsatiladi; hech qanday yirtilish ham, tovush
-   * ham bo'lmaydi.
+   * Tartib QATʼIY: avval `cancel_own_order`, soʻng — faqat u
+   * muvaffaqiyatli tugasa — animatsiya. Xato boʻlsa chek butun qoladi
+   * va haqiqiy xato koʻrsatiladi; hech qanday yirtilish ham, tovush
+   * ham boʻlmaydi.
    */
   const doCancel = async (order: Order) => {
     setCancelling(true);
@@ -153,7 +153,7 @@ export function OrdersTab({
     );
   }
 
-  /* ── Ro'yxat ────────────────────────────────────────────────────── */
+  /* ── Roʻyxat ────────────────────────────────────────────────────── */
   if (loading) {
     return (
       <div className="space-y-3">
@@ -213,8 +213,8 @@ export function OrdersTab({
               transition={{
                 duration: DURATION.ui,
                 ease: EASE.standard,
-                // Zinapoya cheklangan: 6 tadan keyin kechikish o'smaydi,
-                // aks holda uzun ro'yxat sekin tuyulardi.
+                // Zinapoya cheklangan: 6 tadan keyin kechikish oʻsmaydi,
+                // aks holda uzun roʻyxat sekin tuyulardi.
                 delay: Math.min(i, 6) * 0.035,
               }}
             >

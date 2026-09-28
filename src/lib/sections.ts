@@ -1,13 +1,13 @@
 /*
- * Bosh sahifadagi bo'limlarga "yumshoq" o'tish.
+ * Bosh sahifadagi boʻlimlarga "yumshoq" oʻtish.
  *
  * Menyudagi «Aksiya», «Xit mahsulotlar», «Yangi kelganlar» tugmalari alohida
- * sahifaga OLIB BORMAYDI — ular bosh sahifadagi tegishli bo'limga silliq
- * scroll qiladi va bo'limni bir zumga ajratib ko'rsatadi. SPA holati
+ * sahifaga OLIB BORMAYDI — ular bosh sahifadagi tegishli boʻlimga silliq
+ * scroll qiladi va boʻlimni bir zumga ajratib koʻrsatadi. SPA holati
  * saqlanadi, sahifa qayta yuklanmaydi.
  *
- * Boshqa sahifadan bosilganda: avval bosh sahifaga o'tamiz, so'ng HomePage
- * ma'lumotlarni yuklab bo'lgach kutib turgan bo'limga scroll qilamiz —
+ * Boshqa sahifadan bosilganda: avval bosh sahifaga oʻtamiz, soʻng HomePage
+ * maʼlumotlarni yuklab boʻlgach kutib turgan boʻlimga scroll qilamiz —
  * shuning uchun "pending" qiymat modul darajasida saqlanadi.
  */
 
@@ -36,8 +36,8 @@ export function hasPendingSection() {
 }
 
 /**
- * Bo'limni ko'rinishga olib keladi. Sticky header balandligi CSS
- * o'zgaruvchisidan olinadi, shuning uchun sarlavha header ostida
+ * Boʻlimni koʻrinishga olib keladi. Sticky header balandligi CSS
+ * oʻzgaruvchisidan olinadi, shuning uchun sarlavha header ostida
  * qolib ketmaydi.
  */
 export function scrollToSection(id: SectionId, behavior: ScrollBehavior = 'smooth') {
@@ -45,7 +45,7 @@ export function scrollToSection(id: SectionId, behavior: ScrollBehavior = 'smoot
   if (!el) return false;
 
   const headerVar = getComputedStyle(document.documentElement).getPropertyValue('--header-h').trim();
-  // `--header-h` rem'da beriladi; px'ga o'giramiz.
+  // `--header-h` remʼda beriladi; pxʼga oʻgiramiz.
   const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
   const headerPx = headerVar.endsWith('rem') ? parseFloat(headerVar) * rem : parseFloat(headerVar) || 0;
 

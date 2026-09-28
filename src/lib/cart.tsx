@@ -8,11 +8,11 @@ type CartContextValue = {
   items: CartItem[];
   count: number;
   subtotal: number;
-  /** Savat localStorage'dan o'qilgunga qadar true (SSR-siz ham bir kadr kerak). */
+  /** Savat localStorageʼdan oʻqilgunga qadar true (SSR-siz ham bir kadr kerak). */
   hydrated: boolean;
   /**
-   * Savat bazaga qarab tekshirilganda o'zgargan/olib tashlangan pozitsiyalar
-   * haqidagi bir martalik xabar. UI uni ko'rsatib, keyin `clearNotice()` qiladi.
+   * Savat bazaga qarab tekshirilganda oʻzgargan/olib tashlangan pozitsiyalar
+   * haqidagi bir martalik xabar. UI uni koʻrsatib, keyin `clearNotice()` qiladi.
    */
   notice: string | null;
   clearNotice: () => void;
@@ -28,8 +28,8 @@ const STORAGE_KEY = 'openshop_cart';
 
 function readStoredItems(): CartItem[] {
   try {
-    // `localStorage` ga MUROJAATNING O'ZI ham xato berishi mumkin: ba'zi
-    // brauzerlarda "barcha cookie'larni bloklash" yoqilganda unga kirish
+    // `localStorage` ga MUROJAATNING OʻZI ham xato berishi mumkin: baʼzi
+    // brauzerlarda "barcha cookieʼlarni bloklash" yoqilganda unga kirish
     // `SecurityError` otadi. Shuning uchun `getItem` ham try ichida.
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return [];
@@ -51,7 +51,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (!hydrated) return; // bo'sh boshlang'ich holat saqlangan savatni o'chirib yubormasin
+    if (!hydrated) return; // boʻsh boshlangʻich holat saqlangan savatni oʻchirib yubormasin
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
     } catch {
@@ -62,9 +62,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [items, hydrated]);
 
   /*
-   * Savat localStorage'da MAHSULOT NUSXASI bilan saqlanadi, ya'ni narx,
-   * qoldiq va hatto mahsulotning mavjudligi vaqt o'tishi bilan eskiradi.
-   * Ilgari mijoz bir hafta oldingi narxni ko'rib turib checkoutda boshqa
+   * Savat localStorageʼda MAHSULOT NUSXASI bilan saqlanadi, yaʼni narx,
+   * qoldiq va hatto mahsulotning mavjudligi vaqt oʻtishi bilan eskiradi.
+   * Ilgari mijoz bir hafta oldingi narxni koʻrib turib checkoutda boshqa
    * summa olardi (server narxni qayta hisoblaydi). Shu sababli savat bir
    * marta — ilova ochilganda — bazaga solishtirib yangilanadi.
    */
@@ -80,8 +80,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
         supabase.from('products').select(PRODUCT_SELECT).in('id', ids),
         fetchPromoDiscountMap(supabase),
       ]);
-      // Tarmoq xatosi bo'lsa savatni O'ZGARTIRMAYMIZ — offline foydalanuvchining
-      // savatini bo'shatib yuborish eng yomon variant bo'lardi.
+      // Tarmoq xatosi boʻlsa savatni OʻZGARTIRMAYMIZ — offline foydalanuvchining
+      // savatini boʻshatib yuborish eng yomon variant boʻlardi.
       if (cancelled || error || !data) return;
 
       const fresh = new Map(adaptProducts(data, promoMap).map((p) => [p.id, p]));
@@ -101,7 +101,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
             removed += 1;
             continue;
           }
-          // Tanlangan variant o'chirilgan/nofaol bo'lsa, pozitsiyani ham
+          // Tanlangan variant oʻchirilgan/nofaol boʻlsa, pozitsiyani ham
           // olib tashlaymiz — aks holda server `INVALID_VARIANT` qaytaradi.
           if (item.variantId) {
             const variant = p.product_variants?.find((v) => v.id === item.variantId);

@@ -19,7 +19,7 @@ import { SECTION, requestSection, scrollToSection, type SectionId } from './sect
 import { countBadge, cx, focusRing, shell } from './design';
 import { popVariants, DURATION, EASE } from './motion';
 
-/** Bosh sahifadagi bo'limlarga silliq scroll qiladigan menyu bandlari. */
+/** Bosh sahifadagi boʻlimlarga silliq scroll qiladigan menyu bandlari. */
 const SECTION_LINKS: { label: string; section: SectionId; icon: typeof Flame }[] = [
   { label: 'Aksiya', section: SECTION.promo, icon: Flame },
   { label: 'Xit mahsulotlar', section: SECTION.bestsellers, icon: TrendingUp },
@@ -51,14 +51,14 @@ export function Header({ onCartClick }: { onCartClick?: () => void }) {
   /*
    * Scroll kuzatuvi — endi FAQAT sarlavha soyasi uchun.
    *
-   * Ilgari bu yerda qidiruv qatorini yig'ish/ochish uchun gisterezisli
+   * Ilgari bu yerda qidiruv qatorini yigʻish/ochish uchun gisterezisli
    * mantiq bor edi (COLLAPSE_AFTER / EXPAND_AFTER / LOCK_ZONE). Qidiruv
-   * endi headerning doimiy qismi va hech qachon yig'ilmaydi, shuning
-   * uchun o'sha hisob-kitobning iste'molchisi qolmadi — u o'chirildi.
+   * endi headerning doimiy qismi va hech qachon yigʻilmaydi, shuning
+   * uchun oʻsha hisob-kitobning isteʼmolchisi qolmadi — u oʻchirildi.
    *
-   * Qolgani bitta arzon tekshiruv: sahifa yuqorisidamizmi yoki yo'qmi.
+   * Qolgani bitta arzon tekshiruv: sahifa yuqorisidamizmi yoki yoʻqmi.
    * `requestAnimationFrame` bilan throttle qilinadi va listener
-   * `passive`, ya'ni scroll hech qachon bloklanmaydi.
+   * `passive`, yaʼni scroll hech qachon bloklanmaydi.
    */
   useEffect(() => {
     let raf = 0;
@@ -97,9 +97,9 @@ export function Header({ onCartClick }: { onCartClick?: () => void }) {
   }, [path]);
 
   /*
-   * Bo'limga o'tish: bosh sahifada bo'lsak — darhol scroll; boshqa
-   * sahifada bo'lsak — avval bosh sahifaga o'tamiz va HomePage kontent
-   * yuklangach o'zi scroll qiladi (sections.ts dagi "pending" orqali).
+   * Boʻlimga oʻtish: bosh sahifada boʻlsak — darhol scroll; boshqa
+   * sahifada boʻlsak — avval bosh sahifaga oʻtamiz va HomePage kontent
+   * yuklangach oʻzi scroll qiladi (sections.ts dagi "pending" orqali).
    * Ikkala holatda ham sahifa QAYTA YUKLANMAYDI.
    */
   const goToSection = (section: SectionId) => {
@@ -186,11 +186,11 @@ export function Header({ onCartClick }: { onCartClick?: () => void }) {
               /*
                * `md` (768px), `tab` (820px) EMAS.
                *
-               * `tab` da chegaralanganda 768px'lik planshetda header
-               * logotipsiz qolardi — ya'ni brend belgisi umuman yo'q
-               * [☰][qidiruv][📍] kompozitsiyasi. 768px'da joy yetarli:
-               * o'lchandi — logotip qo'shilgach ham qidiruv ~450px
-               * qoladi. 640px'dan pastda esa logotip ataylab yashirin,
+               * `tab` da chegaralanganda 768pxʼlik planshetda header
+               * logotipsiz qolardi — yaʼni brend belgisi umuman yoʻq
+               * [☰][qidiruv][📍] kompozitsiyasi. 768pxʼda joy yetarli:
+               * oʻlchandi — logotip qoʻshilgach ham qidiruv ~450px
+               * qoladi. 640pxʼdan pastda esa logotip ataylab yashirin,
                * aks holda uchta element siqilib ketadi.
                */
               className={cx('hidden min-w-0 items-center gap-2 rounded-control md:flex', focusRing)}

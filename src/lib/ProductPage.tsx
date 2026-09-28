@@ -2,8 +2,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { supabase } from './supabase';
 import { useIsVisible } from './uiHooks';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-// `DURATION`/`EASE` endi kerak emas: oxirgi qo'lda yozilgan `motion.button`
-// ham `AnimatedButton` ga o'tdi va o'z vaqt tokenlarini o'zi biladi.
+// `DURATION`/`EASE` endi kerak emas: oxirgi qoʻlda yozilgan `motion.button`
+// ham `AnimatedButton` ga oʻtdi va oʻz vaqt tokenlarini oʻzi biladi.
 import { springs } from './motion';
 import { Link, useRouter } from './router';
 import type { Product } from './types';
@@ -56,19 +56,19 @@ export function ProductPage({ slug }: { slug: string }) {
   /*
    * Sharhlar yuklangach reyting va son SHU YERDAN olinadi.
    *
-   * `null` — hali yuklanmagan, o'shanda `products` jadvalidagi qiymat
-   * ko'rsatiladi (u ham trigger hisoblagan, ya'ni to'g'ri). Sharh
+   * `null` — hali yuklanmagan, oʻshanda `products` jadvalidagi qiymat
+   * koʻrsatiladi (u ham trigger hisoblagan, yaʼni toʻgʻri). Sharh
    * yuborilgach `ProductReviews` yangi statistikani qaytaradi va
-   * sahifadagi yulduzcha darhol yangilanadi — to'liq qayta yuklash
+   * sahifadagi yulduzcha darhol yangilanadi — toʻliq qayta yuklash
    * kerak emas.
    */
   const [reviewStats, setReviewStats] = useState<ReviewStats | null>(null);
   const [added, setAdded] = useState(false);
 
   /*
-   * Yopishqoq CTA paneli FAQAT asosiy "Savatga qo'shish" tugmasi ekrandan
-   * chiqib ketganda ko'rinadi. Ilgari u sahifa ochilishidanoq turardi va
-   * ekranda bir vaqtning o'zida ikkita bir xil tugma bo'lardi.
+   * Yopishqoq CTA paneli FAQAT asosiy "Savatga qoʻshish" tugmasi ekrandan
+   * chiqib ketganda koʻrinadi. Ilgari u sahifa ochilishidanoq turardi va
+   * ekranda bir vaqtning oʻzida ikkita bir xil tugma boʻlardi.
    */
   const [setPrimaryCta, primaryCtaVisible] = useIsVisible<HTMLButtonElement>();
   const reduce = useReducedMotion();
@@ -79,7 +79,7 @@ export function ProductPage({ slug }: { slug: string }) {
     setActiveImg(0);
     setQty(1);
     setSelectedVariants({});
-    // Boshqa mahsulotga o'tildi — oldingisining reytingi qolib ketmasin.
+    // Boshqa mahsulotga oʻtildi — oldingisining reytingi qolib ketmasin.
     setReviewStats(null);
     let cancelled = false;
     (async () => {
@@ -104,7 +104,7 @@ export function ProductPage({ slug }: { slug: string }) {
         setProduct(adaptProduct(data, promoMap[data.id]));
         setLoading(false);
 
-        // Ko'rishlar hisoblagichi va tavsiyalar — asosiy render'ni bloklamaydi.
+        // Koʻrishlar hisoblagichi va tavsiyalar — asosiy renderʼni bloklamaydi.
         supabase.rpc('increment_product_view', { p_id: data.id });
         if (data.category_id) {
           const { data: rel } = await supabase
@@ -133,9 +133,9 @@ export function ProductPage({ slug }: { slug: string }) {
   useEffect(() => load(), [load]);
 
   /*
-   * Galereya = mahsulot rasmlari + variantlarning o'z rasmlari.
-   * Rang tanlanganda shu ranga tegishli rasm galereyada tanlanadi, ya'ni
-   * foydalanuvchi ko'rib turgan rasm doim tanlagan variantiga mos keladi.
+   * Galereya = mahsulot rasmlari + variantlarning oʻz rasmlari.
+   * Rang tanlanganda shu ranga tegishli rasm galereyada tanlanadi, yaʼni
+   * foydalanuvchi koʻrib turgan rasm doim tanlagan variantiga mos keladi.
    */
   const images = useMemo(() => {
     const base = [...(product?.product_images ?? [])].sort(
@@ -143,11 +143,11 @@ export function ProductPage({ slug }: { slug: string }) {
     );
     const seen = new Set(base.map((i) => i.image_url));
     /*
-     * `flatMap` — `filter().map()` + `!` O'RNIGA.
+     * `flatMap` — `filter().map()` + `!` OʻRNIGA.
      * TypeScript `.filter()` orqali `image_url` ning null emasligini
-     * kuzata olmaydi, shuning uchun ilgari ikkita `!` kerak bo'lgan edi.
-     * URL'ni bir marta lokal o'zgaruvchiga olsak, tekshiruv ham, tur ham
-     * tabiiy ravishda to'g'ri bo'ladi.
+     * kuzata olmaydi, shuning uchun ilgari ikkita `!` kerak boʻlgan edi.
+     * URLʼni bir marta lokal oʻzgaruvchiga olsak, tekshiruv ham, tur ham
+     * tabiiy ravishda toʻgʻri boʻladi.
      */
     const extra = (product?.product_variants ?? []).flatMap((v) => {
       const url = v.image_url;
@@ -158,8 +158,8 @@ export function ProductPage({ slug }: { slug: string }) {
     return [...base.map((i) => ({ id: i.id, image_url: i.image_url })), ...extra];
   }, [product?.product_images, product?.product_variants]);
 
-  // Variantlarni turlari bo'yicha guruhlaymiz. Guruh tartibi barqaror:
-  // rang → xotira → o'lcham → qolganlari.
+  // Variantlarni turlari boʻyicha guruhlaymiz. Guruh tartibi barqaror:
+  // rang → xotira → oʻlcham → qolganlari.
   const variantGroups = useMemo(() => {
     const order = ['color', 'storage', 'memory', 'size'];
     const map = new Map<string, NonNullable<Product['product_variants']>>();
@@ -189,7 +189,7 @@ export function ProductPage({ slug }: { slug: string }) {
 
   /*
    * Narx farqi va alohida ombor BIRINCHI guruhdagi (odatda rang)
-   * variantga bog'lanadi — server ham aynan shu ID bo'yicha hisoblaydi,
+   * variantga bogʻlanadi — server ham aynan shu ID boʻyicha hisoblaydi,
    * shuning uchun ikkalasi hech qachon ajralib ketmaydi.
    */
   const pricingVariant = useMemo(() => {
@@ -211,14 +211,14 @@ export function ProductPage({ slug }: { slug: string }) {
     /*
      * Yuklash TUGAGANDAN keyin ham mahsulot topilmasa — `noindex`.
      *
-     * Ilgari o'chirilgan yoki noto'g'ri slug'li manzil oddiy sahifa
-     * sifatida indekslanardi: sarlavha umumiy ("OpenShop — Online-do'kon")
-     * bo'lib qolar, canonical esa mavjud bo'lmagan mahsulotga ishora
-     * qilardi. Bu qidiruv natijalarida bo'sh sahifalar to'planishiga
+     * Ilgari oʻchirilgan yoki notoʻgʻri slugʻli manzil oddiy sahifa
+     * sifatida indekslanardi: sarlavha umumiy ("OpenShop — Online-doʻkon")
+     * boʻlib qolar, canonical esa mavjud boʻlmagan mahsulotga ishora
+     * qilardi. Bu qidiruv natijalarida boʻsh sahifalar toʻplanishiga
      * olib keladi.
      *
      * `loading` paytida `noindex` BERILMAYDI — aks holda haqiqiy mahsulot
-     * sahifasi ham bir zumga noindex bo'lib turardi.
+     * sahifasi ham bir zumga noindex boʻlib turardi.
      */
     noindex: !loading && !product,
   });
@@ -239,9 +239,9 @@ export function ProductPage({ slug }: { slug: string }) {
   );
 
   /*
-   * Ekrandagi "Bosh sahifa › Katalog › …" zanjiri bilan BIR XIL ma'lumot.
+   * Ekrandagi "Bosh sahifa › Katalog › …" zanjiri bilan BIR XIL maʼlumot.
    * Ikkalasi bir manbadan chiqmasa, qidiruv natijasidagi zanjir sahifada
-   * ko'ringanidan farq qilib qoladi — bu Google uchun xato hisoblanadi.
+   * koʻringanidan farq qilib qoladi — bu Google uchun xato hisoblanadi.
    */
   useBreadcrumbJsonLd(
     product
@@ -297,18 +297,18 @@ export function ProductPage({ slug }: { slug: string }) {
     : null;
   const discount = discountPercent(price, oldPrice);
   const fav = isFavorite(product.id);
-  // Variantda alohida ombor yuritilsa — o'sha qoldiq hal qiluvchi.
+  // Variantda alohida ombor yuritilsa — oʻsha qoldiq hal qiluvchi.
   const availableStock = pricingVariant?.stock != null ? pricingVariant.stock : product.stock;
   const stock = stockState(availableStock);
-  // Narxi kiritilmagan mahsulotni sotib bo'lmaydi (bazadagi ma'lumot nuqsoni).
+  // Narxi kiritilmagan mahsulotni sotib boʻlmaydi (bazadagi maʼlumot nuqsoni).
   const purchasable = hasSellablePrice(price);
   const inStock = stock !== 'out' && purchasable;
   const maxQty = maxQuantityFor(product, pricingVariant?.id);
   const sold = socialProof(product.sales_count);
   /*
-   * Sharhlar tabi ochilgan bo'lsa — jonli qiymat, aks holda
+   * Sharhlar tabi ochilgan boʻlsa — jonli qiymat, aks holda
    * `products` jadvalidagi (u ham trigger hisoblagan). Ikkalasi bir xil
-   * manbadan kelib chiqadi, shuning uchun sakrash bo'lmaydi.
+   * manbadan kelib chiqadi, shuning uchun sakrash boʻlmaydi.
    */
   const reviewCount = reviewStats?.count ?? product.reviews_count;
   const reviewRating = reviewStats?.rating ?? product.rating;
@@ -317,7 +317,7 @@ export function ProductPage({ slug }: { slug: string }) {
   const selectVariant = (type: string, value: string) => {
     setSelectedVariants((s) => ({ ...s, [type]: value }));
     setQty(1);
-    // Tanlangan variantning rasmi bo'lsa — galereyani o'sha rasmga o'tkazamiz.
+    // Tanlangan variantning rasmi boʻlsa — galereyani oʻsha rasmga oʻtkazamiz.
     const variant = variantGroups.find((g) => g.type === type)?.values.find((v) => v.value === value);
     if (variant?.image_url) {
       const idx = images.findIndex((img) => img.image_url === variant.image_url);
@@ -413,7 +413,7 @@ export function ProductPage({ slug }: { slug: string }) {
             images={images}
             alt={product.name}
             /* Telefon egilganda rasm ramka ichida suzadi — mahsulot
-               "qo'lda ushlab ko'rilayotgandek" tuyuladi. */
+               "qoʻlda ushlab koʻrilayotgandek" tuyuladi. */
             parallax
             activeIndex={Math.min(activeImg, Math.max(0, images.length - 1))}
             onActiveIndexChange={setActiveImg}
@@ -652,15 +652,15 @@ export function ProductPage({ slug }: { slug: string }) {
         <div className="mt-5 max-w-3xl text-sm leading-relaxed text-ink-600">
           {tab === 'reviews' && (
             /*
-             * `key` — boshqa mahsulotga o'tilganda komponent QAYTA
+             * `key` — boshqa mahsulotga oʻtilganda komponent QAYTA
              * yaratilsin.
              *
-             * `ProductPage` marshrut o'zgarganda unmount bo'lmaydi
+             * `ProductPage` marshrut oʻzgarganda unmount boʻlmaydi
              * (bir xil komponent, boshqa `slug`), shuning uchun `key`
-             * bo'lmasa `ProductReviews` o'z holatini saqlab qolardi:
+             * boʻlmasa `ProductReviews` oʻz holatini saqlab qolardi:
              * yangi mahsulot ostida eski sharhlar, eski "Yana
-             * ko'rsatish" holati va eng yomoni — boshqa mahsulotga
-             * yozilayotgan tugallanmagan sharh matni ko'rinardi.
+             * koʻrsatish" holati va eng yomoni — boshqa mahsulotga
+             * yozilayotgan tugallanmagan sharh matni koʻrinardi.
              */
             <ProductReviews key={product.id} productId={product.id} onStatsChange={setReviewStats} />
           )}
@@ -689,13 +689,13 @@ export function ProductPage({ slug }: { slug: string }) {
       {/* ── O'xshash mahsulotlar ────────────────────────────── */}
       {related.length > 0 && (
         /*
-         * O'xshash mahsulotlar — GRID emas, KARUSEL.
+         * Oʻxshash mahsulotlar — GRID emas, KARUSEL.
          *
-         * Ilgari bu yerda sahifadagi to'rtinchi bir xil to'r turardi va
-         * mahsulot sahifasi katalogning davomiga o'xshab ketardi. Karusel
-         * ikki narsani beradi: kompozitsion o'zgarish (bosh sahifadagi
+         * Ilgari bu yerda sahifadagi toʻrtinchi bir xil toʻr turardi va
+         * mahsulot sahifasi katalogning davomiga oʻxshab ketardi. Karusel
+         * ikki narsani beradi: kompozitsion oʻzgarish (bosh sahifadagi
          * ritm bilan bir xil til) va telefonda tabiiy surish — pastda
-         * yopishqoq CTA turgani uchun uzun to'r ayniqsa noqulay edi.
+         * yopishqoq CTA turgani uchun uzun toʻr ayniqsa noqulay edi.
          */
         <section className="mt-10 lg:mt-14" aria-labelledby="related-heading">
           <SectionHeader
@@ -771,10 +771,10 @@ export function ProductPage({ slug }: { slug: string }) {
 /**
  * Variant tanlagich.
  *
- * `color` guruhi rang namunasi (swatch) bilan ko'rsatiladi — admin kiritgan
- * HEX kod ishlatiladi; kod bo'lmasa oddiy matnli tugmaga tushadi. Har bir
- * variant o'z ombori va narx farqiga ega bo'lishi mumkin, shuning uchun
- * tugmada narx farqi ham ko'rinadi va tugagan variant bloklanadi.
+ * `color` guruhi rang namunasi (swatch) bilan koʻrsatiladi — admin kiritgan
+ * HEX kod ishlatiladi; kod boʻlmasa oddiy matnli tugmaga tushadi. Har bir
+ * variant oʻz ombori va narx farqiga ega boʻlishi mumkin, shuning uchun
+ * tugmada narx farqi ham koʻrinadi va tugagan variant bloklanadi.
  */
 function VariantGroup({
   group, selected, basePrice, onSelect,

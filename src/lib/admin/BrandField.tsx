@@ -6,17 +6,17 @@ import { isNewBrand, matchExistingBrand, suggestBrands } from '../brands';
 /*
  * BREND MAYDONI — erkin matn emas, boshqariladigan tanlov.
  *
- * Ilgari bu oddiy `<input>` edi. Brend `products.brand` da matn bo'lib
- * saqlangani uchun har bir admin uni o'zicha yozardi va katalogdagi
- * brend filtrida "Apple", "apple", "APPLE" alohida variantlar bo'lib
+ * Ilgari bu oddiy `<input>` edi. Brend `products.brand` da matn boʻlib
+ * saqlangani uchun har bir admin uni oʻzicha yozardi va katalogdagi
+ * brend filtrida "Apple", "apple", "APPLE" alohida variantlar boʻlib
  * chiqardi — bitta brend uch marta.
  *
- * Endi maydon mavjud brendlarni taklif qiladi va registr farqini o'zi
- * hal qiladi. Lekin u YOPIQ ro'yxat emas: yangi brend kiritish
- * to'silmaydi, shunchaki bu ataylab qilinadigan harakatga aylanadi
- * («+ "OnePlus" qo'shish»).
+ * Endi maydon mavjud brendlarni taklif qiladi va registr farqini oʻzi
+ * hal qiladi. Lekin u YOPIQ roʻyxat emas: yangi brend kiritish
+ * toʻsilmaydi, shunchaki bu ataylab qilinadigan harakatga aylanadi
+ * («+ "OnePlus" qoʻshish»).
  *
- * Ma'lumot bazasi o'zgarmaydi — brendlar mahsulotlardan o'qiladi,
+ * Maʼlumot bazasi oʻzgarmaydi — brendlar mahsulotlardan oʻqiladi,
  * alohida jadval yaratilmaydi.
  */
 export function BrandField({
@@ -26,7 +26,7 @@ export function BrandField({
 }: {
   value: string;
   onChange: (v: string) => void;
-  /** Bazadagi mavjud brendlar (mahsulotlardan yig'ilgan). */
+  /** Bazadagi mavjud brendlar (mahsulotlardan yigʻilgan). */
   brands: string[];
 }) {
   const id = useId();
@@ -38,7 +38,7 @@ export function BrandField({
   const canAdd = isNewBrand(value, brands);
   const exactMatch = matchExistingBrand(value, brands);
 
-  /* Tashqariga bosilganda ro'yxat yopiladi. */
+  /* Tashqariga bosilganda roʻyxat yopiladi. */
   useEffect(() => {
     if (!open) return;
     const onDown = (e: PointerEvent) => {
@@ -54,9 +54,9 @@ export function BrandField({
   };
 
   /*
-   * Fokus yo'qolganda registr NORMALLASHTIRILADI: admin "apple" deb
+   * Fokus yoʻqolganda registr NORMALLASHTIRILADI: admin "apple" deb
    * yozsa ham, bazada allaqachon bor "Apple" saqlanadi. Yangi brend
-   * bo'lsa — yozilishi o'zgarmaydi.
+   * boʻlsa — yozilishi oʻzgarmaydi.
    */
   const handleBlur = () => {
     if (exactMatch && exactMatch !== value) onChange(exactMatch);
@@ -123,7 +123,7 @@ export function BrandField({
                 role="option"
                 aria-selected={i === active}
                 // `onMouseDown` — `onBlur` dan OLDIN ishlaydi, aks holda
-                // ro'yxat bosilishidan avval yopilib ketardi.
+                // roʻyxat bosilishidan avval yopilib ketardi.
                 onMouseDown={(e) => {
                   e.preventDefault();
                   choose(b);

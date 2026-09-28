@@ -11,8 +11,8 @@ import { OrdersTab } from './orders/OrdersTab';
 
 /*
  * Aniq ustunlar — `select('*')` EMAS. `types.ts` dagi `Address` shakli
- * bilan bir xil: kod faqat shu maydonlarni o'qiydi, qolganini tarmoqdan
- * tortishning ma'nosi yo'q.
+ * bilan bir xil: kod faqat shu maydonlarni oʻqiydi, qolganini tarmoqdan
+ * tortishning maʼnosi yoʻq.
  */
 const ADDRESS_SELECT =
   'id, user_id, label, recipient_name, phone, city, district, street, zip, is_default, created_at';
@@ -96,8 +96,8 @@ export function AccountPage({ tab = 'profile', orderId }: { tab?: Tab; orderId?:
   }, [user]);
 
   useEffect(() => {
-    // Auth hali tekshirilmoqda bo'lsa kutamiz — aks holda sahifa yangilanganda
-    // login'ga noo'rin yo'naltirish sodir bo'ladi.
+    // Auth hali tekshirilmoqda boʻlsa kutamiz — aks holda sahifa yangilanganda
+    // loginʼga nooʻrin yoʻnaltirish sodir boʻladi.
     if (authLoading) return;
     if (!user) {
       navigate('/login', { replace: true });
@@ -277,7 +277,7 @@ function ProfileTab({ profile, userId, onSave }: { profile: Profile | null; user
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // Profil kechroq yuklansa formani bir marta to'ldiramiz.
+  // Profil kechroq yuklansa formani bir marta toʻldiramiz.
   useEffect(() => {
     if (!profile) return;
     setForm((f) =>
@@ -381,10 +381,10 @@ function AddressesTab({
 
     setSaving(true);
     /*
-     * MUHIM: `phone` va `city` ustunlari `addresses` jadvalida ILGARI YO'Q edi,
+     * MUHIM: `phone` va `city` ustunlari `addresses` jadvalida ILGARI YOʻQ edi,
      * shuning uchun bu forma har safar xatolik bilan tugardi (foydalanuvchiga
-     * esa faqat "Xatolik" deb ko'rsatilardi). Ustunlar 20260830 migratsiyasida
-     * qo'shildi, `name`/`full_address` esa trigger orqali avtomatik to'ldiriladi.
+     * esa faqat "Xatolik" deb koʻrsatilardi). Ustunlar 20260830 migratsiyasida
+     * qoʻshildi, `name`/`full_address` esa trigger orqali avtomatik toʻldiriladi.
      */
     const { error } = await supabase.from('addresses').insert({
       user_id: userId,
@@ -399,7 +399,7 @@ function AddressesTab({
     setSaving(false);
 
     if (error) {
-      // Endi haqiqiy sabab ko'rsatiladi — "Xatolik" degan foydasiz xabar emas.
+      // Endi haqiqiy sabab koʻrsatiladi — "Xatolik" degan foydasiz xabar emas.
       notify(`Manzilni saqlab boʻlmadi: ${error.message}`, 'error');
       return;
     }
@@ -429,7 +429,7 @@ function AddressesTab({
       notify('Asosiy manzilni oʻzgartirib boʻlmadi', 'error');
       return;
     }
-    // Bitta foydalanuvchida faqat bitta asosiy manzil bo'lsin.
+    // Bitta foydalanuvchida faqat bitta asosiy manzil boʻlsin.
     await supabase.from('addresses').update({ is_default: false }).eq('user_id', address.user_id).neq('id', address.id);
     onChange();
   };
@@ -557,7 +557,7 @@ function SecurityTab() {
 
   return (
     /*
-     * Bu bo'lim ilgari "Sozlamalar shu yerda bo'ladi." degan tugallanmagan
+     * Bu boʻlim ilgari "Sozlamalar shu yerda boʻladi." degan tugallanmagan
      * matndan iborat edi. Endi u haqiqiy va foydali amalni bajaradi.
      */
     <section className={cx(card, 'p-5 sm:p-6')}>

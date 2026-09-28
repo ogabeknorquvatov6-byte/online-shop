@@ -13,15 +13,15 @@ import {
 import { cx, focusRing, input as inputClass, shell, skeleton } from './design';
 
 /*
- * To'liq ekranli qidiruv sahifasi (mobil uchun asosiy qidiruv tajribasi).
+ * Toʻliq ekranli qidiruv sahifasi (mobil uchun asosiy qidiruv tajribasi).
  *
  * Ilgari mobil qidiruv oddiy input edi: bosilganda klaviatura ochilar, lekin
- * hech qanday yo'l-yo'riq yo'q edi. Endi bu alohida marshrut (`/search`) —
- * ya'ni "orqaga" tugmasi tabiiy ishlaydi, havolani ulashish mumkin va
+ * hech qanday yoʻl-yoʻriq yoʻq edi. Endi bu alohida marshrut (`/search`) —
+ * yaʼni "orqaga" tugmasi tabiiy ishlaydi, havolani ulashish mumkin va
  * brauzer tarixi buzilmaydi.
  *
- * Bo'sh holatda: so'nggi qidiruvlar → ommabop bo'limlar/brendlar →
- * tavsiya etilgan mahsulotlar. Ya'ni foydalanuvchi hech qachon bo'sh
+ * Boʻsh holatda: soʻnggi qidiruvlar → ommabop boʻlimlar/brendlar →
+ * tavsiya etilgan mahsulotlar. Yaʼni foydalanuvchi hech qachon boʻsh
  * ekranga qarab qolmaydi.
  */
 
@@ -45,22 +45,22 @@ export function SearchPage() {
   useSeo({
     title: value.trim() ? `«${value.trim()}» qidiruvi` : 'Qidiruv',
     description: 'OpenShop katalogidan mahsulot, kategoriya yoki brend qidiring.',
-    // Qidiruv natijalari sahifasi indekslanmaydi: har bir so'rov uchun
-    // alohida manzil hosil bo'lib, indeks cheksiz "bo'sh" sahifalar bilan
-    // to'ladi. Google'ning o'zi ham buni tavsiya qilmaydi.
+    // Qidiruv natijalari sahifasi indekslanmaydi: har bir soʻrov uchun
+    // alohida manzil hosil boʻlib, indeks cheksiz "boʻsh" sahifalar bilan
+    // toʻladi. Googleʼning oʻzi ham buni tavsiya qilmaydi.
     noindex: true,
   });
 
-  // Sahifa ochilishi bilan yozishni boshlash mumkin bo'lsin.
+  // Sahifa ochilishi bilan yozishni boshlash mumkin boʻlsin.
   useEffect(() => {
     const t = setTimeout(() => inputRef.current?.focus(), 60);
     return () => clearTimeout(t);
   }, []);
 
   /*
-   * «Ommabop qidiruvlar» — soxta statistika emas: eng ko'p sotilgan
-   * mahsulotlarning brendlaridan hosil qilinadi. Ya'ni ro'yxat haqiqiy
-   * savdo ma'lumotiga tayanadi.
+   * «Ommabop qidiruvlar» — soxta statistika emas: eng koʻp sotilgan
+   * mahsulotlarning brendlaridan hosil qilinadi. Yaʼni roʻyxat haqiqiy
+   * savdo maʼlumotiga tayanadi.
    */
   useEffect(() => {
     let cancelled = false;

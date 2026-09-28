@@ -39,8 +39,8 @@ import { button, cx, shell, skeleton } from './lib/design';
 import { Sparkles, TrendingUp, PackageSearch, SearchX, Package, ArrowLeft } from 'lucide-react';
 
 /*
- * Admin paneli mijozlar uchun kerak emas, lekin u eng katta ekran to'plami.
- * Uni alohida chunk'ga ajratamiz — bosh sahifaga kirgan oddiy foydalanuvchi
+ * Admin paneli mijozlar uchun kerak emas, lekin u eng katta ekran toʻplami.
+ * Uni alohida chunkʼga ajratamiz — bosh sahifaga kirgan oddiy foydalanuvchi
  * endi admin kodini umuman yuklab olmaydi.
  */
 const AdminLayout = lazy(() =>
@@ -54,7 +54,7 @@ function Routes() {
   const { match } = route;
   const rawPath = route.pathname;
 
-  /* ── Admin: mijoz header/footer'isiz ─────────────────────────── */
+  /* ── Admin: mijoz header/footerʼisiz ─────────────────────────── */
   if (match.name === 'admin') {
     return (
       <Suspense
@@ -70,14 +70,14 @@ function Routes() {
     );
   }
 
-  /* Kirish sahifasi — o'z to'liq ekran maketiga ega. */
+  /* Kirish sahifasi — oʻz toʻliq ekran maketiga ega. */
   if (match.name === 'login') return <AuthPage />;
 
   /*
    * Qidiruv va shaxsiy kabinet umumiy header (logo + qidiruv + menyu)ni
-   * ISHLATMAYDI — ularning har biri o'z minimal sarlavhasiga ega. Bu
-   * sahifalarda foydalanuvchi aniq bir vazifada bo'ladi va ortiqcha
-   * navigatsiya faqat chalg'itadi. Pastdagi navigatsiya esa saqlanadi,
+   * ISHLATMAYDI — ularning har biri oʻz minimal sarlavhasiga ega. Bu
+   * sahifalarda foydalanuvchi aniq bir vazifada boʻladi va ortiqcha
+   * navigatsiya faqat chalgʻitadi. Pastdagi navigatsiya esa saqlanadi,
    * shunda mobil foydalanuvchi istalgan paytda chiqib keta oladi.
    */
   if (match.name === 'search') {
@@ -155,7 +155,7 @@ function Routes() {
 }
 
 /**
- * Umumiy headersiz maket: sahifa o'z sarlavhasini chizadi, lekin mobil
+ * Umumiy headersiz maket: sahifa oʻz sarlavhasini chizadi, lekin mobil
  * pastki navigatsiya va savat paneli ishlashda davom etadi.
  */
 function FocusedShell({ children }: { children: React.ReactNode }) {
@@ -172,8 +172,8 @@ function FocusedShell({ children }: { children: React.ReactNode }) {
 /**
  * Checkout faqat tizimga kirgan foydalanuvchi uchun. Ilgari bu yerda login
  * FORMASI mijoz maketi ichida render qilinardi — manzil qatori hamon
- * `/checkout` bo'lib qolar, orqaga qaytish chalkash edi. Endi haqiqiy
- * yo'naltirish bajariladi.
+ * `/checkout` boʻlib qolar, orqaga qaytish chalkash edi. Endi haqiqiy
+ * yoʻnaltirish bajariladi.
  */
 function CheckoutRoute({ user, authLoading }: { user: boolean; authLoading: boolean }) {
   const { navigate } = useRouter();
@@ -229,7 +229,7 @@ function CategoryRoute({ slug }: { slug: string }) {
   return <CatalogPage categoryId={categoryId} />;
 }
 
-/** Mahsulot ro'yxatli sahifalar uchun umumiy qobiq (aksiyalar / yangi / xit). */
+/** Mahsulot roʻyxatli sahifalar uchun umumiy qobiq (aksiyalar / yangi / xit). */
 function ProductListPage({
   title, subtitle, icon: Icon, seoDescription, emptyTitle, emptyMessage, fetcher,
 }: {
@@ -309,9 +309,9 @@ async function fetchPromotionProducts(): Promise<Product[]> {
     .returns<PromotionProductRow[]>();
   if (linkError) throw linkError;
 
-  // Bir mahsulot bir necha aksiyada bo'lsa — eng katta chegirmani olamiz
-  // (ilgari birinchi uchragan yozuv olinardi, ya'ni ko'rsatilgan chegirma
-  // haqiqiy narxdan kichik bo'lishi mumkin edi).
+  // Bir mahsulot bir necha aksiyada boʻlsa — eng katta chegirmani olamiz
+  // (ilgari birinchi uchragan yozuv olinardi, yaʼni koʻrsatilgan chegirma
+  // haqiqiy narxdan kichik boʻlishi mumkin edi).
   const percentByPromo = new Map(live.map((p) => [p.id, p.discount_percent]));
   const bestByProduct = new Map<string, { product: ProductRow; percent: number }>();
   for (const row of data ?? []) {
@@ -433,20 +433,20 @@ function StaticPage({ path }: { path: StaticPagePath }) {
 /**
  * 404.
  *
- * Kompozitsiya g'oyasi: o'rtadagi NOL — raqam emas, HALQA. Uning ichida
- * yo'qolgan paket suzib turadi. Shunday qilib "4 0 4" ning o'zi sahifaning
- * mazmunini aytadi: bir narsa yo'qolgan.
+ * Kompozitsiya gʻoyasi: oʻrtadagi NOL — raqam emas, HALQA. Uning ichida
+ * yoʻqolgan paket suzib turadi. Shunday qilib "4 0 4" ning oʻzi sahifaning
+ * mazmunini aytadi: bir narsa yoʻqolgan.
  *
- * Nega to'q fon? `ink-900` allaqachon OpenShop tizimida bor (aksiya bo'limi
- * va bannersiz hero) — ya'ni bu "boshqa sayt" emas, o'sha do'konning
- * jimroq, atmosferali burchagi. Urg'u — o'sha yagona to'q sariq.
+ * Nega toʻq fon? `ink-900` allaqachon OpenShop tizimida bor (aksiya boʻlimi
+ * va bannersiz hero) — yaʼni bu "boshqa sayt" emas, oʻsha doʻkonning
+ * jimroq, atmosferali burchagi. Urgʻu — oʻsha yagona toʻq sariq.
  *
  * Harakat ATAYLAB sekin: halqa ~24 soniyada bir marta aylanadi, paket
  * 4 soniyalik nafas oladi. Bu diqqatni tortmaydi, faqat sahifa "tirik"
- * ekanini bildiradi. `prefers-reduced-motion` da ikkalasi ham to'liq
- * to'xtaydi va kompozitsiya statik holatda ham to'g'ri ko'rinadi.
+ * ekanini bildiradi. `prefers-reduced-motion` da ikkalasi ham toʻliq
+ * toʻxtaydi va kompozitsiya statik holatda ham toʻgʻri koʻrinadi.
  *
- * Havolalar hech qachon animatsiyaga bog'liq emas — ular darhol bosiladi.
+ * Havolalar hech qachon animatsiyaga bogʻliq emas — ular darhol bosiladi.
  */
 function NotFound() {
   useSeo({ title: 'Sahifa topilmadi', noindex: true });

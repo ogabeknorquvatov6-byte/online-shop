@@ -5,19 +5,19 @@ import { cardInteractive, cx, focusRing } from '../design';
 import { Img } from '../Img';
 
 /*
- * RO'YXATDAGI BITTA BUYURTMA.
+ * ROʻYXATDAGI BITTA BUYURTMA.
  *
- * Ilgari ro'yxatdagi har bir buyurtma HAMMA narsani birdan ochib
- * ko'rsatardi: barcha mahsulotlar, manzil, oraliq summalar. Uchta
- * buyurtmasi bor odam uchun bu bir ekranga sig'masdi va qaysi
- * buyurtma qayerda tugashini ajratib bo'lmasdi.
+ * Ilgari roʻyxatdagi har bir buyurtma HAMMA narsani birdan ochib
+ * koʻrsatardi: barcha mahsulotlar, manzil, oraliq summalar. Uchta
+ * buyurtmasi bor odam uchun bu bir ekranga sigʻmasdi va qaysi
+ * buyurtma qayerda tugashini ajratib boʻlmasdi.
  *
  * Endi kartochka — XULOSA: raqam, sana, rasmlar, jami, holat. Qolgani
- * ichkarida. Kartochka `<button>`, ya'ni klaviatura bilan ham
- * ochiladi va `Enter`/`Space` o'zi ishlaydi.
+ * ichkarida. Kartochka `<button>`, yaʼni klaviatura bilan ham
+ * ochiladi va `Enter`/`Space` oʻzi ishlaydi.
  */
 
-/** Ko'rinadigan rasmlar soni — qolgani «+N» bo'lib yig'iladi. */
+/** Koʻrinadigan rasmlar soni — qolgani «+N» boʻlib yigʻiladi. */
 const MAX_THUMBS = 3;
 
 export function OrderCard({ order, onOpen }: { order: Order; onOpen: () => void }) {
@@ -57,7 +57,7 @@ export function OrderCard({ order, onOpen }: { order: Order; onOpen: () => void 
             <span
               key={it.id}
               // Ustma-ust joylashuv — uchta rasm kam joy egallaydi va
-              // "to'plam" bo'lib ko'rinadi.
+              // "toʻplam" boʻlib koʻrinadi.
               className={cx(
                 'flex h-10 w-10 items-center justify-center overflow-hidden rounded-control border-2 border-white bg-ink-50',
                 i > 0 && '-ml-3'

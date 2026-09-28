@@ -10,7 +10,7 @@ type Toast = { id: number; message: string; type: ToastType };
 const ToastContext = createContext<{ notify: (message: string, type?: ToastType) => void } | undefined>(undefined);
 
 const DURATION_MS = 4000;
-/** Bir vaqtning o'zida ko'rinadigan maksimal xabar soni. */
+/** Bir vaqtning oʻzida koʻrinadigan maksimal xabar soni. */
 const MAX_VISIBLE = 3;
 
 const TONE: Record<ToastType, { icon: typeof CheckCircle2; className: string }> = {
@@ -37,7 +37,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       const id = Date.now() + Math.random();
       setToasts((prev) => {
         // Bir xil xabar ketma-ket kelsa (masalan bir tugma tez bosilsa)
-        // ekranni to'ldirmasligi kerak.
+        // ekranni toʻldirmasligi kerak.
         const deduped = prev.filter((t) => t.message !== message);
         return [...deduped, { id, message, type }].slice(-MAX_VISIBLE);
       });

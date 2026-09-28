@@ -27,7 +27,7 @@ const SORT_OPTIONS = [
 
 type SortValue = (typeof SORT_OPTIONS)[number]['value'];
 
-/** Ikki tutqichli narx oralig'i slayderi. */
+/** Ikki tutqichli narx oraligʻi slayderi. */
 function PriceRangeSlider({
   min, max, onChange,
 }: {
@@ -92,11 +92,11 @@ export function CatalogPage({ categoryId }: { categoryId?: string }) {
   /*
    * Reyting / chegirma / mavjudlik filtrlari.
    *
-   * Uchalasi ham SERVER tomonda qo'llanadi. Bu shart emasdek tuyulishi
-   * mumkin, lekin muhim: ro'yxat sahifalangan va `count: 'exact'` bilan
-   * keladi. Agar filtrlash mijozda bo'lsa, "1234 ta mahsulot" soni va
-   * sahifalar soni FILTRLANMAGAN to'plamdan hisoblanib qolardi — ya'ni
-   * foydalanuvchi bo'sh sahifalarni varaqlayverardi.
+   * Uchalasi ham SERVER tomonda qoʻllanadi. Bu shart emasdek tuyulishi
+   * mumkin, lekin muhim: roʻyxat sahifalangan va `count: 'exact'` bilan
+   * keladi. Agar filtrlash mijozda boʻlsa, "1234 ta mahsulot" soni va
+   * sahifalar soni FILTRLANMAGAN toʻplamdan hisoblanib qolardi — yaʼni
+   * foydalanuvchi boʻsh sahifalarni varaqlayverardi.
    */
   const [minRating, setMinRating] = useState(0);
   const [onlyDiscounted, setOnlyDiscounted] = useState(false);
@@ -110,14 +110,14 @@ export function CatalogPage({ categoryId }: { categoryId?: string }) {
    * Tanlangan kategoriyalar + ularning BARCHA avlodlari.
    *
    * `categories` allaqachon yuqorida yuklangan (`useCategories`, jarayon
-   * davomida keshlanadi), shuning uchun bu yerda qo'shimcha tarmoq
-   * so'rovi YO'Q — faqat xotiradagi ro'yxatdan daraxt quriladi.
+   * davomida keshlanadi), shuning uchun bu yerda qoʻshimcha tarmoq
+   * soʻrovi YOʻQ — faqat xotiradagi roʻyxatdan daraxt quriladi.
    *
-   * `.join()` bog'liqlikda: massiv har renderda yangi havola bo'ladi,
-   * shuning uchun uning MAZMUNI bo'yicha solishtiramiz — aks holda
+   * `.join()` bogʻliqlikda: massiv har renderda yangi havola boʻladi,
+   * shuning uchun uning MAZMUNI boʻyicha solishtiramiz — aks holda
    * `loadProducts` cheksiz qayta ishga tushardi.
    */
-  /* Daraxt BIR MARTA quriladi va uni ham so'rov, ham non-yo'l ishlatadi. */
+  /* Daraxt BIR MARTA quriladi va uni ham soʻrov, ham non-yoʻl ishlatadi. */
   const categoryTree = useMemo(() => buildCategoryTree(categories), [categories]);
 
   const categoryIdsToQuery = useMemo(
@@ -138,26 +138,26 @@ export function CatalogPage({ categoryId }: { categoryId?: string }) {
      * Canonical ATAYLAB parametrsiz.
      *
      * `?brand=Apple&q=…` variantlari asosiy katalog sahifasining bir xil
-     * mazmunini takrorlaydi. Ularning har biri alohida canonical bo'lsa,
-     * Google bir sahifaning o'nlab nusxasini indekslab, reytingni ular
-     * o'rtasida bo'lib yuboradi.
+     * mazmunini takrorlaydi. Ularning har biri alohida canonical boʻlsa,
+     * Google bir sahifaning oʻnlab nusxasini indekslab, reytingni ular
+     * oʻrtasida boʻlib yuboradi.
      */
     canonicalPath: activeCategory ? `/category/${activeCategory.slug}` : '/catalog',
-    // Qidiruv so'rovi bilan ochilgan katalog — vaqtinchalik natija ro'yxati.
+    // Qidiruv soʻrovi bilan ochilgan katalog — vaqtinchalik natija roʻyxati.
     noindex: Boolean(searchQuery),
   });
 
   /*
-   * NON-YO'L HAQIQIY DARAXTDAN QURILADI.
+   * NON-YOʻL HAQIQIY DARAXTDAN QURILADI.
    *
-   * Ilgari bu yerda faqat uchta bo'g'in bor edi: Bosh sahifa → Katalog →
-   * joriy kategoriya. Ichma-ich kategoriyalarda bu NOTO'G'RI: "Smartfon"
+   * Ilgari bu yerda faqat uchta boʻgʻin bor edi: Bosh sahifa → Katalog →
+   * joriy kategoriya. Ichma-ich kategoriyalarda bu NOTOʻGʻRI: "Smartfon"
    * sahifasida uning otalari ("Telefonlar va planshetlar" → "Telefon")
-   * umuman ko'rinmasdi va foydalanuvchi qayerda turganini bilmasdi.
+   * umuman koʻrinmasdi va foydalanuvchi qayerda turganini bilmasdi.
    *
-   * `pathToNode` daraxt bo'ylab yuqoriga yurib butun zanjirni qaytaradi,
-   * shuning uchun kategoriya ierarxiyasi o'zgarsa — non-yo'l o'zi
-   * moslashadi. Hech narsa qo'lda yozilmaydi.
+   * `pathToNode` daraxt boʻylab yuqoriga yurib butun zanjirni qaytaradi,
+   * shuning uchun kategoriya ierarxiyasi oʻzgarsa — non-yoʻl oʻzi
+   * moslashadi. Hech narsa qoʻlda yozilmaydi.
    */
   const trail = useMemo(
     () => (activeCategory ? pathToNode(categoryTree, activeCategory.id) : []),
@@ -205,24 +205,24 @@ export function CatalogPage({ categoryId }: { categoryId?: string }) {
         let q = supabase.from('products').select(PRODUCT_SELECT, { count: 'exact' }).eq('is_active', true);
         // `%` va `_` — LIKE joker belgilari, foydalanuvchi matnidan ekranlanadi.
         // `likePattern` — apostrof variantlari `_` jokeriga aylanadi,
-        // ya'ni "qo'shimcha" so'rovi "qoʻshimcha" nomini ham topadi.
+        // yaʼni "qoʻshimcha" soʻrovi "qoʻshimcha" nomini ham topadi.
         if (searchQuery) q = q.ilike('name', likePattern(searchQuery));
         /*
-         * Kategoriya filtri PASTKI DARAXT bo'yicha.
+         * Kategoriya filtri PASTKI DARAXT boʻyicha.
          *
          * Ilgari bu yerda aniq moslik turardi:
          *     q.eq('category_id', selectedCats[0])
          * Mahsulot esa faqat bitta — odatda eng pastki — kategoriyaga
-         * bog'lanadi. Shu sababli ota-kategoriya tanlanganda so'rov 0
-         * qator qaytarardi va "Telefonlar va planshetlar" kabi bo'lim
-         * bo'sh ko'rinardi.
+         * bogʻlanadi. Shu sababli ota-kategoriya tanlanganda soʻrov 0
+         * qator qaytarardi va "Telefonlar va planshetlar" kabi boʻlim
+         * boʻsh koʻrinardi.
          *
-         * `categoryIdsToQuery` tanlangan kategoriyalarning o'zini ham,
-         * avlodlarini ham o'z ichiga oladi va takrorlanmaydi, shuning
+         * `categoryIdsToQuery` tanlangan kategoriyalarning oʻzini ham,
+         * avlodlarini ham oʻz ichiga oladi va takrorlanmaydi, shuning
          * uchun bitta mahsulot ikki marta qaytmaydi.
          *
-         * Bitta element bo'lsa ham `.in(...)` ishlatiladi: `.eq(...)` bilan
-         * ikki tarmoq saqlash mantiqni ikkiga bo'lardi, natija esa bir xil.
+         * Bitta element boʻlsa ham `.in(...)` ishlatiladi: `.eq(...)` bilan
+         * ikki tarmoq saqlash mantiqni ikkiga boʻlardi, natija esa bir xil.
          */
         if (categoryIdsToQuery.length) q = q.in('category_id', categoryIdsToQuery);
         if (selectedBrands.length) q = q.in('brand', selectedBrands);
@@ -231,17 +231,17 @@ export function CatalogPage({ categoryId }: { categoryId?: string }) {
         if (minRating > 0) q = q.gte('rating', minRating);
         if (onlyInStock) q = q.gt('stock', 0);
         /*
-         * Chegirma filtri `discount_price` ustuni bo'yicha.
+         * Chegirma filtri `discount_price` ustuni boʻyicha.
          *
          * CHEKLOV, ataylab: PostgREST ikkita ustunni bir-biri bilan
          * solishtira olmaydi, shuning uchun "discount_price < price"
-         * shartini server tomonda yozib bo'lmaydi — faqat "chegirma narxi
+         * shartini server tomonda yozib boʻlmaydi — faqat "chegirma narxi
          * belgilangan" tekshiriladi. Shuningdek AKSIYA orqali kelgan
          * chegirma bu yerga tushmaydi: u `fetchPromoDiscountMap` dan
          * mijozda hisoblanadi. Ikkalasini ham qamrash uchun bazada
-         * hisoblanadigan ustun yoki view kerak bo'lardi — bu alohida
+         * hisoblanadigan ustun yoki view kerak boʻlardi — bu alohida
          * migratsiya, shuning uchun hozircha filtr `discount_price` bilan
-         * cheklangan va shu bo'yicha halol ishlaydi.
+         * cheklangan va shu boʻyicha halol ishlaydi.
          */
         if (onlyDiscounted) q = q.not('discount_price', 'is', null).gt('discount_price', 0);
 
@@ -250,7 +250,7 @@ export function CatalogPage({ categoryId }: { categoryId?: string }) {
         else if (sort === 'new') q = q.order('created_at', { ascending: false });
         else q = q.order('sales_count', { ascending: false });
         // Barqaror tartib: ikkilamchi kalitsiz bir xil `sales_count` li
-        // mahsulotlar sahifalar orasida takrorlanib/yo'qolib qolardi.
+        // mahsulotlar sahifalar orasida takrorlanib/yoʻqolib qolardi.
         q = q.order('id', { ascending: true });
         q = q.range((page - 1) * PAGE_SIZE, page * PAGE_SIZE - 1);
 
@@ -269,34 +269,34 @@ export function CatalogPage({ categoryId }: { categoryId?: string }) {
     return () => { cancelled = true; };
   }, [
     /*
-     * `categoryIdsToQuery` — `selectedCats` O'RNIGA.
+     * `categoryIdsToQuery` — `selectedCats` OʻRNIGA.
      *
-     * So'rov endi to'g'ridan-to'g'ri `selectedCats` ni ishlatmaydi,
-     * shuning uchun uni bu yerda saqlash ortiqcha bo'lardi: yoyilgan
-     * ro'yxat `selectedCats` dan hosil qilinadi va u o'zgarganda
-     * `useMemo` yangi massiv qaytaradi — ya'ni bog'liqlik baribir
+     * Soʻrov endi toʻgʻridan-toʻgʻri `selectedCats` ni ishlatmaydi,
+     * shuning uchun uni bu yerda saqlash ortiqcha boʻlardi: yoyilgan
+     * roʻyxat `selectedCats` dan hosil qilinadi va u oʻzgarganda
+     * `useMemo` yangi massiv qaytaradi — yaʼni bogʻliqlik baribir
      * ishga tushadi.
      *
-     * Bu bog'liqlik kategoriyalar KECHIKIB kelgan holatni ham qamraydi:
-     * kesh bo'sh bo'lsa yoyilgan ro'yxat avval bo'sh, keyin to'liq
-     * bo'ladi va so'rov aynan o'shanda qayta ketadi.
+     * Bu bogʻliqlik kategoriyalar KECHIKIB kelgan holatni ham qamraydi:
+     * kesh boʻsh boʻlsa yoyilgan roʻyxat avval boʻsh, keyin toʻliq
+     * boʻladi va soʻrov aynan oʻshanda qayta ketadi.
      */
     searchQuery, categoryIdsToQuery, selectedBrands, priceMin, priceMax, sort, page,
-    // Yangi filtrlar ham shu yerda BO'LISHI SHART: aks holda `loadProducts`
+    // Yangi filtrlar ham shu yerda BOʻLISHI SHART: aks holda `loadProducts`
     // qayta yaratilmaydi va 1-sahifada turganda reyting/chegirma/mavjudlik
-    // o'zgartirilsa so'rov umuman qayta ketmaydi (sahifa raqami o'zgarmagani
+    // oʻzgartirilsa soʻrov umuman qayta ketmaydi (sahifa raqami oʻzgarmagani
     // uchun `filterKey` mexanizmi ham yordam bermaydi).
     minRating, onlyDiscounted, onlyInStock,
   ]);
 
   /*
-   * Filtr o'zgarganda 1-sahifaga qaytamiz. Ilgari bu qilinmagani uchun
-   * 3-sahifada turgan foydalanuvchi filtrni o'zgartirsa, natijalari
-   * 3-sahifada bo'lmagan holatda BO'SH ro'yxat ko'rardi — mahsulot bor
-   * bo'lsa ham "Mahsulot topilmadi" chiqardi.
+   * Filtr oʻzgarganda 1-sahifaga qaytamiz. Ilgari bu qilinmagani uchun
+   * 3-sahifada turgan foydalanuvchi filtrni oʻzgartirsa, natijalari
+   * 3-sahifada boʻlmagan holatda BOʻSH roʻyxat koʻrardi — mahsulot bor
+   * boʻlsa ham "Mahsulot topilmadi" chiqardi.
    *
    * Bu render paytida bajariladi (effektda emas), aks holda avval eski
-   * sahifa bilan bitta ortiqcha so'rov ketardi.
+   * sahifa bilan bitta ortiqcha soʻrov ketardi.
    */
   const filterKey = `${selectedCats.join()}|${selectedBrands.join()}|${priceMin}|${priceMax}|${sort}|${searchQuery}|${minRating}|${onlyDiscounted}|${onlyInStock}`;
   const [seenFilterKey, setSeenFilterKey] = useState(filterKey);
@@ -558,7 +558,7 @@ export function CatalogPage({ categoryId }: { categoryId?: string }) {
                 />
               </motion.div>
             ) : (
-              // Katalogda grid ekranning eng tepasida — birinchi qator LCP bo'ladi.
+              // Katalogda grid ekranning eng tepasida — birinchi qator LCP boʻladi.
               <ProductGrid
                 key={`${page}-${sort}-${searchQuery}`}
                 products={products}
@@ -658,7 +658,7 @@ function ActiveFilterPill({ label, onRemove }: { label: string; onRemove: () => 
   );
 }
 
-/** Reyting filtri variantlari — `products.rating` (0–5) bo'yicha. */
+/** Reyting filtri variantlari — `products.rating` (0–5) boʻyicha. */
 const RATING_OPTIONS = [4.5, 4, 3] as const;
 
 function FilterPanel({
@@ -827,8 +827,8 @@ function FilterPanel({
 
 /**
  * Sahifalash. Ilgari BARCHA sahifa raqamlari chiqarilardi — 500 mahsulotda
- * bu 25 ta tugma bo'lib, mobil ekrandan chiqib ketardi. Endi joriy sahifa
- * atrofidagi oyna + birinchi/oxirgi ko'rsatiladi.
+ * bu 25 ta tugma boʻlib, mobil ekrandan chiqib ketardi. Endi joriy sahifa
+ * atrofidagi oyna + birinchi/oxirgi koʻrsatiladi.
  */
 function Pagination({
   page, totalPages, onChange,

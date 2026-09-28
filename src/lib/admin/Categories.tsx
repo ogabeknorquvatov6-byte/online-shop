@@ -16,23 +16,23 @@ const slugify = (s: string) =>
   s.toLowerCase().trim().replace(/[’'`]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 /**
- * O'chirishdan oldingi ogohlantirish matni.
+ * Oʻchirishdan oldingi ogohlantirish matni.
  *
- * NEGA ALOHIDA VA NEGA ICHKI BO'LIMLAR ALOHIDA AYTILADI.
+ * NEGA ALOHIDA VA NEGA ICHKI BOʻLIMLAR ALOHIDA AYTILADI.
  *
- * Bazada bog'lanish `parent_id … on delete set null`. Ya'ni ota
- * kategoriya o'chirilsa, uning ichki bo'limlari O'CHMAYDI — ularning
+ * Bazada bogʻlanish `parent_id … on delete set null`. Yaʼni ota
+ * kategoriya oʻchirilsa, uning ichki boʻlimlari OʻCHMAYDI — ularning
  * `parent_id` si jimgina `null` ga aylanadi va hammasi YUQORI DARAJAGA
- * chiqib ketadi. Tashqaridan bu "katalog o'z-o'zidan to'zib ketdi"
- * bo'lib ko'rinadi, hech qanday xato xabari bo'lmaydi.
+ * chiqib ketadi. Tashqaridan bu "katalog oʻz-oʻzidan toʻzib ketdi"
+ * boʻlib koʻrinadi, hech qanday xato xabari boʻlmaydi.
  *
- * Ilgari matn faqat mahsulotlar haqida ogohlantirardi, ichki bo'limlar
- * haqida bir og'iz ham yo'q edi.
+ * Ilgari matn faqat mahsulotlar haqida ogohlantirardi, ichki boʻlimlar
+ * haqida bir ogʻiz ham yoʻq edi.
  */
 function deleteWarning(target: Category, ordered: CategoryNode[]): string {
   const node = ordered.find((n) => n.id === target.id);
-  // Faqat BEVOSITA bolalar: chuqurroqdagilar o'z otasi bilan birga
-  // ko'chadi, ya'ni ularning bog'lanishi buzilmaydi.
+  // Faqat BEVOSITA bolalar: chuqurroqdagilar oʻz otasi bilan birga
+  // koʻchadi, yaʼni ularning bogʻlanishi buzilmaydi.
   const kids = node?.children.length ?? 0;
   const base = `«${target.name}» oʻchiriladi. Undagi mahsulotlar oʻchmaydi, lekin kategoriyasiz qoladi.`;
   if (kids === 0) return base;
@@ -55,15 +55,15 @@ export function AdminCategories() {
   const [busy, setBusy] = useState(false);
 
   /*
-   * ICHIGA BO'LIM QO'SHISH.
+   * ICHIGA BOʻLIM QOʻSHISH.
    *
    * Ota tanlash imkoni formada boshidan bor edi, lekin u pastda, oddiy
-   * ro'yxat ichida turardi: bo'lim yaratish uchun «Kategoriya qo'shish»
-   * bosib, pastga tushib, «Ota-kategoriya» dan to'g'risini topish kerak
-   * edi. Ya'ni imkoniyat BOR, lekin uni ko'rish mumkin emas — shuning
-   * uchun katalog bir darajali bo'lib qolavergan.
+   * roʻyxat ichida turardi: boʻlim yaratish uchun «Kategoriya qoʻshish»
+   * bosib, pastga tushib, «Ota-kategoriya» dan toʻgʻrisini topish kerak
+   * edi. Yaʼni imkoniyat BOR, lekin uni koʻrish mumkin emas — shuning
+   * uchun katalog bir darajali boʻlib qolavergan.
    *
-   * Endi har qatorda o'z tugmasi bor va u otani OLDINDAN to'ldiradi.
+   * Endi har qatorda oʻz tugmasi bor va u otani OLDINDAN toʻldiradi.
    * `null` = oddiy «yuqori daraja» rejimi.
    */
   const [parentFor, setParentFor] = useState<Category | null>(null);
@@ -96,14 +96,14 @@ export function AdminCategories() {
   useEffect(() => { load(); }, [load]);
 
   /*
-   * Ro'yxatni daraxt tartibiga keltiradi: ota darhol o'z bolalari
+   * Roʻyxatni daraxt tartibiga keltiradi: ota darhol oʻz bolalari
    * bilan ketma-ket keladi. `depth` chekinish uchun, `children`
-   * esa "nechta ichki bo'lim" ni ko'rsatish uchun kerak.
+   * esa "nechta ichki boʻlim" ni koʻrsatish uchun kerak.
    */
   const orderedTree = useMemo(() => flattenTree(buildCategoryTree(categories)), [categories]);
 
   const afterMutation = () => {
-    // Header/bosh sahifa/katalog umumiy cache'dan foydalanadi — uni yangilaymiz.
+    // Header/bosh sahifa/katalog umumiy cacheʼdan foydalanadi — uni yangilaymiz.
     invalidateCategories();
     load();
   };
@@ -156,14 +156,14 @@ export function AdminCategories() {
         />
       ) : (
         /*
-          IERARXIK RO'YXAT.
+          IERARXIK ROʻYXAT.
 
           Ilgari bu tekis `categories.map(...)` edi: ichma-ich
-          kategoriyalar paydo bo'lgach, admin qaysi bo'lim qaysi
-          bo'limning ichida ekanini RO'YXATDAN umuman ko'ra olmasdi —
+          kategoriyalar paydo boʻlgach, admin qaysi boʻlim qaysi
+          boʻlimning ichida ekanini ROʻYXATDAN umuman koʻra olmasdi —
           buni bilish uchun har birini ochib, "Ota-kategoriya" maydoniga
           qarash kerak edi. Endi daraxt tartibida, chekinish bilan
-          chiziladi va har bir qatorda nechta bolasi borligi ko'rinadi.
+          chiziladi va har bir qatorda nechta bolasi borligi koʻrinadi.
         */
         <ul className={cx(card, 'divide-y divide-ink-100')}>
           {orderedTree.map((c) => (
@@ -260,8 +260,8 @@ function CategoryForm({
 }: {
   category: Category | null;
   /**
-   * Ro'yxatdagi qatordan «ichiga bo'lim qo'shish» bosilganda — o'sha
-   * ota. Faqat YANGI yozuv uchun; tahrirlashda e'tiborga olinmaydi.
+   * Roʻyxatdagi qatordan «ichiga boʻlim qoʻshish» bosilganda — oʻsha
+   * ota. Faqat YANGI yozuv uchun; tahrirlashda eʼtiborga olinmaydi.
    */
   parentFor: Category | null;
   /** Ota tanlash uchun — barcha mavjud kategoriyalar. */
@@ -281,20 +281,20 @@ function CategoryForm({
     is_active: category?.is_active ?? true,
     /*
      * Ota-kategoriya. Ustun bazada boshidan bor edi, lekin admin uni
-     * HECH QACHON o'rnatmasdi — shu sababli do'konda ierarxiya yaratish
-     * mumkin emas edi va butun katalog bir darajali bo'lib qolgandi.
+     * HECH QACHON oʻrnatmasdi — shu sababli doʻkonda ierarxiya yaratish
+     * mumkin emas edi va butun katalog bir darajali boʻlib qolgandi.
      * `''` = yuqori daraja (bazada `null`).
      *
-     * Yangi yozuvda `parentFor` ustun turadi — admin aynan o'sha
-     * kategoriyaning ichiga bo'lim qo'shmoqchi.
+     * Yangi yozuvda `parentFor` ustun turadi — admin aynan oʻsha
+     * kategoriyaning ichiga boʻlim qoʻshmoqchi.
      */
     parent_id: category?.parent_id || parentFor?.id || '',
   });
 
   /*
-   * Tanlash mumkin bo'lgan otalar: daraxtdagi hamma tugun, LEKIN
-   * tahrirlanayotgan kategoriyaning o'zi va uning avlodlari bundan
-   * mustasno (halqa hosil bo'lmasligi uchun).
+   * Tanlash mumkin boʻlgan otalar: daraxtdagi hamma tugun, LEKIN
+   * tahrirlanayotgan kategoriyaning oʻzi va uning avlodlari bundan
+   * mustasno (halqa hosil boʻlmasligi uchun).
    */
   const parentOptions = useMemo(() => {
     const tree = buildCategoryTree(all);
@@ -329,8 +329,8 @@ function CategoryForm({
       image_url: form.image_url.trim(),
       sort_order: order,
       is_active: form.is_active,
-      // Bo'sh tanlov = yuqori daraja. Bazada bu `null` bo'lishi shart:
-      // bo'sh satr `uuid` ustuniga yozilmaydi va xatoga olib keladi.
+      // Boʻsh tanlov = yuqori daraja. Bazada bu `null` boʻlishi shart:
+      // boʻsh satr `uuid` ustuniga yozilmaydi va xatoga olib keladi.
       parent_id: form.parent_id || null,
     };
     const { error } = category

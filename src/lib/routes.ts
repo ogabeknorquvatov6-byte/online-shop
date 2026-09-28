@@ -4,14 +4,14 @@
  * Ilgari marshrut tanlash `App.tsx` ichidagi uzun `if/else` zanjiri edi:
  * har bir shart `rawPath.split('/')[2]` kabi indekslar bilan ishlar, tab
  * nomlari satr sifatida uzatilar va hech qayerda tekshirilmasdi. Natijada
- * yangi sahifa qo'shish uchun App.tsx, BottomNav, Header, sitemap va SEO
+ * yangi sahifa qoʻshish uchun App.tsx, BottomNav, Header, sitemap va SEO
  * fayllarini alohida-alohida yangilash kerak edi.
  *
  * Endi bitta SOF funksiya `pathname` ni tekshirilgan birlashma (discriminated
  * union) ga aylantiradi. Bu:
  *   — test qilinadi (DOM ham, React ham kerak emas),
- *   — `switch` da to'liqlikni TypeScript o'zi tekshiradi,
- *   — sitemap va canonical URL'lar shu ro'yxatdan hosil qilinadi.
+ *   — `switch` da toʻliqlikni TypeScript oʻzi tekshiradi,
+ *   — sitemap va canonical URLʼlar shu roʻyxatdan hosil qilinadi.
  */
 
 import { STATIC_PAGES, type StaticPagePath } from './staticPages';
@@ -50,12 +50,12 @@ function isMember<T extends readonly string[]>(list: T, value: string): value is
  * `decodeURIComponent`, lekin BUZUQ manzilda ham yiqilmaydi.
  *
  * `decodeURIComponent('%E0%A4%A')` `URIError` OTADI. Marshrut tanlash render
- * paytida bajariladi, ya'ni bu xato butun React daraxtini yiqitib,
- * ErrorBoundary'ning "Nimadir noto'g'ri ketdi" ekranini chiqaradi —
- * saytga qo'lda buzuq havola yozgan (yoki eski/noto'g'ri havolani bosgan)
+ * paytida bajariladi, yaʼni bu xato butun React daraxtini yiqitib,
+ * ErrorBoundaryʼning "Nimadir notoʻgʻri ketdi" ekranini chiqaradi —
+ * saytga qoʻlda buzuq havola yozgan (yoki eski/notoʻgʻri havolani bosgan)
  * har qanday odam butun ilovani ishdan chiqara olardi. Bunday manzil
- * shunchaki mavjud bo'lmagan slug: uni xom holida qaytaramiz, natijada
- * mahsulot topilmaydi va foydalanuvchi toza 404 ko'radi.
+ * shunchaki mavjud boʻlmagan slug: uni xom holida qaytaramiz, natijada
+ * mahsulot topilmaydi va foydalanuvchi toza 404 koʻradi.
  */
 export function safeDecode(value: string): string {
   try {
@@ -66,9 +66,9 @@ export function safeDecode(value: string): string {
 }
 
 /**
- * Yo'ldagi oxirgi `/` ni olib tashlaydi va bo'sh bo'lakni tozalaydi.
+ * Yoʻldagi oxirgi `/` ni olib tashlaydi va boʻsh boʻlakni tozalaydi.
  * `/catalog/` va `/catalog` bir xil sahifa — aks holda ular qidiruv
- * tizimlari uchun ikkita alohida (takroriy) manzil bo'lib ko'rinadi.
+ * tizimlari uchun ikkita alohida (takroriy) manzil boʻlib koʻrinadi.
  */
 export function normalizePathname(pathname: string): string {
   if (!pathname.startsWith('/')) pathname = `/${pathname}`;
@@ -104,7 +104,7 @@ export function matchRoute(rawPathname: string): AppRoute {
 
     /*
      * `/register` OLIB TASHLANGAN: hisob Telegram bot yoki Google orqali
-     * yaratiladi. Eski havolalar (bot xabarlari, xatcho'plar) buzilmasligi
+     * yaratiladi. Eski havolalar (bot xabarlari, xatchoʻplar) buzilmasligi
      * uchun u kirish sahifasiga tushadi.
      */
     case 'login':
@@ -120,18 +120,18 @@ export function matchRoute(rawPathname: string): AppRoute {
       const tab = second ?? 'profile';
       if (!isMember(ACCOUNT_TABS, tab)) return { name: 'notFound' };
       /*
-       * Uchinchi bo'lak — BITTA buyurtmaning identifikatori
+       * Uchinchi boʻlak — BITTA buyurtmaning identifikatori
        * (`/account/orders/<id>`). Ilgari u JIMGINA tashlab
-       * yuborilardi: `matchRoute` faqat `segments[1]` ni o'qir edi,
-       * shuning uchun bunday manzil oddiy ro'yxatga tushib, chuqur
+       * yuborilardi: `matchRoute` faqat `segments[1]` ni oʻqir edi,
+       * shuning uchun bunday manzil oddiy roʻyxatga tushib, chuqur
        * havola ham, brauzer "orqaga" tugmasi ham ishlamasdi.
        *
-       * Faqat `orders` uchun qabul qilinadi — boshqa bo'limlarda
-       * uchinchi bo'lak ma'noga ega emas va u xato manzil.
+       * Faqat `orders` uchun qabul qilinadi — boshqa boʻlimlarda
+       * uchinchi boʻlak maʼnoga ega emas va u xato manzil.
        *
-       * DIQQAT: bu shunchaki KO'RSATISH uchun. Buyurtma kimga
-       * tegishliligini bu yerda hal qilib bo'lmaydi — uni RLS hal
-       * qiladi, ya'ni boshqa foydalanuvchining id'si yozilsa so'rov
+       * DIQQAT: bu shunchaki KOʻRSATISH uchun. Buyurtma kimga
+       * tegishliligini bu yerda hal qilib boʻlmaydi — uni RLS hal
+       * qiladi, yaʼni boshqa foydalanuvchining idʼsi yozilsa soʻrov
        * shunchaki 0 qator qaytaradi.
        */
       const third = segments[2];
@@ -155,11 +155,11 @@ export function matchRoute(rawPathname: string): AppRoute {
 }
 
 /**
- * Qidiruv tizimlari indekslashi KERAK BO'LMAGAN marshrutlar.
+ * Qidiruv tizimlari indekslashi KERAK BOʻLMAGAN marshrutlar.
  *
- * Savat, to'lov va shaxsiy kabinet har bir foydalanuvchi uchun har xil va
- * ular uchun `noindex` qo'yilmasa, Google indeksida bo'sh savat sahifalari
- * paydo bo'ladi.
+ * Savat, toʻlov va shaxsiy kabinet har bir foydalanuvchi uchun har xil va
+ * ular uchun `noindex` qoʻyilmasa, Google indeksida boʻsh savat sahifalari
+ * paydo boʻladi.
  */
 export function isPrivateRoute(route: AppRoute): boolean {
   switch (route.name) {

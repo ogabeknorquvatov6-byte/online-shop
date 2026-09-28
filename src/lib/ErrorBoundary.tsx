@@ -5,11 +5,11 @@ type Props = { children: ReactNode };
 type State = { hasError: boolean };
 
 /**
- * Ilovada hech qanday error boundary yo'q edi — bitta uncaught xato
+ * Ilovada hech qanday error boundary yoʻq edi — bitta uncaught xato
  * (masalan localStorage yozishda) butun React daraxtini butunlay
- * o'chirib, foydalanuvchini doimiy oq ekranda "qotirib" qo'yardi,
- * chunki keyingi navigatsiyalar allaqachon o'lgan React root'ga
- * ta'sir qilolmaydi.
+ * oʻchirib, foydalanuvchini doimiy oq ekranda "qotirib" qoʻyardi,
+ * chunki keyingi navigatsiyalar allaqachon oʻlgan React rootʼga
+ * taʼsir qilolmaydi.
  *
  * Bu boundary xatoni ushlaydi va foydalanuvchiga bosh sahifaga
  * qaytish imkonini beradi, ilovani butunlay qayta yuklamasdan.
@@ -26,13 +26,13 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   /*
-   * ATAYLAB to'liq qayta yuklash.
+   * ATAYLAB toʻliq qayta yuklash.
    *
    * Ilgari bu yerda `setState({ hasError: false })` bajarilardi: React
-   * o'sha buzuq daraxtni QAYTA render qilar, xato darhol takrorlanar va
+   * oʻsha buzuq daraxtni QAYTA render qilar, xato darhol takrorlanar va
    * foydalanuvchi cheksiz aylanaga tushib qolardi. Bundan tashqari xato
-   * sababi ko'pincha yaroqsiz holat (buzilgan savat, eskirgan sessiya)
-   * bo'ladi — uni faqat toza yuklash tozalaydi.
+   * sababi koʻpincha yaroqsiz holat (buzilgan savat, eskirgan sessiya)
+   * boʻladi — uni faqat toza yuklash tozalaydi.
    */
   handleReset = () => {
     window.location.assign('/');

@@ -30,7 +30,7 @@ export function AdminDashboard() {
     (async () => {
       /*
        * Ilgari "Umumiy savdo" oxirgi 10 ta buyurtmadan hisoblanardi —
-       * ya'ni ko'rsatilgan daromad har doim noto'g'ri edi. Endi agregatsiya
+       * yaʼni koʻrsatilgan daromad har doim notoʻgʻri edi. Endi agregatsiya
        * serverda, `admin_dashboard_stats()` RPC ichida bajariladi.
        */
       const [statsRes, ordersRes] = await Promise.all([

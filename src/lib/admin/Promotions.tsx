@@ -15,8 +15,8 @@ import { button, card, checkboxBase, cx, focusRing, input } from '../design';
 type PickerProduct = { id: string; name: string };
 
 /*
- * Tanlagichda bir vaqtda ko'rsatiladigan MAKSIMAL mahsulot soni.
- * Admin qidiruv orqali toraytiradi — butun katalogni ko'rish shart emas.
+ * Tanlagichda bir vaqtda koʻrsatiladigan MAKSIMAL mahsulot soni.
+ * Admin qidiruv orqali toraytiradi — butun katalogni koʻrish shart emas.
  */
 const PICKER_LIMIT = 50;
 
@@ -178,7 +178,7 @@ function PromotionForm({
   const { notify } = useToast();
   const [saving, setSaving] = useState(false);
   const [products, setProducts] = useState<PickerProduct[]>([]);
-  /** Tanlangan, lekin joriy qidiruv natijasida bo'lmagan mahsulotlar. */
+  /** Tanlangan, lekin joriy qidiruv natijasida boʻlmagan mahsulotlar. */
   const [selectedDetails, setSelectedDetails] = useState<PickerProduct[]>([]);
   const [pickerLoading, setPickerLoading] = useState(true);
   const [pickerError, setPickerError] = useState(false);
@@ -197,15 +197,15 @@ function PromotionForm({
   /*
    * MAHSULOT TANLAGICH — QIDIRUV SERVERDA.
    *
-   * ILGARI NIMA XATO EDI: butun faol katalog bitta so'rov bilan brauzerga
+   * ILGARI NIMA XATO EDI: butun faol katalog bitta soʻrov bilan brauzerga
    * yuklanardi (`select('id, name').eq('is_active', true)` — chegarasiz),
    * keyin qidiruv mijozda `Array.filter` bilan bajarilardi. 100 ta
    * mahsulotda sezilmaydi; 5 000 tada esa modal ochilishi bir necha
-   * soniya qotadi va tarmoqqa ortiqcha megabaytlar ketadi. Ya'ni admin
-   * paneli aynan biznes o'sganda ishlamay qolardi.
+   * soniya qotadi va tarmoqqa ortiqcha megabaytlar ketadi. Yaʼni admin
+   * paneli aynan biznes oʻsganda ishlamay qolardi.
    *
-   * ENDI: har qidiruvda serverdan eng ko'pi bilan `PICKER_LIMIT` ta
-   * natija olinadi. Bo'sh qidiruvda ham ro'yxat cheklangan — modal
+   * ENDI: har qidiruvda serverdan eng koʻpi bilan `PICKER_LIMIT` ta
+   * natija olinadi. Boʻsh qidiruvda ham roʻyxat cheklangan — modal
    * ochilishi doimiy tezlikda qoladi.
    */
   useEffect(() => {
@@ -218,7 +218,7 @@ function PromotionForm({
       .then(({ data }) => setSelected((data ?? []).map((r) => r.product_id)));
   }, [promotion]);
 
-  // Har bosilgan harf uchun alohida so'rov ketmasligi kerak.
+  // Har bosilgan harf uchun alohida soʻrov ketmasligi kerak.
   const debouncedQuery = useDebounced(query);
 
   useEffect(() => {
@@ -245,13 +245,13 @@ function PromotionForm({
   }, [debouncedQuery]);
 
   /*
-   * TANLANGANLAR DOIM KO'RINADI.
+   * TANLANGANLAR DOIM KOʻRINADI.
    *
    * Server faqat qidiruvga mos yozuvlarni qaytaradi. Busiz allaqachon
    * belgilangan mahsulot qidiruv natijasidan tushib qolar va admin uni
-   * ko'ra ham, belgisini olib tashlay ham olmasdi — tanlov esa jimgina
+   * koʻra ham, belgisini olib tashlay ham olmasdi — tanlov esa jimgina
    * saqlanib qolaverardi. Shuning uchun tanlanganlar alohida yuklanadi
-   * va ro'yxat boshida ko'rsatiladi.
+   * va roʻyxat boshida koʻrsatiladi.
    */
   useEffect(() => {
     const missing = selected.filter((id) => !products.some((p) => p.id === id));
@@ -285,7 +285,7 @@ function PromotionForm({
     const next: Record<string, string> = {};
     if (!form.title.trim()) next.title = 'Sarlavhani kiriting';
     const discount = Number(form.discount);
-    // Bazadagi CHECK: discount_percent 1..99 oralig'ida bo'lishi shart.
+    // Bazadagi CHECK: discount_percent 1..99 oraligʻida boʻlishi shart.
     if (!Number.isInteger(discount) || discount < 1 || discount > 99) {
       next.discount = 'Chegirma 1 dan 99 gacha butun son boʻlsin';
     }
@@ -304,7 +304,7 @@ function PromotionForm({
       ends_at: form.end_date ? new Date(form.end_date).toISOString() : null,
       is_active: form.is_active,
     };
-    // `starts_at` NOT NULL — bo'sh bo'lsa kalitni yubormaymiz, DB default ishlaydi.
+    // `starts_at` NOT NULL — boʻsh boʻlsa kalitni yubormaymiz, DB default ishlaydi.
     if (form.start_date) payload.starts_at = new Date(form.start_date).toISOString();
 
     let promoId = promotion?.id;

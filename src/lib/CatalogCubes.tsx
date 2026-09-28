@@ -5,44 +5,44 @@ import { EASE, springs } from './motion';
 /*
  * KATALOG IKONKASI — "katalog ikonkaning ichidan chiqadi".
  *
- * G'oya: ikonkadagi 4 ta kvadrat — bezak emas, katalogning o'zi.
+ * Gʻoya: ikonkadagi 4 ta kvadrat — bezak emas, katalogning oʻzi.
  * Bosilganda ular ikonkadan ajralib, 3D da biroz burilib chiqadi va
- * keyin joyiga qaytib "yig'iladi". Foydalanuvchi "ikonka aylandi" emas,
- * "katalog shu yerdan ochildi" degan tuyg'uni oladi.
+ * keyin joyiga qaytib "yigʻiladi". Foydalanuvchi "ikonka aylandi" emas,
+ * "katalog shu yerdan ochildi" degan tuygʻuni oladi.
  *
  * Nega lucide `LayoutGrid` emas?
- * O'sha ikonka ham 4 ta kvadratdan iborat, lekin u bitta SVG — ichidagi
- * to'rtburchaklarni alohida animatsiya qilish uchun uni qo'lda qayta
- * chizish kerak bo'lardi. Shuning uchun bu yerda 4 ta mustaqil element
- * bor va har biri o'z vaqti, burilishi va masofasiga ega.
+ * Oʻsha ikonka ham 4 ta kvadratdan iborat, lekin u bitta SVG — ichidagi
+ * toʻrtburchaklarni alohida animatsiya qilish uchun uni qoʻlda qayta
+ * chizish kerak boʻlardi. Shuning uchun bu yerda 4 ta mustaqil element
+ * bor va har biri oʻz vaqti, burilishi va masofasiga ega.
  *
  * NAVIGATSIYA HECH QACHON KUTMAYDI. Bu komponent faqat vizual javob:
- * <Link> o'z ishini odatdagidek, darhol bajaradi.
+ * <Link> oʻz ishini odatdagidek, darhol bajaradi.
  *
  * Ishlash: faqat `transform` va `opacity`. Hech qanday layout xossasi
  * (width/height/top/left) animatsiya qilinmaydi.
  */
 
 /*
- * Har bir kubning o'z "shaxsiyati" — bir xil harakat sun'iy ko'rinadi.
+ * Har bir kubning oʻz "shaxsiyati" — bir xil harakat sunʼiy koʻrinadi.
  *
- * QIYMATLAR HAQIQIY BRAUZERDA KO'RIB SOZLANDI (10x kattalashtirilgan
+ * QIYMATLAR HAQIQIY BRAUZERDA KOʻRIB SOZLANDI (10x kattalashtirilgan
  * holda), taxmin bilan emas. Ikkita aniq kamchilik topildi:
  *
- * 1. Dam olish holati (`x`/`y`) ±3.2 edi. Kub eni 7px, ya'ni markazlar
+ * 1. Dam olish holati (`x`/`y`) ±3.2 edi. Kub eni 7px, yaʼni markazlar
  *    orasi atigi 6.4px — kublar BIR-BIRINING USTIGA chiqib, yaxlit
- *    "yumaloq dog'" bo'lib ko'rinardi. Katalog ikonkasi umuman
- *    o'qilmasdi. Endi ±4.5: markazlar orasi 9px, ya'ni 2px ko'rinadigan
- *    tirqish — to'rtta alohida plitka.
+ *    "yumaloq dog'" boʻlib koʻrinardi. Katalog ikonkasi umuman
+ *    oʻqilmasdi. Endi ±4.5: markazlar orasi 9px, yaʼni 2px koʻrinadigan
+ *    tirqish — toʻrtta alohida plitka.
  *
  * 2. Chiqish masofasi (`tx`/`ty`) ±5.5 edi — bu yangi dam olish
- *    holatidan atigi ~1px uzoq, ya'ni ajralish umuman sezilmasdi.
- *    Endi ±8: harakat aniq ko'rinadi, lekin umumiy o'lcham ~23px
- *    bo'lib, faol holatdagi 32px "bead" ichida qoladi va hech qayerda
+ *    holatidan atigi ~1px uzoq, yaʼni ajralish umuman sezilmasdi.
+ *    Endi ±8: harakat aniq koʻrinadi, lekin umumiy oʻlcham ~23px
+ *    boʻlib, faol holatdagi 32px "bead" ichida qoladi va hech qayerda
  *    kesilmaydi.
  *
- * Burilish burchaklari o'zgartirilmadi — ular 7px o'lchamda allaqachon
- * nozik, kattalashtirilgan ko'rinish esa ularni bo'rttirib ko'rsatadi.
+ * Burilish burchaklari oʻzgartirilmadi — ular 7px oʻlchamda allaqachon
+ * nozik, kattalashtirilgan koʻrinish esa ularni boʻrttirib koʻrsatadi.
  */
 const CUBES = [
   { x: -4.5, y: -4.5, tx: -8.0, ty: -7.6, rx: 25, ry: -35, delay: 0 },
@@ -55,16 +55,16 @@ const CUBES = [
 const BURST_MS = 340;
 
 /*
- * ── KUBNING SHAKLI — YAGONA TA'RIF ──────────────────────────────────
+ * ── KUBNING SHAKLI — YAGONA TAʼRIF ──────────────────────────────────
  *
  * Kub navigatsiya ikonkasida 7px, burchak radiusi 1.5px edi. Bu nisbat
- * (≈1/4.7) shaklning O'ZI: undan kattaroq radius plitkani "tugmacha",
- * kichikroq radius esa quruq kvadrat qilib qo'yadi.
+ * (≈1/4.7) shaklning OʻZI: undan kattaroq radius plitkani "tugmacha",
+ * kichikroq radius esa quruq kvadrat qilib qoʻyadi.
  *
  * Endi bu nisbat bitta joyda yashaydi, chunki kub ikkinchi joyda ham
  * ishlatiladi — buyurtma tasdiqlanganda tushadigan zarrachalar aynan
  * shu plitkaning kattaroq nusxasi. Agar shakl ikki joyda alohida
- * yozilganda, biri o'zgarganda ikkinchisi jimgina eskirib qolardi.
+ * yozilganda, biri oʻzgarganda ikkinchisi jimgina eskirib qolardi.
  */
 const CUBE_RADIUS_RATIO = 1.5 / 7;
 const CUBE_PX = 7;
@@ -73,23 +73,23 @@ function cubeShape(size: number): CSSProperties {
   /*
    * `display: block` — SHAKLNING BIR QISMI, bezak emas.
    *
-   * `<span>` sukut bo'yicha `inline`, inline element esa `width` va
-   * `height` ni UMUMAN e'tiborsiz qoldiradi. Ya'ni sinfida `block`
-   * bo'lmagan har qanday chaqiruv joyida kub ko'rinmas bo'lib qolardi —
-   * xatolik jim, chunki element DOM'da bor, transformlari to'g'ri
-   * animatsiya qilinadi, faqat o'lchami nol (kirish ekranida aynan
-   * shunday bo'lgan: yozuv chiqdi, kublar yo'q edi).
+   * `<span>` sukut boʻyicha `inline`, inline element esa `width` va
+   * `height` ni UMUMAN eʼtiborsiz qoldiradi. Yaʼni sinfida `block`
+   * boʻlmagan har qanday chaqiruv joyida kub koʻrinmas boʻlib qolardi —
+   * xatolik jim, chunki element DOMʼda bor, transformlari toʻgʻri
+   * animatsiya qilinadi, faqat oʻlchami nol (kirish ekranida aynan
+   * shunday boʻlgan: yozuv chiqdi, kublar yoʻq edi).
    *
-   * Shuning uchun u chaqiruvchining sinfiga tashlab qo'yilmaydi.
+   * Shuning uchun u chaqiruvchining sinfiga tashlab qoʻyilmaydi.
    */
   return { display: 'block', width: size, height: size, borderRadius: size * CUBE_RADIUS_RATIO };
 }
 
 /**
- * Bitta kub plitkasi — ikonkadagi shaklning istalgan o'lchamdagi nusxasi.
+ * Bitta kub plitkasi — ikonkadagi shaklning istalgan oʻlchamdagi nusxasi.
  *
  * Rang `className` orqali beriladi (`bg-orange-500` va h.k.), chunki u
- * kontekstga bog'liq: navigatsiyada oq/kulrang, tasdiq ekranida brend
+ * kontekstga bogʻliq: navigatsiyada oq/kulrang, tasdiq ekranida brend
  * rangida. Shakl esa har doim bir xil.
  */
 export function Cube({
@@ -115,9 +115,9 @@ export function CatalogCubes({ active }: { active: boolean }) {
    * TEZ-TEZ BOSISH XAVFSIZLIGI.
    *
    * Holat bitta boolean — nechta marta bosilmasin, "duplikat kub" yoki
-   * bir-birining ustiga chiqqan animatsiya paydo bo'lishi MUMKIN EMAS.
+   * bir-birining ustiga chiqqan animatsiya paydo boʻlishi MUMKIN EMAS.
    * Har bosishda avvalgi taymer bekor qilinadi va qaytish qayta
-   * rejalashtiriladi, ya'ni ikonka hech qachon transformlangan holatda
+   * rejalashtiriladi, yaʼni ikonka hech qachon transformlangan holatda
    * qotib qolmaydi.
    */
   const play = useCallback(() => {
@@ -135,17 +135,17 @@ export function CatalogCubes({ active }: { active: boolean }) {
    *
    * Ikki holatda kublar ajralgan holatida "muzlab" qolishi mumkin:
    *
-   *  1. Komponent animatsiya o'rtasida unmount bo'lsa — taymer osilib
+   *  1. Komponent animatsiya oʻrtasida unmount boʻlsa — taymer osilib
    *     qoladi (pastdagi cleanup buni hal qiladi).
-   *  2. Sahifa fon rejimiga o'tsa. Brauzer `requestAnimationFrame` ni
-   *     to'liq to'xtatadi (o'lchandi: 600ms ichida 0 ta kadr), ya'ni
+   *  2. Sahifa fon rejimiga oʻtsa. Brauzer `requestAnimationFrame` ni
+   *     toʻliq toʻxtatadi (oʻlchandi: 600ms ichida 0 ta kadr), yaʼni
    *     Motion qaytish animatsiyasini BAJARA OLMAYDI va kublar
    *     chiqarilgan holatida qoladi. Foydalanuvchi qaytib kelganda
-   *     buzilgan ikonkani ko'radi.
+   *     buzilgan ikonkani koʻradi.
    *
    * Shuning uchun sahifa yashirilishi bilanoq holat majburan "rest" ga
-   * qaytariladi: qaytib kelganda React allaqachon to'g'ri nishonni
-   * ko'rsatib turgan bo'ladi.
+   * qaytariladi: qaytib kelganda React allaqachon toʻgʻri nishonni
+   * koʻrsatib turgan boʻladi.
    */
   useEffect(() => {
     const onHidden = () => {
@@ -167,9 +167,9 @@ export function CatalogCubes({ active }: { active: boolean }) {
     <span
       onPointerDown={play}
       /*
-       * `perspective` — 3D burilish tekis (flat) ko'rinmasligi uchun.
-       * Qiymat ataylab katta: kichik perspektiva bu o'lchamda kublarni
-       * cho'zib yuborardi.
+       * `perspective` — 3D burilish tekis (flat) koʻrinmasligi uchun.
+       * Qiymat ataylab katta: kichik perspektiva bu oʻlchamda kublarni
+       * choʻzib yuborardi.
        */
       style={{ perspective: 220 }}
       className="relative flex h-5 w-5 items-center justify-center"
@@ -191,8 +191,8 @@ export function CatalogCubes({ active }: { active: boolean }) {
         <motion.span
           key={i}
           aria-hidden="true"
-          // O'lcham va radius `cubeShape` dan — tasdiq ekranidagi
-          // zarrachalar bilan bitta ta'rif. Hisoblangan qiymatlar
+          // Oʻlcham va radius `cubeShape` dan — tasdiq ekranidagi
+          // zarrachalar bilan bitta taʼrif. Hisoblangan qiymatlar
           // avvalgi `h-[7px] w-[7px] rounded-[1.5px]` bilan bir xil.
           style={cubeShape(CUBE_PX)}
           initial={false}
@@ -223,13 +223,13 @@ export function CatalogCubes({ active }: { active: boolean }) {
   );
 }
 
-/* Sinf satrlari pastda — JSX ichida uzun `cx(...)` o'qishni qiyinlashtiradi. */
+/* Sinf satrlari pastda — JSX ichida uzun `cx(...)` oʻqishni qiyinlashtiradi. */
 
 function cxCube(active: boolean): string {
   return [
-    // O'lcham va burchak radiusi bu yerda YO'Q — ular `cubeShape` da.
+    // Oʻlcham va burchak radiusi bu yerda YOʻQ — ular `cubeShape` da.
     'absolute block',
-    // Faol holatda kublar to'ldiriladi (bead ustida oq), aks holda
+    // Faol holatda kublar toʻldiriladi (bead ustida oq), aks holda
     // konturli — bu qolgan navigatsiya elementlari bilan bir xil mantiq.
     active ? 'bg-white' : 'bg-ink-400',
     'transition-colors duration-200',

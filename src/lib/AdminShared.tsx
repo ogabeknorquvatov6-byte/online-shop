@@ -5,9 +5,9 @@ import { ResponsiveModal } from './AnimatedPrimitives';
 import { button, card, cx, focusRing, input, selectBase, skeleton, textarea as textareaClass } from './design';
 
 /*
- * Admin panelidagi takrorlanuvchi naqshlar. Ilgari har bir bo'lim
+ * Admin panelidagi takrorlanuvchi naqshlar. Ilgari har bir boʻlim
  * (mahsulotlar, kategoriyalar, bannerlar, aksiyalar, buyurtmalar,
- * foydalanuvchilar) o'z jadval sarlavhasini, bo'sh holatini, yuklanish
+ * foydalanuvchilar) oʻz jadval sarlavhasini, boʻsh holatini, yuklanish
  * skeletini va tasdiqlash oynasini qaytadan yozardi — natijada ular
  * bir-biridan sezilarli farq qilardi.
  */
@@ -255,7 +255,7 @@ export function FormToggle({ checked, onChange, label }: { checked: boolean; onC
   );
 }
 
-/** Rasm URL maydoni + jonli oldindan ko'rish (buzuq havolani darhol ko'rsatadi). */
+/** Rasm URL maydoni + jonli oldindan koʻrish (buzuq havolani darhol koʻrsatadi). */
 export function ImageUrlField({
   label, value, onChange, hint,
 }: {
@@ -285,12 +285,12 @@ export function ImageUrlField({
 
 
 /*
- * Admin ro'yxatlari uchun sahifalash boshqaruvi.
+ * Admin roʻyxatlari uchun sahifalash boshqaruvi.
  *
  * Ataylab MINIMAL: "Oldingi / N / Keyingi". Admin panelida sahifa
- * raqamlarining uzun lentasi hech qanday foyda bermaydi — bo'lim
+ * raqamlarining uzun lentasi hech qanday foyda bermaydi — boʻlim
  * qidiruv va filtr bilan ishlatiladi, sahifalar orasida sakrash
- * emas. Bitta sahifa bo'lsa umuman ko'rsatilmaydi.
+ * emas. Bitta sahifa boʻlsa umuman koʻrsatilmaydi.
  */
 export function AdminPager({
   page,

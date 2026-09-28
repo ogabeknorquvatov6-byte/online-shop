@@ -1,17 +1,17 @@
 import { useEffect } from 'react';
 
 /*
- * Sahifa metadata'si.
+ * Sahifa metadataʼsi.
  *
  * Ilova endi History API marshrutlarida ishlaydi (`/product/iphone-15`),
- * ya'ni har bir sahifaning HAQIQIY manzili bor va uni qidiruv tizimlariga
- * ko'rsatish mantiqiy. Bu modul har bir marshrut uchun title, description,
+ * yaʼni har bir sahifaning HAQIQIY manzili bor va uni qidiruv tizimlariga
+ * koʻrsatish mantiqiy. Bu modul har bir marshrut uchun title, description,
  * canonical, robots va Open Graph teglarini yangilaydi.
  *
- * MUHIM cheklov (halol aytilsin): bu SPA, server-side rendering yo'q.
- * Google JavaScript'ni bajarib indekslaydi va bu teglarni ko'radi, lekin
- * Telegram/WhatsApp/Facebook ko'rinishlari JS ISHLATMAYDI — ular faqat
- * `index.html` dagi statik teglarni oladi. To'liq ijtimoiy ko'rinish
+ * MUHIM cheklov (halol aytilsin): bu SPA, server-side rendering yoʻq.
+ * Google JavaScriptʼni bajarib indekslaydi va bu teglarni koʻradi, lekin
+ * Telegram/WhatsApp/Facebook koʻrinishlari JS ISHLATMAYDI — ular faqat
+ * `index.html` dagi statik teglarni oladi. Toʻliq ijtimoiy koʻrinish
  * uchun prerender yoki SSR kerak (yakuniy hisobotdagi "qolgan ishlar").
  */
 
@@ -22,9 +22,9 @@ const DEFAULT_DESCRIPTION =
 /**
  * Produksiya domeni. Berilmasa joriy domen ishlatiladi.
  *
- * Nega muhim: canonical'ni doim `window.location` dan olish preview va
- * staging domenlarini ham "asosiy manzil" deb e'lon qiladi — natijada
- * bitta mahsulot bir necha domenda indekslanib, reyting bo'linadi.
+ * Nega muhim: canonicalʼni doim `window.location` dan olish preview va
+ * staging domenlarini ham "asosiy manzil" deb eʼlon qiladi — natijada
+ * bitta mahsulot bir necha domenda indekslanib, reyting boʻlinadi.
  */
 const SITE_ORIGIN = (import.meta.env.VITE_SITE_URL as string | undefined)?.replace(/\/+$/, '') || '';
 
@@ -60,23 +60,23 @@ function upsertLink(rel: string, href: string) {
 }
 
 export type SeoInput = {
-  /** Sahifa nomi — "— OpenShop" avtomatik qo'shiladi. */
+  /** Sahifa nomi — "— OpenShop" avtomatik qoʻshiladi. */
   title?: string;
   description?: string;
-  /** Ijtimoiy tarmoqlarda ko'rinadigan rasm (mahsulot sahifasi uchun). */
+  /** Ijtimoiy tarmoqlarda koʻrinadigan rasm (mahsulot sahifasi uchun). */
   image?: string | null;
   /** `website` yoki mahsulot sahifasi uchun `product`. */
   type?: 'website' | 'product';
-  /** Sahifa hali yuklanmoqda bo'lsa true — metadata yozilmaydi. */
+  /** Sahifa hali yuklanmoqda boʻlsa true — metadata yozilmaydi. */
   pending?: boolean;
   /**
-   * Indekslanmasligi kerak bo'lgan sahifa (savat, kabinet, admin, qidiruv).
+   * Indekslanmasligi kerak boʻlgan sahifa (savat, kabinet, admin, qidiruv).
    * Bunday sahifalar Google natijalarida faqat shovqin hosil qiladi.
    */
   noindex?: boolean;
   /**
-   * Canonical uchun yo'l. Berilmasa joriy `location.pathname` olinadi.
-   * Filtrlangan katalogda ATAYLAB parametrsiz yo'l beriladi — `?brand=`
+   * Canonical uchun yoʻl. Berilmasa joriy `location.pathname` olinadi.
+   * Filtrlangan katalogda ATAYLAB parametrsiz yoʻl beriladi — `?brand=`
    * variantlari asosiy katalogning nusxasi hisoblanadi.
    */
   canonicalPath?: string;
@@ -110,11 +110,11 @@ export function useSeo({
     upsertMeta('name', 'twitter:description', desc);
 
     /*
-     * Rasm YO'Q bo'lsa eski tegni O'CHIRAMIZ.
+     * Rasm YOʻQ boʻlsa eski tegni OʻCHIRAMIZ.
      *
-     * Ilgari `og:image` faqat qo'shilardi, hech qachon olib tashlanmasdi:
-     * foydalanuvchi mahsulot sahifasidan "Biz haqimizda"ga o'tgach, u
-     * sahifa havolasi ham hamon o'sha mahsulot rasmi bilan ulashilardi.
+     * Ilgari `og:image` faqat qoʻshilardi, hech qachon olib tashlanmasdi:
+     * foydalanuvchi mahsulot sahifasidan "Biz haqimizda"ga oʻtgach, u
+     * sahifa havolasi ham hamon oʻsha mahsulot rasmi bilan ulashilardi.
      */
     if (image) {
       upsertMeta('property', 'og:image', image);
@@ -136,22 +136,22 @@ export function useSeo({
   }, [title, description, image, type, pending, noindex, canonicalPath]);
 }
 
-/* ── Strukturaviy ma'lumot (JSON-LD) ─────────────────────────────────── */
+/* ── Strukturaviy maʼlumot (JSON-LD) ─────────────────────────────────── */
 
 /**
- * JSON-LD blokini `<head>` ga qo'yadi va komponent yopilganda olib tashlaydi.
- * `id` bo'yicha almashtiriladi — bir sahifada bir necha marta render
- * bo'lsa ham dublikat qolmaydi.
+ * JSON-LD blokini `<head>` ga qoʻyadi va komponent yopilganda olib tashlaydi.
+ * `id` boʻyicha almashtiriladi — bir sahifada bir necha marta render
+ * boʻlsa ham dublikat qolmaydi.
  */
 function useJsonLd(id: string, data: object | null | false) {
   /*
-   * Bog'liqlik OBYEKT emas, uning MATNI.
+   * Bogʻliqlik OBYEKT emas, uning MATNI.
    *
-   * Chaqiruvchi har render'da yangi obyekt literal beradi (`{...}`), ya'ni
-   * obyektga bog'lansak effekt har render'da qayta ishlar va `<head>` ga
-   * skript qo'yib-o'chirib turardi — mahsulot sahifasida har bir holat
-   * o'zgarishida (variant tanlash, miqdor) takrorlanardi. Matn esa
-   * mazmun haqiqatan o'zgargandagina farq qiladi.
+   * Chaqiruvchi har renderʼda yangi obyekt literal beradi (`{...}`), yaʼni
+   * obyektga bogʻlansak effekt har renderʼda qayta ishlar va `<head>` ga
+   * skript qoʻyib-oʻchirib turardi — mahsulot sahifasida har bir holat
+   * oʻzgarishida (variant tanlash, miqdor) takrorlanardi. Matn esa
+   * mazmun haqiqatan oʻzgargandagina farq qiladi.
    */
   const json = data ? JSON.stringify(data) : null;
   useEffect(() => {
@@ -167,8 +167,8 @@ function useJsonLd(id: string, data: object | null | false) {
 }
 
 /**
- * Mahsulot sahifasiga schema.org JSON-LD qo'shadi — qidiruv natijalarida
- * narx va mavjudlik ko'rinishi uchun.
+ * Mahsulot sahifasiga schema.org JSON-LD qoʻshadi — qidiruv natijalarida
+ * narx va mavjudlik koʻrinishi uchun.
  */
 export function useProductJsonLd(data: {
   name: string;
@@ -206,8 +206,8 @@ export type Breadcrumb = { name: string; path: string };
 /**
  * "Bosh sahifa › Katalog › Telefonlar › iPhone 15" zanjiri.
  *
- * Google buni qidiruv natijasida manzil o'rniga ko'rsatadi — foydalanuvchi
- * havolani bosishdan oldin sahifa katalogning qayerida turganini ko'radi.
+ * Google buni qidiruv natijasida manzil oʻrniga koʻrsatadi — foydalanuvchi
+ * havolani bosishdan oldin sahifa katalogning qayerida turganini koʻradi.
  */
 export function useBreadcrumbJsonLd(items: Breadcrumb[] | null) {
   useJsonLd(
@@ -227,10 +227,10 @@ export function useBreadcrumbJsonLd(items: Breadcrumb[] | null) {
 }
 
 /**
- * Do'kon va sayt haqidagi bir martalik ma'lumot (bosh sahifada).
+ * Doʻkon va sayt haqidagi bir martalik maʼlumot (bosh sahifada).
  *
- * `SearchAction` Google'ga sayt ichida qidiruv borligini bildiradi va
- * ba'zi hollarda natijada qidiruv maydoni ko'rsatiladi.
+ * `SearchAction` Googleʼga sayt ichida qidiruv borligini bildiradi va
+ * baʼzi hollarda natijada qidiruv maydoni koʻrsatiladi.
  */
 export function useSiteJsonLd(store: { name: string; logo?: string | null; phone?: string | null } | null) {
   useJsonLd(

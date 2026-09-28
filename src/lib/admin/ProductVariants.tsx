@@ -11,12 +11,12 @@ import { button, cx, focusRing, input as inputClass, selectBase } from '../desig
 import { Img } from '../Img';
 
 /*
- * Variant (rang / xotira / o'lcham) boshqaruvi.
+ * Variant (rang / xotira / oʻlcham) boshqaruvi.
  *
  * Sxemada `product_variants` faqat (type, value) juftligini saqlardi va
- * admin panelida uni tahrirlash imkoni UMUMAN yo'q edi — variantlar faqat
- * baza orqali qo'lda kiritilishi mumkin edi. Endi har bir variantning
- * ko'rsatiladigan nomi, rang kodi, o'z rasmi, alohida ombori va narx farqi
+ * admin panelida uni tahrirlash imkoni UMUMAN yoʻq edi — variantlar faqat
+ * baza orqali qoʻlda kiritilishi mumkin edi. Endi har bir variantning
+ * koʻrsatiladigan nomi, rang kodi, oʻz rasmi, alohida ombori va narx farqi
  * bor; narx farqi buyurtma yaratilganda serverda qayta hisoblanadi.
  */
 
@@ -145,7 +145,7 @@ export function ProductVariantsManager({ productId, basePrice }: { productId: st
     items: variants.filter((v) => v.type === t.value),
   })).filter((g) => g.items.length > 0);
 
-  // Sxemada belgilanmagan turlar ham ko'rinishi kerak.
+  // Sxemada belgilanmagan turlar ham koʻrinishi kerak.
   const knownTypes = new Set(TYPES.map((t) => t.value));
   const otherGroups = [...new Set(variants.map((v) => v.type))]
     .filter((t) => !knownTypes.has(t))

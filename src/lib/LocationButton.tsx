@@ -11,22 +11,22 @@ import { button, cx, focusRing } from './design';
  * ── Nega brauzer geolokatsiyasi CHAQIRILMAYDI ──────────────────────
  *
  * Loyihada teskari geokodlash (koordinata → "Toshkent, Chilonzor")
- * mexanizmi YO'Q — tekshirildi: geocode/nominatim/mapbox/places
- * bo'yicha birorta ham moslik topilmadi. Koordinatani olish oson,
- * lekin uni odam o'qiydigan manzilga aylantirib bo'lmaydi.
+ * mexanizmi YOʻQ — tekshirildi: geocode/nominatim/mapbox/places
+ * boʻyicha birorta ham moslik topilmadi. Koordinatani olish oson,
+ * lekin uni odam oʻqiydigan manzilga aylantirib boʻlmaydi.
  *
- * Koordinatani olib, uni xom holda ko'rsatish yoki saqlash esa
+ * Koordinatani olib, uni xom holda koʻrsatish yoki saqlash esa
  * ataylab rad etildi: bu foydalanuvchiga hech narsa aytmaydi va
  * aniq joylashuvni keraksiz joyda saqlash demakdir.
  *
- * Shuning uchun asosiy yo'l — QO'LDA tanlash. Bu:
- *   • hech qanday tashqi xizmatga bog'liq emas,
+ * Shuning uchun asosiy yoʻl — QOʻLDA tanlash. Bu:
+ *   • hech qanday tashqi xizmatga bogʻliq emas,
  *   • mehmon foydalanuvchida ham ishlaydi,
  *   • `delivery.ts` dagi haqiqiy biznes mantiqqa aynan mos keladi
- *     (u faqat "Toshkentmi yoki yo'qmi" ni ajratadi).
+ *     (u faqat "Toshkentmi yoki yoʻqmi" ni ajratadi).
  *
- * Geokoder qo'shilgan kunda — faqat shu faylga bitta funksiya
- * qo'shiladi, qolgan hamma narsa o'zgarishsiz qoladi.
+ * Geokoder qoʻshilgan kunda — faqat shu faylga bitta funksiya
+ * qoʻshiladi, qolgan hamma narsa oʻzgarishsiz qoladi.
  */
 
 /** Yetkazib berish narxi faqat shu ikki holatni ajratadi (`delivery.ts`). */
@@ -50,10 +50,10 @@ const STORAGE_KEY = 'openshop:delivery-city';
 
 /*
  * ATAYLAB eksport qilinmagan. Hozircha uni faqat shu komponent
- * o'qiydi; eksport qilinsa bu fayl ham komponent, ham funksiya
- * eksport qilgan bo'lardi va Vite'ning Fast Refresh'i modul holatini
+ * oʻqiydi; eksport qilinsa bu fayl ham komponent, ham funksiya
+ * eksport qilgan boʻlardi va Vite'ning Fast Refreshʼi modul holatini
  * saqlay olmay qolardi (loyihada `uiHooks.ts` va `flightContext.ts`
- * aynan shu sabab alohida ajratilgan). Boshqa joyga kerak bo'lganda —
+ * aynan shu sabab alohida ajratilgan). Boshqa joyga kerak boʻlganda —
  * alohida modulga chiqariladi.
  */
 function readDeliveryCity(): string | null {
@@ -95,9 +95,9 @@ export function LocationButton() {
           /*
            * `min-w-11` SHART, `h-11` yetarli emas.
            *
-           * Shahar nomi `sm` dan pastda yashiriladi, shuning uchun 360px'da
+           * Shahar nomi `sm` dan pastda yashiriladi, shuning uchun 360pxʼda
            * tugma ichida faqat 20px ikonka qoladi va `px-2` bilan umumiy
-           * kenglik 36px bo'lib qolardi (o'lchandi). Balandligi 44 bo'lsa
+           * kenglik 36px boʻlib qolardi (oʻlchandi). Balandligi 44 boʻlsa
            * ham, 36px kenglik barmoq uchun minimal nishondan kichik.
            */
           'flex h-11 min-w-11 shrink-0 items-center justify-center gap-1.5 rounded-control px-2 text-ink-700',
@@ -116,10 +116,10 @@ export function LocationButton() {
         <AnimatePresence>
           {open && (
             /*
-              O'ram `AnimatePresence` DAN TASHQARIDA emas, chunki bu
-              komponent butunlay o'zi boshqaradigan kichik qatlam; ammo
-              `pointer-events` holatga bog'langan, shuning uchun yopilish
-              animatsiyasi davomida ham sahifa bosiladigan bo'lib qoladi.
+              Oʻram `AnimatePresence` DAN TASHQARIDA emas, chunki bu
+              komponent butunlay oʻzi boshqaradigan kichik qatlam; ammo
+              `pointer-events` holatga bogʻlangan, shuning uchun yopilish
+              animatsiyasi davomida ham sahifa bosiladigan boʻlib qoladi.
             */
             <div className="fixed inset-0 z-[75]">
               <AnimatedDrawer

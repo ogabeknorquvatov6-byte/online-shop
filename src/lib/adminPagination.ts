@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 
 /*
- * Admin ro'yxatlari uchun SERVER TOMONIDA sahifalash.
+ * Admin roʻyxatlari uchun SERVER TOMONIDA sahifalash.
  *
- * MUAMMO. `AdminProducts` barcha mahsulotlarni BITTA so'rov bilan olardi:
+ * MUAMMO. `AdminProducts` barcha mahsulotlarni BITTA soʻrov bilan olardi:
  *
  *     supabase.from('products').select('*, product_images(*), product_variants(*)')
  *
- * — chegara yo'q. Har bir mahsulot bilan birga uning BARCHA rasmlari va
+ * — chegara yoʻq. Har bir mahsulot bilan birga uning BARCHA rasmlari va
  * BARCHA variantlari ham yuklanardi. 100 ta mahsulotda bu sezilmaydi,
- * 5 000 tada esa brauzerga o'nlab megabayt JSON tushadi: sahifa bir necha
+ * 5 000 tada esa brauzerga oʻnlab megabayt JSON tushadi: sahifa bir necha
  * soniya qotadi, mobil qurilmada esa yorliq umuman yopilib qolishi mumkin.
- * Qidiruv va filtr ham mijozda bajarilardi — ya'ni ma'lumotni oldin
- * to'liq yuklab, keyin tashlab yuborardik.
+ * Qidiruv va filtr ham mijozda bajarilardi — yaʼni maʼlumotni oldin
+ * toʻliq yuklab, keyin tashlab yuborardik.
  *
  * YECHIM. Sahifa, qidiruv va filtr SERVERGA beriladi; brauzerga faqat
  * bitta sahifa keladi. Bu modul shu naqshning takrorlanadigan qismini
@@ -40,8 +40,8 @@ export function pageCount(total: number, size = ADMIN_PAGE_SIZE): number {
 }
 
 /**
- * Ko'rsatiladigan oraliq: "1–25 / 137".
- * Bo'sh ro'yxatda `0` qaytaradi, shunda "1–25 / 0" kabi bema'nilik chiqmaydi.
+ * Koʻrsatiladigan oraliq: "1–25 / 137".
+ * Boʻsh roʻyxatda `0` qaytaradi, shunda "1–25 / 0" kabi bemaʼnilik chiqmaydi.
  */
 export function pageSummary(page: number, total: number, loaded: number, size = ADMIN_PAGE_SIZE): string {
   if (total <= 0 || loaded <= 0) return '0';
@@ -50,8 +50,8 @@ export function pageSummary(page: number, total: number, loaded: number, size = 
 }
 
 /**
- * Qidiruv matnini kechiktiradi — har bosilgan harf uchun alohida so'rov
- * yuborilmasligi kerak. Admin panelida so'rovlar og'ir (JOIN + count),
+ * Qidiruv matnini kechiktiradi — har bosilgan harf uchun alohida soʻrov
+ * yuborilmasligi kerak. Admin panelida soʻrovlar ogʻir (JOIN + count),
  * shuning uchun kechikish saytdagidan biroz uzunroq.
  */
 export function useDebounced<T>(value: T, delayMs = 350): T {

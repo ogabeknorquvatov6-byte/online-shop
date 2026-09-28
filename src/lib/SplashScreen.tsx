@@ -4,50 +4,50 @@ import { Cube } from './CatalogCubes';
 import { EASE, SPLASH, springs } from './motion';
 
 /*
- * KIRISH EKRANI — BELGI KUB-BO'LAKCHALARDAN YIG'ILADI.
+ * KIRISH EKRANI — BELGI KUB-BOʻLAKCHALARDAN YIGʻILADI.
  *
- * G'oya: ilovaning imzo shakli — `CatalogCubes` dagi to'rtta plitka.
+ * Gʻoya: ilovaning imzo shakli — `CatalogCubes` dagi toʻrtta plitka.
  * Katalog ikonkasida ular bosilganda TARQALADI; bu yerda esa teskarisi,
- * ular chetlardan uchib kelib YIG'ILADI. Ya'ni do'kon "o'zini yig'ib"
- * ochiladi. Shakl ham, prujina ham (`springs.snappy`) o'sha ikonkanikidek.
+ * ular chetlardan uchib kelib YIGʻILADI. Yaʼni doʻkon "oʻzini yigʻib"
+ * ochiladi. Shakl ham, prujina ham (`springs.snappy`) oʻsha ikonkanikidek.
  *
  * ── BU EKRAN HECH KIMNI KUTTIRMAYDI ───────────────────────────────
  *
- * Eng muhim qaror: splash ilovaning O'RNIGA emas, USTIDA turadi.
- * `<App />` bir vaqtda mount bo'ladi va ma'lumotlarni allaqachon
- * yuklay boshlaydi — splash so'nganda sahifa tayyor bo'lib chiqadi,
- * bo'm-bo'sh emas. Agar splash ilovani almashtirganda, uning har bir
- * millisekundi yuklanish vaqtiga QO'SHILARDI.
+ * Eng muhim qaror: splash ilovaning OʻRNIGA emas, USTIDA turadi.
+ * `<App />` bir vaqtda mount boʻladi va maʼlumotlarni allaqachon
+ * yuklay boshlaydi — splash soʻnganda sahifa tayyor boʻlib chiqadi,
+ * boʻm-boʻsh emas. Agar splash ilovani almashtirganda, uning har bir
+ * millisekundi yuklanish vaqtiga QOʻSHILARDI.
  *
  * ── NEGA `pointer-events-none` ────────────────────────────────────
  *
- * Qoplama butun ekranni to'sib turadi. Agar u biror sababga ko'ra
- * yo'qolmasa (masalan tab fon rejimiga o'tib `requestAnimationFrame`
- * to'xtasa — bu loyihada o'lchangan hodisa), foydalanuvchi ilovadan
+ * Qoplama butun ekranni toʻsib turadi. Agar u biror sababga koʻra
+ * yoʻqolmasa (masalan tab fon rejimiga oʻtib `requestAnimationFrame`
+ * toʻxtasa — bu loyihada oʻlchangan hodisa), foydalanuvchi ilovadan
  * BUTUNLAY ajralib qolardi. `pointer-events: none` bilan esa eng
- * yomon holatda ham ilova bosiladigan bo'lib qoladi.
+ * yomon holatda ham ilova bosiladigan boʻlib qoladi.
  *
- * Shu sababdan yo'q qilish ham TAYMER bilan boshqariladi, animatsiya
+ * Shu sababdan yoʻq qilish ham TAYMER bilan boshqariladi, animatsiya
  * tugashi bilan emas: chiqish animatsiyasi faqat bezak, u
- * TO'G'RILIK uchun javobgar emas.
+ * TOʻGʻRILIK uchun javobgar emas.
  *
  * ── REDUCED MOTION ────────────────────────────────────────────────
  *
- * Splash umuman ko'rsatilmaydi. Unda hech qanday MA'LUMOT yo'q —
- * u sof bezak, shuning uchun uni o'tkazib yuborish foydalanuvchi
+ * Splash umuman koʻrsatilmaydi. Unda hech qanday MAʼLUMOT yoʻq —
+ * u sof bezak, shuning uchun uni oʻtkazib yuborish foydalanuvchi
  * uchun faqat yaxshi: ilova darhol ochiladi.
  */
 
 /*
- * Bo'lakchalar. `CatalogCubes` dagi dam olish holatining kattalashtirilgan
+ * Boʻlakchalar. `CatalogCubes` dagi dam olish holatining kattalashtirilgan
  * nusxasi: ±4.5 → ±15, kub 7px → 22px (taxminan 3.2 barobar).
  *
- *   x/y   — yakuniy joy (belgidagi o'rni)
+ *   x/y   — yakuniy joy (belgidagi oʻrni)
  *   fx/fy — qayerdan uchib keladi
- *   rx/ry — boshlang'ich burilish (yig'ilgach nolga tushadi)
+ *   rx/ry — boshlangʻich burilish (yigʻilgach nolga tushadi)
  *
  * Burchaklar ±70° ichida: 90° da yassi plitka qirrasi bilan turib
- * ko'rinmay qolardi — ayni sabab `CheckoutPage` dagi zarrachalarda ham.
+ * koʻrinmay qolardi — ayni sabab `CheckoutPage` dagi zarrachalarda ham.
  */
 const PIECES = [
   { x: -15, y: -15, fx: -52, fy: -40, rx: 58, ry: -70, tone: 'bg-orange-600' },
@@ -59,15 +59,15 @@ const PIECES = [
 const CUBE_PX = 22;
 
 /**
- * Yig'ilish qancha davom etadi (ms).
+ * Yigʻilish qancha davom etadi (ms).
  *
  * Prujina `duration` qabul qilmaydi, shuning uchun bu qiymat
- * HISOBLANMAYDI — u brauzerda o'lchangan. `springs.snappy` bilan
- * bitta bo'lakcha 283ms da joyiga tushadi, `SPLASH.step` (0.07s)
- * navbati bilan to'rttasi 478ms da tugaydi:
+ * HISOBLANMAYDI — u brauzerda oʻlchangan. `springs.snappy` bilan
+ * bitta boʻlakcha 283ms da joyiga tushadi, `SPLASH.step` (0.07s)
+ * navbati bilan toʻrttasi 478ms da tugaydi:
  *
- *   1-bo'lakcha +283ms   3-bo'lakcha +422ms
- *   2-bo'lakcha +351ms   4-bo'lakcha +478ms
+ *   1-boʻlakcha +283ms   3-boʻlakcha +422ms
+ *   2-boʻlakcha +351ms   4-boʻlakcha +478ms
  *
  * Talab qilingan oraliq — 400–600ms.
  */
@@ -77,9 +77,9 @@ const TOTAL_MS = ASSEMBLE_MS + (SPLASH.hold + SPLASH.fade) * 1000;
 export function SplashScreen() {
   const reduce = useReducedMotion();
   /*
-   * `reduce` boshida `null` bo'lishi mumkin, shuning uchun `=== true`
-   * bilan tekshiriladi: noaniq holatda splash KO'RSATILADI va keyingi
-   * renderda o'chadi — teskarisi bo'lsa u umuman chiqmay qolardi.
+   * `reduce` boshida `null` boʻlishi mumkin, shuning uchun `=== true`
+   * bilan tekshiriladi: noaniq holatda splash KOʻRSATILADI va keyingi
+   * renderda oʻchadi — teskarisi boʻlsa u umuman chiqmay qolardi.
    */
   const skip = reduce === true;
   const [done, setDone] = useState(false);

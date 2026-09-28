@@ -12,10 +12,10 @@ import { cx, focusRing, input as inputClass, popSurface } from './design';
 /**
  * Desktop jonli qidiruv — input ostida ochiladigan dropdown.
  *
- * Klaviatura: ArrowUp/Down natijalar bo'ylab, Enter tanlaydi (yoki hech
- * narsa belgilanmagan bo'lsa to'liq qidiruv sahifasini ochadi), Escape yopadi.
- * Desktopda dropdown to'liq sahifadan qulayroq, shuning uchun u saqlanadi;
- * mobil esa alohida `/search` sahifasiga o'tadi.
+ * Klaviatura: ArrowUp/Down natijalar boʻylab, Enter tanlaydi (yoki hech
+ * narsa belgilanmagan boʻlsa toʻliq qidiruv sahifasini ochadi), Escape yopadi.
+ * Desktopda dropdown toʻliq sahifadan qulayroq, shuning uchun u saqlanadi;
+ * mobil esa alohida `/search` sahifasiga oʻtadi.
  */
 export function DesktopSearch() {
   const { navigate } = useRouter();
@@ -44,12 +44,12 @@ export function DesktopSearch() {
   );
 
   /*
-   * So'nggi qidiruvlar — dropdown BO'SH so'rovda ham foydali bo'lishi uchun.
+   * Soʻnggi qidiruvlar — dropdown BOʻSH soʻrovda ham foydali boʻlishi uchun.
    *
    * Mobil `/search` sahifasida bu allaqachon bor edi, desktopda esa
    * dropdown faqat matn kiritilgandan keyin ochilardi va fokusda hech
-   * narsa ko'rsatmasdi. Ro'yxat `localStorage` dan o'qiladi, shuning
-   * uchun uni har ochilishda yangilaymiz (boshqa tabda o'zgargan bo'lishi
+   * narsa koʻrsatmasdi. Roʻyxat `localStorage` dan oʻqiladi, shuning
+   * uchun uni har ochilishda yangilaymiz (boshqa tabda oʻzgargan boʻlishi
    * mumkin).
    */
   const [recent, setRecent] = useState<string[]>([]);
@@ -199,9 +199,9 @@ export function DesktopSearch() {
  * Mobil qidiruv "tugmasi".
  *
  * Ilgari u joyida overlay ochardi: brauzerning «orqaga» tugmasi overlayni
- * yopmasdan butun sahifadan chiqib ketardi va havolani ulashib bo'lmasdi.
- * Endi u haqiqiy marshrutga (`/search`) o'tadi — orqaga qaytish tabiiy
- * ishlaydi va qidiruv sahifasi to'liq UX beradi.
+ * yopmasdan butun sahifadan chiqib ketardi va havolani ulashib boʻlmasdi.
+ * Endi u haqiqiy marshrutga (`/search`) oʻtadi — orqaga qaytish tabiiy
+ * ishlaydi va qidiruv sahifasi toʻliq UX beradi.
  */
 export function MobileSearchTrigger({ tabIndex }: { tabIndex?: number }) {
   const { navigate } = useRouter();

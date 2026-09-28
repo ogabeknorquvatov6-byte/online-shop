@@ -5,30 +5,30 @@ import { cx } from './design';
 /*
  * AURORA — SEKIN HARAKATLANUVCHI GRADIENT TUMAN.
  *
- * Hero va aksiya blokining fonida ilgari ikkita QIMIRLAMAS blur dog'i
+ * Hero va aksiya blokining fonida ilgari ikkita QIMIRLAMAS blur dogʻi
  * turardi. Ular chuqurlik berardi, lekin blok "rasm"dek qotib qolgandi:
- * sahifada bir necha soniya turgan foydalanuvchi uchun u o'lik yuza edi.
+ * sahifada bir necha soniya turgan foydalanuvchi uchun u oʻlik yuza edi.
  *
- * Endi o'sha dog'lar juda sekin suzadi. Maqsad DIQQATNI TORTISH EMAS —
- * aksincha, harakat sezilmasligi kerak. U faqat to'q yuzani tirik
- * qiladi, xuddi xonadagi yorug'lik kun davomida sekin o'zgargandek.
+ * Endi oʻsha dogʻlar juda sekin suzadi. Maqsad DIQQATNI TORTISH EMAS —
+ * aksincha, harakat sezilmasligi kerak. U faqat toʻq yuzani tirik
+ * qiladi, xuddi xonadagi yorugʻlik kun davomida sekin oʻzgargandek.
  *
  * QOIDALAR:
  *
  *  - FAQAT `transform` va `opacity`. Hech qanday `width`, `height`,
  *    `top`, `left`, `background-position` yoki `filter` animatsiya
  *    qilinmaydi. Blur BIR MARTA hisoblanadi, keyin brauzer tayyor
- *    qatlamni shunchaki siljitadi — ya'ni cheksiz sikl bo'lsa ham
- *    har kadrda qayta chizish YO'Q.
+ *    qatlamni shunchaki siljitadi — yaʼni cheksiz sikl boʻlsa ham
+ *    har kadrda qayta chizish YOʻQ.
  *
- *  - YANGI RANG YO'Q. Aynan o'sha `orange-600/25` va `orange-500/15` —
- *    ya'ni bu blok "boshqa sayt"ga aylanmaydi, o'zining fonini
+ *  - YANGI RANG YOʻQ. Aynan oʻsha `orange-600/25` va `orange-500/15` —
+ *    yaʼni bu blok "boshqa sayt"ga aylanmaydi, oʻzining fonini
  *    harakatga keltiradi xolos.
  *
- *  - `prefers-reduced-motion` da tuman to'liq to'xtaydi va qatlamlar
- *    O'RTA holatida qoladi (pastdagi `from`/`to` nolga nisbatan
- *    simmetrik). Statik kompozitsiya ham to'g'ri ko'rinadi: hech bir
- *    dog' chetga surilib, kompozitsiyani og'dirib qo'ymaydi.
+ *  - `prefers-reduced-motion` da tuman toʻliq toʻxtaydi va qatlamlar
+ *    OʻRTA holatida qoladi (pastdagi `from`/`to` nolga nisbatan
+ *    simmetrik). Statik kompozitsiya ham toʻgʻri koʻrinadi: hech bir
+ *    dog' chetga surilib, kompozitsiyani ogʻdirib qoʻymaydi.
  */
 
 type AuroraTone = 'dark' | 'light';
@@ -36,14 +36,14 @@ type AuroraTone = 'dark' | 'light';
 /*
  * Qatlamlar. Uchta — ikkita emas.
  *
- * Ikkita dog'da harakat "ikki nuqta orasida borib-kelish" bo'lib
- * ko'rinadi. Uchinchisi (kichik va markazga yaqin) ikkalasining
- * orasidan o'tib, umumiy tasvirni oldindan aytib bo'lmaydigan qiladi.
+ * Ikkita dogʻda harakat "ikki nuqta orasida borib-kelish" boʻlib
+ * koʻrinadi. Uchinchisi (kichik va markazga yaqin) ikkalasining
+ * orasidan oʻtib, umumiy tasvirni oldindan aytib boʻlmaydigan qiladi.
  *
- *   box   — o'lcham va joylashuv (Tailwind sinflari)
+ *   box   — oʻlcham va joylashuv (Tailwind sinflari)
  *   color — mavjud ikki nur rangidan biri
  *   from/to — suzish chegaralari (px). NOLGA NISBATAN SIMMETRIK:
- *             shuning uchun harakatsiz holat aynan o'rtada bo'ladi.
+ *             shuning uchun harakatsiz holat aynan oʻrtada boʻladi.
  */
 const LAYERS = [
   {
@@ -57,8 +57,8 @@ const LAYERS = [
     box: '-bottom-24 left-4 h-44 w-44 sm:left-8 sm:h-56 sm:w-56 lg:h-72 lg:w-72',
     color: 'bg-orange-500/15',
     blur: 'blur-3xl',
-    // Teskari yo'nalish: ikki dog' bir-biriga qarab yurganda tuman
-    // "nafas olayotgandek" bo'ladi, bir tomonga sirg'algandek emas.
+    // Teskari yoʻnalish: ikki dog' bir-biriga qarab yurganda tuman
+    // "nafas olayotgandek" boʻladi, bir tomonga sirgʻalgandek emas.
     from: { x: 22, y: 16, s: 1.12 },
     to: { x: -22, y: -16, s: 0.9 },
   },
@@ -72,11 +72,11 @@ const LAYERS = [
 ] as const;
 
 /**
- * Bitta o'qning cheksiz sikli.
+ * Bitta oʻqning cheksiz sikli.
  *
- * `repeatType: 'mirror'` — qaytish yo'li bir xil, lekin teskari. Shu
- * sababli hech qanday "sakrash" nuqtasi yo'q: element hech qachon
- * birdan boshlang'ich holatga tashlanmaydi.
+ * `repeatType: 'mirror'` — qaytish yoʻli bir xil, lekin teskari. Shu
+ * sababli hech qanday "sakrash" nuqtasi yoʻq: element hech qachon
+ * birdan boshlangʻich holatga tashlanmaydi.
  */
 function cycle(duration: number, delay: number) {
   return {
@@ -84,8 +84,8 @@ function cycle(duration: number, delay: number) {
     delay,
     repeat: Infinity,
     repeatType: 'mirror' as const,
-    // `inOut` — chekkalarda sekinlashadi, ya'ni burilish nuqtasi
-    // ko'zga tashlanmaydi.
+    // `inOut` — chekkalarda sekinlashadi, yaʼni burilish nuqtasi
+    // koʻzga tashlanmaydi.
     ease: EASE.inOut,
   };
 }
@@ -101,9 +101,9 @@ export function AuroraBackground({ tone = 'dark' }: { tone?: AuroraTone }) {
         /*
          * Ranglar ikkala ohangda BIR XIL, faqat kuchi boshqacha.
          *
-         * Bir xil alfa to'q (`ink-900`) va oq yuzada butunlay boshqacha
-         * o'qiladi: to'qda u yumshoq nur, oqda esa matn ostidagi
-         * iflos dog'ga aylanadi. Shuning uchun yangi rang KIRITILMAYDI —
+         * Bir xil alfa toʻq (`ink-900`) va oq yuzada butunlay boshqacha
+         * oʻqiladi: toʻqda u yumshoq nur, oqda esa matn ostidagi
+         * iflos dogʻga aylanadi. Shuning uchun yangi rang KIRITILMAYDI —
          * butun qatlam biroz shaffoflashtiriladi.
          */
         tone === 'light' && 'opacity-60'
@@ -116,22 +116,22 @@ export function AuroraBackground({ tone = 'dark' }: { tone?: AuroraTone }) {
             key={i}
             className={cx('absolute rounded-full', l.box, l.color, l.blur)}
             initial={reduce ? false : { x: l.from.x, y: l.from.y, scale: l.from.s }}
-            /* Harakatsiz holat — aynan o'rta nuqta (from va to simmetrik). */
+            /* Harakatsiz holat — aynan oʻrta nuqta (from va to simmetrik). */
             animate={reduce ? { x: 0, y: 0, scale: 1 } : { x: l.to.x, y: l.to.y, scale: l.to.s }}
             transition={
               reduce
                 ? { duration: 0 }
                 : {
                     /*
-                     * Har bir o'q O'Z siklida yuradi — natijada
-                     * traektoriya to'g'ri chiziq emas, ochiq egri
-                     * bo'ladi (Lissaju figurasi).
+                     * Har bir oʻq OʻZ siklida yuradi — natijada
+                     * traektoriya toʻgʻri chiziq emas, ochiq egri
+                     * boʻladi (Lissaju figurasi).
                      *
-                     * DIQQAT: qiymatga xos (per-key) o'tish umumiy
-                     * o'tishdan MEROS OLMAYDI — u uni butunlay
+                     * DIQQAT: qiymatga xos (per-key) oʻtish umumiy
+                     * oʻtishdan MEROS OLMAYDI — u uni butunlay
                      * almashtiradi. Shuning uchun `repeat`, `ease` va
-                     * `delay` uchala o'qda ham to'liq yozilgan;
-                     * `cycle()` aynan shu takrorni bir joyga yig'adi.
+                     * `delay` uchala oʻqda ham toʻliq yozilgan;
+                     * `cycle()` aynan shu takrorni bir joyga yigʻadi.
                      */
                     x: cycle(AURORA.base, delay),
                     y: cycle(AURORA.base * AURORA.ratioY, delay),

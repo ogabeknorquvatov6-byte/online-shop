@@ -3,20 +3,20 @@ import { supabase } from './supabase';
 import type { Category } from './types';
 
 /*
- * Kategoriyalar bir necha joyda kerak bo'ladi: header navigatsiyasi, bosh
- * sahifa, katalog filtri, mobil menyu. Ilgari har bir komponent o'zi
- * alohida so'rov yuborardi — bitta sahifa ochilishida bir xil ro'yxat
+ * Kategoriyalar bir necha joyda kerak boʻladi: header navigatsiyasi, bosh
+ * sahifa, katalog filtri, mobil menyu. Ilgari har bir komponent oʻzi
+ * alohida soʻrov yuborardi — bitta sahifa ochilishida bir xil roʻyxat
  * 3-4 marta tarmoqdan olinardi. Bu yerda jarayon davomida saqlanadigan
- * yengil cache va "in-flight" so'rovni birlashtirish bor.
+ * yengil cache va "in-flight" soʻrovni birlashtirish bor.
  */
 
 /*
- * Aniq ustunlar ro'yxati — `select('*')` EMAS.
+ * Aniq ustunlar roʻyxati — `select('*')` EMAS.
  *
  * `*` ikki jihatdan yomon: (1) kod ishlatmaydigan ustunlarni ham tarmoqdan
- * tortadi; (2) jadvalga kelajakda ustun qo'shilsa (masalan ichki izoh yoki
+ * tortadi; (2) jadvalga kelajakda ustun qoʻshilsa (masalan ichki izoh yoki
  * narx tahlili), u JIMGINA barcha mijozlarga yuborila boshlaydi —
- * ortiqcha trafik va ehtimoliy ma'lumot sizishi. Ro'yxat `types.ts` dagi
+ * ortiqcha trafik va ehtimoliy maʼlumot sizishi. Roʻyxat `types.ts` dagi
  * `Category` shakli bilan bir xil.
  */
 export const CATEGORY_SELECT =
@@ -48,7 +48,7 @@ export async function fetchCategories(force = false): Promise<Category[]> {
   }
 }
 
-/** Admin panelda kategoriya o'zgartirilganda saqlangan ro'yxatni bekor qiladi. */
+/** Admin panelda kategoriya oʻzgartirilganda saqlangan roʻyxatni bekor qiladi. */
 export function invalidateCategories() {
   cache = null;
 }

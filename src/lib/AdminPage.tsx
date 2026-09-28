@@ -43,9 +43,9 @@ export function AdminLayout({ tab }: { tab: AdminTab }) {
 
   /*
    * Ilgari bu guard `profile` hali yuklanmagan paytda ham admin panelni
-   * to'liq render qilardi (chunki `profile && !profile.is_admin` false
-   * bo'lardi): oddiy foydalanuvchi bir zumga admin interfeysini ko'rib,
-   * o'nlab muvaffaqiyatsiz so'rov yuborardi. Endi avval auth holati
+   * toʻliq render qilardi (chunki `profile && !profile.is_admin` false
+   * boʻlardi): oddiy foydalanuvchi bir zumga admin interfeysini koʻrib,
+   * oʻnlab muvaffaqiyatsiz soʻrov yuborardi. Endi avval auth holati
    * aniqlanadi, keyingina qaror qabul qilinadi.
    */
   useEffect(() => {
@@ -53,7 +53,7 @@ export function AdminLayout({ tab }: { tab: AdminTab }) {
     if (!user) navigate('/login', { replace: true });
   }, [authLoading, user, navigate]);
 
-  // Marshrut o'zgarganda mobil yon panel yopilsin.
+  // Marshrut oʻzgarganda mobil yon panel yopilsin.
   useEffect(() => setSidebarOpen(false), [tab]);
 
   if (authLoading || (user && !profile)) {
@@ -181,7 +181,7 @@ export function AdminLayout({ tab }: { tab: AdminTab }) {
   );
 }
 
-/** Buyurtma statusi nishonchasi — dashboard va buyurtmalar ro'yxatida bir xil. */
+/** Buyurtma statusi nishonchasi — dashboard va buyurtmalar roʻyxatida bir xil. */
 export function OrderStatusBadge({ status }: { status: string }) {
   return (
     <span

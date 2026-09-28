@@ -9,21 +9,21 @@ import { EASE } from '../motion';
 import { Img } from '../Img';
 
 /*
- * BITTA BUYURTMA — jismoniy chek + o'qiladigan ma'lumot.
+ * BITTA BUYURTMA — jismoniy chek + oʻqiladigan maʼlumot.
  *
  * IKKI QATLAM, IKKI VAZIFA:
  *   1. Chek printeri — taassurot. U BEZAK: sudrab tortish, yirtish,
  *      aylantirish. Uning hammasi `aria-hidden`.
- *   2. Pastdagi jadval — HAQIQAT. Butun ma'lumot shu yerda matn bo'lib
+ *   2. Pastdagi jadval — HAQIQAT. Butun maʼlumot shu yerda matn boʻlib
  *      turadi va u hech qachon animatsiyaga, tovushga yoki rangga
- *      bog'liq emas.
+ *      bogʻliq emas.
  *
- * Ya'ni chekni umuman ko'rmagan foydalanuvchi ham hech narsa
- * yo'qotmaydi. Aks holda "chiroyli" interfeys ma'lumotni yashirib
- * qo'ygan bo'lardi.
+ * Yaʼni chekni umuman koʻrmagan foydalanuvchi ham hech narsa
+ * yoʻqotmaydi. Aks holda "chiroyli" interfeys maʼlumotni yashirib
+ * qoʻygan boʻlardi.
  */
 
-/** Buyurtmani chek uchun ma'lumotga aylantiradi — faqat HAQIQIY maydonlar. */
+/** Buyurtmani chek uchun maʼlumotga aylantiradi — faqat HAQIQIY maydonlar. */
 function toReceiptData(order: Order): ReceiptData {
   return {
     number: order.order_number,
@@ -44,7 +44,7 @@ export function OrderDetail({
   onBack,
   onRequestCancel,
   cancelling,
-  /** Bekor qilish backend'da TASDIQLANGANDAN keyin `true` bo'ladi. */
+  /** Bekor qilish backendʼda TASDIQLANGANDAN keyin `true` boʻladi. */
   justCancelled,
 }: {
   order: Order;
@@ -59,15 +59,15 @@ export function OrderDetail({
   /*
    * Bekor qilish tugmasi FAQAT baza ruxsat bergan holatda chiqadi.
    * `cancel_own_order` faqat «Yangi» buyurtmani bekor qiladi; boshqa
-   * holatda tugmani ko'rsatish foydalanuvchiga yolg'on va'da berish
-   * bo'lardi — u bosadi va xato oladi.
+   * holatda tugmani koʻrsatish foydalanuvchiga yolgʻon vaʼda berish
+   * boʻlardi — u bosadi va xato oladi.
    */
   const canCancel = order.status === 'Yangi';
 
   /*
    * Buyurtma bekor qilinganmi — bazadagi holatdan. `justCancelled`
-   * shu yerda ham hisobga olinadi, chunki ro'yxat qayta yuklanguncha
-   * qisqa oraliqda `order.status` hali eski bo'lishi mumkin.
+   * shu yerda ham hisobga olinadi, chunki roʻyxat qayta yuklanguncha
+   * qisqa oraliqda `order.status` hali eski boʻlishi mumkin.
    */
   const isCancelled = justCancelled || order.status === 'Bekor qilindi';
 
@@ -88,8 +88,8 @@ export function OrderDetail({
         className="mt-4 overflow-hidden rounded-card bg-gradient-to-b from-ink-50 to-white py-8"
       >
         <OrderReceiptPrinter
-          // `key` — bekor qilingach chek QAYTA bosiladi, ya'ni yangi
-          // matn va yirtilish o'z vaqtida ko'rinadi.
+          // `key` — bekor qilingach chek QAYTA bosiladi, yaʼni yangi
+          // matn va yirtilish oʻz vaqtida koʻrinadi.
           key={justCancelled ? 'cancelled' : 'active'}
           data={toReceiptData(order)}
           /*
@@ -107,11 +107,11 @@ export function OrderDetail({
            */
           autoRip={justCancelled}
           /*
-           * YOLG'IZ CHEK, mashinasiz. Buyurtma allaqachon o'tgan va
+           * YOLGʻIZ CHEK, mashinasiz. Buyurtma allaqachon oʻtgan va
            * cheki allaqachon bor — uni qaytadan "bosib chiqarish"
-           * yolg'on bo'lardi. Shuning uchun bu yerda tayyor chek
+           * yolgʻon boʻlardi. Shuning uchun bu yerda tayyor chek
            * turadi va uni 360° aylantirish mumkin. Mashina faqat
-           * to'lov tugagan paytda — chek AYNAN o'shanda tug'iladi.
+           * toʻlov tugagan paytda — chek AYNAN oʻshanda tugʻiladi.
            */
           variant="standalone"
         />
@@ -226,7 +226,7 @@ export function OrderDetail({
   );
 }
 
-/** Chekning matnli nusxasi — ekran o'quvchi va nusxa olish uchun. */
+/** Chekning matnli nusxasi — ekran oʻquvchi va nusxa olish uchun. */
 function receiptText(order: Order): string {
   const rows = (order.order_items ?? [])
     .map((i) => `${i.product_name}  ×${i.quantity}  ${formatPrice(i.price * i.quantity)}`)

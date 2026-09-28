@@ -22,14 +22,14 @@ type UserRow = {
   role: 'customer' | 'admin';
   is_active: boolean;
   /**
-   * `auth.users` da hisob bor, lekin `public.profiles` da qatori yo'q.
-   * Bunday foydalanuvchi ilgari ro'yxatda UMUMAN ko'rinmasdi.
+   * `auth.users` da hisob bor, lekin `public.profiles` da qatori yoʻq.
+   * Bunday foydalanuvchi ilgari roʻyxatda UMUMAN koʻrinmasdi.
    */
   has_profile: boolean;
   created_at: string;
   /** Filtrga mos JAMI yozuvlar soni (har bir qatorda takrorlanadi). */
   total_count: number;
-  /** Profilsiz hisoblar soni — butun baza bo'yicha, filtrdan qat'iy nazar. */
+  /** Profilsiz hisoblar soni — butun baza boʻyicha, filtrdan qatʼiy nazar. */
   orphan_count: number;
 };
 
@@ -48,22 +48,22 @@ export function AdminUsers() {
   const [busy, setBusy] = useState(false);
   const [repairing, setRepairing] = useState(false);
 
-  // Har bosilgan harf uchun alohida so'rov ketmasligi kerak.
+  // Har bosilgan harf uchun alohida soʻrov ketmasligi kerak.
   const debouncedSearch = useDebounced(search);
 
-  // Qidiruv yoki filtr o'zgarsa 1-sahifaga qaytamiz: aks holda 5-sahifada
-  // turgan admin filtrni toraytirganda bo'sh ro'yxat ko'rardi.
+  // Qidiruv yoki filtr oʻzgarsa 1-sahifaga qaytamiz: aks holda 5-sahifada
+  // turgan admin filtrni toraytirganda boʻsh roʻyxat koʻrardi.
   useEffect(() => { setPage(1); }, [debouncedSearch, roleFilter]);
 
   /*
    * MANBA ALMASHTIRILDI: `profiles` emas, `auth.users LEFT JOIN profiles`.
    *
-   * Ilgari bu sahifa faqat `profiles` ni o'qirdi. Hisob esa `auth.users`
-   * da yaratiladi va profil trigger orqali qo'shiladi — trigger ishlamay
-   * qolsa foydalanuvchi ro'yxatda UMUMAN ko'rinmasdi. Telegram orqali
-   * ro'yxatdan o'tganlar aynan shu sababdan "yo'qolgan" edi.
+   * Ilgari bu sahifa faqat `profiles` ni oʻqirdi. Hisob esa `auth.users`
+   * da yaratiladi va profil trigger orqali qoʻshiladi — trigger ishlamay
+   * qolsa foydalanuvchi roʻyxatda UMUMAN koʻrinmasdi. Telegram orqali
+   * roʻyxatdan oʻtganlar aynan shu sababdan "yoʻqolgan" edi.
    *
-   * Endi har bir hisob ko'rinadi; profili yo'qlari alohida belgilanadi
+   * Endi har bir hisob koʻrinadi; profili yoʻqlari alohida belgilanadi
    * va bir bosishda tiklanadi.
    */
   /*
@@ -71,7 +71,7 @@ export function AdminUsers() {
    *
    * Ilgari `rpc('admin_list_users')` BARCHA hisoblarni chegarasiz olardi,
    * qidiruv va filtr esa brauzerda bajarilardi. 50 000 foydalanuvchida bu
-   * bo'limni butunlay ishlatib bo'lmas edi — va butun mijozlar bazasi
+   * boʻlimni butunlay ishlatib boʻlmas edi — va butun mijozlar bazasi
    * (email, telefon, login) bitta javobda brauzerga tushardi.
    */
   const load = useCallback(() => {
@@ -97,7 +97,7 @@ export function AdminUsers() {
           setUsers(rows);
           /*
            * `total_count` va `orphan_count` har bir qatorda takrorlanadi
-           * (window funksiyasi). Bo'sh sahifada qator yo'q — u holda 0.
+           * (window funksiyasi). Boʻsh sahifada qator yoʻq — u holda 0.
            */
           setTotal(rows[0]?.total_count ?? 0);
           setOrphanCount(rows[0]?.orphan_count ?? 0);
@@ -126,10 +126,10 @@ export function AdminUsers() {
   };
 
   /*
-   * `role` va `is_active` ustunlarini faqat admin o'zgartira oladi — buni
+   * `role` va `is_active` ustunlarini faqat admin oʻzgartira oladi — buni
    * `protect_profile_privileged_fields` triggeri va `admin_update_profiles`
-   * policy'si ta'minlaydi. Admin panelida bu imkoniyat umuman yo'q edi,
-   * ya'ni migratsiyada tayyorlangan "bloklash" mexanizmi ishlatilmasdan
+   * policyʼsi taʼminlaydi. Admin panelida bu imkoniyat umuman yoʻq edi,
+   * yaʼni migratsiyada tayyorlangan "bloklash" mexanizmi ishlatilmasdan
    * turardi.
    */
   const applyAction = async () => {
@@ -161,7 +161,7 @@ export function AdminUsers() {
    *
    * Brauzerda endi FAQAT bitta sahifa bor. Uni yana filtrlash boshqa
    * sahifalardagi mos foydalanuvchilarni yashirar va admin ularni
-   * umuman yo'q deb o'ylardi. Qidiruv va filtr `admin_list_users` ga
+   * umuman yoʻq deb oʻylardi. Qidiruv va filtr `admin_list_users` ga
    * parametr sifatida beriladi.
    */
 
@@ -348,7 +348,7 @@ function RoleBadge({ role }: { role: 'customer' | 'admin' }) {
   );
 }
 
-/** `auth.users` da bor, `profiles` da yo'q — tuzatilishi kerak bo'lgan holat. */
+/** `auth.users` da bor, `profiles` da yoʻq — tuzatilishi kerak boʻlgan holat. */
 function NoProfileBadge() {
   return (
     <span
@@ -376,13 +376,13 @@ function UserActions({
   onAction: (a: 'block' | 'unblock' | 'promote' | 'demote') => void;
 }) {
   if (isSelf) {
-    // O'zini bloklab yoki admin huquqidan mahrum qilib, panelga kirishni
-    // butunlay yo'qotib qo'yish imkoniyati bo'lmasligi kerak.
+    // Oʻzini bloklab yoki admin huquqidan mahrum qilib, panelga kirishni
+    // butunlay yoʻqotib qoʻyish imkoniyati boʻlmasligi kerak.
     return <span className="text-xs text-ink-400">Bu — siz</span>;
   }
   if (!user.has_profile) {
-    // Profil qatori yo'q — `update` 0 qatorga ta'sir qilib, "bajarildi"
-    // degan yolg'on xabar berardi. Avval tiklash kerak.
+    // Profil qatori yoʻq — `update` 0 qatorga taʼsir qilib, "bajarildi"
+    // degan yolgʻon xabar berardi. Avval tiklash kerak.
     return <span className="text-xs text-amber-700">Avval profilni tiklang</span>;
   }
   return (

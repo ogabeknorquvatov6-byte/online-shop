@@ -6,9 +6,9 @@ import { ProductCarousel } from './ProductCarousel';
 import { SectionHeader } from './SectionHeader';
 
 /*
- * «Tavsiya etamiz» — bo'sh savat/sevimlilar sahifasi boshi berk ko'cha
- * bo'lib qolmasligi uchun. Mahsulotlar eng ko'p sotilgan va eng ko'p
- * ko'rilganlar orasidan olinadi, ya'ni ro'yxat haqiqiy ma'lumotga tayanadi
+ * «Tavsiya etamiz» — boʻsh savat/sevimlilar sahifasi boshi berk koʻcha
+ * boʻlib qolmasligi uchun. Mahsulotlar eng koʻp sotilgan va eng koʻp
+ * koʻrilganlar orasidan olinadi, yaʼni roʻyxat haqiqiy maʼlumotga tayanadi
  * (soxta "tavsiya" emas).
  */
 
@@ -65,7 +65,7 @@ export function RecommendationCarousel({
 }) {
   const { products, loading } = useRecommendedProducts(excludeIds);
 
-  // Yuklanish tugadi-yu, hech narsa yo'q bo'lsa — bo'sh sarlavha qoldirmaymiz.
+  // Yuklanish tugadi-yu, hech narsa yoʻq boʻlsa — boʻsh sarlavha qoldirmaymiz.
   if (!loading && products.length === 0) return null;
 
   return (

@@ -10,11 +10,11 @@ import {
 
 /*
  * Brend erkin matn ustuni (`products.brand`), shuning uchun registr
- * dublikatlari ("Apple" / "apple" / "APPLE") juda oson paydo bo'ladi va
- * katalogdagi brend filtrida bitta brend bir necha marta ko'rinadi.
+ * dublikatlari ("Apple" / "apple" / "APPLE") juda oson paydo boʻladi va
+ * katalogdagi brend filtrida bitta brend bir necha marta koʻrinadi.
  *
- * Bu testlar aynan shu holatni qo'riqlaydi — hamda MAVJUD ma'lumot
- * jimgina o'zgartirilmasligini.
+ * Bu testlar aynan shu holatni qoʻriqlaydi — hamda MAVJUD maʼlumot
+ * jimgina oʻzgartirilmasligini.
  */
 
 const EXISTING = ['Apple', 'Samsung', 'Xiaomi', 'Honor', 'JBL', 'Dyson'];
@@ -54,7 +54,7 @@ describe('normalizeBrandInput', () => {
   /*
    * Asosiy maqsad: yangi mahsulot "apple" bilan saqlansa ham, bazada
    * allaqachon bor "Apple" yozilishi ishlatilsin — aks holda filtrda
-   * ikkita alohida brend paydo bo'ladi.
+   * ikkita alohida brend paydo boʻladi.
    */
   it('snaps a case variant onto the spelling already in the database', () => {
     expect(normalizeBrandInput('apple', EXISTING)).toBe('Apple');
@@ -62,7 +62,7 @@ describe('normalizeBrandInput', () => {
   });
 
   it('keeps a new brand exactly as the admin typed it', () => {
-    // Yangi brendning yozilishini biz "to'g'rilamaymiz".
+    // Yangi brendning yozilishini biz "toʻgʻrilamaymiz".
     expect(normalizeBrandInput('OnePlus', EXISTING)).toBe('OnePlus');
     expect(normalizeBrandInput('realme', EXISTING)).toBe('realme');
   });

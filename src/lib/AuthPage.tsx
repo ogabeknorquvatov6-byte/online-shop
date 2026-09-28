@@ -15,12 +15,12 @@ const LAST_LOGIN_KEY = 'openshop-last-login';
 /*
  * Kirish sahifasi.
  *
- * Saytda o'z-o'zidan ro'yxatdan o'tish YO'Q — hisob faqat Telegram bot
+ * Saytda oʻz-oʻzidan roʻyxatdan oʻtish YOʻQ — hisob faqat Telegram bot
  * orqali (tasdiqlangan telefon raqami bilan) yoki Google akkaunti bilan
- * yaratiladi. Shu sababli sahifa "login/registratsiya" tablari o'rniga
- * bitta aniq vazifaga qurilgan: KIRISH. Ro'yxatdan o'tish esa alohida,
- * ko'rinarli blok sifatida beriladi va nima uchun aynan bot orqali
- * ekani qisqa tushuntiriladi — foydalanuvchi "ro'yxatdan o'tish qani?"
+ * yaratiladi. Shu sababli sahifa "login/registratsiya" tablari oʻrniga
+ * bitta aniq vazifaga qurilgan: KIRISH. Roʻyxatdan oʻtish esa alohida,
+ * koʻrinarli blok sifatida beriladi va nima uchun aynan bot orqali
+ * ekani qisqa tushuntiriladi — foydalanuvchi "roʻyxatdan oʻtish qani?"
  * deb qidirib qolmaydi.
  */
 export function AuthPage() {
@@ -57,12 +57,12 @@ export function AuthPage() {
     canonicalPath: '/login',
   });
 
-  // Allaqachon kirgan bo'lsa bu sahifada ushlab turmaymiz.
+  // Allaqachon kirgan boʻlsa bu sahifada ushlab turmaymiz.
   useEffect(() => {
     if (!authLoading && user) navigate('/account', { replace: true });
   }, [authLoading, user, navigate]);
 
-  // Saqlangan login bo'lsa kursor darhol parolga tushsin.
+  // Saqlangan login boʻlsa kursor darhol parolga tushsin.
   useEffect(() => {
     const t = setTimeout(() => (login ? passwordRef : loginRef).current?.focus(), 120);
     return () => clearTimeout(t);
@@ -79,8 +79,8 @@ export function AuthPage() {
     setError('');
 
     if (!login.trim() || !password) {
-      // Bo'sh maydonga fokusni qaytaramiz — foydalanuvchi qayerda
-      // xatolik borligini qidirib o'tirmasin.
+      // Boʻsh maydonga fokusni qaytaramiz — foydalanuvchi qayerda
+      // xatolik borligini qidirib oʻtirmasin.
       (!login.trim() ? loginRef : passwordRef).current?.focus();
       return;
     }
@@ -110,7 +110,7 @@ export function AuthPage() {
     setError('');
     setGoogleLoading(true);
     const { error: err } = await signInWithGoogle();
-    // Muvaffaqiyatli bo'lsa brauzer Google'ga ketadi va bu kod bajarilmaydi.
+    // Muvaffaqiyatli boʻlsa brauzer Googleʼga ketadi va bu kod bajarilmaydi.
     if (err) {
       setError(err);
       setGoogleLoading(false);
@@ -348,7 +348,7 @@ export function AuthPage() {
   );
 }
 
-/** Google'ning rasmiy ko'p rangli "G" belgisi. */
+/** Googleʼning rasmiy koʻp rangli "G" belgisi. */
 function GoogleMark() {
   return (
     <svg className="h-4.5 w-4.5" viewBox="0 0 24 24" aria-hidden="true">

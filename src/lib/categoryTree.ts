@@ -5,39 +5,39 @@ import { useCategories } from './catalogData';
 /*
  * KATEGORIYA DARAXTI — YAGONA HAQIQAT MANBAI.
  *
- * Baza kategoriyalarni TEKIS ro'yxat sifatida saqlaydi va ierarxiyani
- * `parent_id` orqali ifodalaydi. Bu yerda o'sha tekis ro'yxat bir marta
- * daraxtga aylantiriladi va uni desktop mega-menyu, mobil to'liq ekranli
- * navigatsiya hamda admin bir xil ko'rinishda ishlatadi.
+ * Baza kategoriyalarni TEKIS roʻyxat sifatida saqlaydi va ierarxiyani
+ * `parent_id` orqali ifodalaydi. Bu yerda oʻsha tekis roʻyxat bir marta
+ * daraxtga aylantiriladi va uni desktop mega-menyu, mobil toʻliq ekranli
+ * navigatsiya hamda admin bir xil koʻrinishda ishlatadi.
  *
  * Nega alohida qatlam:
  *   - Ilgari daraxt QURILMAS edi. `parent_id` ustuni bor edi, lekin uni
- *     hech kim o'qimasdi — barcha yuzalar kategoriyalarni tekis ro'yxat
- *     deb ko'rsatardi.
- *   - Har bir yuza o'zi guruhlashni boshlasa, ular muqarrar ravishda
+ *     hech kim oʻqimasdi — barcha yuzalar kategoriyalarni tekis roʻyxat
+ *     deb koʻrsatardi.
+ *   - Har bir yuza oʻzi guruhlashni boshlasa, ular muqarrar ravishda
  *     bir-biridan farq qila boshlaydi (biri nofaol kategoriyani
- *     ko'rsatadi, boshqasi yo'q; biri tartibni boshqacha qo'yadi).
+ *     koʻrsatadi, boshqasi yoʻq; biri tartibni boshqacha qoʻyadi).
  *
  * MUHIM: BREND — KATEGORIYA EMAS.
  * `products.brand` alohida ustun va katalogda alohida filtr sifatida
  * ishlaydi. Xiaomi/Samsung/Apple kabi qiymatlarni kategoriya daraxtiga
- * qo'shish ma'lumot modelini buzadi — ular faset bo'lib qolishi kerak.
+ * qoʻshish maʼlumot modelini buzadi — ular faset boʻlib qolishi kerak.
  */
 
 export type CategoryNode = Category & {
   children: CategoryNode[];
-  /** 0 = yuqori daraja. Ko'rsatishda chuqurlikni bilish uchun. */
+  /** 0 = yuqori daraja. Koʻrsatishda chuqurlikni bilish uchun. */
   depth: number;
 };
 
 /**
- * Tekis ro'yxatdan daraxt quradi.
+ * Tekis roʻyxatdan daraxt quradi.
  *
- * Himoya choralari (baza ma'lumoti har doim ham ideal emas):
- *   - `parent_id` mavjud bo'lmagan kategoriyaga ishora qilsa, tugun
- *     YO'QOLMAYDI — u yuqori darajaga ko'tariladi. Aks holda admin
- *     ota-kategoriyani o'chirgach, bola kategoriyalar butun saytdan
- *     jimgina g'oyib bo'lardi.
+ * Himoya choralari (baza maʼlumoti har doim ham ideal emas):
+ *   - `parent_id` mavjud boʻlmagan kategoriyaga ishora qilsa, tugun
+ *     YOʻQOLMAYDI — u yuqori darajaga koʻtariladi. Aks holda admin
+ *     ota-kategoriyani oʻchirgach, bola kategoriyalar butun saytdan
+ *     jimgina gʻoyib boʻlardi.
  *   - Tsikl (a → b → a) cheksiz rekursiyaga olib kelmaydi: har bir
  *     tugun faqat bir marta joylashtiriladi.
  */
@@ -52,7 +52,7 @@ export function buildCategoryTree(flat: Category[]): CategoryNode[] {
     else roots.push(node); // yetim yoki yuqori daraja
   }
 
-  // Tsiklni uzish: ildizdan yetib bo'lmaydigan tugunlar ham ko'rsatilsin.
+  // Tsiklni uzish: ildizdan yetib boʻlmaydigan tugunlar ham koʻrsatilsin.
   const seen = new Set<string>();
   const setDepth = (nodes: CategoryNode[], depth: number) => {
     for (const n of nodes) {
@@ -78,7 +78,7 @@ export function buildCategoryTree(flat: Category[]): CategoryNode[] {
   return roots;
 }
 
-/** Daraxtdagi barcha tugunlarni tekis ro'yxatga yoyadi. */
+/** Daraxtdagi barcha tugunlarni tekis roʻyxatga yoyadi. */
 export function flattenTree(nodes: CategoryNode[]): CategoryNode[] {
   const out: CategoryNode[] = [];
   const walk = (list: CategoryNode[]) => {
@@ -92,8 +92,8 @@ export function flattenTree(nodes: CategoryNode[]): CategoryNode[] {
 }
 
 /**
- * Tugungacha bo'lgan yo'l: [ota, bola, nevara].
- * Qidiruvda "Telefonlar → Smartfonlar → …" ko'rsatish uchun.
+ * Tugungacha boʻlgan yoʻl: [ota, bola, nevara].
+ * Qidiruvda "Telefonlar → Smartfonlar → …" koʻrsatish uchun.
  */
 export function pathToNode(nodes: CategoryNode[], id: string): CategoryNode[] {
   const walk = (list: CategoryNode[], trail: CategoryNode[]): CategoryNode[] | null => {
@@ -109,10 +109,10 @@ export function pathToNode(nodes: CategoryNode[], id: string): CategoryNode[] {
 }
 
 /**
- * Nomi bo'yicha qidiradi va har bir natija bilan birga uning to'liq
- * yo'lini qaytaradi.
+ * Nomi boʻyicha qidiradi va har bir natija bilan birga uning toʻliq
+ * yoʻlini qaytaradi.
  *
- * Faqat NOM bo'yicha: tavsif bo'yicha qidirish aloqasiz natijalarni
+ * Faqat NOM boʻyicha: tavsif boʻyicha qidirish aloqasiz natijalarni
  * olib keladi va foydalanuvchi nima uchun chiqqanini tushunmaydi.
  */
 export function searchCategories(
@@ -131,7 +131,7 @@ export function searchCategories(
     }
   };
   walk(roots, []);
-  // Aniqroq moslik (nomi qidiruv so'zi bilan BOSHLANADIGAN) yuqorida.
+  // Aniqroq moslik (nomi qidiruv soʻzi bilan BOSHLANADIGAN) yuqorida.
   out.sort((a, b) => {
     const as = a.node.name.toLocaleLowerCase().startsWith(q) ? 0 : 1;
     const bs = b.node.name.toLocaleLowerCase().startsWith(q) ? 0 : 1;
@@ -140,30 +140,30 @@ export function searchCategories(
   return out.slice(0, limit);
 }
 
-/** Daraxtda haqiqiy ierarxiya bormi (ya'ni hech bo'lmasa bitta bola). */
+/** Daraxtda haqiqiy ierarxiya bormi (yaʼni hech boʻlmasa bitta bola). */
 export function hasNesting(roots: CategoryNode[]): boolean {
   return roots.some((r) => r.children.length > 0);
 }
 
 /**
  * Tanlangan kategoriyalarni butun PASTKI DARAXTIGA yoyadi:
- * natijada tanlanganlarning o'zi + ularning barcha avlodlari qaytadi.
+ * natijada tanlanganlarning oʻzi + ularning barcha avlodlari qaytadi.
  *
  * Nima uchun kerak:
- *   Mahsulot faqat BITTA kategoriyaga bog'lanadi (`products.category_id`)
- *   va u odatda eng pastki (barg) kategoriya bo'ladi. Ya'ni "Telefonlar
- *   va planshetlar" ota-kategoriyasida `category_id` bilan to'g'ridan-
- *   to'g'ri bog'langan bironta mahsulot BO'LMAYDI — ular "Smartfonlar"
- *   bolasida turadi. Aniq moslik bo'yicha qidirilsa, ota-kategoriya
- *   sahifasi bo'sh chiqadi va navigatsiyada "o'lik" tugun paydo bo'ladi.
+ *   Mahsulot faqat BITTA kategoriyaga bogʻlanadi (`products.category_id`)
+ *   va u odatda eng pastki (barg) kategoriya boʻladi. Yaʼni "Telefonlar
+ *   va planshetlar" ota-kategoriyasida `category_id` bilan toʻgʻridan-
+ *   toʻgʻri bogʻlangan bironta mahsulot BOʻLMAYDI — ular "Smartfonlar"
+ *   bolasida turadi. Aniq moslik boʻyicha qidirilsa, ota-kategoriya
+ *   sahifasi boʻsh chiqadi va navigatsiyada "oʻlik" tugun paydo boʻladi.
  *
  * Muhim xususiyatlar:
- *   - Natija TAKRORLANMAYDI (`Set`), shuning uchun `.in(...)` so'roviga
- *     bir xil id ikki marta tushmaydi va mahsulot dublikat bo'lmaydi.
- *   - Daraxtda topilmagan id (masalan kategoriya endigina o'chirilgan)
- *     baribir natijaga kiritiladi: so'rov shunchaki 0 qator qaytaradi,
- *     bu esa "hamma narsani ko'rsatish"dan xavfsizroq.
- *   - Halqa (cycle) bo'lsa ham to'xtaydi — har bir tugun bir marta
+ *   - Natija TAKRORLANMAYDI (`Set`), shuning uchun `.in(...)` soʻroviga
+ *     bir xil id ikki marta tushmaydi va mahsulot dublikat boʻlmaydi.
+ *   - Daraxtda topilmagan id (masalan kategoriya endigina oʻchirilgan)
+ *     baribir natijaga kiritiladi: soʻrov shunchaki 0 qator qaytaradi,
+ *     bu esa "hamma narsani koʻrsatish"dan xavfsizroq.
+ *   - Halqa (cycle) boʻlsa ham toʻxtaydi — har bir tugun bir marta
  *     qayta ishlanadi.
  */
 export function expandWithDescendants(roots: CategoryNode[], selectedIds: string[]): string[] {
@@ -197,23 +197,23 @@ export function expandWithDescendants(roots: CategoryNode[], selectedIds: string
 /**
  * KETMA-KET TANLOVCHILAR uchun darajalar.
  *
- * Admin mahsulotga kategoriya biriktirayotganda har daraja o'z
- * `<select>` iga ega: avval asosiy kategoriya, keyin bo'lim, keyin
- * undan ham ichkarisi. Bu funksiya o'sha darajalarni hisoblaydi.
+ * Admin mahsulotga kategoriya biriktirayotganda har daraja oʻz
+ * `<select>` iga ega: avval asosiy kategoriya, keyin boʻlim, keyin
+ * undan ham ichkarisi. Bu funksiya oʻsha darajalarni hisoblaydi.
  *
  * Qaytadi:
  *   `levels`   — har bir tanlovchi uchun variantlar. Birinchisi hamisha
  *                ildizlar; keyingisi faqat tanlangan tugunning BOLALARI
- *                bo'lsa qo'shiladi, ya'ni ortiqcha bo'sh tanlovchi
+ *                boʻlsa qoʻshiladi, yaʼni ortiqcha boʻsh tanlovchi
  *                chiqmaydi.
- *   `trail`    — tanlovgacha bo'lgan to'liq yo'l (navigatsiya izi uchun).
- *   `isLeaf`   — tanlangan tugun eng pastki daraja (bolasi yo'q).
+ *   `trail`    — tanlovgacha boʻlgan toʻliq yoʻl (navigatsiya izi uchun).
+ *   `isLeaf`   — tanlangan tugun eng pastki daraja (bolasi yoʻq).
  *   `orphaned` — id berilgan, lekin daraxtda TOPILMADI. Bu jimgina
- *                yuzaga keladigan holat: ro'yxat faqat FAOL
+ *                yuzaga keladigan holat: roʻyxat faqat FAOL
  *                kategoriyalarni oladi, shuning uchun nofaol qilingan
  *                kategoriyaga biriktirilgan mahsulot «tanlanmagan»
- *                bo'lib ko'rinadi — aslida esa eski bog'lanish
- *                saqlanib turadi. Chaqiruvchi buni ko'rsatishi shart.
+ *                boʻlib koʻrinadi — aslida esa eski bogʻlanish
+ *                saqlanib turadi. Chaqiruvchi buni koʻrsatishi shart.
  */
 export function categoryLevels(
   roots: CategoryNode[],
@@ -236,7 +236,7 @@ export function categoryLevels(
  * Daraxtni bir marta quradigan hook.
  *
  * `useCategories()` allaqachon jarayon davomida keshlanadi, shuning uchun
- * bu yerda qo'shimcha so'rov yo'q — faqat xotiradagi ro'yxat qayta
+ * bu yerda qoʻshimcha soʻrov yoʻq — faqat xotiradagi roʻyxat qayta
  * shakllantiriladi.
  */
 export function useCategoryTree() {

@@ -12,7 +12,7 @@ type AuthContextValue = {
   isAdmin: boolean;
   /** `identifier` — Telegram botda tanlangan login yoki telefon raqami. */
   signIn: (identifier: string, password: string) => Promise<{ error: string | null }>;
-  /** Google OAuth — brauzerni provayder sahifasiga yo'naltiradi. */
+  /** Google OAuth — brauzerni provayder sahifasiga yoʻnaltiradi. */
   signInWithGoogle: () => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
@@ -20,7 +20,7 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-// Supabase'ning inglizcha xato xabarlarini o'zbekchaga o'giramiz.
+// Supabase'ning inglizcha xato xabarlarini oʻzbekchaga oʻgiramiz.
 const AUTH_ERRORS: Record<string, string> = {
   'Invalid login credentials': 'Login yoki parol notoʻgʻri.',
   'Email not confirmed': 'Hisob hali tasdiqlanmagan.',
@@ -77,7 +77,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
    * `getSession()` va `onAuthStateChange` mount paytida deyarli bir vaqtda
    * ishga tushadi va ikkalasi ham profilni yuklaydi. Ular turli tezlikda
    * tugagani uchun ESKI javob YANGI javobdan keyin kelib, `profile` ni
-   * eskirgan qiymatga qaytarib qo'yishi mumkin edi (masalan admin bo'lgan
+   * eskirgan qiymatga qaytarib qoʻyishi mumkin edi (masalan admin boʻlgan
    * foydalanuvchi bir zumga oddiy mijozga aylanardi). Har bir yuklashga
    * tartib raqami beramiz va faqat eng oxirgisini qabul qilamiz.
    */
@@ -94,26 +94,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     let { data } = await supabase.from('profiles').select(PROFILE_SELECT).eq('id', uid).maybeSingle();
 
     /*
-     * 3-QAVAT KAFOLAT: profilni o'zi tiklash.
+     * 3-QAVAT KAFOLAT: profilni oʻzi tiklash.
      *
      * Profil odatda `handle_new_user` triggeri orqali yaratiladi. Lekin
-     * trigger o'chib qolishi yoki jimgina xato berishi mumkin (o'tmishda
-     * shunday bo'lgan) — natijada foydalanuvchi tizimga kiradi-yu,
-     * profili yo'q: ismi ko'rinmaydi, buyurtma bera olmaydi, admin
-     * paneli ochilmaydi va uni bazada topib ham bo'lmaydi.
+     * trigger oʻchib qolishi yoki jimgina xato berishi mumkin (oʻtmishda
+     * shunday boʻlgan) — natijada foydalanuvchi tizimga kiradi-yu,
+     * profili yoʻq: ismi koʻrinmaydi, buyurtma bera olmaydi, admin
+     * paneli ochilmaydi va uni bazada topib ham boʻlmaydi.
      *
      * Bu ayniqsa Google orqali kirganlar uchun muhim — u yerda bot
-     * tomonidagi zaxira yo'q.
+     * tomonidagi zaxira yoʻq.
      *
-     * `profile_insert_own` policy'si faqat `id = auth.uid()` ga ruxsat
+     * `profile_insert_own` policyʼsi faqat `id = auth.uid()` ga ruxsat
      * beradi, `force_default_profile_privileges` triggeri esa role/
-     * is_active ni majburan sukutga qaytaradi — ya'ni bu yerdan
-     * imtiyoz olib bo'lmaydi.
+     * is_active ni majburan sukutga qaytaradi — yaʼni bu yerdan
+     * imtiyoz olib boʻlmaydi.
      */
     if (!data) {
       const { error: insertError } = await supabase.from('profiles').insert({ id: uid });
-      // Boshqa tab bir vaqtda yaratib ulgurgan bo'lishi mumkin (23505) —
-      // bu xato emas, shunchaki qayta o'qiymiz.
+      // Boshqa tab bir vaqtda yaratib ulgurgan boʻlishi mumkin (23505) —
+      // bu xato emas, shunchaki qayta oʻqiymiz.
       if (!insertError || insertError.code === '23505') {
         ({ data } = await supabase.from('profiles').select(PROFILE_SELECT).eq('id', uid).maybeSingle());
       } else {
@@ -134,9 +134,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession(next);
       if (next?.user) {
         const p = await loadProfile(next.user.id);
-        // Foydalanuvchi tizimga kirgan holatda bloklangan bo'lsa, sessiyani
+        // Foydalanuvchi tizimga kirgan holatda bloklangan boʻlsa, sessiyani
         // shu yerda ham tugatamiz — aks holda u eski sessiya bilan cheksiz
-        // ishlab yuraverardi (RPC'lar xato qaytarsa-da, UI ochiq qolardi).
+        // ishlab yuraverardi (RPCʼlar xato qaytarsa-da, UI ochiq qolardi).
         if (p && p.is_active === false) {
           await supabase.auth.signOut();
           if (mounted.current) {
@@ -165,12 +165,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   /*
    * Kirish — Telegram botda tanlangan LOGIN va parol bilan.
    *
-   * Hisoblar ikki xil ichki emailga ega bo'lishi mumkin:
+   * Hisoblar ikki xil ichki emailga ega boʻlishi mumkin:
    *   - yangi (bot v2)  : `<login>@telegram.local`
    *   - eski hisoblar   : `<telefon raqami>@telegram.local`
-   * Shuning uchun avval login sifatida urinamiz; muvaffaqiyatsiz bo'lsa va
-   * kiritilgan matn telefonga o'xshasa, raqam varianti bilan qayta urinamiz.
-   * Bu eski foydalanuvchilarni yo'qotmaslik uchun kerak.
+   * Shuning uchun avval login sifatida urinamiz; muvaffaqiyatsiz boʻlsa va
+   * kiritilgan matn telefonga oʻxshasa, raqam varianti bilan qayta urinamiz.
+   * Bu eski foydalanuvchilarni yoʻqotmaslik uchun kerak.
    */
   const signIn = useCallback(
     async (identifier: string, password: string) => {
@@ -203,17 +203,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   /*
    * Google OAuth. Brauzer Google sahifasiga ketadi va `redirectTo` orqali
-   * qaytadi; sessiyani `detectSessionInUrl` o'zi ilib oladi va
+   * qaytadi; sessiyani `detectSessionInUrl` oʻzi ilib oladi va
    * `onAuthStateChange` profilni yuklaydi.
    *
    * `redirectTo` ATAYLAB faqat `origin` — aniq sahifa emas.
    *
-   * Supabase qaytish manzillarini oq ro'yxat bo'yicha tekshiradi
+   * Supabase qaytish manzillarini oq roʻyxat boʻyicha tekshiradi
    * (Dashboard → Authentication → URL Configuration). Bu yerga
-   * `origin + pathname` yozilsa, ro'yxatga kiritilmagan HAR BIR yo'lda
-   * kirish jim ravishda ishlamay qoladi. Foydalanuvchini o'zi turgan
-   * sahifaga qaytarish uchun avval Supabase'da wildcard qo'shish kerak —
-   * bu kod o'zgarishi emas, konfiguratsiya o'zgarishi.
+   * `origin + pathname` yozilsa, roʻyxatga kiritilmagan HAR BIR yoʻlda
+   * kirish jim ravishda ishlamay qoladi. Foydalanuvchini oʻzi turgan
+   * sahifaga qaytarish uchun avval Supabase'da wildcard qoʻshish kerak —
+   * bu kod oʻzgarishi emas, konfiguratsiya oʻzgarishi.
    */
   const signInWithGoogle = useCallback(async () => {
     const { error } = await supabase.auth.signInWithOAuth({

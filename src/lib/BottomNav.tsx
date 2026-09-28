@@ -12,9 +12,9 @@ import { CatalogNavSheet } from './CatalogNavSheet';
 import { useState } from 'react';
 
 /*
- * Past bo'yli landshaft telefonlar uchun ixcham variant. Tailwind sinf
- * nomlarini manba matnidan TO'LIQ HOLDA topadi, shuning uchun bu variantlar
- * shablon ichida yig'ilmaydi — pastda to'g'ridan-to'g'ri yozilgan.
+ * Past boʻyli landshaft telefonlar uchun ixcham variant. Tailwind sinf
+ * nomlarini manba matnidan TOʻLIQ HOLDA topadi, shuning uchun bu variantlar
+ * shablon ichida yigʻilmaydi — pastda toʻgʻridan-toʻgʻri yozilgan.
  */
 
 type NavItem = {
@@ -28,14 +28,14 @@ type NavItem = {
 /*
  * Element sinflari va ichki qismi ikki joyda kerak: katalog TUGMA,
  * qolganlari HAVOLA. Markup nusxalanmasligi uchun ular shu yerda
- * bir marta ta'riflanadi — aks holda ikki tarmoq vaqt o'tishi bilan
+ * bir marta taʼriflanadi — aks holda ikki tarmoq vaqt oʻtishi bilan
  * bir-biridan farq qila boshlaydi.
  */
 const navItemClass = cx(
-  // gap-1: bead ikonka o'ramidan 4px chiqib turadi, shuning uchun
-  // yorliqqa qo'shimcha joy kerak.
+  // gap-1: bead ikonka oʻramidan 4px chiqib turadi, shuning uchun
+  // yorliqqa qoʻshimcha joy kerak.
   'relative flex min-h-[3.25rem] flex-1 flex-col items-center justify-center gap-1 py-1.5',
-  // Bosishga tezkor javob — mobil navigatsiyada hover yo'q.
+  // Bosishga tezkor javob — mobil navigatsiyada hover yoʻq.
   'transition-transform duration-150 ease-standard active:scale-95',
   focusRingInset,
   '[@media(max-height:500px)_and_(orientation:landscape)]:min-h-0 [@media(max-height:500px)_and_(orientation:landscape)]:flex-row [@media(max-height:500px)_and_(orientation:landscape)]:gap-1.5 [@media(max-height:500px)_and_(orientation:landscape)]:py-1'
@@ -48,7 +48,7 @@ function NavIcon({ item, reduce }: { item: NavItem; reduce: boolean | null }) {
         'relative flex h-6 w-6 items-center justify-center',
         '[@media(max-height:500px)_and_(orientation:landscape)]:h-5 [@media(max-height:500px)_and_(orientation:landscape)]:w-5'
       )}
-      // Faol element bir oz YUQORIGA ko'tariladi — "bead" panel yuzasidan
+      // Faol element bir oz YUQORIGA koʻtariladi — "bead" panel yuzasidan
       // chiqib turgandek tuyuladi.
       animate={{ scale: item.active ? 1.04 : 1, y: item.active ? -2 : 0 }}
       transition={reduce ? { duration: 0 } : springs.snappy}
@@ -97,17 +97,17 @@ function NavIcon({ item, reduce }: { item: NavItem; reduce: boolean | null }) {
  * PLATFORMA — faol tab OSTIDAGI yumshoq nur.
  *
  * Ikonka ortidagi "bead" allaqachon qaysi tab faolligini aytadi. Bu
- * qatlam boshqa savolga javob beradi: bead'dan tushayotgan yorug'lik
- * panel yuzasiga TUSHADI, ya'ni tab yuzadan biroz ko'tarilib turgandek
- * ko'rinadi. Aynan shu narsa panelga chuqurlik beradi.
+ * qatlam boshqa savolga javob beradi: beadʼdan tushayotgan yorugʻlik
+ * panel yuzasiga TUSHADI, yaʼni tab yuzadan biroz koʻtarilib turgandek
+ * koʻrinadi. Aynan shu narsa panelga chuqurlik beradi.
  *
- * O'Z `layoutId` i bor — bead bilan BIR XIL emas. Ikkalasi turli
+ * OʻZ `layoutId` i bor — bead bilan BIR XIL emas. Ikkalasi turli
  * balandlikda va turli kenglikda: bitta id berilsa Motion ularni bitta
- * element deb hisoblab, o'rtada cho'zilgan oraliq holat chizardi.
+ * element deb hisoblab, oʻrtada choʻzilgan oraliq holat chizardi.
  *
  * Nur `blur` bilan, alohida rangli soya bilan emas: bu yerda kerak
- * bo'lgani — aniq qirrasiz yumshoq dog', `box-shadow` esa har doim
- * o'z shaklining konturini saqlaydi.
+ * boʻlgani — aniq qirrasiz yumshoq dog', `box-shadow` esa har doim
+ * oʻz shaklining konturini saqlaydi.
  */
 function NavPlatform({ reduce }: { reduce: boolean | null }) {
   return (
@@ -160,14 +160,14 @@ export function BottomNav() {
     <>
     <nav
       /*
-       * `tab:hidden` — 820px dan boshlab header o'zi to'liq navigatsiya
+       * `tab:hidden` — 820px dan boshlab header oʻzi toʻliq navigatsiya
        * beradi (savat, sevimlilar, profil), shuning uchun pastki panel
-       * ortiqcha bo'lib qoladi va ekran balandligini bekorga yeydi.
+       * ortiqcha boʻlib qoladi va ekran balandligini bekorga yeydi.
        * Ilgari u 1023px gacha turardi.
        *
-       * DIQQAT: bu chegara `<main>` dagi `tab:pb-0` va ProductPage'dagi
-       * yopishqoq CTA (`tab:hidden`) bilan BIRGA o'zgarishi shart —
-       * aks holda panel yo'q joyda bo'sh joy qoladi yoki CTA havoda osilib
+       * DIQQAT: bu chegara `<main>` dagi `tab:pb-0` va ProductPageʼdagi
+       * yopishqoq CTA (`tab:hidden`) bilan BIRGA oʻzgarishi shart —
+       * aks holda panel yoʻq joyda boʻsh joy qoladi yoki CTA havoda osilib
        * turadi.
        */
       className="fixed bottom-0 left-0 right-0 z-50 border-t border-ink-200 bg-white/95 backdrop-blur-md tab:hidden"
@@ -179,13 +179,13 @@ export function BottomNav() {
           /*
            * KATALOG — havola emas, TUGMA.
            *
-           * Qolgan tablar sahifaga o'tadi; katalog esa to'liq ekranli
+           * Qolgan tablar sahifaga oʻtadi; katalog esa toʻliq ekranli
            * navigatsiyani ochadi, chunki telefonda kategoriya tanlash
-           * ko'p bosqichli jarayon va uni alohida sahifaga aylantirsak
+           * koʻp bosqichli jarayon va uni alohida sahifaga aylantirsak
            * har bosqich brauzer tarixiga tushib ketardi.
            *
-           * Butun katalog sahifasiga o'tish yo'li yo'qolmadi — u
-           * varaqning pastida ("Butun katalogni ko'rish").
+           * Butun katalog sahifasiga oʻtish yoʻli yoʻqolmadi — u
+           * varaqning pastida ("Butun katalogni koʻrish").
            */
           if (item.path === '/catalog') {
             return (
@@ -210,9 +210,9 @@ export function BottomNav() {
             key={item.label}
             to={item.path}
             /*
-             * Mobilda uchish animatsiyalarining nishonlari. Header'dagi
-             * nusxalari `tab` dan pastda yashiringan bo'ladi va
-             * `findVisibleTarget` aynan ko'rinib turganini tanlaydi.
+             * Mobilda uchish animatsiyalarining nishonlari. Headerʼdagi
+             * nusxalari `tab` dan pastda yashiringan boʻladi va
+             * `findVisibleTarget` aynan koʻrinib turganini tanlaydi.
              */
             {...(item.path === '/cart' ? { 'data-cart-target': '' } : {})}
             {...(item.path === '/favorites' ? { 'data-favorites-target': '' } : {})}

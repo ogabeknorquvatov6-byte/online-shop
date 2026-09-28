@@ -40,24 +40,24 @@ export function AdminProducts() {
   /*
    * Mavjud brendlar — brend maydonidagi takliflar uchun.
    *
-   * ALOHIDA so'rov: yuqoridagi `products` ro'yxati sahifalangan, ya'ni
-   * unda faqat joriy sahifadagi brendlar bo'ladi. Takliflar esa BUTUN
-   * katalog bo'yicha bo'lishi kerak, aks holda 2-sahifadagi brend
-   * "yangi" bo'lib ko'rinadi va dublikat yaratiladi.
+   * ALOHIDA soʻrov: yuqoridagi `products` roʻyxati sahifalangan, yaʼni
+   * unda faqat joriy sahifadagi brendlar boʻladi. Takliflar esa BUTUN
+   * katalog boʻyicha boʻlishi kerak, aks holda 2-sahifadagi brend
+   * "yangi" boʻlib koʻrinadi va dublikat yaratiladi.
    *
-   * Faqat bitta ustun tanlanadi, shuning uchun so'rov yengil.
+   * Faqat bitta ustun tanlanadi, shuning uchun soʻrov yengil.
    */
   const [knownBrands, setKnownBrands] = useState<string[]>([]);
 
   /*
    * Qidiruv va filtr endi SERVERDA bajariladi (qarang: adminPagination.ts).
    * Ilgari butun katalog brauzerga yuklanib, keyin `Array.filter` bilan
-   * saralanardi — bu bir necha ming mahsulotda yorliqni qotirib qo'yadi.
+   * saralanardi — bu bir necha ming mahsulotda yorliqni qotirib qoʻyadi.
    */
   const debouncedSearch = useDebounced(search);
 
-  // Filtr o'zgarsa doim 1-sahifaga qaytamiz: aks holda 5-sahifada turgan
-  // admin filtrni torroq qilganda bo'sh ro'yxat ko'rardi.
+  // Filtr oʻzgarsa doim 1-sahifaga qaytamiz: aks holda 5-sahifada turgan
+  // admin filtrni torroq qilganda boʻsh roʻyxat koʻrardi.
   useEffect(() => { setPage(1); }, [debouncedSearch, statusFilter]);
 
   const load = useCallback(() => {
@@ -73,7 +73,7 @@ export function AdminProducts() {
       const term = sanitizeOrFilterTerm(debouncedSearch);
       if (term) {
         // Foydalanuvchi matni `.or()` sintaksisini buzmasligi uchun
-        // tozalanadi — `,` va `(` filtrni butunlay o'zgartirib yuborardi.
+        // tozalanadi — `,` va `(` filtrni butunlay oʻzgartirib yuborardi.
         query = query.or(`name.ilike.%${term}%,sku.ilike.%${term}%,brand.ilike.%${term}%`);
       }
       if (statusFilter === 'active') query = query.eq('is_active', true);
@@ -106,7 +106,7 @@ export function AdminProducts() {
 
   useEffect(() => load(), [load]);
 
-  /* Brendlar ro'yxati — bir marta, sahifalashdan mustaqil. */
+  /* Brendlar roʻyxati — bir marta, sahifalashdan mustaqil. */
   useEffect(() => {
     let cancelled = false;
     supabase
@@ -126,7 +126,7 @@ export function AdminProducts() {
     setDeleting(false);
     setConfirmDelete(null);
     if (err) {
-      // Buyurtmalarda ishlatilgan mahsulotni o'chirishda FK cheklovi bo'lishi mumkin.
+      // Buyurtmalarda ishlatilgan mahsulotni oʻchirishda FK cheklovi boʻlishi mumkin.
       notify(`Oʻchirib boʻlmadi: ${err.message}`, 'error');
       return;
     }
@@ -262,8 +262,8 @@ export function AdminProducts() {
           product={editing}
           categories={categories}
           knownBrands={knownBrands}
-          // Modal saqlangandan keyin ochiq qoladi (rasm/variant qo'shish uchun),
-          // shuning uchun ro'yxatni yopmasdan yangilaymiz.
+          // Modal saqlangandan keyin ochiq qoladi (rasm/variant qoʻshish uchun),
+          // shuning uchun roʻyxatni yopmasdan yangilaymiz.
           onClose={() => { setShowForm(false); load(); }}
           onSaved={() => load()}
         />
@@ -387,10 +387,10 @@ function ProductForm({
     active: (product?.status ?? 'active') === 'active',
   });
   /*
-   * Rasm va variantlar `product_id` ga bog'langan, ya'ni ular faqat mahsulot
-   * saqlangandan keyin qo'shilishi mumkin. Shuning uchun yangi mahsulot
-   * saqlangach modal yopilmaydi — u tahrirlash rejimiga o'tadi va admin
-   * darhol rasm/variant qo'sha oladi.
+   * Rasm va variantlar `product_id` ga bogʻlangan, yaʼni ular faqat mahsulot
+   * saqlangandan keyin qoʻshilishi mumkin. Shuning uchun yangi mahsulot
+   * saqlangach modal yopilmaydi — u tahrirlash rejimiga oʻtadi va admin
+   * darhol rasm/variant qoʻsha oladi.
    */
   const [savedId, setSavedId] = useState<string | null>(product?.id ?? null);
   const [tab, setTab] = useState<'general' | 'media' | 'variants'>('general');
@@ -415,9 +415,9 @@ function ProductForm({
     const slug = (form.slug.trim() || slugify(form.name)) || `mahsulot-${Date.now().toString(36)}`;
 
     /*
-     * Dizaynda "Narx" = mijoz to'laydigan joriy narx, "Eski narx" =
+     * Dizaynda "Narx" = mijoz toʻlaydigan joriy narx, "Eski narx" =
      * chegirmadan oldingi yuqori narx. Bazada aksincha: `price` = asl narx,
-     * `discount_price` = chegirmali narx (va u `price` dan kichik bo'lishi
+     * `discount_price` = chegirmali narx (va u `price` dan kichik boʻlishi
      * CHECK bilan majburlangan). Shuning uchun teskari moslaymiz.
      */
     const hasDiscount = oldPrice != null && oldPrice > price;
@@ -429,8 +429,8 @@ function ProductForm({
       discount_price: hasDiscount ? price : null,
       /*
        * Saqlashdan oldin registr normallashtiriladi: admin «apple» deb
-       * yozgan bo'lsa ham, bazada allaqachon mavjud «Apple» yozilishi
-       * ishlatiladi. Mavjud yozuvlar O'ZGARTIRILMAYDI — bu faqat shu
+       * yozgan boʻlsa ham, bazada allaqachon mavjud «Apple» yozilishi
+       * ishlatiladi. Mavjud yozuvlar OʻZGARTIRILMAYDI — bu faqat shu
        * saqlanayotgan mahsulotga taalluqli.
        */
       brand: normalizeBrandInput(form.brand, knownBrands),
@@ -452,8 +452,8 @@ function ProductForm({
       productId = data?.id;
     }
 
-    // Ilgari bu javoblar butunlay e'tiborsiz qoldirilardi va admin har doim
-    // "Mahsulot saqlandi" degan xabarni ko'rardi — hatto saqlanmaganda ham.
+    // Ilgari bu javoblar butunlay eʼtiborsiz qoldirilardi va admin har doim
+    // "Mahsulot saqlandi" degan xabarni koʻrardi — hatto saqlanmaganda ham.
     if (saveError || !productId) {
       setSaving(false);
       notify(

@@ -4,9 +4,9 @@ import { cartSignature, newCheckoutRequestId } from '../idempotency';
 import type { CartItem, Product } from '../types';
 
 /*
- * Savat `localStorage` dan o'qiladi — ya'ni ISHONCHSIZ manbadan.
+ * Savat `localStorage` dan oʻqiladi — yaʼni ISHONCHSIZ manbadan.
  * Bu yerdagi har bir holat haqiqatda uchraydi: eski versiya yozgan
- * boshqa shakl, DevTools'da qo'lda tahrirlash, yarim yozilgan JSON.
+ * boshqa shakl, DevToolsʼda qoʻlda tahrirlash, yarim yozilgan JSON.
  */
 
 const product = (over: Partial<Product> = {}): Product => ({
@@ -48,8 +48,8 @@ describe('sanitizeStoredCart — shakl', () => {
 
 describe('sanitizeStoredCart — miqdor', () => {
   it('manfiy va nol miqdorni tashlaydi', () => {
-    // Ilgari `Number.isFinite` tekshiruvi bularni O'TKAZIB YUBORARDI va
-    // savat manfiy summa ko'rsatardi.
+    // Ilgari `Number.isFinite` tekshiruvi bularni OʻTKAZIB YUBORARDI va
+    // savat manfiy summa koʻrsatardi.
     expect(sanitizeStoredCart([line({ quantity: -5 })])).toEqual([]);
     expect(sanitizeStoredCart([line({ quantity: 0 })])).toEqual([]);
   });
@@ -65,7 +65,7 @@ describe('sanitizeStoredCart — miqdor', () => {
 
   it('haddan tashqari katta miqdorni server chegarasiga qisadi', () => {
     // Server `create_order` da 50 dona chegarasi bor — UI undan oshiq
-    // miqdorni ko'rsatsa, buyurtma serverda rad etilardi.
+    // miqdorni koʻrsatsa, buyurtma serverda rad etilardi.
     const result = sanitizeStoredCart([line({ quantity: 1_000_000 })]);
     expect(result[0].quantity).toBe(MAX_QTY_PER_ITEM);
   });
@@ -77,7 +77,7 @@ describe('sanitizeStoredCart — miqdor', () => {
 
 describe('sanitizeStoredCart — narx va qoldiq', () => {
   it('narx son boʻlmasa pozitsiyani tashlaydi', () => {
-    // Aks holda oraliq summa `NaN` bo'lib, savatda "NaN so'm" chiqardi.
+    // Aks holda oraliq summa `NaN` boʻlib, savatda "NaN soʻm" chiqardi.
     expect(sanitizeStoredCart([line({ product: product({ price: 'abc' as unknown as number }) })])).toEqual([]);
     expect(sanitizeStoredCart([line({ product: product({ price: Number.NaN }) })])).toEqual([]);
     expect(sanitizeStoredCart([line({ product: product({ price: -10 }) })])).toEqual([]);
@@ -99,8 +99,8 @@ describe('sanitizeStoredCart — narx va qoldiq', () => {
 
 describe('sanitizeStoredCart — chegaralar', () => {
   it('savat hajmini cheklaydi', () => {
-    // Buzuq yozuv minglab pozitsiya bo'lsa, ularning har biri uchun
-    // render qilish brauzerni qotirib qo'yardi.
+    // Buzuq yozuv minglab pozitsiya boʻlsa, ularning har biri uchun
+    // render qilish brauzerni qotirib qoʻyardi.
     const many = Array.from({ length: 500 }, (_, i) => line({ product: product({ id: `p${i}` }) }));
     expect(sanitizeStoredCart(many)).toHaveLength(MAX_CART_LINES);
   });
@@ -140,8 +140,8 @@ describe('newCheckoutRequestId', () => {
 
 describe('cartSignature', () => {
   it('bir xil savat uchun bir xil imzo (tartibdan qatʼi nazar)', () => {
-    // Foydalanuvchi mahsulotni o'chirib qayta qo'shsa, tarkib o'sha
-    // bo'lsa idempotentlik kaliti BEKORGA yangilanmasligi kerak.
+    // Foydalanuvchi mahsulotni oʻchirib qayta qoʻshsa, tarkib oʻsha
+    // boʻlsa idempotentlik kaliti BEKORGA yangilanmasligi kerak.
     const a = [line({ product: product({ id: 'a' }) }), line({ product: product({ id: 'b' }) })];
     const b = [line({ product: product({ id: 'b' }) }), line({ product: product({ id: 'a' }) })];
     expect(cartSignature(a)).toBe(cartSignature(b));

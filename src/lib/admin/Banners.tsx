@@ -172,7 +172,7 @@ function BannerForm({
     e.preventDefault();
     const next: Record<string, string> = {};
     if (!form.title.trim()) next.title = 'Sarlavhani kiriting';
-    // Banner havolasi ilova ichidagi marshrut bo'lishi kerak (`/catalog`).
+    // Banner havolasi ilova ichidagi marshrut boʻlishi kerak (`/catalog`).
     // Tashqi manzil `Link` orqali ochilganda ilova ichida qidiriladi va
     // foydalanuvchi 404 sahifasiga tushadi.
     if (form.button_link.trim() && !form.button_link.trim().startsWith('/')) {

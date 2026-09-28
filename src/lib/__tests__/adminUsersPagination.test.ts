@@ -5,15 +5,15 @@ import { describe, expect, it } from 'vitest';
  * `admin_list_users` SAHIFALASHI — statik shartnoma testlari.
  *
  * NEGA SHUNDAY. Haqiqiy sahifalashni faqat ishlayotgan Postgres tekshira
- * oladi (bu `supabase/tests/` dagi SQL to'plamining ishi). Lekin bu
- * o'zgarishning eng xavfli tomonlari MATNDAN ham ko'rinadi va ular
+ * oladi (bu `supabase/tests/` dagi SQL toʻplamining ishi). Lekin bu
+ * oʻzgarishning eng xavfli tomonlari MATNDAN ham koʻrinadi va ular
  * jimgina qaytib kelishi mumkin:
  *
- *   — chegarasiz ro'yxatga qaytish (`limit` yo'qolishi);
+ *   — chegarasiz roʻyxatga qaytish (`limit` yoʻqolishi);
  *   — `anon` ga huquq berilib qolishi;
  *   — `is_admin()` tekshiruvining tushib qolishi;
- *   — eski imzoning o'chirilishi (keshdagi mijozlar buziladi);
- *   — yangi parametrlarga `default` qo'shilishi (42725 noaniqlik).
+ *   — eski imzoning oʻchirilishi (keshdagi mijozlar buziladi);
+ *   — yangi parametrlarga `default` qoʻshilishi (42725 noaniqlik).
  *
  * Bu testlar arzon va aynan shu regressiyalarni ushlaydi.
  */
@@ -24,7 +24,7 @@ const MIGRATION = readFileSync(
 );
 const USERS_TSX = readFileSync('src/lib/admin/Users.tsx', 'utf8');
 
-/** SQL izohlarini olib tashlaydi — izohdagi matn dalil bo'lib qolmasin. */
+/** SQL izohlarini olib tashlaydi — izohdagi matn dalil boʻlib qolmasin. */
 function stripSqlComments(sql: string): string {
   return sql.replace(/\/\*[\s\S]*?\*\//g, '').replace(/--[^\n]*/g, '');
 }
@@ -38,8 +38,8 @@ describe('migratsiya: roʻyxat endi chegarasiz emas', () => {
   it('mijoz yuborgan `p_limit` yuqoridan cheklanadi', () => {
     /*
      * Busiz admin (yoki uning brauzerini boshqargan kod) `p_limit`
-     * ga 1 000 000 yuborib sahifalashni butunlay chetlab o'tardi —
-     * ya'ni tuzatish faqat ko'rinishda qolardi.
+     * ga 1 000 000 yuborib sahifalashni butunlay chetlab oʻtardi —
+     * yaʼni tuzatish faqat koʻrinishda qolardi.
      */
     expect(SQL).toMatch(/least\s*\(\s*greatest\s*\(\s*coalesce\s*\(\s*p_limit/i);
     expect(SQL).toMatch(/least\s*\(\s*greatest\s*\(\s*coalesce\s*\(\s*p_limit\s*,\s*\d+\s*\)\s*,\s*\d+\s*\)\s*,\s*100\s*\)/i);
@@ -54,8 +54,8 @@ describe('migratsiya: roʻyxat endi chegarasiz emas', () => {
   });
 
   it('barqaror tartib — sahifalar orasida yozuv yoʻqolmasin', () => {
-    // Faqat `created_at` bo'yicha tartiblash bir xil vaqtli yozuvlarni
-    // sahifalar orasida takrorlab yoki yo'qotib yuborardi.
+    // Faqat `created_at` boʻyicha tartiblash bir xil vaqtli yozuvlarni
+    // sahifalar orasida takrorlab yoki yoʻqotib yuborardi.
     expect(SQL).toMatch(/order\s+by\s+m\.created_at\s+desc\s*,\s*m\.id/i);
   });
 });
@@ -72,7 +72,7 @@ describe('migratsiya: xavfsizlik kengaytirilmagan', () => {
 
   it('`anon` dan EXECUTE ANIQ tortib olinadi', () => {
     /*
-     * Supabase standart huquqi `anon` ga TO'G'RIDAN-TO'G'RI beriladi,
+     * Supabase standart huquqi `anon` ga TOʻGʻRIDAN-TOʻGʻRI beriladi,
      * `revoke ... from public` esa uni olib tashlamaydi
      * (20260910000000 auditidagi dars).
      */
@@ -96,14 +96,14 @@ describe('migratsiya: xavfsizlik kengaytirilmagan', () => {
 describe('migratsiya: deploy xavfsizligi', () => {
   it('eski (argumentsiz) imzo OʻCHIRILMAYDI', () => {
     // Keshdagi eski bundle `rpc('admin_list_users')` ni argumentsiz
-    // chaqiradi. Eskisini o'chirsak, ular uchun bo'lim PGRST202 bilan
+    // chaqiradi. Eskisini oʻchirsak, ular uchun boʻlim PGRST202 bilan
     // butunlay ishlamay qolardi.
     expect(SQL).not.toMatch(/drop\s+function[^;]*admin_list_users/i);
   });
 
   it('yangi parametrlarda `default` YOʻQ (42725 noaniqligining oldini oladi)', () => {
     /*
-     * `default` bo'lsa, ARGUMENTSIZ chaqiruv ikkala overload'ga ham mos
+     * `default` boʻlsa, ARGUMENTSIZ chaqiruv ikkala overloadʼga ham mos
      * kelib, Postgres "function is not unique" xatosini qaytarardi.
      */
     const header = SQL.match(
@@ -156,9 +156,9 @@ describe('frontend: toʻliq roʻyxat xotirada deb hisoblanmaydi', () => {
 
   it('profilsiz hisoblar soni SERVERDAN olinadi', () => {
     /*
-     * Ilgari bu son brauzerdagi to'liq ro'yxatdan hisoblanardi.
+     * Ilgari bu son brauzerdagi toʻliq roʻyxatdan hisoblanardi.
      * Sahifalashdan keyin u faqat joriy sahifani sanab, ogohlantirishni
-     * jimgina kam ko'rsatib qo'yardi.
+     * jimgina kam koʻrsatib qoʻyardi.
      */
     expect(USERS_TSX).toMatch(/orphan_count/);
     expect(USERS_TSX).toMatch(/setOrphanCount/);

@@ -22,10 +22,10 @@ export function AnimatedNumber({ value, className }: { value: string | number; c
 /**
  * Savat nishonchasi.
  *
- * Bu raqam — "savatga qo'shildi" harakatining yagona doimiy, ekranda
+ * Bu raqam — "savatga qoʻshildi" harakatining yagona doimiy, ekranda
  * qoladigan natijasi, shuning uchun u sezilishi kerak. Ilgari u
  * belgilangan davomiylikdagi `ease` bilan chiqardi va oddiy "paydo
- * bo'lish" bo'lib tuyulardi. Endi `springs.snappy` — haqiqiy sakrash.
+ * boʻlish" boʻlib tuyulardi. Endi `springs.snappy` — haqiqiy sakrash.
  * Yangi raqamlar kiritilmaydi: bu prujina allaqachon `motion.ts` da
  * belgilangan va ilovaning umumiy harakat "tili"ga tegishli.
  */

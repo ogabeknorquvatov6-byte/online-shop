@@ -16,30 +16,30 @@ import { STAR, springs } from './motion';
  * MAHSULOT SHARHLARI.
  *
  * Baza tomoni: `supabase/migrations/20260913000000_product_reviews.sql`.
- * O'rtacha reyting va sharhlar soni U YERDA, trigger orqali hisoblanadi —
- * bu komponent ularni HECH QACHON o'zi yozmaydi, faqat ko'rsatadi.
+ * Oʻrtacha reyting va sharhlar soni U YERDA, trigger orqali hisoblanadi —
+ * bu komponent ularni HECH QACHON oʻzi yozmaydi, faqat koʻrsatadi.
  *
- * ── BITTA SO'ROV, BITTA MANBA ─────────────────────────────────────
+ * ── BITTA SOʻROV, BITTA MANBA ─────────────────────────────────────
  *
  * Mahsulotning BARCHA sharhlari bir marta yuklanadi. Undan keyin:
- *   • ro'yxat            — shu massivdan
- *   • "Yana ko'rsatish"  — shu massivdan (qayta so'rov YO'Q)
+ *   • roʻyxat            — shu massivdan
+ *   • "Yana koʻrsatish"  — shu massivdan (qayta soʻrov YOʻQ)
  *   • "mening sharhim"   — shu massivdan topiladi
  *   • yangi reyting/son  — shu massivdan hisoblanadi
  *
- * Alohida "mening sharhim bormi?" so'rovi ATAYLAB yo'q: RLS o'qishga
- * ruxsat bergani uchun u baribir shu ro'yxatda bo'ladi va ikkinchi
- * so'rov faqat kechikish qo'shardi.
+ * Alohida "mening sharhim bormi?" soʻrovi ATAYLAB yoʻq: RLS oʻqishga
+ * ruxsat bergani uchun u baribir shu roʻyxatda boʻladi va ikkinchi
+ * soʻrov faqat kechikish qoʻshardi.
  *
- * Sharhlar soni bitta mahsulotda o'nlab bo'ladi, yuz minglab emas —
+ * Sharhlar soni bitta mahsulotda oʻnlab boʻladi, yuz minglab emas —
  * shuning uchun sahifalash (pagination) shart emas va u faqat
- * murakkablik qo'shardi.
+ * murakkablik qoʻshardi.
  */
 
-/** Boshida shuncha sharh ko'rsatiladi, qolgani "Yana ko'rsatish" bilan. */
+/** Boshida shuncha sharh koʻrsatiladi, qolgani "Yana koʻrsatish" bilan. */
 const VISIBLE_STEP = 5;
 
-/** Faqat KO'RSATISH uchun yulduzchalar qatori. */
+/** Faqat KOʻRSATISH uchun yulduzchalar qatori. */
 export function StarRating({ value, className }: { value: number; className?: string }) {
   return (
     <span className={cx('inline-flex items-center gap-0.5', className)} aria-label={`Reyting ${value} / 5`}>
@@ -61,8 +61,8 @@ export function StarRating({ value, className }: { value: number; className?: st
  * YULDUZCHA TANLAGICH.
  *
  * `role="radiogroup"` + `role="radio"` — bu aynan "bir nechtadan bittasi"
- * tanlovi. Oddiy tugmalar qatori bo'lganda skrinrider ularni bog'liq
- * bo'lmagan beshta tugma deb o'qirdi va foydalanuvchi nechta yulduzcha
+ * tanlovi. Oddiy tugmalar qatori boʻlganda skrinrider ularni bogʻliq
+ * boʻlmagan beshta tugma deb oʻqirdi va foydalanuvchi nechta yulduzcha
  * tanlanganini bilmasdi.
  *
  * Klaviatura: har bir yulduzcha alohida fokus oladi (`tabIndex`
@@ -80,7 +80,7 @@ function StarPicker({
   const reduce = useReducedMotion();
   const [hover, setHover] = useState(0);
   // Kursor ostidagi qiymat tanlanganidan ustun — foydalanuvchi bosishdan
-  // OLDIN natijani ko'radi.
+  // OLDIN natijani koʻradi.
   const shown = hover || value;
 
   return (
@@ -133,32 +133,32 @@ export function ProductReviews({
   const [rating, setRating] = useState(0);
   const [body, setBody] = useState('');
   const [saving, setSaving] = useState(false);
-  /* Forma tegilganidan keyingina xato ko'rsatiladi. */
+  /* Forma tegilganidan keyingina xato koʻrsatiladi. */
   const [touched, setTouched] = useState(false);
   /*
-   * O'chirish TASDIQ SO'RAYDI.
+   * Oʻchirish TASDIQ SOʻRAYDI.
    *
-   * Sharh — foydalanuvchi qo'lda yozgan matn va uni tiklab bo'lmaydi.
+   * Sharh — foydalanuvchi qoʻlda yozgan matn va uni tiklab boʻlmaydi.
    * "Yangilash" tugmasi yonida turgan bir tegishli tugma tasodifan
-   * bosilsa, mehnat izsiz yo'qolardi. Shuning uchun oraga dialog
-   * qo'yilgan — `AccountPage` dagi manzil o'chirish bilan AYNAN bir xil
+   * bosilsa, mehnat izsiz yoʻqolardi. Shuning uchun oraga dialog
+   * qoʻyilgan — `AccountPage` dagi manzil oʻchirish bilan AYNAN bir xil
    * naqsh (`ResponsiveModal` + `danger`/`outline` juftligi).
    */
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
   /*
-   * `onStatsChange` REF ORQALI chaqiriladi, bog'liqlik sifatida emas.
+   * `onStatsChange` REF ORQALI chaqiriladi, bogʻliqlik sifatida emas.
    *
-   * Aks holda `load` uning identifikatoriga bog'lanardi va chaqiruvchi
-   * uni JSX ichida o'rinda yozgan zahoti (`onStatsChange={(s) => ...}`)
-   * har renderda yangi funksiya paydo bo'lardi: `load` yangilanadi →
+   * Aks holda `load` uning identifikatoriga bogʻlanardi va chaqiruvchi
+   * uni JSX ichida oʻrinda yozgan zahoti (`onStatsChange={(s) => ...}`)
+   * har renderda yangi funksiya paydo boʻlardi: `load` yangilanadi →
    * effekt qayta ishlaydi → `setReviews` → yangi render → yana yangi
-   * funksiya. Ya'ni CHEKSIZ so'rovlar halqasi.
+   * funksiya. Yaʼni CHEKSIZ soʻrovlar halqasi.
    *
    * Hozir `ProductPage` barqaror `setReviewStats` ni uzatadi va muammo
-   * ko'rinmaydi — lekin bu chaqiruvchining ehtiyotkorligiga bog'liq
-   * bo'lib qolardi. Ref bilan bog'liqlik butunlay yo'qoladi.
+   * koʻrinmaydi — lekin bu chaqiruvchining ehtiyotkorligiga bogʻliq
+   * boʻlib qolardi. Ref bilan bogʻliqlik butunlay yoʻqoladi.
    */
   const statsCb = useRef(onStatsChange);
   useEffect(() => {
@@ -193,10 +193,10 @@ export function ProductReviews({
   );
 
   /*
-   * Forma o'z sharhim bilan OLDINDAN to'ldiriladi.
+   * Forma oʻz sharhim bilan OLDINDAN toʻldiriladi.
    *
-   * `mine?.id` ga bog'langan: ro'yxat qayta yuklanganda obyekt yangi
-   * bo'ladi, lekin id o'zgarmaydi — shuning uchun foydalanuvchi
+   * `mine?.id` ga bogʻlangan: roʻyxat qayta yuklanganda obyekt yangi
+   * boʻladi, lekin id oʻzgarmaydi — shuning uchun foydalanuvchi
    * yozayotgan matn har yuklanishda ustidan yozilib ketmaydi.
    */
   useEffect(() => {
@@ -233,8 +233,8 @@ export function ProductReviews({
       return;
     }
     notify(mine ? 'Sharhingiz yangilandi' : 'Sharhingiz uchun rahmat!', 'success');
-    // Ro'yxat qayta o'qiladi — reyting va son SHUNDAN hisoblanadi, ya'ni
-    // ekrandagi qiymat har doim ko'rinib turgan sharhlarga mos keladi.
+    // Roʻyxat qayta oʻqiladi — reyting va son SHUNDAN hisoblanadi, yaʼni
+    // ekrandagi qiymat har doim koʻrinib turgan sharhlarga mos keladi.
     await load();
   };
 
@@ -250,12 +250,12 @@ export function ProductReviews({
       return;
     }
     /*
-     * Forma QO'LDA tozalanadi.
+     * Forma QOʻLDA tozalanadi.
      *
-     * Oldindan to'ldirish effekti `mine?.id` ga bog'langan va `mine`
-     * endi `null` — ya'ni u ishlamaydi va eski matn maydonda qolib
-     * ketardi. Foydalanuvchi sharhini o'chirgani holda uning matnini
-     * ko'rib turishi chalkash bo'lardi.
+     * Oldindan toʻldirish effekti `mine?.id` ga bogʻlangan va `mine`
+     * endi `null` — yaʼni u ishlamaydi va eski matn maydonda qolib
+     * ketardi. Foydalanuvchi sharhini oʻchirgani holda uning matnini
+     * koʻrib turishi chalkash boʻlardi.
      */
     setRating(0);
     setBody('');
@@ -266,9 +266,9 @@ export function ProductReviews({
 
   if (failed) {
     /*
-     * `showHomeLink={false}` — foydalanuvchi allaqachon O'ZI xohlagan
+     * `showHomeLink={false}` — foydalanuvchi allaqachon OʻZI xohlagan
      * sahifada turibdi va uni bosh sahifaga yuborish yordam emas,
-     * yo'qotish bo'lardi. Faqat sharhlar bloki ishlamadi, mahsulotning
+     * yoʻqotish boʻlardi. Faqat sharhlar bloki ishlamadi, mahsulotning
      * qolgan hamma narsasi joyida.
      */
     return (

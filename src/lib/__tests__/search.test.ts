@@ -10,7 +10,7 @@ const product = (over: Partial<SearchProductRow> = {}): SearchProductRow => ({
 
 describe('escapeLike', () => {
   it('LIKE joker belgilarini zararsizlantiradi', () => {
-    // `%` ekranlanmasa "50%" so'rovi butun katalogga mos kelib, tasodifiy
+    // `%` ekranlanmasa "50%" soʻrovi butun katalogga mos kelib, tasodifiy
     // natijalar chiqarardi. `_` esa istalgan bitta belgiga mos keladi.
     expect(escapeLike('50%')).toBe('50\\%');
     expect(escapeLike('a_b')).toBe('a\\_b');
@@ -25,10 +25,14 @@ describe('escapeLike', () => {
 /*
  * ── APOSTROF: MIJOZ QANDAY YOZSA HAM TOPSIN ─────────────────────────
  *
- * Bazadagi nom toʻgʻri belgi bilan yozilgan (`qoʻshimcha`, U+02BB), lekin
- * klaviaturada u yoʻq — mijoz `qo'shimcha` deb yozadi. Bu testlar aynan
- * shu moslikni qulflaydi: ular buzilsa, doʻkonda mahsulot BOR, lekin uni
+ * Bazadagi nom toʻgʻri belgi bilan yozilgan (U+02BB), lekin klaviaturada
+ * u yoʻq — mijoz tekis apostrof (U+0027) bosadi. Bu testlar aynan shu
+ * moslikni qulflaydi: ular buzilsa, doʻkonda mahsulot BOR, lekin uni
  * qidiruv orqali topib boʻlmaydi va bu hech qanday xato xabari bermaydi.
+ *
+ * Izohda ham belgilar nomi bilan atalgan, jonli belgi bilan emas —
+ * yuqoridagi kodmod ularni ham tenglashtirib, izohni yolgʻon
+ * qilib qoʻyardi.
  */
 describe('apostrof normalizatsiyasi', () => {
   /*
@@ -72,7 +76,7 @@ describe('apostrof normalizatsiyasi', () => {
 
   it('LIKE naqshida apostrof `_` jokeriga aylanadi', () => {
     // `_` = "aynan bitta istalgan belgi", yaʼni naqsh bazadagi HAR QANDAY
-    // apostrof variantiga mos keladi. Solishtirish Postgres'da boʻlgani
+    // apostrof variantiga mos keladi. Solishtirish Postgresʼda boʻlgani
     // uchun boshqa yoʻl yoʻq: ustun qiymatini mijoz normallashtira olmaydi.
     for (const ch of ALL) {
       expect(likePattern(word(ch))).toBe('%qo_shimcha%');
@@ -111,8 +115,8 @@ describe('splitHighlight', () => {
   });
 
   it('registrga bogʻliq emas, lekin ASL yozuvni saqlaydi', () => {
-    // Ajratilgan bo'lak foydalanuvchi yozgani emas, MAHSULOT nomidagi
-    // matn bo'lishi kerak — aks holda karta nomi buzilib ko'rinardi.
+    // Ajratilgan boʻlak foydalanuvchi yozgani emas, MAHSULOT nomidagi
+    // matn boʻlishi kerak — aks holda karta nomi buzilib koʻrinardi.
     const parts = splitHighlight('SAMSUNG Galaxy', 'samsung');
     expect(parts[0]).toEqual({ text: 'SAMSUNG', match: true });
   });
@@ -129,8 +133,8 @@ describe('splitHighlight', () => {
 
 describe('buildFlatItems', () => {
   it('klaviatura navigatsiyasi uchun yagona tartib beradi', () => {
-    // Tartib UI'dagi tartib bilan bir xil bo'lishi SHART: kategoriyalar →
-    // brendlar → mahsulotlar. Aks holda ↓ tugmasi ko'rinmaydigan
+    // Tartib UIʼdagi tartib bilan bir xil boʻlishi SHART: kategoriyalar →
+    // brendlar → mahsulotlar. Aks holda ↓ tugmasi koʻrinmaydigan
     // elementga "sakrab" ketardi.
     const items = buildFlatItems(
       [{ id: 'c1', name: 'Telefonlar', slug: 'telefonlar' }],
@@ -152,8 +156,8 @@ describe('itemHref', () => {
   });
 
   it('brend nomini manzil uchun kodlaydi', () => {
-    // Bo'shliq yoki `&` bo'lgan brend nomi kodlanmasa, so'rov parametri
-    // buzilib, filtr umuman qo'llanmasdi.
+    // Boʻshliq yoki `&` boʻlgan brend nomi kodlanmasa, soʻrov parametri
+    // buzilib, filtr umuman qoʻllanmasdi.
     expect(itemHref({ kind: 'brand', data: 'Xiaomi & Co' })).toBe('/catalog?brand=Xiaomi%20%26%20Co');
   });
 });

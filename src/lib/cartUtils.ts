@@ -1,20 +1,20 @@
 import type { CartItem, Product } from './types';
 
 /*
- * Savat bilan bog'liq sof funksiyalar (React'ga bog'liq emas).
+ * Savat bilan bogʻliq sof funksiyalar (Reactʼga bogʻliq emas).
  * Provider `cart.tsx` da qoladi, hisob-kitob esa shu yerda — shunda
  * ularni komponentsiz ham (masalan testda) ishlatish mumkin.
  */
 
-/** `create_order` serverda har bir pozitsiya uchun 50 dona chegarasini qo'yadi. */
+/** `create_order` serverda har bir pozitsiya uchun 50 dona chegarasini qoʻyadi. */
 export const MAX_QTY_PER_ITEM = 50;
 
 /**
  * Savat pozitsiyasining yagona kaliti.
  *
- * Ilgari pozitsiyalar `(productId, variant-matni)` juftligi bo'yicha
- * farqlanardi. Endi variantning ID'si ham bor va aynan u ustunlik qiladi:
- * admin variant nomini o'zgartirsa ham savatdagi pozitsiya "adashib"
+ * Ilgari pozitsiyalar `(productId, variant-matni)` juftligi boʻyicha
+ * farqlanardi. Endi variantning IDʼsi ham bor va aynan u ustunlik qiladi:
+ * admin variant nomini oʻzgartirsa ham savatdagi pozitsiya "adashib"
  * ketmaydi va ikkita bir xil nomli variant chalkashmaydi.
  */
 export function cartItemKey(item: Pick<CartItem, 'product' | 'variant' | 'variantId'>): string {
@@ -28,8 +28,8 @@ function findVariant(product: Product, variantId?: string) {
 
 /**
  * Bir pozitsiya uchun ruxsat etilgan maksimal miqdor.
- * Variantda alohida ombor yuritilsa (stock != null) — o'sha qoldiq,
- * aks holda mahsulotning umumiy qoldig'i.
+ * Variantda alohida ombor yuritilsa (stock != null) — oʻsha qoldiq,
+ * aks holda mahsulotning umumiy qoldigʻi.
  */
 export function maxQuantityFor(product: Product, variantId?: string): number {
   const variant = findVariant(product, variantId);
@@ -39,7 +39,7 @@ export function maxQuantityFor(product: Product, variantId?: string): number {
 
 /**
  * Pozitsiyaning dona narxi: mahsulot narxi + variantning narx farqi.
- * Bu FAQAT ko'rsatish uchun — yakuniy summa har doim serverda
+ * Bu FAQAT koʻrsatish uchun — yakuniy summa har doim serverda
  * (`create_order`) qayta hisoblanadi.
  */
 export function unitPrice(item: Pick<CartItem, 'product' | 'variantId'>): number {
@@ -50,23 +50,23 @@ export function unitPrice(item: Pick<CartItem, 'product' | 'variantId'>): number
 /*
  * ── Saqlangan savatni tozalash ──────────────────────────────────────
  *
- * `localStorage` — ISHONCHSIZ MANBA. Uning ichidagi ma'lumotni:
- *   — foydalanuvchi DevTools'da qo'lda tahrirlashi mumkin;
- *   — ilovaning eski versiyasi boshqa shaklda yozgan bo'lishi mumkin;
- *   — brauzer kengaytmasi buzgan bo'lishi mumkin;
- *   — yozish yarim yo'lda uzilib qolgan bo'lishi mumkin.
+ * `localStorage` — ISHONCHSIZ MANBA. Uning ichidagi maʼlumotni:
+ *   — foydalanuvchi DevToolsʼda qoʻlda tahrirlashi mumkin;
+ *   — ilovaning eski versiyasi boshqa shaklda yozgan boʻlishi mumkin;
+ *   — brauzer kengaytmasi buzgan boʻlishi mumkin;
+ *   — yozish yarim yoʻlda uzilib qolgan boʻlishi mumkin.
  *
  * Ilgari tekshiruv `Number.isFinite(i.quantity)` bilan cheklangan edi.
- * Bu `-5`, `0`, `1.5` va `1e9` ni ham O'TKAZIB YUBORARDI, `product.price`
+ * Bu `-5`, `0`, `1.5` va `1e9` ni ham OʻTKAZIB YUBORARDI, `product.price`
  * esa umuman tekshirilmasdi. Natijada savatda manfiy summa yoki
- * "NaN so'm" ko'rinishi mumkin edi — server bunday buyurtmani rad
+ * "NaN soʻm" koʻrinishi mumkin edi — server bunday buyurtmani rad
  * etadi, lekin foydalanuvchi shu paytgacha buzilgan interfeys bilan
- * ishlab, do'konga ishonchini yo'qotgan bo'lardi.
+ * ishlab, doʻkonga ishonchini yoʻqotgan boʻlardi.
  *
- * Alohida SOF funksiya sifatida ajratilgan — React'siz test qilinadi.
+ * Alohida SOF funksiya sifatida ajratilgan — Reactʼsiz test qilinadi.
  */
 
-/** Savatda saqlanishi mumkin bo'lgan maksimal pozitsiya soni. */
+/** Savatda saqlanishi mumkin boʻlgan maksimal pozitsiya soni. */
 export const MAX_CART_LINES = 50;
 
 function isNonNegativeNumber(value: unknown): value is number {
@@ -76,7 +76,7 @@ function isNonNegativeNumber(value: unknown): value is number {
 /**
  * Xom (JSON.parse qilingan) qiymatdan faqat ishonchli pozitsiyalarni
  * qaytaradi. Yaroqsizlari JIM ravishda tashlanadi — savatni butunlay
- * bo'shatib yuborgandan ko'ra, buzuq qatorni olib tashlash yaxshiroq.
+ * boʻshatib yuborgandan koʻra, buzuq qatorni olib tashlash yaxshiroq.
  */
 export function sanitizeStoredCart(raw: unknown): CartItem[] {
   if (!Array.isArray(raw)) return [];
@@ -93,8 +93,8 @@ export function sanitizeStoredCart(raw: unknown): CartItem[] {
     if (!product || typeof product !== 'object') continue;
     if (typeof product.id !== 'string' || product.id === '') continue;
     if (typeof product.name !== 'string') continue;
-    // Narx son bo'lishi SHART: aks holda oraliq summa `NaN` bo'lib,
-    // butun savat "NaN so'm" ko'rsatardi.
+    // Narx son boʻlishi SHART: aks holda oraliq summa `NaN` boʻlib,
+    // butun savat "NaN soʻm" koʻrsatardi.
     if (!isNonNegativeNumber(product.price)) continue;
 
     // Miqdor: BUTUN, musbat va chegara ichida.
@@ -107,7 +107,7 @@ export function sanitizeStoredCart(raw: unknown): CartItem[] {
     const safe: CartItem = {
       product: {
         ...product,
-        // Qoldiq va massivlar ham buzilgan bo'lishi mumkin.
+        // Qoldiq va massivlar ham buzilgan boʻlishi mumkin.
         stock: isNonNegativeNumber(product.stock) ? product.stock : 0,
         product_variants: Array.isArray(product.product_variants) ? product.product_variants : [],
         product_images: Array.isArray(product.product_images) ? product.product_images : [],
@@ -117,7 +117,7 @@ export function sanitizeStoredCart(raw: unknown): CartItem[] {
       variantId,
     };
 
-    // Bir xil pozitsiya ikki marta yozilgan bo'lsa — birinchisini olamiz.
+    // Bir xil pozitsiya ikki marta yozilgan boʻlsa — birinchisini olamiz.
     const key = cartItemKey(safe);
     if (seen.has(key)) continue;
     seen.add(key);

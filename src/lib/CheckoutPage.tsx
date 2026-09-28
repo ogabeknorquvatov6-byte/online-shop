@@ -23,12 +23,12 @@ import { CONFIRM, CUBE_FALL, DURATION, EASE, springs } from './motion';
 import { button, card, cx, focusRing, input, shell, textarea } from './design';
 
 /*
- * Baza idempotentlik kalitini qo'llaydimi?
+ * Baza idempotentlik kalitini qoʻllaydimi?
  *
  * Modul darajasida saqlanadi (komponent holatida emas): javob butun
- * sessiya uchun bir xil va sahifadan sahifaga o'tganda qayta
- * tekshirishning hojati yo'q. Standart `true` — optimistik: yangi
- * bazada birinchi urinishdayoq to'g'ri yo'ldan boramiz.
+ * sessiya uchun bir xil va sahifadan sahifaga oʻtganda qayta
+ * tekshirishning hojati yoʻq. Standart `true` — optimistik: yangi
+ * bazada birinchi urinishdayoq toʻgʻri yoʻldan boramiz.
  */
 let supportsIdempotencyKey = true;
 
@@ -50,7 +50,7 @@ const ERROR_MESSAGES: Record<string, string> = {
   EMPTY_CART: 'Savatingiz boʻsh.',
   INVALID_QUANTITY: 'Mahsulot miqdori notoʻgʻri.',
   INVALID_PAYMENT_METHOD: 'Toʻlov usuli notoʻgʻri.',
-  // Tanlangan variant (rang/xotira) o'chirilgan yoki nofaol qilingan —
+  // Tanlangan variant (rang/xotira) oʻchirilgan yoki nofaol qilingan —
   // savatda esa hamon turibdi.
   INVALID_VARIANT: 'Tanlangan variant endi mavjud emas. Mahsulotni qaytadan tanlang.',
 };
@@ -88,9 +88,9 @@ export function CheckoutPage() {
   /*
    * `useRef` — `useState` EMAS.
    *
-   * Kalit render'ga ta'sir qilmaydi va uni o'zgartirish qayta render
-   * talab qilmaydi. Muhimrog'i: `handleSubmit` ichida darhol o'qilishi
-   * kerak, `useState` esa yangi qiymatni faqat keyingi render'da beradi.
+   * Kalit renderʼga taʼsir qilmaydi va uni oʻzgartirish qayta render
+   * talab qilmaydi. Muhimrogʻi: `handleSubmit` ichida darhol oʻqilishi
+   * kerak, `useState` esa yangi qiymatni faqat keyingi renderʼda beradi.
    */
   const requestIdRef = useRef<{ signature: string; id: string }>({ signature: '', id: '' });
   const [done, setDone] = useState<ReceiptData | null>(null);
@@ -104,12 +104,12 @@ export function CheckoutPage() {
 
   useSeo({ title: 'Buyurtmani rasmiylashtirish', description: 'Yetkazib berish manzili va toʻlov usulini tanlang.', noindex: true });
 
-  // Profil ma'lumotlari bilan avtomatik to'ldirish — mijoz bir xil narsani
+  // Profil maʼlumotlari bilan avtomatik toʻldirish — mijoz bir xil narsani
   // har safar qayta yozmasligi kerak.
   useEffect(() => {
     if (!profile && !user) return;
-    // Telefon orqali ro'yxatdan o'tganlarda `user.email` sun'iy
-    // `<raqam>@telegram.local` bo'ladi — uni email maydoniga qo'ymaymiz.
+    // Telefon orqali roʻyxatdan oʻtganlarda `user.email` sunʼiy
+    // `<raqam>@telegram.local` boʻladi — uni email maydoniga qoʻymaymiz.
     const realEmail = user?.email && !user.email.endsWith('@telegram.local') ? user.email : '';
     setForm((f) => ({
       ...f,
@@ -122,12 +122,12 @@ export function CheckoutPage() {
   const errors = useMemo(() => validate(form), [form]);
   const addressValid = !errors.name && !errors.phone && !errors.city && !errors.address;
   /*
-   * Desktop'da bosqich "tugallandi" belgisi.
+   * Desktopʼda bosqich "tugallandi" belgisi.
    *
-   * `touched` ATAYLAB hisobga olinmaydi: bu holat xato ko'rsatish emas,
-   * balki "bu bo'limda kerakli narsa bor" degani. Foydalanuvchi maydonni
-   * to'ldirib bo'lishi bilanoq tanga aylanadi — u kursorni boshqa joyga
-   * ko'chirishini kutib turish kerak emas.
+   * `touched` ATAYLAB hisobga olinmaydi: bu holat xato koʻrsatish emas,
+   * balki "bu boʻlimda kerakli narsa bor" degani. Foydalanuvchi maydonni
+   * toʻldirib boʻlishi bilanoq tanga aylanadi — u kursorni boshqa joyga
+   * koʻchirishini kutib turish kerak emas.
    */
   const contactDone = !errors.name && !errors.phone && !errors.email;
   const deliveryDone = !errors.city && !errors.address;
@@ -159,7 +159,7 @@ export function CheckoutPage() {
 
     /*
      * Idempotentlik kaliti — bitta checkout urinishi uchun bitta UUID.
-     * Savat o'zgarmaguncha va buyurtma yaratilmaguncha O'ZGARMAYDI,
+     * Savat oʻzgarmaguncha va buyurtma yaratilmaguncha OʻZGARMAYDI,
      * shuning uchun tarmoq uzilishidan keyingi qayta urinish dublikat
      * buyurtma yaratmaydi (qarang: lib/idempotency.ts).
      */
@@ -170,13 +170,13 @@ export function CheckoutPage() {
     const checkoutRequestId = requestIdRef.current.id;
 
     /*
-     * Barcha ma'lumot BITTA atomik RPC'ga beriladi.
+     * Barcha maʼlumot BITTA atomik RPCʼga beriladi.
      *
      * Ilgari shahar/izoh/email buyurtma yaratilgandan keyin alohida
      * `orders.update()` bilan yozilardi — lekin `orders` jadvalida mijoz
-     * uchun UPDATE policy yo'q, shuning uchun bu so'rov 0 qatorni
-     * o'zgartirib, xato ham qaytarmasdan jimgina yo'qolardi. Endi bunday
-     * "silent failure" yo'q. Narx ham serverda qayta hisoblanadi — mijoz
+     * uchun UPDATE policy yoʻq, shuning uchun bu soʻrov 0 qatorni
+     * oʻzgartirib, xato ham qaytarmasdan jimgina yoʻqolardi. Endi bunday
+     * "silent failure" yoʻq. Narx ham serverda qayta hisoblanadi — mijoz
      * yuborgan summaga hech qachon ishonilmaydi.
      */
     const baseArgs = {
@@ -189,8 +189,8 @@ export function CheckoutPage() {
         product_id: item.product.id,
         quantity: item.quantity,
         variant: item.variant ?? null,
-        // Variantning narx farqi va ombori serverda AYNAN shu ID bo'yicha
-        // tekshiriladi — matnli nomga ishonib bo'lmaydi.
+        // Variantning narx farqi va ombori serverda AYNAN shu ID boʻyicha
+        // tekshiriladi — matnli nomga ishonib boʻlmaydi.
         variant_id: item.variantId ?? null,
       })),
       p_payment_method: paymentMethod,
@@ -201,9 +201,9 @@ export function CheckoutPage() {
 
     /*
      * Baza hali `p_checkout_request_id` ni bilmasligi mumkin (frontend
-     * migratsiyadan oldin chiqib ketgan bo'lsa). Bunday holda PostgREST
+     * migratsiyadan oldin chiqib ketgan boʻlsa). Bunday holda PostgREST
      * "funksiya topilmadi" xatosini qaytaradi — ortiqcha nomli argument
-     * JIM O'TKAZIB YUBORILMAYDI. Shuning uchun bir marta kalitsiz qayta
+     * JIM OʻTKAZIB YUBORILMAYDI. Shuning uchun bir marta kalitsiz qayta
      * urinamiz, natijani esa eslab qolamiz (qarang: lib/idempotency.ts).
      */
     let { data: orderId, error } = supportsIdempotencyKey
@@ -227,13 +227,13 @@ export function CheckoutPage() {
     }
 
     /*
-     * Serverda hisoblangan yakuniy summani o'qib olamiz — tasdiq
-     * ekranida mijozga aynan bazadagi raqam ko'rsatiladi.
+     * Serverda hisoblangan yakuniy summani oʻqib olamiz — tasdiq
+     * ekranida mijozga aynan bazadagi raqam koʻrsatiladi.
      *
      * `status` ham shu yerdan olinadi: tasdiq kartasi holatni TAXMIN
      * QILMASLIGI kerak. Ustunning standart qiymati «Yangi», lekin uni
-     * frontendda qattiq yozib qo'yish — o'ylab topilgan ma'lumot
-     * bo'lardi (masalan trigger holatni boshqacha qo'ysa).
+     * frontendda qattiq yozib qoʻyish — oʻylab topilgan maʼlumot
+     * boʻlardi (masalan trigger holatni boshqacha qoʻysa).
      */
     const { data: created } = await supabase
       .from('orders')
@@ -242,14 +242,14 @@ export function CheckoutPage() {
       .maybeSingle();
 
     // Buyurtma yaratildi — kalit "sarflandi". Keyingi xarid butunlay
-    // yangi urinish bo'lgani uchun yangi kalit oladi.
+    // yangi urinish boʻlgani uchun yangi kalit oladi.
     requestIdRef.current = { signature: '', id: '' };
 
     /*
      * Savat SURATI — `clearCart()` DAN OLDIN.
      *
-     * Tasdiq kartasi haqiqiy pozitsiyalarni ko'rsatadi, savat esa
-     * darhol tozalanadi. Suratni keyin olsak, ro'yxat bo'sh chiqardi.
+     * Tasdiq kartasi haqiqiy pozitsiyalarni koʻrsatadi, savat esa
+     * darhol tozalanadi. Suratni keyin olsak, roʻyxat boʻsh chiqardi.
      */
     const purchased = items.map((i) => ({
       key: cartItemKey(i),
@@ -262,7 +262,7 @@ export function CheckoutPage() {
       number: created?.order_number || String(orderId).slice(0, 8).toUpperCase(),
       total: Number(created?.total_amount ?? total),
       payment: paymentMethod,
-      // Baza javob bermasa — holatni O'YLAB TOPMAYMIZ, ustun standarti.
+      // Baza javob bermasa — holatni OʻYLAB TOPMAYMIZ, ustun standarti.
       status: created?.status || 'Yangi',
       items: purchased,
     });
@@ -274,10 +274,10 @@ export function CheckoutPage() {
   if (done) {
     return (
       /*
-       * Yumshoq CHUQURLIK o'tishi, keskin kesish emas: forma o'rnini
+       * Yumshoq CHUQURLIK oʻtishi, keskin kesish emas: forma oʻrnini
        * tasdiq egallaydi, lekin sahifa, shell va fon joyida qoladi.
        * Shuning uchun bu yerda faqat opacity + kichik masshtab bor —
-       * butun sahifa aylanmaydi, kattalashmaydi va blur bo'lmaydi.
+       * butun sahifa aylanmaydi, kattalashmaydi va blur boʻlmaydi.
        */
       <motion.div
         initial={{ opacity: 0, scale: 0.985 }}
@@ -326,7 +326,7 @@ export function CheckoutPage() {
     );
   }
 
-  /* ── Bo'sh savat ─────────────────────────────────────────────────── */
+  /* ── Boʻsh savat ─────────────────────────────────────────────────── */
   if (items.length === 0) {
     return (
       <div className={cx(shell, 'py-6 lg:py-10')}>
@@ -566,8 +566,8 @@ export function CheckoutPage() {
 /* ────────────────────────────────────────────────────────────────────
  * Yordamchi komponentlar.
  *
- * MUHIM: bular ilgari CheckoutPage funksiyasining ICHIDA e'lon qilingan edi.
- * Har bir renderda (ya'ni har bir bosilgan harfda) React ularni YANGI
+ * MUHIM: bular ilgari CheckoutPage funksiyasining ICHIDA eʼlon qilingan edi.
+ * Har bir renderda (yaʼni har bir bosilgan harfda) React ularni YANGI
  * komponent turi deb hisoblab, butun daraxtni qayta yaratardi — bu keraksiz
  * ish va animatsiyalarning sakrashiga olib kelardi.
  * ──────────────────────────────────────────────────────────────────── */
@@ -578,7 +578,7 @@ function SectionTitle({
   icon: typeof MapPin;
   children: React.ReactNode;
   step?: number;
-  /** Bo'lim to'ldirilganmi — raqam check-belgiga aylanadi. */
+  /** Boʻlim toʻldirilganmi — raqam check-belgiga aylanadi. */
   done?: boolean;
 }) {
   return (
@@ -597,19 +597,19 @@ function SectionTitle({
  * ── BOSQICH DOIRASI: TANGA AYLANISHI ────────────────────────────────
  *
  * Doira ikki YUZLI tanga: oldida bosqich raqami, orqasida check-belgi.
- * Bosqich tugallanganda tanga `rotateY` bo'ylab 180° aylanadi va
+ * Bosqich tugallanganda tanga `rotateY` boʻylab 180° aylanadi va
  * ikkinchi yuzi chiqadi.
  *
  * Nega `AnimatePresence` bilan almashtirish EMAS?
- * Almashtirishda eski belgi so'nib, yangisi paydo bo'lardi — ya'ni
+ * Almashtirishda eski belgi soʻnib, yangisi paydo boʻlardi — yaʼni
  * ikkita alohida element. Tanga esa BITTA jism: foydalanuvchi "raqam
- * check'ga aylandi" deb ko'radi, "raqam o'chib, check chiqdi" deb emas.
- * Buning uchun ikkala yuz ham bir vaqtda DOM'da turadi va qaysi biri
- * ko'rinishini `backface-visibility` hal qiladi.
+ * checkʼga aylandi" deb koʻradi, "raqam oʻchib, check chiqdi" deb emas.
+ * Buning uchun ikkala yuz ham bir vaqtda DOMʼda turadi va qaysi biri
+ * koʻrinishini `backface-visibility` hal qiladi.
  *
  * REDUCED MOTION: aylanish nolga tushadi, lekin burchak baribir 180°
- * bo'ladi — ya'ni check-belgi DARHOL va TO'G'RI ko'rinadi. Holat
- * animatsiyaga umuman bog'liq emas.
+ * boʻladi — yaʼni check-belgi DARHOL va TOʻGʻRI koʻrinadi. Holat
+ * animatsiyaga umuman bogʻliq emas.
  */
 function StepBead({ n, done, size = 'md' }: { n: number; done?: boolean; size?: 'sm' | 'md' }) {
   const reduce = useReducedMotion();
@@ -619,7 +619,7 @@ function StepBead({ n, done, size = 'md' }: { n: number; done?: boolean; size?: 
     <span
       className={cx('relative shrink-0', box)}
       style={{ perspective: CONFIRM.beadPerspective }}
-      /* Holat matn bilan ham aytiladi — u rangga ham, 3D ga ham bog'liq emas. */
+      /* Holat matn bilan ham aytiladi — u rangga ham, 3D ga ham bogʻliq emas. */
       aria-label={done ? `${n}-bosqich tugallandi` : `${n}-bosqich`}
       role="img"
     >
@@ -654,18 +654,18 @@ function StepBead({ n, done, size = 'md' }: { n: number; done?: boolean; size?: 
 /*
  * ── TASDIQ BELGISI VA KUB ZARRACHALARI ──────────────────────────────
  *
- * Ilovadagi eng katta lahza: to'lov o'tdi. Ikki qatlamdan iborat.
+ * Ilovadagi eng katta lahza: toʻlov oʻtdi. Ikki qatlamdan iborat.
  *
- * 1. CHECK-BELGI `rotateY` bo'ylab aylanib keladi (`springs.soft`).
- *    Prujina `snappy` emas: tasdiq shoshilmaydi, u og'ir va ishonchli
- *    bo'lishi kerak. `soft` oxirida kichik "overshoot" beradi —
- *    belgi joyiga QO'YILGANDEK tuyuladi.
+ * 1. CHECK-BELGI `rotateY` boʻylab aylanib keladi (`springs.soft`).
+ *    Prujina `snappy` emas: tasdiq shoshilmaydi, u ogʻir va ishonchli
+ *    boʻlishi kerak. `soft` oxirida kichik "overshoot" beradi —
+ *    belgi joyiga QOʻYILGANDEK tuyuladi.
  *
- * 2. KUB ZARRACHALARI sekin pastga cho'kadi. Bu konfeti EMAS:
+ * 2. KUB ZARRACHALARI sekin pastga choʻkadi. Bu konfeti EMAS:
  *    konfeti yuqoriga otiladi va tez tarqaydi, bu yerda esa
  *    navigatsiya ikonkasidagi kubning kattaroq nusxalari 2–3 soniya
  *    davomida xotirjam tushadi. Shakl `CatalogCubes` dan keladi —
- *    nusxa ko'chirilgan emas, AYNAN o'sha element.
+ *    nusxa koʻchirilgan emas, AYNAN oʻsha element.
  *
  * Hammasi `pointer-events-none`: pastdagi chek va tugmalar birinchi
  * kadrdan boshlab bosiladi. Hech kim animatsiyani kutmaydi.
@@ -699,35 +699,35 @@ function OrderConfirmedMark() {
 }
 
 /*
- * Har bir zarrachaning "shaxsiyati" — bir xil harakat sun'iy ko'rinadi.
+ * Har bir zarrachaning "shaxsiyati" — bir xil harakat sunʼiy koʻrinadi.
  *
- * Qiymatlar QAT'IY, `Math.random()` EMAS. Chek bosilayotganda bu
- * komponent ham qayta render bo'ladi; tasodifiy qiymatlarda zarrachalar
- * har kadrда joyini o'zgartirib, butun harakat "titrab" ketardi.
+ * Qiymatlar QATʼIY, `Math.random()` EMAS. Chek bosilayotganda bu
+ * komponent ham qayta render boʻladi; tasodifiy qiymatlarda zarrachalar
+ * har kadrда joyini oʻzgartirib, butun harakat "titrab" ketardi.
  * (`OrderReceiptPrinter` dagi `TEAR_PROFILE` ham xuddi shu sababdan
- * qat'iy.)
+ * qatʼiy.)
  *
- *   x     — boshlang'ich gorizontal siljish (px, markazdan)
- *   size  — kub eni (px): ikonkadagi 7px'ning kattaroq nusxasi
+ *   x     — boshlangʻich gorizontal siljish (px, markazdan)
+ *   size  — kub eni (px): ikonkadagi 7pxʼning kattaroq nusxasi
  *   drift — tushish davomida yon tomonga suzish (px)
- *   rx/ry — butun yo'l davomidagi burilish (daraja)
- *   slow  — 0…1: `fastest`↔`slowest` oralig'idagi o'rni
- *   wait  — 0…1: `spread` oralig'idagi kechikish
+ *   rx/ry — butun yoʻl davomidagi burilish (daraja)
+ *   slow  — 0…1: `fastest`↔`slowest` oraligʻidagi oʻrni
+ *   wait  — 0…1: `spread` oraligʻidagi kechikish
  *
  * `slow` va `wait` — VAQT EMAS, ulush. Haqiqiy soniyalar faqat
- * `CUBE_FALL` tokenidan chiqadi, ya'ni butun yomg'irning tezligini
+ * `CUBE_FALL` tokenidan chiqadi, yaʼni butun yomgʻirning tezligini
  * bitta joydan sozlash mumkin.
  *
  * BURCHAKLAR NEGA ±72° DAN OSHMAYDI.
  *
- * Avval ular ±110…210° edi — ya'ni zarracha yo'l davomida 90° dan
- * o'tardi. Kub esa yassi plitka: aynan 90° da u qirrasi bilan turadi
- * va eni nolga tushadi. Brauzerda ko'rilganda zarrachalar ingichka
- * chiziqchalarga aylanib, oddiy konfeti parchalariga o'xshab
- * qolgandi — ya'ni "kub" degan o'zak yo'qolgandi.
+ * Avval ular ±110…210° edi — yaʼni zarracha yoʻl davomida 90° dan
+ * oʻtardi. Kub esa yassi plitka: aynan 90° da u qirrasi bilan turadi
+ * va eni nolga tushadi. Brauzerda koʻrilganda zarrachalar ingichka
+ * chiziqchalarga aylanib, oddiy konfeti parchalariga oʻxshab
+ * qolgandi — yaʼni "kub" degan oʻzak yoʻqolgandi.
  *
- * 72° da plitkaning eni eng kamida cos(72°) ≈ 31% bo'lib qoladi:
- * burilish aniq ko'rinadi, lekin kvadrat hech qachon yo'qolmaydi.
+ * 72° da plitkaning eni eng kamida cos(72°) ≈ 31% boʻlib qoladi:
+ * burilish aniq koʻrinadi, lekin kvadrat hech qachon yoʻqolmaydi.
  * `CatalogCubes` dagi ikonka ham xuddi shu sababdan nozik
  * burchaklarda qoladi.
  */
@@ -747,11 +747,11 @@ const FALLING = [
 ] as const;
 
 /*
- * Rang halqasi — brend rangining uch pog'onasi.
+ * Rang halqasi — brend rangining uch pogʻonasi.
  *
- * Ko'p rangli konfeti ATAYLAB yo'q: ilovada bitta brend ohangi bor va
+ * Koʻp rangli konfeti ATAYLAB yoʻq: ilovada bitta brend ohangi bor va
  * nishonlash uni buzmasligi kerak. Chuqurlik ranglar soni bilan emas,
- * o'lcham va tezlik farqi bilan beriladi.
+ * oʻlcham va tezlik farqi bilan beriladi.
  */
 const CUBE_TONES = ['bg-orange-500', 'bg-orange-400', 'bg-orange-300'] as const;
 
@@ -772,9 +772,9 @@ function FallingCubes() {
             animate={{
               x: c.x + c.drift,
               y: CUBE_FALL.distance,
-              // Yumshoq paydo bo'lish va yumshoq so'nish: zarracha
-              // yo'lning boshida ham, oxirida ham chetga urilib
-              // "o'chgandek" bo'lmasligi kerak.
+              // Yumshoq paydo boʻlish va yumshoq soʻnish: zarracha
+              // yoʻlning boshida ham, oxirida ham chetga urilib
+              // "oʻchgandek" boʻlmasligi kerak.
               opacity: [0, 1, 1, 0],
               rotateX: c.rx,
               rotateY: c.ry,
@@ -783,16 +783,16 @@ function FallingCubes() {
               duration,
               delay,
               // Tushish TEKIS: kub pastga tortilmaydi, u havoda suzadi.
-              // `EASE.standard` bo'lsa zarrachalar oxirida to'planib
+              // `EASE.standard` boʻlsa zarrachalar oxirida toʻplanib
               // qolardi — barchasi bir vaqtda pastda turgandek.
               ease: 'linear',
               /*
-               * Shaffoflik kadrlari yo'lning qaysi nuqtasiga to'g'ri
+               * Shaffoflik kadrlari yoʻlning qaysi nuqtasiga toʻgʻri
                * kelishi `CUBE_FALL` dan chiqadi.
                *
                * `duration`/`delay`/`ease` ATAYLAB qayta yozilgan:
-               * qiymatga xos (per-key) o'tish yuqoridagi umumiy
-               * o'tishdan meros olmaydi, uni butunlay almashtiradi.
+               * qiymatga xos (per-key) oʻtish yuqoridagi umumiy
+               * oʻtishdan meros olmaydi, uni butunlay almashtiradi.
                * Faqat `times` yozilsa `opacity` standart 0.3s ga
                * tushib, kechikishsiz ishga tushardi.
                */

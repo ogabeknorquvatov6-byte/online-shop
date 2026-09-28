@@ -8,14 +8,14 @@ import { cx, focusRing, skeleton } from './design';
 import { Img } from './Img';
 
 /*
- * Qidiruv natijalarining ko'rinishi. Desktop dropdown ham, to'liq ekranli
+ * Qidiruv natijalarining koʻrinishi. Desktop dropdown ham, toʻliq ekranli
  * mobil qidiruv sahifasi ham AYNAN shu komponentdan foydalanadi — shuning
- * uchun natijalar ikkala joyda bir xil ko'rinadi va bir marta tuzatilsa
+ * uchun natijalar ikkala joyda bir xil koʻrinadi va bir marta tuzatilsa
  * hamma joyda tuzaladi.
  */
 
 
-/** Qidirilgan so'zga mos qismni ajratib ko'rsatadi. */
+/** Qidirilgan soʻzga mos qismni ajratib koʻrsatadi. */
 export function Highlight({ text, query }: { text: string; query: string }) {
   const parts = splitHighlight(text, query);
   return (
@@ -32,7 +32,7 @@ export function Highlight({ text, query }: { text: string; query: string }) {
 }
 
 export function ProductThumb({ url, size = 'md' }: { url: string | null; size?: 'md' | 'lg' }) {
-  // Skeleton/buzuq rasm holatlari `Img` ichida — bu yerda faqat o'lcham.
+  // Skeleton/buzuq rasm holatlari `Img` ichida — bu yerda faqat oʻlcham.
   return (
     <Img
       src={url}
@@ -52,7 +52,7 @@ export function SearchResultsBody({
 }: {
   query: string;
   loading: boolean;
-  /** So'rov muvaffaqiyatsiz tugadi (tarmoq/server). */
+  /** Soʻrov muvaffaqiyatsiz tugadi (tarmoq/server). */
   error?: boolean;
   categories: SearchCategory[];
   brands: string[];
@@ -91,7 +91,7 @@ export function SearchResultsBody({
    * Xato holati "topilmadi" dan AJRATILGAN.
    *
    * Ilgari tarmoq uzilganda ham "Hech narsa topilmadi" chiqardi — bu
-   * foydalanuvchiga YOLG'ON ma'lumot: u mahsulot yo'q deb o'ylab
+   * foydalanuvchiga YOLGʻON maʼlumot: u mahsulot yoʻq deb oʻylab
    * ketardi, aslida shunchaki internet uzilgan edi.
    */
   if (error && !hasResults) {

@@ -24,9 +24,9 @@ export function ProductCard({ product, priority }: { product: Product; priority?
   const [added, setAdded] = useState(false);
   const [quickOpen, setQuickOpen] = useState(false);
   /*
-   * Sevimliga qo'shilganda bir marta chiqadigan halqa. Hisoblagich —
+   * Sevimliga qoʻshilganda bir marta chiqadigan halqa. Hisoblagich —
    * boolean emas: ketma-ket bosilganda animatsiya qayta boshlanishi
-   * uchun `key` har safar yangi bo'lishi kerak.
+   * uchun `key` har safar yangi boʻlishi kerak.
    */
   const [favPulse, setFavPulse] = useState(0);
   /*
@@ -35,7 +35,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
    * `mediaRef` — mahsulot rasmi: savatga AYNAN mahsulot tushadi.
    * `favBtnRef` — yurakcha tugmasi: sevimlilarga AYNAN yurakcha uchadi.
    * Ikki harakat ikki xil joydan boshlanadi va shu sababli ular
-   * bir-biriga o'xshamaydi.
+   * bir-biriga oʻxshamaydi.
    */
   const mediaRef = useRef<HTMLDivElement>(null);
   const favBtnRef = useRef<HTMLButtonElement>(null);
@@ -43,15 +43,15 @@ export function ProductCard({ product, priority }: { product: Product; priority?
   /*
    * ── KARTANING 3D BURILISHI ────────────────────────────────────────
    *
-   * Nishon qiymatlar oddiy motion value'da turadi va ular prujina
-   * orqali o'qiladi. Ya'ni bitta mexanizm ikkita ishni bajaradi:
-   * kuzatishda kichik "kechikish" (karta og'ir jismdek his qilinadi)
-   * va qo'yib yuborilganda `springs.snappy` bilan joyiga qaytish.
+   * Nishon qiymatlar oddiy motion valueʼda turadi va ular prujina
+   * orqali oʻqiladi. Yaʼni bitta mexanizm ikkita ishni bajaradi:
+   * kuzatishda kichik "kechikish" (karta ogʻir jismdek his qilinadi)
+   * va qoʻyib yuborilganda `springs.snappy` bilan joyiga qaytish.
    * Alohida "qaytish" animatsiyasi yozish shart emas — nishonni 0 ga
-   * qo'yish kifoya.
+   * qoʻyish kifoya.
    *
-   * REACT RENDERI YO'Q: `motion value` to'g'ridan-to'g'ri DOM'ga
-   * yoziladi. Katalogda 40 ta karta bo'lishi mumkin — har bir
+   * REACT RENDERI YOʻQ: `motion value` toʻgʻridan-toʻgʻri DOMʼga
+   * yoziladi. Katalogda 40 ta karta boʻlishi mumkin — har bir
    * `pointermove` da setState chaqirilsa sahifa qotib qolardi.
    */
   const tiltX = useMotionValue(0);
@@ -62,11 +62,11 @@ export function ProductCard({ product, priority }: { product: Product; priority?
   const tiltFrom = (el: HTMLElement, clientX: number, clientY: number) => {
     if (reduce) return;
     const r = el.getBoundingClientRect();
-    // Markazga nisbatan −0.5 … +0.5 oralig'i.
+    // Markazga nisbatan −0.5 … +0.5 oraligʻi.
     const dx = (clientX - r.left) / r.width - 0.5;
     const dy = (clientY - r.top) / r.height - 0.5;
-    // Kursor TEPADA bo'lsa karta tepasi orqaga egilishi kerak, ya'ni
-    // `rotateX` ishorasi `dy` ga teskari. Aks holda harakat "noto'g'ri
+    // Kursor TEPADA boʻlsa karta tepasi orqaga egilishi kerak, yaʼni
+    // `rotateX` ishorasi `dy` ga teskari. Aks holda harakat "notoʻgʻri
     // tomonga" ketayotgandek tuyuladi.
     tiltX.set(-dy * 2 * TILT.max);
     tiltY.set(dx * 2 * TILT.max);
@@ -79,8 +79,8 @@ export function ProductCard({ product, priority }: { product: Product; priority?
   const image = product.product_images?.[0]?.image_url;
   const discount = discountPercent(product.price, product.old_price);
   const stock = stockState(product.stock);
-  // Narxi belgilanmagan mahsulotni savatga qo'shib bo'lmaydi — aks holda
-  // mijoz "0 so'm" ga buyurtma bermoqchi bo'lib, serverdan xato oladi.
+  // Narxi belgilanmagan mahsulotni savatga qoʻshib boʻlmaydi — aks holda
+  // mijoz "0 soʻm" ga buyurtma bermoqchi boʻlib, serverdan xato oladi.
   const purchasable = hasSellablePrice(product.price);
   const inStock = stock !== 'out' && purchasable;
   const fav = isFavorite(product.id);
@@ -96,13 +96,13 @@ export function ProductCard({ product, priority }: { product: Product; priority?
   };
 
   const handleFav = () => {
-    // Mukofot faqat QO'SHILGANDA. Olib tashlash — neytral harakat va
-    // uni nishonlash noto'g'ri signal berardi.
+    // Mukofot faqat QOʻSHILGANDA. Olib tashlash — neytral harakat va
+    // uni nishonlash notoʻgʻri signal berardi.
     if (!fav) {
       if (!reduce) setFavPulse((n) => n + 1);
       fly('fav', favBtnRef.current);
     }
-    // Holat animatsiyadan MUSTAQIL — u darhol o'zgaradi.
+    // Holat animatsiyadan MUSTAQIL — u darhol oʻzgaradi.
     toggle(product.id);
     notify(fav ? 'Sevimlilardan olib tashlandi' : 'Sevimlilarga qoʻshildi', 'info');
   };
@@ -113,21 +113,21 @@ export function ProductCard({ product, priority }: { product: Product; priority?
      *
      * Burilish AYNAN shu tashqi qatlamda, `<article>` da emas.
      *
-     * Sabab: karta hover'da 4px ko'tariladi va bu Tailwind sinfi bilan
+     * Sabab: karta hoverʼda 4px koʻtariladi va bu Tailwind sinfi bilan
      * qilingan (`xl:hover:-translate-y-1`). Motion esa transformni
      * INLINE `style` ga yozadi, inline style esa sinfdan ustun —
-     * ya'ni burilishni `<article>` ga qo'ysak, ko'tarilish jimgina
-     * o'lardi. Ikki qatlamda ikkala transform bir-biriga qo'shiladi:
-     * tashqisi buradi, ichkisi ko'taradi.
+     * yaʼni burilishni `<article>` ga qoʻysak, koʻtarilish jimgina
+     * oʻlardi. Ikki qatlamda ikkala transform bir-biriga qoʻshiladi:
+     * tashqisi buradi, ichkisi koʻtaradi.
      *
      * `transformPerspective` — alohida `perspective` beruvchi ota
-     * element yaratmaslik uchun: Motion uni elementning O'Z
-     * transformiga qo'shadi. Bitta qo'shimcha div yetarli.
+     * element yaratmaslik uchun: Motion uni elementning OʻZ
+     * transformiga qoʻshadi. Bitta qoʻshimcha div yetarli.
      *
      * SENSORLI QURILMADA barmoq KUZATILMAYDI, faqat bosish payti
      * burchak olinadi. Katalogda barmoqning harakati deyarli har doim
-     * SCROLL — uni kuzatsak, ro'yxatni surganda kartalar qiyshayib
-     * ketardi. Bosilganda esa burilish "bosdim" degan javob bo'ladi;
+     * SCROLL — uni kuzatsak, roʻyxatni surganda kartalar qiyshayib
+     * ketardi. Bosilganda esa burilish "bosdim" degan javob boʻladi;
      * scroll boshlansa brauzer `pointercancel` yuboradi va karta
      * prujina bilan joyiga qaytadi.
      */
@@ -155,10 +155,10 @@ export function ProductCard({ product, priority }: { product: Product; priority?
         className={cx(
           card,
           'group relative flex h-full flex-col overflow-hidden',
-          // Chuqurlik: karta hover'da BIR OZ ko'tariladi va soyasi kuchayadi.
-          // `-translate-y-1` — atigi 4px; maqsad "sakrash" emas, qo'lga
+          // Chuqurlik: karta hoverʼda BIR OZ koʻtariladi va soyasi kuchayadi.
+          // `-translate-y-1` — atigi 4px; maqsad "sakrash" emas, qoʻlga
           // olinadigandek his. Transform faqat `xl` da (sichqoncha bor joyda),
-          // shuning uchun sensorli qurilmalarda hech qanday qo'shimcha
+          // shuning uchun sensorli qurilmalarda hech qanday qoʻshimcha
           // kompozitsiya qatlami yaratilmaydi.
           'transition-[border-color,box-shadow,transform] duration-200 ease-standard',
           'hover:border-ink-300 hover:shadow-card xl:hover:-translate-y-1 xl:hover:shadow-overlay',
@@ -255,29 +255,29 @@ export function ProductCard({ product, priority }: { product: Product; priority?
             aria-label={fav ? `${product.name} — sevimlilardan olib tashlash` : `${product.name} — sevimlilarga qoʻshish`}
             className={cx(
               /*
-               * TEGINISH MAYDONI 44px, KO'RINADIGAN DOIRA esa 32px.
+               * TEGINISH MAYDONI 44px, KOʻRINADIGAN DOIRA esa 32px.
                *
-               * Bu ikkisi ilgari bitta element edi: 44px'lik oq doira
-               * kartochka rasmi ustida turardi. Haqiqiy brauzerda ko'rilganda
+               * Bu ikkisi ilgari bitta element edi: 44pxʼlik oq doira
+               * kartochka rasmi ustida turardi. Haqiqiy brauzerda koʻrilganda
                * (390px, katalog) u kartochkadagi ENG BALAND ovozli element
-               * bo'lib chiqdi — mahsulot rasmidan ham ko'zga tashlanardi.
+               * boʻlib chiqdi — mahsulot rasmidan ham koʻzga tashlanardi.
                *
-               * Yechim ikkalasini ajratish: tugmaning O'ZI shaffof va
-               * 44px (barmoq uchun), ichidagi doira esa 32px (ko'z uchun).
-               * Ya'ni qulaylik ham, vizual xotirjamlik ham saqlanadi —
+               * Yechim ikkalasini ajratish: tugmaning OʻZI shaffof va
+               * 44px (barmoq uchun), ichidagi doira esa 32px (koʻz uchun).
+               * Yaʼni qulaylik ham, vizual xotirjamlik ham saqlanadi —
                * biri ikkinchisiga qurbon qilinmaydi.
                */
               'absolute right-0.5 top-0.5 z-10 flex h-11 w-11 items-center justify-center rounded-full xl:right-1 xl:top-1 xl:h-10 xl:w-10',
               focusRing,
-              // DIQQAT: "hover bo'lganda ko'rinadi" faqat `xl` dan boshlanadi.
+              // DIQQAT: "hover boʻlganda koʻrinadi" faqat `xl` dan boshlanadi.
               //
               // Bu qoida ikki marta tuzatilgan. Avval u `sm` (640px) da
-              // edi — o'shanda BARCHA planshetlarda tugma ko'rinmay
-              // qolgandi. Keyin `lg` (1024px) ga ko'chirildi — lekin
+              // edi — oʻshanda BARCHA planshetlarda tugma koʻrinmay
+              // qolgandi. Keyin `lg` (1024px) ga koʻchirildi — lekin
               // 1024px hamon sensorli (iPad Pro landscape). Endi `xl`:
-              // hover'ga bog'liq bezak faqat sichqoncha deyarli aniq
-              // bo'lgan kenglikda yoqiladi. Hover hech qachon yagona
-              // yo'l emas.
+              // hoverʼga bogʻliq bezak faqat sichqoncha deyarli aniq
+              // boʻlgan kenglikda yoqiladi. Hover hech qachon yagona
+              // yoʻl emas.
               !fav && 'xl:opacity-0 xl:group-hover:opacity-100 xl:focus-visible:opacity-100'
             )}
           >
@@ -528,11 +528,11 @@ export function ProductGrid({
   /**
    * Nechta birinchi kartochka rasmi darhol (eager, high priority) yuklansin.
    *
-   * Standart 0 — chunki grid ko'p sahifada ekran ostida turadi (bosh sahifada
-   * banner va kategoriyalardan keyin). Agar hamma joyda 4 ta qilib qo'yilsa,
-   * bitta sahifada 8–9 ta "high priority" rasm paydo bo'ladi va brauzer
-   * uchun ustuvorlik o'z ma'nosini yo'qotadi — LCP rasm navbatda qolib
-   * ketadi. Shuning uchun grid ekranning eng tepasida bo'lgan sahifalarda
+   * Standart 0 — chunki grid koʻp sahifada ekran ostida turadi (bosh sahifada
+   * banner va kategoriyalardan keyin). Agar hamma joyda 4 ta qilib qoʻyilsa,
+   * bitta sahifada 8–9 ta "high priority" rasm paydo boʻladi va brauzer
+   * uchun ustuvorlik oʻz maʼnosini yoʻqotadi — LCP rasm navbatda qolib
+   * ketadi. Shuning uchun grid ekranning eng tepasida boʻlgan sahifalarda
    * (katalog, qidiruv) chaqiruv joyida ochiq belgilanadi.
    */
   priorityCount?: number;
@@ -555,20 +555,20 @@ export function ProductGrid({
 }
 
 /**
- * SPOTLIGHT — bo'limning "bosh" mahsuloti uchun kattalashtirilgan karta.
+ * SPOTLIGHT — boʻlimning "bosh" mahsuloti uchun kattalashtirilgan karta.
  *
  * Nega alohida komponent?
  *
  * Bosh sahifa uzoq vaqt bir xil ritmda edi: grid → karusel → grid →
- * karusel. Har bir blok bir xil o'lchamdagi kartalardan iborat bo'lgani
- * uchun sahifa "tekis" ko'rinardi va ko'z hech qayerga tayanmasdi.
+ * karusel. Har bir blok bir xil oʻlchamdagi kartalardan iborat boʻlgani
+ * uchun sahifa "tekis" koʻrinardi va koʻz hech qayerga tayanmasdi.
  *
  * Spotlight shu ritmni sindiradi: bitta mahsulot boshqalardan sezilarli
- * kattaroq bo'lib, bo'limga vizual "sarlavha" bo'lib xizmat qiladi.
- * Ma'lumot o'sha-o'sha — faqat ierarxiya boshqacha.
+ * kattaroq boʻlib, boʻlimga vizual "sarlavha" boʻlib xizmat qiladi.
+ * Maʼlumot oʻsha-oʻsha — faqat ierarxiya boshqacha.
  *
  * Matn rasm USTIDA, pastdan qorayadigan parda bilan — shuning uchun
- * kompozitsiya jurnaldagi kabi ko'rinadi, katalog qatoridek emas.
+ * kompozitsiya jurnaldagi kabi koʻrinadi, katalog qatoridek emas.
  */
 export function SpotlightCard({ product, priority }: { product: Product; priority?: boolean }) {
   const { addItem } = useCart();
@@ -684,7 +684,7 @@ export function SpotlightCard({ product, priority }: { product: Product; priorit
           disabled={!inStock}
           aria-label={`${product.name} — savatga qoʻshish`}
           // `z-10` — stretched link ustida turishi uchun. (`relative` ni
-          // `AnimatedButton` ning o'zi qo'shadi.)
+          // `AnimatedButton` ning oʻzi qoʻshadi.)
           className={cx('z-10 mt-4', button('primary', 'md'))}
         >
           <Plus className="h-4 w-4" /> Savatga
@@ -695,11 +695,11 @@ export function SpotlightCard({ product, priority }: { product: Product; priorit
 }
 
 /**
- * Tezkor ko'rish oynasining ichki qismi.
+ * Tezkor koʻrish oynasining ichki qismi.
  *
- * Faqat HAQIQIY ma'lumot ko'rsatiladi: reyting `rating > 0` bo'lsa,
- * sharhlar soni `reviews_count > 0` bo'lsa, eski narx faqat chegirma
- * mavjud bo'lganda. Hech qanday o'ylab topilgan qiymat yo'q.
+ * Faqat HAQIQIY maʼlumot koʻrsatiladi: reyting `rating > 0` boʻlsa,
+ * sharhlar soni `reviews_count > 0` boʻlsa, eski narx faqat chegirma
+ * mavjud boʻlganda. Hech qanday oʻylab topilgan qiymat yoʻq.
  */
 function QuickViewBody({ product, onClose }: { product: Product; onClose: () => void }) {
   const { addItem } = useCart();
@@ -708,7 +708,7 @@ function QuickViewBody({ product, onClose }: { product: Product; onClose: () => 
   const reduce = useReducedMotion();
   const fly = useFlight();
   const [added, setAdded] = useState(false);
-  /* Tezkor ko'rish ichidan ham xuddi shu ikki harakat ishlaydi. */
+  /* Tezkor koʻrish ichidan ham xuddi shu ikki harakat ishlaydi. */
   const qvMediaRef = useRef<HTMLDivElement>(null);
   const qvFavRef = useRef<HTMLButtonElement>(null);
 
@@ -864,19 +864,19 @@ function QuickViewBody({ product, onClose }: { product: Product; onClose: () => 
   );
 }
 
-/** Katalog/bosh sahifa uchun standart mahsulot grid'i — bitta joyda belgilangan. */
+/** Katalog/bosh sahifa uchun standart mahsulot gridʼi — bitta joyda belgilangan. */
 export const productGridClass =
-  // `tab:gap-5` — planshetda kartalar orasidagi havo ko'proq. Ustunlar
-  // soni o'zgarmaydi (3), lekin kompozitsiya ancha erkin nafas oladi.
+  // `tab:gap-5` — planshetda kartalar orasidagi havo koʻproq. Ustunlar
+  // soni oʻzgarmaydi (3), lekin kompozitsiya ancha erkin nafas oladi.
   'grid grid-cols-2 gap-3 sm:grid-cols-3 md:gap-4 tab:gap-5 lg:grid-cols-4 lg:gap-4 xl:grid-cols-5';
 
 /**
  * Yon paneli BOR sahifalar uchun grid (katalog, kategoriya).
  *
- * Nega alohida? Chunki `tab` dan boshlab chapda 208px'lik filtr ustuni
- * paydo bo'ladi va qolgan kenglik keskin kamayadi. O'sha joyda odatdagi
- * 3 ustun qoldirilsa, karta eni 163px'gacha tushib ketardi — ya'ni
- * 430px'lik TELEFONDAGIDAN ham tor. O'lchandi va aynan shunday bo'lgan.
+ * Nega alohida? Chunki `tab` dan boshlab chapda 208pxʼlik filtr ustuni
+ * paydo boʻladi va qolgan kenglik keskin kamayadi. Oʻsha joyda odatdagi
+ * 3 ustun qoldirilsa, karta eni 163pxʼgacha tushib ketardi — yaʼni
+ * 430pxʼlik TELEFONDAGIDAN ham tor. Oʻlchandi va aynan shunday boʻlgan.
  *
  * Shuning uchun bu yerda ustunlar soni yon panel hisobga olingan holda
  * qayta taqsimlanadi:
@@ -921,37 +921,37 @@ export function ProductGridSkeleton({ count = 10, className }: { count?: number;
  * Sarlavha darajasi `h2` — ilgari `h3` edi.
  *
  * Bu komponentlar deyarli har doim sahifaning `<h1>` idan KEYIN darhol
- * keladi (bo'sh savat, natijasiz katalog, xatolik). `h3` bo'lganda
- * ierarxiya `h1 → h3` bo'lib sakrardi: skrinrider foydalanuvchisi
- * sarlavhalar bo'yicha yurganda oradagi daraja yo'qolgandek tuyuladi va
- * u "bir bo'lim o'tkazib yubordimmi?" deb o'ylaydi (WCAG 1.3.1).
+ * keladi (boʻsh savat, natijasiz katalog, xatolik). `h3` boʻlganda
+ * ierarxiya `h1 → h3` boʻlib sakrardi: skrinrider foydalanuvchisi
+ * sarlavhalar boʻyicha yurganda oradagi daraja yoʻqolgandek tuyuladi va
+ * u "bir boʻlim oʻtkazib yubordimmi?" deb oʻylaydi (WCAG 1.3.1).
  *
- * Boshqa darajada kerak bo'lsa `headingLevel` bilan ko'rsatiladi —
- * masalan kabinet ichidagi bo'lim ichida.
+ * Boshqa darajada kerak boʻlsa `headingLevel` bilan koʻrsatiladi —
+ * masalan kabinet ichidagi boʻlim ichida.
  */
 type HeadingLevel = 'h2' | 'h3';
 
 /**
- * BO'SH HOLAT ILLYUSTRATSIYASI — halqa, ichida suzuvchi ob'ekt.
+ * BOʻSH HOLAT ILLYUSTRATSIYASI — halqa, ichida suzuvchi obʼekt.
  *
- * Kompozitsiya 404 sahifasida tug'ilgan edi: o'rtadagi "nol" — raqam
- * emas, HALQA, ichida esa yo'qolgan paket suzib turadi. Bu do'konning
- * "hech narsa yo'q" holatidagi o'z tili bo'lib qoldi, lekin u faqat
+ * Kompozitsiya 404 sahifasida tugʻilgan edi: oʻrtadagi "nol" — raqam
+ * emas, HALQA, ichida esa yoʻqolgan paket suzib turadi. Bu doʻkonning
+ * "hech narsa yoʻq" holatidagi oʻz tili boʻlib qoldi, lekin u faqat
  * bitta sahifada yashardi — savat, sevimlilar va qidiruv esa neytral
- * kulrang doira ko'rsatardi. Ya'ni ayni bitta hodisa ilovada ikki xil
+ * kulrang doira koʻrsatardi. Yaʼni ayni bitta hodisa ilovada ikki xil
  * gapirardi.
  *
  * Endi bu — yagona manba. 404 ham, `EmptyState` ham SHU komponentni
- * chaqiradi; farq faqat o'lcham va fon ohangida.
+ * chaqiradi; farq faqat oʻlcham va fon ohangida.
  *
  * Harakat CSS animatsiyasi bilan (`animate-spin-slow`, `animate-float`),
  * Motion bilan EMAS — 404'dagi bilan bir xil sabab:
  *  1. Bular cheksiz sekin sikllar, JS kadr hisoblashi ortiqcha.
  *  2. `prefers-reduced-motion` ni `index.css` dagi global qoida
- *     allaqachon hal qiladi (davomiylik 0.01ms ga tushadi), ya'ni
+ *     allaqachon hal qiladi (davomiylik 0.01ms ga tushadi), yaʼni
  *     shartni har bir chaqiruv joyida takrorlash va uni unutib
- *     qo'yish imkoni yo'q. Statik holatda kompozitsiya to'g'ri
- *     ko'rinadi: halqa ham, ob'ekt ham o'z joyida qoladi.
+ *     qoʻyish imkoni yoʻq. Statik holatda kompozitsiya toʻgʻri
+ *     koʻrinadi: halqa ham, obʼekt ham oʻz joyida qoladi.
  */
 export function EmptyIllustration({
   icon,
@@ -959,7 +959,7 @@ export function EmptyIllustration({
   size = 'md',
 }: {
   icon: ReactNode;
-  /** `dark` — faqat to'q (`ink-900`) yuzalar uchun: 404, aksiya bloki. */
+  /** `dark` — faqat toʻq (`ink-900`) yuzalar uchun: 404, aksiya bloki. */
   tone?: 'light' | 'dark';
   /** `lg` — sahifani egallaydigan holat (404); `md` — blok ichidagi. */
   size?: 'md' | 'lg';
@@ -1043,11 +1043,11 @@ export function ErrorState({
   onRetry: () => void;
   headingLevel?: HeadingLevel;
   /**
-   * Ikkilamchi chiqish yo'li.
+   * Ikkilamchi chiqish yoʻli.
    *
    * Ilgari xato holatida YAGONA harakat "Qayta urinish" edi. Agar sabab
-   * vaqtinchalik bo'lmasa (masalan sahifa yoki mahsulot umuman yo'q),
-   * foydalanuvchi shu tugmani bosaverib berk ko'chada qolardi. Endi
+   * vaqtinchalik boʻlmasa (masalan sahifa yoki mahsulot umuman yoʻq),
+   * foydalanuvchi shu tugmani bosaverib berk koʻchada qolardi. Endi
    * doimo bosh sahifaga qaytish mumkin.
    */
   showHomeLink?: boolean;

@@ -10,25 +10,25 @@ import { FlightContext, type FlightKind, type FlyFn } from './flightContext';
  * Ikkalasi ham bitta mexanizmdan foydalanadi, lekin ATAYLAB boshqacha
  * his beradi:
  *
- *   CART — jismoniy. Mahsulot rasmining o'zi biroz yoy chizib, oxirida
+ *   CART — jismoniy. Mahsulot rasmining oʻzi biroz yoy chizib, oxirida
  *          TEZLASHIB savat ikonkasining ICHIGA tushadi. "Buyum qutiga
- *          tashlandi" degan tuyg'u.
+ *          tashlandi" degan tuygʻu.
  *
  *   FAV  — hissiy. Yurakcha balandroq va yumshoqroq yoy bilan
- *          ko'tariladi, kichrayadi va so'nadi. "Yoqtirish yuborildi"
- *          degan tuyg'u. Bu savat animatsiyasining boshqa rangdagi
+ *          koʻtariladi, kichrayadi va soʻnadi. "Yoqtirish yuborildi"
+ *          degan tuygʻu. Bu savat animatsiyasining boshqa rangdagi
  *          nusxasi EMAS: traektoriya balandroq, tezlanish yumshoqroq,
  *          obyekt esa rasm emas — chizilgan yurakcha.
  *
  * Umumiy tamoyillar:
  *  - Holat DARHOL yangilanadi. Animatsiya hech narsani kutib turmaydi
- *    va hech narsani to'smaydi (`pointer-events: none`).
+ *    va hech narsani toʻsmaydi (`pointer-events: none`).
  *  - Faqat `transform` va `opacity`. `top/left/width/height` umuman
  *    animatsiya qilinmaydi — layout qayta hisoblanmaydi.
  *  - Hamma narsa `document.body` ga PORTAL qilinadi: kartochkalar
- *    transform qo'llanadigan `AnimatedSection` ichida bo'lishi mumkin,
+ *    transform qoʻllanadigan `AnimatedSection` ichida boʻlishi mumkin,
  *    portalsiz `position: fixed` traektoriyasi buzilardi.
- *  - Vaqtinchalik elementlar o'zini tozalaydi va to'planib qolmaydi.
+ *  - Vaqtinchalik elementlar oʻzini tozalaydi va toʻplanib qolmaydi.
  */
 
 /** Uchish davomiyligi (ms). Talab: 450–700. */
@@ -42,7 +42,7 @@ type Flight = {
   src?: string | null;
   from: { x: number; y: number; size: number };
   to: { x: number; y: number };
-  /** Yoyning balandligi — traektoriyani to'g'ri chiziqdan farqlaydi. */
+  /** Yoyning balandligi — traektoriyani toʻgʻri chiziqdan farqlaydi. */
   arc: number;
 };
 
@@ -51,12 +51,12 @@ type Burst = { id: number; kind: FlightKind; x: number; y: number; size: number 
 let nextId = 0;
 
 /**
- * Ekranda HAQIQATAN ko'rinib turgan nishonni topadi.
+ * Ekranda HAQIQATAN koʻrinib turgan nishonni topadi.
  *
- * Ilova bir vaqtning o'zida ikkita nishon saqlaydi (header va pastki
+ * Ilova bir vaqtning oʻzida ikkita nishon saqlaydi (header va pastki
  * navigatsiya) — biri har doim yashiringan. Yashiringanini tanlash
  * obyektni ekrandan tashqariga uchirib yuborardi, shuning uchun
- * `display`, `visibility` VA o'lcham — uchalasi ham tekshiriladi.
+ * `display`, `visibility` VA oʻlcham — uchalasi ham tekshiriladi.
  */
 function findVisibleTarget(selector: string): { el: HTMLElement; rect: DOMRect } | null {
   for (const el of Array.from(document.querySelectorAll<HTMLElement>(selector))) {
@@ -72,10 +72,10 @@ export function FlightProvider({ children }: { children: ReactNode }) {
   const reduce = useReducedMotion();
   const [flights, setFlights] = useState<Flight[]>([]);
   const [bursts, setBursts] = useState<Burst[]>([]);
-  /* Tozalash uchun — komponent yo'q qilinsa taymerlar ham to'xtaydi. */
+  /* Tozalash uchun — komponent yoʻq qilinsa taymerlar ham toʻxtaydi. */
   const timers = useRef<number[]>([]);
 
-  /** Nishon ikonkasining o'zini "qabul qildim" deb sakratadi. */
+  /** Nishon ikonkasining oʻzini "qabul qildim" deb sakratadi. */
   const popTarget = useCallback((el: HTMLElement) => {
     el.classList.add('is-receiving');
     const t = window.setTimeout(() => el.classList.remove('is-receiving'), BURST_MS + 40);
@@ -89,11 +89,11 @@ export function FlightProvider({ children }: { children: ReactNode }) {
       if (!target) return;
 
       /*
-       * REDUCED MOTION: uchish umuman bo'lmaydi. Lekin foydalanuvchi
+       * REDUCED MOTION: uchish umuman boʻlmaydi. Lekin foydalanuvchi
        * baribir tasdiq olishi kerak — shuning uchun nishon qisqa
        * "pop" qiladi. Global CSS qoidasi (`index.css`) uning
-       * davomiyligini nolga tushiradi, ya'ni bu bir zumlik holat
-       * o'zgarishiga aylanadi.
+       * davomiyligini nolga tushiradi, yaʼni bu bir zumlik holat
+       * oʻzgarishiga aylanadi.
        */
       if (reduce) {
         popTarget(target.el);
@@ -103,7 +103,7 @@ export function FlightProvider({ children }: { children: ReactNode }) {
       if (!origin) return;
       const from = origin.getBoundingClientRect();
       if (from.width === 0) return;
-      // `cart` rasmsiz ishlamaydi; `fav` esa o'z yurakchasini chizadi.
+      // `cart` rasmsiz ishlamaydi; `fav` esa oʻz yurakchasini chizadi.
       if (kind === 'cart' && !imageSrc) return;
 
       const size =
@@ -127,7 +127,7 @@ export function FlightProvider({ children }: { children: ReactNode }) {
             size,
           },
           to: { x: toX, y: toY },
-          // Yurakcha balandroq va yengilroq ko'tariladi.
+          // Yurakcha balandroq va yengilroq koʻtariladi.
           arc: kind === 'cart' ? 72 : 118,
         },
       ]);
@@ -169,8 +169,8 @@ export function FlightProvider({ children }: { children: ReactNode }) {
                  * EGRI TRAEKTORIYA.
                  *
                  * `x` va `y` ALOHIDA easing bilan animatsiya qilinadi —
-                 * shuning uchun natija to'g'ri chiziq emas, yoy bo'ladi.
-                 * `y` uch nuqtadan o'tadi (boshlanish → yuqori nuqta →
+                 * shuning uchun natija toʻgʻri chiziq emas, yoy boʻladi.
+                 * `y` uch nuqtadan oʻtadi (boshlanish → yuqori nuqta →
                  * nishon), oxirgi qismida esa `easeIn` tufayli
                  * TEZLASHADI: obyekt savatga "tortilgandek" tushadi.
                  */
@@ -183,20 +183,20 @@ export function FlightProvider({ children }: { children: ReactNode }) {
                       x: f.to.x,
                       y: [f.from.y, peakY, f.to.y],
                       scale: f.kind === 'cart' ? 0.3 : 0.45,
-                      // Oxirgi lahzada so'nadi — ya'ni ikonkaning
-                      // ICHIDA yo'qoladi, undan oldin emas.
+                      // Oxirgi lahzada soʻnadi — yaʼni ikonkaning
+                      // ICHIDA yoʻqoladi, undan oldin emas.
                       opacity: [1, 1, 0],
                     }}
                     /*
-                     * `exit` ATAYLAB YO'Q.
+                     * `exit` ATAYLAB YOʻQ.
                      *
-                     * Obyekt o'z animatsiyasining oxirida allaqachon
-                     * `opacity: 0` ga yetadi — qo'shimcha chiqish
-                     * animatsiyasi ortiqcha. Muhimrog'i: `exit` bo'lsa,
-                     * `AnimatePresence` element'ni faqat chiqish
-                     * animatsiyasi TUGAGACH DOM'dan oladi. Fon rejimidagi
-                     * tab'da (rAF to'xtaydi) u hech qachon tugamaydi va
-                     * ghost DOM'da qolib ketardi — ya'ni to'planib borardi.
+                     * Obyekt oʻz animatsiyasining oxirida allaqachon
+                     * `opacity: 0` ga yetadi — qoʻshimcha chiqish
+                     * animatsiyasi ortiqcha. Muhimrogʻi: `exit` boʻlsa,
+                     * `AnimatePresence` elementʼni faqat chiqish
+                     * animatsiyasi TUGAGACH DOMʼdan oladi. Fon rejimidagi
+                     * tabʼda (rAF toʻxtaydi) u hech qachon tugamaydi va
+                     * ghost DOMʼda qolib ketardi — yaʼni toʻplanib borardi.
                      * `exit`siz esa holatdan olib tashlash = darhol
                      * unmount.
                      */
@@ -226,7 +226,7 @@ export function FlightProvider({ children }: { children: ReactNode }) {
                       />
                     ) : (
                       // Yurakcha — rasm emas, chizilgan belgi. Yumshoq
-                      // nur `drop-shadow` orqali; blur qatlami yo'q.
+                      // nur `drop-shadow` orqali; blur qatlami yoʻq.
                       <Heart
                         className="h-full w-full fill-orange-500 text-orange-500"
                         style={{ filter: 'drop-shadow(0 0 6px rgba(234,97,0,0.55))' }}
@@ -244,7 +244,7 @@ export function FlightProvider({ children }: { children: ReactNode }) {
                   key={`burst-${b.id}`}
                   initial={{ opacity: 0.5, scale: 0.55 }}
                   animate={{ opacity: 0, scale: 1.85 }}
-                  /* `exit` yo'q — yuqoridagi bilan bir xil sabab. */
+                  /* `exit` yoʻq — yuqoridagi bilan bir xil sabab. */
                   transition={{ duration: BURST_MS / 1000, ease: [0.22, 1, 0.36, 1] }}
                   style={{
                     position: 'absolute',

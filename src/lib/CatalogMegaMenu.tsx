@@ -11,29 +11,29 @@ import { Img } from './Img';
 /*
  * DESKTOP MEGA-MENYU.
  *
- * Chapda — birinchi daraja, o'ngda tanlangan kategoriyaning ichki
- * bo'limlari VA brendlari. Mobil varaqdagi to'rt bosqichli yo'l
- * (kategoriya → bo'lim → brend → mahsulot) shu yerda bir ekranga
+ * Chapda — birinchi daraja, oʻngda tanlangan kategoriyaning ichki
+ * boʻlimlari VA brendlari. Mobil varaqdagi toʻrt bosqichli yoʻl
+ * (kategoriya → boʻlim → brend → mahsulot) shu yerda bir ekranga
  * yoyiladi: desktopda joy bor, ortiqcha bosish kerak emas.
  *
- * ILGARI IKKI REJIM BOR EDI. Ierarxiya bo'lmaganda o'ng panel bo'sh
- * qolardi va shuning uchun tekis to'r chizilardi. Endi o'ng panel hech
- * qachon bo'sh emas — bo'limlar bo'lmasa brendlar, ular ham bo'lmasa
- * halol bo'sh holat ko'rsatiladi. Ya'ni ikkinchi rejim keraksiz bo'lib
- * qoldi va OLIB TASHLANDI: bitta yo'l — bitta xatti-harakat.
+ * ILGARI IKKI REJIM BOR EDI. Ierarxiya boʻlmaganda oʻng panel boʻsh
+ * qolardi va shuning uchun tekis toʻr chizilardi. Endi oʻng panel hech
+ * qachon boʻsh emas — boʻlimlar boʻlmasa brendlar, ular ham boʻlmasa
+ * halol boʻsh holat koʻrsatiladi. Yaʼni ikkinchi rejim keraksiz boʻlib
+ * qoldi va OLIB TASHLANDI: bitta yoʻl — bitta xatti-harakat.
  *
- * Menyu hech qachon bo'sh ustunni to'ldirish uchun kategoriya yoki
- * brend O'YLAB TOPMAYDI.
+ * Menyu hech qachon boʻsh ustunni toʻldirish uchun kategoriya yoki
+ * brend OʻYLAB TOPMAYDI.
  *
- * Ma'lumot manbai — `useCategoryTree()`, mobil varaq bilan bir xil.
+ * Maʼlumot manbai — `useCategoryTree()`, mobil varaq bilan bir xil.
  */
 
 export function CatalogMegaMenu({ onNavigate }: { onNavigate: () => void }) {
   const { tree, loading } = useCategoryTree();
   const [activeId, setActiveId] = useState<string | null>(null);
 
-  // Birinchi kategoriya sukut bo'yicha faol — o'ng panel hech qachon
-  // sababsiz bo'sh turmaydi.
+  // Birinchi kategoriya sukut boʻyicha faol — oʻng panel hech qachon
+  // sababsiz boʻsh turmaydi.
   useEffect(() => {
     if (!activeId && tree.length > 0) setActiveId(tree[0].id);
   }, [tree, activeId]);
@@ -58,8 +58,8 @@ export function CatalogMegaMenu({ onNavigate }: { onNavigate: () => void }) {
     <div
       className={cx(
         popSurface,
-        // Kenglik CHEKLANGAN: 1920px'da menyu butun ekranga cho'zilsa
-        // qatorlar o'qib bo'lmas darajada uzun bo'lib ketardi.
+        // Kenglik CHEKLANGAN: 1920pxʼda menyu butun ekranga choʻzilsa
+        // qatorlar oʻqib boʻlmas darajada uzun boʻlib ketardi.
         'absolute left-0 top-full z-50 mt-2 flex w-[min(64rem,calc(100vw-3rem))] overflow-hidden'
       )}
     >
@@ -80,7 +80,7 @@ export function CatalogMegaMenu({ onNavigate }: { onNavigate: () => void }) {
                   role="tab"
                   aria-selected={isActive}
                   // Hover bilan ham, klaviatura fokusi bilan ham almashadi —
-                  // sichqonchasiz foydalanuvchi hech narsa yo'qotmaydi.
+                  // sichqonchasiz foydalanuvchi hech narsa yoʻqotmaydi.
                   onMouseEnter={() => setActiveId(c.id)}
                   onFocus={() => setActiveId(c.id)}
                   onClick={() => setActiveId(c.id)}
@@ -129,23 +129,23 @@ export function CatalogMegaMenu({ onNavigate }: { onNavigate: () => void }) {
 }
 
 /*
- * O'NG PANEL — tanlangan kategoriyaning ichki mazmuni.
+ * OʻNG PANEL — tanlangan kategoriyaning ichki mazmuni.
  *
- * Mobil varaqda brendlar ALOHIDA ekran bo'lib ochiladi, chunki u yerda
- * joy yo'q. Desktopda esa drill-down ortiqcha bosish bo'lardi: panel
- * allaqachon keng, shuning uchun bo'limlar va brendlar YONMA-YON
- * ko'rsatiladi.
+ * Mobil varaqda brendlar ALOHIDA ekran boʻlib ochiladi, chunki u yerda
+ * joy yoʻq. Desktopda esa drill-down ortiqcha bosish boʻlardi: panel
+ * allaqachon keng, shuning uchun boʻlimlar va brendlar YONMA-YON
+ * koʻrsatiladi.
  *
  * Brend bosilganda kategoriya sahifasi FILTR bilan ochiladi
  * (`?brand=…`) — `categories` jadvaliga hech narsa yozilmaydi.
  *
- * Panel uchta holatni biladi va ularning hech biri bo'sh ko'rinmaydi:
- *   bo'limlar bor      → ustunli to'r
+ * Panel uchta holatni biladi va ularning hech biri boʻsh koʻrinmaydi:
+ *   boʻlimlar bor      → ustunli toʻr
  *   brendlar bor       → yumaloq tugmalar zanjiri
- *   ikkovi ham yo'q    → halol bo'sh holat («hozircha mahsulot yo'q»)
+ *   ikkovi ham yoʻq    → halol boʻsh holat («hozircha mahsulot yoʻq»)
  *
- * Bo'sh holatni to'ldirish uchun kategoriya yoki brend O'YLAB
- * TOPILMAYDI — yo'q ma'lumot yo'qligicha aytiladi.
+ * Boʻsh holatni toʻldirish uchun kategoriya yoki brend OʻYLAB
+ * TOPILMAYDI — yoʻq maʼlumot yoʻqligicha aytiladi.
  */
 function ActivePanel({
   node,
@@ -220,9 +220,9 @@ function ActivePanel({
                 initial={reduce ? { opacity: 0 } : { opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 /*
-                 * Zinapoya CHEKLANGAN: 8 tadan keyin kechikish o'smaydi.
+                 * Zinapoya CHEKLANGAN: 8 tadan keyin kechikish oʻsmaydi.
                  * Aks holda 30 brendli kategoriyada oxirgisi ~1s kechikib
-                 * chiqardi va ro'yxat "sekin" tuyulardi.
+                 * chiqardi va roʻyxat "sekin" tuyulardi.
                  */
                 transition={{
                   duration: DURATION.ui,
@@ -261,21 +261,21 @@ function ActivePanel({
 }
 
 /**
- * Ustun ichidagi ichki bo'limlar — REKURSIV.
+ * Ustun ichidagi ichki boʻlimlar — REKURSIV.
  *
- * Ilgari bu yerda qat'iy ikki qavat yozilgan edi:
- * `sub.children.map(leaf => …)` va shu yerda to'xtardi. Natijada
+ * Ilgari bu yerda qatʼiy ikki qavat yozilgan edi:
+ * `sub.children.map(leaf => …)` va shu yerda toʻxtardi. Natijada
  * admin 4-darajali kategoriya yaratsa, u desktop menyusida UMUMAN
- * ko'rinmasdi — mobil varaqda esa ko'rinardi, chunki u stek asosida
- * ishlaydi. Ya'ni bir xil ma'lumot ikki yuzada boshqacha chiqardi.
+ * koʻrinmasdi — mobil varaqda esa koʻrinardi, chunki u stek asosida
+ * ishlaydi. Yaʼni bir xil maʼlumot ikki yuzada boshqacha chiqardi.
  *
- * Endi chuqurlik chegarasi yo'q: daraxt qanchalik chuqur bo'lsa,
- * shunchalik chiziladi va yangi daraja uchun kod o'zgartirish kerak
+ * Endi chuqurlik chegarasi yoʻq: daraxt qanchalik chuqur boʻlsa,
+ * shunchalik chiziladi va yangi daraja uchun kod oʻzgartirish kerak
  * emas.
  *
  * `depth` faqat CHEKINISH (indent) uchun va u 3-darajadan keyin
- * o'smaydi — aks holda chuqur shoxlar ustun kengligidan chiqib
- * ketardi. Ya'ni chegara VIZUAL, ma'lumotga tegishli emas.
+ * oʻsmaydi — aks holda chuqur shoxlar ustun kengligidan chiqib
+ * ketardi. Yaʼni chegara VIZUAL, maʼlumotga tegishli emas.
  */
 function SubTree({
   nodes,

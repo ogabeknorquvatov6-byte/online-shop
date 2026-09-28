@@ -5,11 +5,11 @@ import { card, cx } from './design';
  *
  * Bular `AdminShared.tsx` ichida — komponentlar bilan bir faylda — turardi.
  * Ular oddiy qiymatlar, komponent emas; alohida modulga chiqarilishi
- * Fast Refresh'ni ham to'g'ri ishlatadi, ham bo'limlar orasida jadval
- * ko'rinishi bir xil qolishini ta'minlaydi.
+ * Fast Refreshʼni ham toʻgʻri ishlatadi, ham boʻlimlar orasida jadval
+ * koʻrinishi bir xil qolishini taʼminlaydi.
  */
 
-/** Desktop jadval konteyneri — mobilda jadval o'rniga kartochkalar chiqadi. */
+/** Desktop jadval konteyneri — mobilda jadval oʻrniga kartochkalar chiqadi. */
 export const tableWrap = cx(card, 'hidden overflow-x-auto lg:block');
 
 export const th =

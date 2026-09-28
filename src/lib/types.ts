@@ -10,7 +10,7 @@ export type Category = {
   created_at: string;
 };
 
-/** Mahsulot bilan birga keladigan qisqartirilgan kategoriya ma'lumoti. */
+/** Mahsulot bilan birga keladigan qisqartirilgan kategoriya maʼlumoti. */
 export type CategoryRef = Pick<Category, 'id' | 'name' | 'slug'>;
 
 export type Product = {
@@ -32,11 +32,11 @@ export type Product = {
   created_at: string;
   updated_at: string;
   /*
-   * Bog'liq kategoriyaning FAQAT ko'rsatish uchun kerakli qismi.
+   * Bogʻliq kategoriyaning FAQAT koʻrsatish uchun kerakli qismi.
    *
-   * Ilgari bu `Category | null` deb e'lon qilingan edi, lekin mahsulot
-   * so'rovlari kategoriyaning hamma ustunini olmaydi (`categories(id,
-   * name, slug)`). Ya'ni tip haqiqatdan kengroq bo'lgan va `adapters.ts`
+   * Ilgari bu `Category | null` deb eʼlon qilingan edi, lekin mahsulot
+   * soʻrovlari kategoriyaning hamma ustunini olmaydi (`categories(id,
+   * name, slug)`). Yaʼni tip haqiqatdan kengroq boʻlgan va `adapters.ts`
    * uni `as any` bilan majburan kiritishga majbur edi — endi tip
    * haqiqatga mos, majburlash ham kerak emas.
    */
@@ -61,15 +61,15 @@ export type ProductVariant = {
   type: string;
   value: string;
   sort_order: number;
-  /** Ko'rsatiladigan nom (bo'sh bo'lsa `value` ishlatiladi). */
+  /** Koʻrsatiladigan nom (boʻsh boʻlsa `value` ishlatiladi). */
   label?: string | null;
   /** Rang namunasi uchun HEX kod, masalan `#1d1d1f`. */
   color_code?: string | null;
-  /** Shu variant tanlanganda ko'rsatiladigan rasm. */
+  /** Shu variant tanlanganda koʻrsatiladigan rasm. */
   image_url?: string | null;
-  /** NULL = alohida ombor yuritilmaydi (mahsulotning umumiy qoldig'i). */
+  /** NULL = alohida ombor yuritilmaydi (mahsulotning umumiy qoldigʻi). */
   stock?: number | null;
-  /** Asosiy narxga qo'shiladigan farq (manfiy ham bo'lishi mumkin). */
+  /** Asosiy narxga qoʻshiladigan farq (manfiy ham boʻlishi mumkin). */
   price_adjustment?: number | null;
   is_active?: boolean;
 };
@@ -137,17 +137,17 @@ export type Profile = {
   avatar_url: string | null;
   is_admin: boolean;
   created_at: string;
-  // Production sxemadan qo'shimcha (ichki foydalanish uchun, UI'ga ta'sir qilmaydi)
+  // Production sxemadan qoʻshimcha (ichki foydalanish uchun, UIʼga taʼsir qilmaydi)
   is_active?: boolean;
 };
 
 /**
  * Mahsulot sharhi (`product_reviews`, migratsiya 20260913000000).
  *
- * `author_name` va `verified_purchase` — SERVER to'ldiradigan nusxa
+ * `author_name` va `verified_purchase` — SERVER toʻldiradigan nusxa
  * maydonlari. Ular mijozdan qabul qilinmaydi: `profiles` jadvalini
- * begona foydalanuvchi o'qiy olmagani uchun ism sharh yozilgan paytda
- * trigger orqali qatorning o'ziga yoziladi.
+ * begona foydalanuvchi oʻqiy olmagani uchun ism sharh yozilgan paytda
+ * trigger orqali qatorning oʻziga yoziladi.
  */
 export type ProductReview = {
   id: string;
@@ -203,17 +203,17 @@ export type Settings = {
 export type CartItem = {
   product: Product;
   quantity: number;
-  /** Foydalanuvchiga ko'rinadigan variant matni, masalan "Qora / 256 GB". */
+  /** Foydalanuvchiga koʻrinadigan variant matni, masalan "Qora / 256 GB". */
   variant?: string;
   /**
-   * Tanlangan variantning ID'si. Narx farqi va ombor tekshiruvi SERVERDA
-   * shu ID bo'yicha bajariladi — matnli nomga tayanib bo'lmaydi.
+   * Tanlangan variantning IDʼsi. Narx farqi va ombor tekshiruvi SERVERDA
+   * shu ID boʻyicha bajariladi — matnli nomga tayanib boʻlmaydi.
    */
   variantId?: string;
 };
 
-// Production `orders.status` ustunida to'g'ridan-to'g'ri shu o'zbekcha
-// qiymatlarni saqlaydi (kalitlar ham, ko'rsatiladigan matn ham bir xil).
+// Production `orders.status` ustunida toʻgʻridan-toʻgʻri shu oʻzbekcha
+// qiymatlarni saqlaydi (kalitlar ham, koʻrsatiladigan matn ham bir xil).
 export const ORDER_STATUS_LABELS: Record<string, string> = {
   'Yangi': 'Yangi',
   'Qabul qilindi': 'Qabul qilindi',
@@ -241,8 +241,8 @@ export function hasSellablePrice(value: number | null | undefined): boolean {
 
 export function formatPrice(value: number | null | undefined): string {
   if (value == null || !Number.isFinite(value)) return '';
-  // Narxi kiritilmagan mahsulot uchun "0 so'm" deb yozish mijozni chalg'itadi
-  // (bepul deb tushunilishi mumkin) — buning o'rniga aniq matn beramiz.
+  // Narxi kiritilmagan mahsulot uchun "0 soʻm" deb yozish mijozni chalgʻitadi
+  // (bepul deb tushunilishi mumkin) — buning oʻrniga aniq matn beramiz.
   if (value <= 0) return 'Narxi kelishiladi';
   return NUMBER_FORMAT.format(Math.round(value)) + ' soʻm';
 }
@@ -250,9 +250,9 @@ export function formatPrice(value: number | null | undefined): string {
 /**
  * Ming ajratuvchi bilan oddiy son — NARX EMAS.
  *
- * Sotuvlar soni, ko'rishlar, sharhlar uchun. Narx formatlovchilaridan
- * ataylab ajratilgan: ularda "so'm", "Narxi kelishiladi" kabi pulga xos
- * mantiq bor va u sanoq uchun noto'g'ri bo'lardi.
+ * Sotuvlar soni, koʻrishlar, sharhlar uchun. Narx formatlovchilaridan
+ * ataylab ajratilgan: ularda "soʻm", "Narxi kelishiladi" kabi pulga xos
+ * mantiq bor va u sanoq uchun notoʻgʻri boʻlardi.
  */
 export function formatCount(value: number | null | undefined): string {
   if (value == null || !Number.isFinite(value)) return '';
@@ -264,22 +264,22 @@ export function formatCount(value: number | null | undefined): string {
  *
  * Hozircha `formatCount` bilan bir xil natija beradi, lekin nomi
  * chaqiruv joyida NIMA ekanini aytadi va narx formati kelajakda
- * o'zgarsa (masalan "mln" qisqartmasi) sanoqqa tegmaydi.
+ * oʻzgarsa (masalan "mln" qisqartmasi) sanoqqa tegmaydi.
  */
 export function formatPriceShort(value: number | null | undefined): string {
   return formatCount(value);
 }
 
 /*
- * O'ZBEKCHA OY NOMLARI — QO'LDA.
+ * OʻZBEKCHA OY NOMLARI — QOʻLDA.
  *
  * `toLocaleDateString('uz-UZ', { month: 'long' })` oy nomini BERMAYDI.
- * O'lchandi: 2026-09-21 uchun natija «2026 M09 21» — ICU'da o'zbek oy
- * nomlari yo'q va u "M09" degan texnik belgiga tushib qoladi.
- * Buyurtma kartalarida bu «2026 M09 21 23:44» bo'lib chiqardi: na
- * o'zbekcha, na o'qiladigan.
+ * Oʻlchandi: 2026-09-21 uchun natija «2026 M09 21» — ICUʼda oʻzbek oy
+ * nomlari yoʻq va u "M09" degan texnik belgiga tushib qoladi.
+ * Buyurtma kartalarida bu «2026 M09 21 23:44» boʻlib chiqardi: na
+ * oʻzbekcha, na oʻqiladigan.
  *
- * Bu ma'lumot TO'QIB CHIQARILMAGAN — bu shunchaki to'g'ri tarjima.
+ * Bu maʼlumot TOʻQIB CHIQARILMAGAN — bu shunchaki toʻgʻri tarjima.
  */
 const UZ_MONTHS = [
   'yanvar', 'fevral', 'mart', 'aprel', 'may', 'iyun',
@@ -289,7 +289,7 @@ const UZ_MONTHS = [
 /**
  * Buyurtma sanasi: «21-sentabr, 2026 · 23:44».
  *
- * Yaroqsiz sanada bo'sh satr qaytaradi — «Invalid Date» hech qachon
+ * Yaroqsiz sanada boʻsh satr qaytaradi — «Invalid Date» hech qachon
  * ekranga chiqmaydi.
  */
 export function formatOrderDate(iso: string | null | undefined, withTime = true): string {
@@ -306,8 +306,8 @@ export function formatOrderDate(iso: string | null | undefined, withTime = true)
 /**
  * Chegirma foizi.
  *
- * Ikkala narx ham musbat bo'lishi shart va natija 1..99 oralig'iga
- * cheklanadi: bazadagi noto'g'ri kiritilgan qiymat (masalan narx 0)
+ * Ikkala narx ham musbat boʻlishi shart va natija 1..99 oraligʻiga
+ * cheklanadi: bazadagi notoʻgʻri kiritilgan qiymat (masalan narx 0)
  * kartada "−100%" degan ishonchsiz nishonchani chiqarib yuborardi.
  */
 export function discountPercent(price: number, oldPrice: number | null): number | null {

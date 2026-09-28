@@ -16,9 +16,9 @@ function diffToParts(ms: number): Remaining {
 /**
  * Aksiya tugashigacha qolgan vaqt.
  *
- * `endDate` berilmasa umuman ko'rsatilmaydi (ilgari muddatsiz aksiyada
+ * `endDate` berilmasa umuman koʻrsatilmaydi (ilgari muddatsiz aksiyada
  * "00:00:00:00" chiqib turardi). Vaqt tugaganda `onExpire` chaqiriladi,
- * shunda chaqiruvchi bo'lim "aksiya tugadi" holatiga o'tishi mumkin.
+ * shunda chaqiruvchi boʻlim "aksiya tugadi" holatiga oʻtishi mumkin.
  */
 export function CountdownTimer({
   endDate,

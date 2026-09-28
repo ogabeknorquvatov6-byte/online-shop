@@ -70,8 +70,8 @@ export function AdminSettings() {
       .eq('id', true);
     setSaving(false);
 
-    // Ilgari bu javob e'tiborsiz qoldirilardi va admin RLS tufayli hech narsa
-    // saqlanmagan bo'lsa ham "Sozlamalar saqlandi" degan xabarni ko'rardi.
+    // Ilgari bu javob eʼtiborsiz qoldirilardi va admin RLS tufayli hech narsa
+    // saqlanmagan boʻlsa ham "Sozlamalar saqlandi" degan xabarni koʻrardi.
     if (err) {
       notify(`Saqlab boʻlmadi: ${err.message}`, 'error');
       return;

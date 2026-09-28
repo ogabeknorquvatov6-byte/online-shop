@@ -8,10 +8,10 @@ import { cx, focusRing } from './design';
 /*
  * Gorizontal mahsulot karuseli.
  *
- * - Mobil: barmoq bilan surish (native scroll + scroll-snap — JS drag'dan
- *   ko'ra silliqroq va batareyani kam yeydi).
- * - Desktop: chap/o'ng strelkalar, faqat surish mumkin bo'lganda ko'rinadi.
- * - Oxirida "Barchasini ko'rish" kartasi turadi: foydalanuvchi ro'yxat
+ * - Mobil: barmoq bilan surish (native scroll + scroll-snap — JS dragʻdan
+ *   koʻra silliqroq va batareyani kam yeydi).
+ * - Desktop: chap/oʻng strelkalar, faqat surish mumkin boʻlganda koʻrinadi.
+ * - Oxirida "Barchasini koʻrish" kartasi turadi: foydalanuvchi roʻyxat
  *   oxiriga yetganda uni tabiiy ravishda uchratadi.
  */
 
@@ -19,10 +19,10 @@ import { cx, focusRing } from './design';
  * Karusel kartasining kengligi.
  *
  * `tab` (820px) da karta sezilarli darajada kattalashadi (224px). Ilgari
- * o'lcham `md` da 200px'da to'xtardi va 912px'lik planshetda ekran
- * mayda kartalar bilan to'lib ketardi — bu "cho'zilgan mobil" hissini
+ * oʻlcham `md` da 200pxʼda toʻxtardi va 912pxʼlik planshetda ekran
+ * mayda kartalar bilan toʻlib ketardi — bu "choʻzilgan mobil" hissini
  * beradigan asosiy narsalardan biri edi. Endi planshetda kartalar
- * kamroq, lekin yiriroq va mahsulot rasmi haqiqatan ko'rinadi.
+ * kamroq, lekin yiriroq va mahsulot rasmi haqiqatan koʻrinadi.
  */
 const CARD_WIDTH = 'w-[9.5rem] sm:w-[11rem] md:w-[12.5rem] tab:w-[14rem] lg:w-[15rem]';
 
@@ -47,10 +47,10 @@ export function ProductCarousel({
   /*
    * Surish holati 0..1.
    *
-   * Strelkalar faqat `md` dan boshlab ko'rinadi, ya'ni TELEFONDA ro'yxat
-   * qanchaligi va qayerda turgani haqida hech qanday ishora yo'q edi.
-   * Ingichka progress chizig'i buni nuqtalar ro'yxatisiz hal qiladi —
-   * mahsulotlar soni o'zgaruvchan bo'lgani uchun nuqtalar bu yerda
+   * Strelkalar faqat `md` dan boshlab koʻrinadi, yaʼni TELEFONDA roʻyxat
+   * qanchaligi va qayerda turgani haqida hech qanday ishora yoʻq edi.
+   * Ingichka progress chizigʻi buni nuqtalar roʻyxatisiz hal qiladi —
+   * mahsulotlar soni oʻzgaruvchan boʻlgani uchun nuqtalar bu yerda
    * yaramaydi (20 ta nuqta hech kimga foyda bermaydi).
    */
   const [progress, setProgress] = useState(0);
@@ -108,8 +108,8 @@ export function ProductCarousel({
         role="region"
         aria-label={ariaLabel}
         className={cx(
-          // Chetlari sahifa gutter'iga tekkanda "kesilgan" ko'rinmasligi uchun
-          // konteyner chetlarigacha cho'ziladi va ichkarida padding beriladi.
+          // Chetlari sahifa gutterʼiga tekkanda "kesilgan" koʻrinmasligi uchun
+          // konteyner chetlarigacha choʻziladi va ichkarida padding beriladi.
           'no-scrollbar snap-x-start -mx-4 flex gap-3 overflow-x-auto scroll-px-4 px-4 pb-1',
           'sm:-mx-5 sm:scroll-px-5 sm:px-5 lg:mx-0 lg:scroll-px-0 lg:px-0'
         )}

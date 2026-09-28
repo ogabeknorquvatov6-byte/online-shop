@@ -13,14 +13,14 @@ import { button, cx, focusRing, input as inputClass, skeleton } from '../design'
 /*
  * Mahsulot galereyasini boshqarish.
  *
- * Ilgari admin bitta "Rasm URL" maydonidan iborat edi — ya'ni mahsulotga
- * faqat BITTA rasm qo'yish mumkin edi, garchi `product_images` jadvali
- * cheksiz rasmni qo'llab-quvvatlasa ham. Endi:
+ * Ilgari admin bitta "Rasm URL" maydonidan iborat edi — yaʼni mahsulotga
+ * faqat BITTA rasm qoʻyish mumkin edi, garchi `product_images` jadvali
+ * cheksiz rasmni qoʻllab-quvvatlasa ham. Endi:
  *   - fayllarni tortib tashlab yoki tanlab yuklash (bir vaqtda bir nechta),
- *   - havola orqali qo'shish,
- *   - tartibni o'zgartirish,
+ *   - havola orqali qoʻshish,
+ *   - tartibni oʻzgartirish,
  *   - asosiy rasmni belgilash,
- *   - o'chirish (fayl bucket'dan ham tozalanadi).
+ *   - oʻchirish (fayl bucketʼdan ham tozalanadi).
  */
 
 type Row = ProductImage;
@@ -61,7 +61,7 @@ export function ProductMediaManager({ productId }: { productId: string }) {
       product_id: productId,
       image_url: url,
       sort_order: base + i,
-      // Birinchi rasm avtomatik asosiy bo'ladi.
+      // Birinchi rasm avtomatik asosiy boʻladi.
       is_primary: !hasPrimary && i === 0,
     }));
     const { error } = await supabase.from('product_images').insert(rows);
@@ -151,7 +151,7 @@ export function ProductMediaManager({ productId }: { productId: string }) {
       notify(`Oʻchirib boʻlmadi: ${error.message}`, 'error');
       return;
     }
-    // Fayl bizning bucket'imizda bo'lsa uni ham tozalaymiz (bo'lmasa e'tiborsiz).
+    // Fayl bizning bucketʼimizda boʻlsa uni ham tozalaymiz (boʻlmasa eʼtiborsiz).
     await deleteImageByUrl(row.image_url);
     setBusy(false);
     notify('Rasm oʻchirildi', 'success');

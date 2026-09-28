@@ -6,37 +6,37 @@ import { matchRoute, normalizePathname, type AppRoute } from './routes';
 /*
  * Marshrutizator — History API (`/catalog`), hash EMAS (`#/catalog`).
  *
- * Nega ko'chirildi:
- *   1. Hash qismi SERVERGA UMUMAN YUBORILMAYDI. Ya'ni Google, Telegram
- *      ko'rinishi, Facebook/Twitter kartalari va istalgan crawler uchun
+ * Nega koʻchirildi:
+ *   1. Hash qismi SERVERGA UMUMAN YUBORILMAYDI. Yaʼni Google, Telegram
+ *      koʻrinishi, Facebook/Twitter kartalari va istalgan crawler uchun
  *      saytdagi barcha sahifa bitta `/` edi — `#/product/iphone-15` va
- *      `#/faq` bir xil manzil sifatida ko'rinardi.
- *   2. `<link rel="canonical">` hash bilan yozilganda e'tiborga olinmaydi.
- *   3. Hash URL'lar mijozga "tugallanmagan sayt" taassurotini beradi.
+ *      `#/faq` bir xil manzil sifatida koʻrinardi.
+ *   2. `<link rel="canonical">` hash bilan yozilganda eʼtiborga olinmaydi.
+ *   3. Hash URLʼlar mijozga "tugallanmagan sayt" taassurotini beradi.
  *
  * Nima saqlab qolindi:
- *   — to'g'ridan-to'g'ri kirish va sahifani yangilash (server SPA-fallback,
- *     pastda `public/_redirects` va `vercel.json` bilan ta'minlangan);
+ *   — toʻgʻridan-toʻgʻri kirish va sahifani yangilash (server SPA-fallback,
+ *     pastda `public/_redirects` va `vercel.json` bilan taʼminlangan);
  *   — brauzerning orqaga/oldinga tugmalari va scroll holati;
- *   — `?q=`, `?brand=` kabi so'rov parametrlari;
+ *   — `?q=`, `?brand=` kabi soʻrov parametrlari;
  *   — Ctrl/Cmd-klik bilan yangi oynada ochish;
  *   — ESKI hash havolalar: `#/product/x` avtomatik `/product/x` ga
- *     almashtiriladi (bot xabarlaridagi va xatcho'plardagi havolalar).
+ *     almashtiriladi (bot xabarlaridagi va xatchoʻplardagi havolalar).
  */
 
 export type Route = {
-  /** So'rovsiz yo'l: `/catalog`. */
+  /** Soʻrovsiz yoʻl: `/catalog`. */
   pathname: string;
-  /** `?brand=Apple` yoki bo'sh satr. */
+  /** `?brand=Apple` yoki boʻsh satr. */
   search: string;
-  /** Tayyor parametrlar — har render'da qayta yaratilmaydi. */
+  /** Tayyor parametrlar — har renderʼda qayta yaratilmaydi. */
   query: URLSearchParams;
   /** Tekshirilgan marshrut (discriminated union). */
   match: AppRoute;
 };
 
 type NavigateOptions = {
-  /** Tarixga yangi yozuv qo'shmaydi (yo'naltirishlar, filtr o'zgarishi). */
+  /** Tarixga yangi yozuv qoʻshmaydi (yoʻnaltirishlar, filtr oʻzgarishi). */
   replace?: boolean;
   /** Yangi sahifada tepaga qaytarmaslik (filtr yangilanishi). */
   preserveScroll?: boolean;
@@ -49,7 +49,7 @@ type RouterValue = {
 
 const RouterContext = createContext<RouterValue | undefined>(undefined);
 
-/* ── Manzilni o'qish ─────────────────────────────────────────────────── */
+/* ── Manzilni oʻqish ─────────────────────────────────────────────────── */
 
 function readRoute(): Route {
   const pathname = normalizePathname(window.location.pathname);
@@ -63,10 +63,10 @@ function readRoute(): Route {
 }
 
 /**
- * Eski `#/...` havolalarini toza manzilga ko'chiradi.
+ * Eski `#/...` havolalarini toza manzilga koʻchiradi.
  *
- * React render bo'lishidan OLDIN (main.tsx da) chaqiriladi — aks holda
- * ilova avval `/` ni ko'rsatib, keyin sakrab kerakli sahifaga o'tardi.
+ * React render boʻlishidan OLDIN (main.tsx da) chaqiriladi — aks holda
+ * ilova avval `/` ni koʻrsatib, keyin sakrab kerakli sahifaga oʻtardi.
  */
 export function migrateLegacyHashUrl(): void {
   const { hash, pathname, search } = window.location;
@@ -86,10 +86,10 @@ export function migrateLegacyHashUrl(): void {
 /* ── Scroll holati ───────────────────────────────────────────────────── */
 
 /*
- * Orqaga qaytganda foydalanuvchi katalogning O'ZI TURGAN joyiga qaytishi
- * kerak — bu e-commerce'da eng ko'p ishlatiladigan harakat (mahsulotni
- * ochib, orqaga qaytib, keyingisini ochish). Brauzerning o'z tiklashi SPA'da
- * ishonchsiz: DOM hali to'lmagan bo'ladi, shuning uchun o'zimiz boshqaramiz.
+ * Orqaga qaytganda foydalanuvchi katalogning OʻZI TURGAN joyiga qaytishi
+ * kerak — bu e-commerceʼda eng koʻp ishlatiladigan harakat (mahsulotni
+ * ochib, orqaga qaytib, keyingisini ochish). Brauzerning oʻz tiklashi SPAʼda
+ * ishonchsiz: DOM hali toʻlmagan boʻladi, shuning uchun oʻzimiz boshqaramiz.
  */
 const scrollPositions = new Map<string, number>();
 
@@ -106,8 +106,8 @@ export function RouterProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
-      // Brauzerning o'z tiklashi SPA'da ishonchsiz: u scroll'ni DOM hali
-      // to'lmagan paytda tiklaydi va sahifa pastigacha yetib bormaydi.
+      // Brauzerning oʻz tiklashi SPAʼda ishonchsiz: u scrollʼni DOM hali
+      // toʻlmagan paytda tiklaydi va sahifa pastigacha yetib bormaydi.
       window.history.scrollRestoration = 'manual';
     }
   }, []);
@@ -117,14 +117,14 @@ export function RouterProvider({ children }: { children: ReactNode }) {
       /*
        * CHIQIB KETAYOTGAN sahifaning holatini AYNAN SHU YERDA saqlaymiz.
        *
-       * Ilgari scroll faqat `navigate()` ichida saqlanardi, ya'ni faqat
+       * Ilgari scroll faqat `navigate()` ichida saqlanardi, yaʼni faqat
        * ilova ichidagi bosishlarda. Brauzerning "orqaga" tugmasi esa
-       * `navigate()` ni chetlab o'tadi — natijada foydalanuvchi katalogda
+       * `navigate()` ni chetlab oʻtadi — natijada foydalanuvchi katalogda
        * pastga tushib, mahsulotni ochib, ORQAGA bosganda katalog eng
-       * boshidan ochilardi (e-commerce'dagi eng ko'p takrorlanadigan
+       * boshidan ochilardi (e-commerceʼdagi eng koʻp takrorlanadigan
        * harakat aynan shu).
        *
-       * `scrollRestoration = 'manual'` bo'lgani uchun bu paytda brauzer
+       * `scrollRestoration = 'manual'` boʻlgani uchun bu paytda brauzer
        * hali scroll qilmagan — `window.scrollY` hamon eski sahifaniki.
        */
       scrollPositions.set(keyOf(routeRef.current), window.scrollY);
@@ -136,9 +136,9 @@ export function RouterProvider({ children }: { children: ReactNode }) {
   }, []);
 
   /*
-   * Sahifa almashgandan KEYIN scroll'ni tiklaymiz. `useEffect` DOM
-   * yangilangandan so'ng ishlaydi, ya'ni sahifa balandligi allaqachon
-   * to'g'ri — shuning uchun tiklangan pozitsiya "yetib bormay" qolmaydi.
+   * Sahifa almashgandan KEYIN scrollʼni tiklaymiz. `useEffect` DOM
+   * yangilangandan soʻng ishlaydi, yaʼni sahifa balandligi allaqachon
+   * toʻgʻri — shuning uchun tiklangan pozitsiya "yetib bormay" qolmaydi.
    */
   useEffect(() => {
     if (lastNavigationRef.current !== 'pop') {
@@ -156,13 +156,13 @@ export function RouterProvider({ children }: { children: ReactNode }) {
     /*
      * Tiklashni bir necha kadr davomida QAYTA URINAMIZ.
      *
-     * Sahifa mount bo'lgan payt mahsulotlar hali bazadan kelmagan bo'ladi
+     * Sahifa mount boʻlgan payt mahsulotlar hali bazadan kelmagan boʻladi
      * — hujjat balandligi skeletonnikidek past. Bitta `scrollTo(2400)`
      * shu balandlikka QIRQILADI va foydalanuvchi kerakli joyga yetib
-     * bormaydi. Shuning uchun mazmun kelib, balandlik yetarli bo'lgunicha
+     * bormaydi. Shuning uchun mazmun kelib, balandlik yetarli boʻlgunicha
      * (yoki muddat tugagunicha) urinishni davom ettiramiz.
      *
-     * Foydalanuvchi o'zi scroll qilsa — darhol to'xtaymiz: uning
+     * Foydalanuvchi oʻzi scroll qilsa — darhol toʻxtaymiz: uning
      * harakatiga qarshi kurashish eng yomon variant.
      */
     let timer = 0;
@@ -185,7 +185,7 @@ export function RouterProvider({ children }: { children: ReactNode }) {
       /*
        * `setTimeout`, `requestAnimationFrame` EMAS.
        *
-       * Brauzer fondagi yorliqda rAF ni butunlay to'xtatib qo'yadi.
+       * Brauzer fondagi yorliqda rAF ni butunlay toʻxtatib qoʻyadi.
        * Foydalanuvchi mahsulotni yangi yorliqda ochib, keyin eskisiga
        * qaytsa, tiklash umuman ishlamay qolardi (sinovda aynan shu
        * holat kuzatildi). `setTimeout` esa fonda ham ishlaydi.
@@ -208,7 +208,7 @@ export function RouterProvider({ children }: { children: ReactNode }) {
     const current = routeRef.current;
 
     if (nextPathname === current.pathname && nextSearch === current.search) {
-      // Aynan shu manzilga qayta bosildi (masalan logotip) — hech bo'lmaganda
+      // Aynan shu manzilga qayta bosildi (masalan logotip) — hech boʻlmaganda
       // tepaga qaytaramiz, shunda bosish javobsiz qolmaydi.
       if (!options?.preserveScroll) window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       return;
@@ -256,7 +256,7 @@ export function Link({ to, children, className, onClick, replace, ...rest }: Lin
     <a
       href={to}
       onClick={(e) => {
-        // Ctrl/Cmd/Shift-klik va o'rta tugma brauzerga tegishli — ularni
+        // Ctrl/Cmd/Shift-klik va oʻrta tugma brauzerga tegishli — ularni
         // ushlab qolsak "yangi tabda ochish" butunlay ishlamay qoladi.
         if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
         e.preventDefault();

@@ -7,9 +7,9 @@ type FavoritesContextValue = {
   favorites: Favorite[];
   favoriteIds: Set<string>;
   /**
-   * Sevimlilar soni — to'g'ridan-to'g'ri saqlangan ID'lardan olinadi.
+   * Sevimlilar soni — toʻgʻridan-toʻgʻri saqlangan IDʼlardan olinadi.
    * Ilgari nishonchalar (header/bottom nav) `favorites.length` ni ishlatardi,
-   * ya'ni Supabase javob bergunga qadar 0 ko'rsatib, keyin sakrab o'zgarardi.
+   * yaʼni Supabase javob bergunga qadar 0 koʻrsatib, keyin sakrab oʻzgarardi.
    */
   count: number;
   loading: boolean;
@@ -21,8 +21,8 @@ type FavoritesContextValue = {
 
 const FavoritesContext = createContext<FavoritesContextValue | undefined>(undefined);
 
-// Sevimlilar Supabase'ga emas, localStorage'ga mahsulot ID massivi sifatida
-// saqlanadi — mehmon foydalanuvchi ham sevimli qo'sha oladi (auth talab qilinmaydi).
+// Sevimlilar Supabase'ga emas, localStorageʼga mahsulot ID massivi sifatida
+// saqlanadi — mehmon foydalanuvchi ham sevimli qoʻsha oladi (auth talab qilinmaydi).
 const KEY = 'openshop-favorites';
 
 function readIds(): string[] {
@@ -50,7 +50,7 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
     }
   }, [ids]);
 
-  // ID ro'yxati o'zgarganda to'liq mahsulot obyektlarini yuklaymiz.
+  // ID roʻyxati oʻzgarganda toʻliq mahsulot obyektlarini yuklaymiz.
   useEffect(() => {
     let cancelled = false;
     if (ids.length === 0) {

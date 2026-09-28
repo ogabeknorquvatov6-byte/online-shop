@@ -7,20 +7,20 @@ import type { CartItem, Product } from '../types';
 /*
  * DEPLOY XAVFSIZLIGI regressiya testi.
  *
- * Kelib chiqishi: `create_order` RPC'siga yangi `p_checkout_request_id`
- * argumenti qo'shildi. Bunda oson qilinadigan, lekin QIMMAT xato bor —
- * frontend va bazani bir-biriga bog'lab qo'yish.
+ * Kelib chiqishi: `create_order` RPCʼsiga yangi `p_checkout_request_id`
+ * argumenti qoʻshildi. Bunda oson qilinadigan, lekin QIMMAT xato bor —
+ * frontend va bazani bir-biriga bogʻlab qoʻyish.
  *
  * PostgREST RPC chaqiruvini NOMLI argumentlar bilan quradi:
  *     create_order(p_customer_name => $1, …, p_checkout_request_id => $11)
- * Ortiqcha nomli argument JIM O'TKAZIB YUBORILMAYDI — mos overload
- * topilmasa chaqiruv xato bilan tugaydi. Ya'ni:
+ * Ortiqcha nomli argument JIM OʻTKAZIB YUBORILMAYDI — mos overload
+ * topilmasa chaqiruv xato bilan tugaydi. Yaʼni:
  *
  *   yangi frontend + eski baza → buyurtma berish BUTUNLAY ishlamaydi
- *   eski frontend + yangi baza → xuddi shu (agar eski imzo o'chirilsa)
+ *   eski frontend + yangi baza → xuddi shu (agar eski imzo oʻchirilsa)
  *
  * Quyidagi testlar shu ikki oynani ham yopiq ushlab turadi. Ular
- * HAQIQIY fayllarni o'qiydi — mantiq nusxasini emas.
+ * HAQIQIY fayllarni oʻqiydi — mantiq nusxasini emas.
  */
 
 const MIGRATION = readFileSync(
@@ -39,7 +39,7 @@ describe('migratsiya: eski RPC imzolari saqlanadi', () => {
   it('eski `create_order` imzosi OʻCHIRILMAYDI', () => {
     /*
      * `drop function ... create_order(text, …, text)` eski, keshdagi
-     * frontend uchun buyurtma berishni butunlay o'chirib qo'yardi.
+     * frontend uchun buyurtma berishni butunlay oʻchirib qoʻyardi.
      * Eskini olib tashlash — keyingi ("contract") migratsiyaning ishi.
      */
     expect(SQL).not.toMatch(/drop\s+function[^;]*create_order\s*\(/i);
@@ -64,11 +64,11 @@ describe('migratsiya: eski RPC imzolari saqlanadi', () => {
 describe('migratsiya: overload noaniqligi boʻlmasligi kerak', () => {
   it('`p_checkout_request_id` DEFAULT qiymatsiz eʼlon qilinadi', () => {
     /*
-     * Bu eng nozik joy. Agar parametr `uuid default null` bo'lsa, 10 ta
-     * nomli argument bilan kelgan chaqiruv IKKALA overload'ga ham mos
+     * Bu eng nozik joy. Agar parametr `uuid default null` boʻlsa, 10 ta
+     * nomli argument bilan kelgan chaqiruv IKKALA overloadʼga ham mos
      * kelardi va Postgres `42725 function is not unique` xatosini
-     * qaytarardi — ya'ni eski mijozlar uchun buyurtma berish ishlamay
-     * qolardi. `default` bo'lmasa taqsimot aniq: 10 ta argument → eski
+     * qaytarardi — yaʼni eski mijozlar uchun buyurtma berish ishlamay
+     * qolardi. `default` boʻlmasa taqsimot aniq: 10 ta argument → eski
      * qobiq, 11 ta argument → yangi funksiya.
      */
     expect(SQL).not.toMatch(/p_checkout_request_id\s+uuid\s+default/i);
@@ -95,9 +95,9 @@ describe('migratsiya: PostgreSQL parametr tartibi qoidasi (42P13)', () => {
    * Sababi: `p_checkout_request_id uuid` (standart qiymatsiz) standart
    * qiymatli `p_payment_method`/`p_city`/… dan KEYIN turgan edi.
    *
-   * Bu xatoni faqat haqiqiy Postgres ushlay oladi — bizda esa u yo'q.
+   * Bu xatoni faqat haqiqiy Postgres ushlay oladi — bizda esa u yoʻq.
    * Shuning uchun qoidani matn darajasida tekshiramiz: bu arzon,
-   * aniq va aynan shu sinfdagi xatoning qaytishiga yo'l qo'ymaydi.
+   * aniq va aynan shu sinfdagi xatoning qaytishiga yoʻl qoʻymaydi.
    */
   function paramLists(sql: string): { name: string; params: string[] }[] {
     const re = /create\s+or\s+replace\s+function\s+(public\.\w+)\s*\(([^)]*)\)/gi;
@@ -134,7 +134,7 @@ describe('migratsiya: PostgreSQL parametr tartibi qoidasi (42P13)', () => {
   });
 
   it('kalitli overloadlarda `p_checkout_request_id` `p_items` dan keyin turadi', () => {
-    // Tartib tasodifiy emas: u oxirgi MAJBURIY parametr bo'lishi kerak —
+    // Tartib tasodifiy emas: u oxirgi MAJBURIY parametr boʻlishi kerak —
     // standart qiymatlilardan oldin (42P13) va `default`siz (42725).
     const fns = paramLists(SQL).filter((f) =>
       f.params.some((p) => p.startsWith('p_checkout_request_id'))
@@ -151,10 +151,10 @@ describe('migratsiya: PostgreSQL parametr tartibi qoidasi (42P13)', () => {
 
   it('moslik qobiqlari yangi funksiyani NOMLI argumentlar bilan chaqiradi', () => {
     /*
-     * Parametr tartibi o'zgargani uchun POZITSIYALI chaqiruv endi
-     * xavfli: 8-o'ringa `p_payment_method` ('Naqd pul' matni) tushib,
-     * `uuid` parametriga urinib ko'rilardi. Nomli chaqiruv bu sinfdagi
-     * xatoni butunlay yo'q qiladi.
+     * Parametr tartibi oʻzgargani uchun POZITSIYALI chaqiruv endi
+     * xavfli: 8-oʻringa `p_payment_method` ('Naqd pul' matni) tushib,
+     * `uuid` parametriga urinib koʻrilardi. Nomli chaqiruv bu sinfdagi
+     * xatoni butunlay yoʻq qiladi.
      */
     const calls = SQL.match(/return\s+public\.create_order_as\s*\(([\s\S]*?)\);/gi) ?? [];
     expect(calls.length, 'create_order_as chaqiruvlari topilmadi').toBeGreaterThanOrEqual(2);
@@ -172,7 +172,7 @@ describe('frontend: eski bazada ham buyurtma ishlaydi', () => {
   });
 
   it('zaxira yoʻl kalitsiz argumentlar bilan chaqiradi', () => {
-    // Qayta urinish AYNAN kalitsiz bo'lishi kerak, aks holda u ham
+    // Qayta urinish AYNAN kalitsiz boʻlishi kerak, aks holda u ham
     // xuddi shu xato bilan tugaydi.
     expect(CHECKOUT).toMatch(/supabase\.rpc\('create_order',\s*baseArgs\)/);
   });
@@ -195,9 +195,9 @@ describe('isMissingFunctionError', () => {
 
   it('ISH MANTIGʻI xatolarini zaxira yoʻlga chiqarmaydi', () => {
     /*
-     * Eng muhim salbiy holat. `OUT_OF_STOCK` ni "funksiya yo'q" deb
-     * o'qisak, ilova kalitsiz QAYTA yuborardi — ya'ni idempotentlikni
-     * o'zi buzib, dublikat buyurtma yaratish ehtimolini tug'dirardi.
+     * Eng muhim salbiy holat. `OUT_OF_STOCK` ni "funksiya yoʻq" deb
+     * oʻqisak, ilova kalitsiz QAYTA yuborardi — yaʼni idempotentlikni
+     * oʻzi buzib, dublikat buyurtma yaratish ehtimolini tugʻdirardi.
      */
     expect(isMissingFunctionError({ message: 'OUT_OF_STOCK' })).toBe(false);
     expect(isMissingFunctionError({ message: 'AUTH_REQUIRED' })).toBe(false);
@@ -239,7 +239,7 @@ describe('cartSignature', () => {
       { product: product('p2'), quantity: 2 },
       { product: product('p1'), quantity: 1 },
     ];
-    // Foydalanuvchi mahsulotni o'chirib qayta qo'shsa tarkib o'zgarmaydi —
+    // Foydalanuvchi mahsulotni oʻchirib qayta qoʻshsa tarkib oʻzgarmaydi —
     // idempotentlik kaliti ham bekorga yangilanmasligi kerak.
     expect(cartSignature(a)).toBe(cartSignature(b));
   });

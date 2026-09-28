@@ -8,8 +8,8 @@ describe('pageRange', () => {
   });
 
   it('keyingi sahifalar uzluksiz davom etadi', () => {
-    // Oraliqlar orasida bo'shliq yoki ustma-ustlik bo'lsa, yozuvlar
-    // sahifalar orasida yo'qolib yoki takrorlanib qolardi.
+    // Oraliqlar orasida boʻshliq yoki ustma-ustlik boʻlsa, yozuvlar
+    // sahifalar orasida yoʻqolib yoki takrorlanib qolardi.
     expect(pageRange(2, 25)).toEqual({ from: 25, to: 49 });
     expect(pageRange(3, 25)).toEqual({ from: 50, to: 74 });
   });
@@ -40,7 +40,7 @@ describe('pageCount', () => {
   });
 
   it('boʻsh roʻyxatda ham 1 sahifa', () => {
-    // 0 qaytarsa "1 / 0" degan bema'ni matn chiqardi.
+    // 0 qaytarsa "1 / 0" degan bemaʼni matn chiqardi.
     expect(pageCount(0, 25)).toBe(1);
     expect(pageCount(-5, 25)).toBe(1);
     expect(pageCount(Number.NaN, 25)).toBe(1);
@@ -66,7 +66,7 @@ describe('sanitizeOrFilterTerm — PostgREST filtr inʼyeksiyasi', () => {
   /*
    * `.or('name.ilike.%TERM%,sku.ilike.%TERM%')` da vergul shartlarni
    * AJRATADI, qavslar esa GURUHLAYDI. Foydalanuvchi kiritgan matnga
-   * shu belgilar tushsa, filtr butunlay boshqa ma'no oladi.
+   * shu belgilar tushsa, filtr butunlay boshqa maʼno oladi.
    */
   it('vergulni olib tashlaydi', () => {
     expect(sanitizeOrFilterTerm('a,b')).not.toContain(',');
@@ -88,7 +88,7 @@ describe('sanitizeOrFilterTerm — PostgREST filtr inʼyeksiyasi', () => {
   });
 
   it('haqiqiy hujum satrini zararsizlantiradi', () => {
-    // Maqsad: filtrdan chiqib, o'z shartini qo'shish.
+    // Maqsad: filtrdan chiqib, oʻz shartini qoʻshish.
     const attack = 'x,is_active.eq.false,name.ilike.%';
     const safe = sanitizeOrFilterTerm(attack);
     expect(safe).not.toContain(',');
@@ -96,7 +96,7 @@ describe('sanitizeOrFilterTerm — PostgREST filtr inʼyeksiyasi', () => {
   });
 
   it('LIKE joker belgilarini qochiradi', () => {
-    // `%` qochirilmasa "50%" so'rovi butun jadvalga mos kelardi.
+    // `%` qochirilmasa "50%" soʻrovi butun jadvalga mos kelardi.
     expect(sanitizeOrFilterTerm('50%')).toBe(escapeLike('50%'));
     expect(sanitizeOrFilterTerm('a_b')).toContain('\\_');
   });
@@ -107,7 +107,7 @@ describe('sanitizeOrFilterTerm — PostgREST filtr inʼyeksiyasi', () => {
   });
 
   it('faqat belgilardan iborat soʻrov boʻsh boʻladi', () => {
-    // Bo'sh natija — chaqiruvchi filtrni umuman qo'llamaydi.
+    // Boʻsh natija — chaqiruvchi filtrni umuman qoʻllamaydi.
     expect(sanitizeOrFilterTerm(',,,')).toBe('');
     expect(sanitizeOrFilterTerm('()')).toBe('');
   });

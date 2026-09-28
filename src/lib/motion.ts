@@ -14,7 +14,7 @@ export const DURATION = {
   drawer: 0.3, // drawers / sheets
   page: 0.2, // route/page transitions
   hero: 0.6, // hero slider
-  shine: 1.1, // rasm ustidan bir marta o'tadigan yorug'lik
+  shine: 1.1, // rasm ustidan bir marta oʻtadigan yorugʻlik
   stagger: 0.04, // per-item stagger step
 };
 
@@ -29,9 +29,9 @@ export const springs = {
  *
  * Yuqoridagi `springs` obyektlari `transition={...}` propiga beriladi va
  * u yerda `type: 'spring'` MAJBURIY. `useSpring()` esa `SpringOptions`
- * kutadi — unda `type` maydoni umuman yo'q va uni uzatish TypeScript
- * xatosi beradi. Qiymatlar YANGI EMAS: ular o'sha-o'sha `springs` dan
- * olinadi, ya'ni ikkita haqiqat manbai paydo bo'lmaydi.
+ * kutadi — unda `type` maydoni umuman yoʻq va uni uzatish TypeScript
+ * xatosi beradi. Qiymatlar YANGI EMAS: ular oʻsha-oʻsha `springs` dan
+ * olinadi, yaʼni ikkita haqiqat manbai paydo boʻlmaydi.
  */
 export const springOptions = {
   snappy: {
@@ -51,15 +51,15 @@ export const springOptions = {
  *
  * Kartaning barmoq/kursor ostida nozik burilishi. Qiymatlar shu yerda
  * turadi — komponent ichida "5 daraja" yoki "900px" degan sehrli raqam
- * qolmasligi kerak, aks holda har bir yangi 3D element o'z burchagini
- * o'ylab topadi va tizim tarqoq bo'lib ketadi.
+ * qolmasligi kerak, aks holda har bir yangi 3D element oʻz burchagini
+ * oʻylab topadi va tizim tarqoq boʻlib ketadi.
  */
 export const TILT = {
   /**
    * Maksimal burilish (daraja).
    *
    * 5° — yuqori chegara. Kattaroq qiymatda kartadagi matn qiyshayib
-   * o'qilishi qiyinlashadi va "o'yinchoq" ta'siri paydo bo'ladi;
+   * oʻqilishi qiyinlashadi va "oʻyinchoq" taʼsiri paydo boʻladi;
    * kichikroqda harakat umuman sezilmaydi.
    */
   max: 5,
@@ -67,8 +67,8 @@ export const TILT = {
    * `perspective()` — 3D chuqurlik kuchi.
    *
    * Qiymat ATAYLAB katta ("uzoq kamera"). Kichik perspektiva (200–400px)
-   * `CatalogCubes` dagi 7px'lik kub uchun to'g'ri, lekin 200px'lik
-   * kartani cho'zib yuboradi: yaqin qirra bo'rtib, uzoq qirra
+   * `CatalogCubes` dagi 7pxʼlik kub uchun toʻgʻri, lekin 200pxʼlik
+   * kartani choʻzib yuboradi: yaqin qirra boʻrtib, uzoq qirra
    * torayib qoladi.
    */
   perspective: 900,
@@ -79,31 +79,31 @@ export const TILT = {
  *
  * Baho berish sanoqli marta bajariladigan amal va u "bosildi" degan
  * aniq javob talab qiladi. Shuning uchun yulduzcha `tapScale` kabi
- * KICHRAYMAYDI, aksincha kattalashadi: tanlov qo'shildi, olib
+ * KICHRAYMAYDI, aksincha kattalashadi: tanlov qoʻshildi, olib
  * tashlanmadi.
  */
 export const STAR = {
-  /** Kursor/barmoq ostidagi va tanlangan yulduzchaning o'lchami. */
+  /** Kursor/barmoq ostidagi va tanlangan yulduzchaning oʻlchami. */
   active: 1.18,
 } as const;
 
-/** Rasm ustidan BIR MARTA sirg'aladigan yorug'lik chizig'i. */
+/** Rasm ustidan BIR MARTA sirgʻaladigan yorugʻlik chizigʻi. */
 export const SHINE = {
   duration: DURATION.shine,
   /**
-   * Karta ko'ringandan keyin kichik pauza.
+   * Karta koʻringandan keyin kichik pauza.
    *
-   * Kechikishsiz yorug'lik `StaggerItem` ning kirish harakati bilan
-   * bir vaqtda o'ynaydi va ikkalasi bir-birini yutib yuboradi.
+   * Kechikishsiz yorugʻlik `StaggerItem` ning kirish harakati bilan
+   * bir vaqtda oʻynaydi va ikkalasi bir-birini yutib yuboradi.
    */
   delay: 0.18,
   /**
-   * Yorug'lik uchun `EASE.standard` EMAS, balki tekis tezlik.
+   * Yorugʻlik uchun `EASE.standard` EMAS, balki tekis tezlik.
    *
-   * Tezlanish/sekinlanish nurni "to'xtab qolgandek" ko'rsatadi: ease-out
-   * bilan u rasmning o'ng yarmida sudralib qoladi (o'lchandi — oxirgi
-   * 25% masofani butun vaqtning yarmida bosib o'tdi). Haqiqiy yorug'lik
-   * aksi yuzadan bir tekis o'tadi. `skeleton` dagi `shimmer` ham aynan
+   * Tezlanish/sekinlanish nurni "toʻxtab qolgandek" koʻrsatadi: ease-out
+   * bilan u rasmning oʻng yarmida sudralib qoladi (oʻlchandi — oxirgi
+   * 25% masofani butun vaqtning yarmida bosib oʻtdi). Haqiqiy yorugʻlik
+   * aksi yuzadan bir tekis oʻtadi. `skeleton` dagi `shimmer` ham aynan
    * shu sababdan tekis.
    */
   ease: 'linear',
@@ -114,19 +114,19 @@ export const SHINE = {
  *
  * Yangi raqamlar EMAS — yuqoridagi `DURATION` qiymatlariga nom berilgan
  * xolos. Maqsad: komponent yozayotganda "qancha millisekund?" degan
- * savol o'rniga "bu qanday darajadagi harakat?" degan savol berilsin.
+ * savol oʻrniga "bu qanday darajadagi harakat?" degan savol berilsin.
  * Shunda butun ilova bir xil ritmda harakatlanadi.
  *
  *   MICRO     — bosishga javob. Foydalanuvchi kutmaydi.
  *               tugma, ikonka, chip, nishoncha.
- *   COMPONENT — element holatini o'zgartiradi.
+ *   COMPONENT — element holatini oʻzgartiradi.
  *               karta, drawer, dropdown, modal, karusel.
  *   STORY     — hikoya qiladi. Faqat sanoqli joyda.
  *               hero kirishi, buyurtma tasdiqlanishi, 404.
  *
  * STORY darajasi HECH QACHON foydalanuvchini kutishga majburlamaydi:
- * mazmun darhol o'qiladigan bo'ladi, animatsiya esa uning ustidan
- * o'ynaydi.
+ * mazmun darhol oʻqiladigan boʻladi, animatsiya esa uning ustidan
+ * oʻynaydi.
  */
 export const MOTION = {
   micro: { duration: DURATION.micro, ease: EASE.standard },
@@ -135,7 +135,7 @@ export const MOTION = {
 } as const;
 
 /*
- * ── BUYURTMA TASDIG'I ───────────────────────────────────────────────
+ * ── BUYURTMA TASDIGʻI ───────────────────────────────────────────────
  *
  * Ilovadagi eng katta lahza. Shu sababli bu yerdagi qiymatlar boshqa
  * hech qayerda ishlatilmaydi — ular ATAYLAB "bir martalik".
@@ -144,18 +144,18 @@ export const CONFIRM = {
   /**
    * Check-belgi qaysi burchakdan aylanib keladi (daraja).
    *
-   * −110° — 90° dan KATTA, ya'ni belgi avval ORQA tomoni bilan turadi
+   * −110° — 90° dan KATTA, yaʼni belgi avval ORQA tomoni bilan turadi
    * va aylanish davomida "ochiladi". Aynan 90° dan boshlansa, belgi
-   * qirrasidan ochilib, oddiy `scaleX` ga o'xshab qolardi.
+   * qirrasidan ochilib, oddiy `scaleX` ga oʻxshab qolardi.
    */
   flipFrom: -110,
-  /** Sahifa o'rnashib olsin — flip shundan keyin boshlanadi (s). */
+  /** Sahifa oʻrnashib olsin — flip shundan keyin boshlanadi (s). */
   flipDelay: 0.12,
   /**
    * Belgi uchun "kamera" masofasi.
    *
-   * `TILT.perspective` (900) dan ancha yaqin: u 200px'lik kartaga
-   * mo'ljallangan, bu yerdagi belgi esa 64px. Bir xil perspektivada
+   * `TILT.perspective` (900) dan ancha yaqin: u 200pxʼlik kartaga
+   * moʻljallangan, bu yerdagi belgi esa 64px. Bir xil perspektivada
    * kichik element deyarli tekis aylanardi va 3D umuman sezilmasdi.
    */
   perspective: 520,
@@ -168,7 +168,7 @@ export const CONFIRM = {
  *
  * Bu KONFETI EMAS. Konfeti yuqoriga otiladi, tez va tartibsiz tarqaydi.
  * Bu yerda esa navigatsiya ikonkasidagi kubning kattaroq nusxalari
- * sekin pastga CHO'KADI va so'nadi — ilovaning o'z "kub" tilida
+ * sekin pastga CHOʻKADI va soʻnadi — ilovaning oʻz "kub" tilida
  * gapiradigan xotirjam nishonlash.
  */
 export const CUBE_FALL = {
@@ -177,16 +177,16 @@ export const CUBE_FALL = {
   distance: 150,
   /** Eng tez zarracha (s). */
   fastest: 2.2,
-  /** Eng sekin zarracha (s) — 3 soniya "sekin cho'kish" chegarasi. */
+  /** Eng sekin zarracha (s) — 3 soniya "sekin choʻkish" chegarasi. */
   slowest: 3.4,
   /** Oxirgi zarracha shuncha kechroq boshlanadi (s). */
   spread: 0.55,
   /**
-   * Yo'lning qaysi ulushida to'liq ko'rinadi va qachon so'na boshlaydi.
+   * Yoʻlning qaysi ulushida toʻliq koʻrinadi va qachon soʻna boshlaydi.
    *
-   * Vaqt EMAS, ULUSH: har bir zarracha o'z davomiyligiga nisbatan
+   * Vaqt EMAS, ULUSH: har bir zarracha oʻz davomiyligiga nisbatan
    * hisoblanadi. Shu sababli tez va sekin zarrachalar bir xil ritmda
-   * paydo bo'lib, bir xil ritmda yo'qoladi.
+   * paydo boʻlib, bir xil ritmda yoʻqoladi.
    */
   fadeIn: 0.14,
   fadeAt: 0.58,
@@ -195,28 +195,28 @@ export const CUBE_FALL = {
 /*
  * ── AURORA: SEKIN HARAKATLANUVCHI TUMAN ─────────────────────────────
  *
- * Hero va aksiya blokidagi nur dog'lari ilgari qimirlamas edi. Ular
- * endi juda sekin suzadi — maqsad diqqatni tortish EMAS, balki to'q
+ * Hero va aksiya blokidagi nur dogʻlari ilgari qimirlamas edi. Ular
+ * endi juda sekin suzadi — maqsad diqqatni tortish EMAS, balki toʻq
  * yuzani "tirik" qilish.
  */
 export const AURORA = {
   /**
    * Asosiy sikl (s) — gorizontal suzish.
    *
-   * 13s: 12 soniyadan tez bo'lsa harakat SEZILA boshlaydi va matn
-   * o'qiyotgan odamni chalg'itadi; 18 soniyadan sekin bo'lsa sahifada
+   * 13s: 12 soniyadan tez boʻlsa harakat SEZILA boshlaydi va matn
+   * oʻqiyotgan odamni chalgʻitadi; 18 soniyadan sekin boʻlsa sahifada
    * bir daqiqa turgan foydalanuvchi uni umuman payqamaydi.
    */
   base: 13,
   /**
    * Vertikal va masshtab sikllarining gorizontalga nisbati.
    *
-   * ATAYLAB butun son EMAS (1.32 va 0.95). Nisbat butun bo'lsa uchala
-   * o'q bir vaqtda boshlang'ich nuqtaga qaytadi va ko'z takrorlanishni
-   * ilg'ab oladi — tuman "aylanayotgan lenta"ga aylanadi. Kasr nisbatda
-   * esa traektoriya ochiq egri chiziq bo'lib qoladi.
+   * ATAYLAB butun son EMAS (1.32 va 0.95). Nisbat butun boʻlsa uchala
+   * oʻq bir vaqtda boshlangʻich nuqtaga qaytadi va koʻz takrorlanishni
+   * ilgʻab oladi — tuman "aylanayotgan lenta"ga aylanadi. Kasr nisbatda
+   * esa traektoriya ochiq egri chiziq boʻlib qoladi.
    *
-   * Hosil bo'ladigan davomiyliklar 12–18s oralig'ida qoladi:
+   * Hosil boʻladigan davomiyliklar 12–18s oraligʻida qoladi:
    *   x 13s · y 17.2s · scale 12.35s
    */
   ratioY: 1.32,
@@ -228,7 +228,7 @@ export const AURORA = {
 /*
  * ── GYROSKOP PARALLAKSI ─────────────────────────────────────────────
  *
- * Telefon egilganda rasm ramka ichida biroz siljiydi — go'yo ramka
+ * Telefon egilganda rasm ramka ichida biroz siljiydi — goʻyo ramka
  * deraza, rasm esa undan bir oz orqada turibdi.
  */
 export const GYRO = {
@@ -236,14 +236,14 @@ export const GYRO = {
    * Siljishning CHEGARASI (px). Talab: 6–10.
    *
    * 8px — rasm hech qachon bundan ortiq qimirlamaydi, qanchalik
-   * qattiq egilmasin. Chegara qat'iy bo'lishi SHART: aks holda
-   * qurilmani ag'darganda rasm ramkadan chiqib ketardi.
+   * qattiq egilmasin. Chegara qatʼiy boʻlishi SHART: aks holda
+   * qurilmani agʻdarganda rasm ramkadan chiqib ketardi.
    */
   range: 8,
   /**
    * Shu burchakda (daraja) chekka qiymatga yetiladi.
    *
-   * 18° — qo'lda telefonni "o'ynatish" darajasidagi burilish.
+   * 18° — qoʻlda telefonni "oʻynatish" darajasidagi burilish.
    * Kichikroq qiymatda rasm har kichik titrashda chetga urilib
    * turardi, kattaroqda esa effekt umuman sezilmasdi.
    */
@@ -251,7 +251,7 @@ export const GYRO = {
   /**
    * Rasm shu qadar kattalashtiriladi.
    *
-   * Parallaks rasmni ramka ichida SURADI, ya'ni chetida bo'shliq
+   * Parallaks rasmni ramka ichida SURADI, yaʼni chetida boʻshliq
    * ochilishi mumkin. 1.05 — 8px siljish uchun yetarli zaxira
    * (200px kenglikda 5% = 10px har tomondan).
    */
@@ -261,58 +261,58 @@ export const GYRO = {
 /*
  * ── KIRISH EKRANI ───────────────────────────────────────────────────
  *
- * Belgi kub-bo'lakchalardan yig'iladi. Yig'ilish `springs.snappy` bilan
+ * Belgi kub-boʻlakchalardan yigʻiladi. Yigʻilish `springs.snappy` bilan
  * boradi (aynan `CatalogCubes` dagi kublar qaytadigan prujina), shuning
  * uchun bu yerdagi qiymatlar faqat NAVBATNI boshqaradi.
  */
 export const SPLASH = {
   /**
-   * Bo'lakchalar orasidagi qadam (s) — ular birin-ketin joyiga tushadi.
+   * Boʻlakchalar orasidagi qadam (s) — ular birin-ketin joyiga tushadi.
    *
-   * 0.07 TANLANGAN SABAB: prujina `duration` qabul qilmaydi, ya'ni
-   * yig'ilish vaqtini faqat NAVBAT orqali boshqarish mumkin. Bitta
-   * bo'lakcha `springs.snappy` bilan 286ms da joyiga tushadi
-   * (brauzerda o'lchandi). 0.04 qadamda umumiy vaqt 386ms edi —
-   * talab qilingan 400–600ms dan PAST. 0.07 da oxirgi bo'lakcha
-   * 210ms kech boshlaydi va umumiy vaqt ~500ms bo'ladi.
+   * 0.07 TANLANGAN SABAB: prujina `duration` qabul qilmaydi, yaʼni
+   * yigʻilish vaqtini faqat NAVBAT orqali boshqarish mumkin. Bitta
+   * boʻlakcha `springs.snappy` bilan 286ms da joyiga tushadi
+   * (brauzerda oʻlchandi). 0.04 qadamda umumiy vaqt 386ms edi —
+   * talab qilingan 400–600ms dan PAST. 0.07 da oxirgi boʻlakcha
+   * 210ms kech boshlaydi va umumiy vaqt ~500ms boʻladi.
    */
   step: 0.07,
   /** Yozuv shundan keyin chiqadi (s). */
   wordDelay: 0.3,
   /**
-   * Belgi yig'ilgach ekran shuncha turadi (s).
+   * Belgi yigʻilgach ekran shuncha turadi (s).
    *
    * Ataylab qisqa: bu ekran hech narsani KUTMAYDI — ilova uning
    * ostida allaqachon yuklanmoqda.
    */
   hold: 0.1,
-  /** So'nish (s). */
+  /** Soʻnish (s). */
   fade: 0.22,
 } as const;
 
 // Page transitions — faqat fade.
 export const pageVariants = {
-  // Chiqish (exit) yo'q: yangi sahifa darhol mount bo'ladi va faqat
-  // shu yumshoq kirish o'ynaydi. Layout qayta hisoblanmaydi.
+  // Chiqish (exit) yoʻq: yangi sahifa darhol mount boʻladi va faqat
+  // shu yumshoq kirish oʻynaydi. Layout qayta hisoblanmaydi.
   //
-  // DIQQAT: bu yerga `y` (yoki boshqa transform) QO'SHMANG.
+  // DIQQAT: bu yerga `y` (yoki boshqa transform) QOʻSHMANG.
   //
-  // Bu variantlar <App> dagi sahifani o'rab turgan `motion.div` ga
-  // beriladi. Motion transformni animatsiya tugagach ham style'da
-  // qoldiradi, `transform` esa — hatto `translateY(0)` bo'lsa ham —
-  // o'sha div'ni ichidagi BARCHA `position: fixed` elementlar uchun
+  // Bu variantlar <App> dagi sahifani oʻrab turgan `motion.div` ga
+  // beriladi. Motion transformni animatsiya tugagach ham styleʼda
+  // qoldiradi, `transform` esa — hatto `translateY(0)` boʻlsa ham —
+  // oʻsha divʼni ichidagi BARCHA `position: fixed` elementlar uchun
   // "containing block" ga aylantiradi. Natijada fixed elementlar
-  // viewport'ga emas, shu div'ga nisbatan joylashadi.
+  // viewportʼga emas, shu divʼga nisbatan joylashadi.
   //
-  // Amalda nima buzilgandi (o'lchandi, 375x812):
-  //   - ProductPage'dagi yopishqoq "Savatga qo'shish" paneli
+  // Amalda nima buzilgandi (oʻlchandi, 375x812):
+  //   - ProductPageʼdagi yopishqoq "Savatga qoʻshish" paneli
   //     viewport tubidan 64px emas, 122px balandda turardi — panel
   //     bilan pastki navigatsiya orasida 69px sahifa mazmuni
-  //     ko'rinib qolardi.
-  //   - CatalogPage'dagi filtr bottom-sheet'ining `fixed inset-0`
-  //     backdrop'i butun ekranni qoplamasdi.
+  //     koʻrinib qolardi.
+  //   - CatalogPageʼdagi filtr bottom-sheetʼining `fixed inset-0`
+  //     backdropʼi butun ekranni qoplamasdi.
   //
-  // 6px siljish sezilmas darajada edi; fixed panellarning to'g'ri
+  // 6px siljish sezilmas darajada edi; fixed panellarning toʻgʻri
   // turishi esa mobil UX uchun hal qiluvchi. Shuning uchun faqat
   // opacity qoldirildi.
   initial: { opacity: 0 },
@@ -389,12 +389,12 @@ export const tapScale = { scale: 0.97 };
  * Haqiqiy tugma esa uzoqlashmaydi, u YUZAGA BOTADI: pastga tushadi va
  * ostidagi soya qisqaradi, chunki u yerga yaqinlashdi.
  *
- * Farq kichik, lekin sahifadagi asosiy amalda (savatga qo'shish) aynan
+ * Farq kichik, lekin sahifadagi asosiy amalda (savatga qoʻshish) aynan
  * shu narsa tugmani "haqiqiy" qiladi.
  *
- * Qaytish `springs.snappy` bilan — barmoq ko'tarilgach tugma o'zi
- * ko'tariladi, kichik overshoot bilan. Aynan shu prujina `CatalogCubes`
- * dagi kublarni ham joyiga qaytaradi, ya'ni ilovadagi "jismoniylik"
+ * Qaytish `springs.snappy` bilan — barmoq koʻtarilgach tugma oʻzi
+ * koʻtariladi, kichik overshoot bilan. Aynan shu prujina `CatalogCubes`
+ * dagi kublarni ham joyiga qaytaradi, yaʼni ilovadagi "jismoniylik"
  * hamma joyda bir xil his qilinadi.
  */
 export const PRESS = {
@@ -404,6 +404,6 @@ export const PRESS = {
   scale: 0.985,
   /** Soya shunchaga toraydi (yer yaqinlashdi). */
   shadowScale: 0.8,
-  /** Bosilgan holatdagi soya ko'rinishi. */
+  /** Bosilgan holatdagi soya koʻrinishi. */
   shadowOpacity: 0.45,
 } as const;

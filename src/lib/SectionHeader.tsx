@@ -4,10 +4,10 @@ import { Link } from './router';
 import { cx, focusRing } from './design';
 
 /*
- * Har bir bo'lim bir xil tuzilishga ega bo'lishi kerak:
- *   eyebrow (ixtiyoriy) → sarlavha → subtitle → o'ngda amal.
- * Ilgari har bir section o'z sarlavha maketini qaytadan yozardi va ular
- * o'lchami, bo'shlig'i va hizalanishi bo'yicha bir-biridan farq qilardi.
+ * Har bir boʻlim bir xil tuzilishga ega boʻlishi kerak:
+ *   eyebrow (ixtiyoriy) → sarlavha → subtitle → oʻngda amal.
+ * Ilgari har bir section oʻz sarlavha maketini qaytadan yozardi va ular
+ * oʻlchami, boʻshligʻi va hizalanishi boʻyicha bir-biridan farq qilardi.
  */
 export function SectionHeader({
   id,
@@ -28,7 +28,7 @@ export function SectionHeader({
   actionHref?: string;
   actionLabel?: string;
   action?: ReactNode;
-  /** `onDark` — to'q fonli bloklar ichida (masalan aksiya bo'limi). */
+  /** `onDark` — toʻq fonli bloklar ichida (masalan aksiya boʻlimi). */
   tone?: 'default' | 'onDark';
 }) {
   const onDark = tone === 'onDark';

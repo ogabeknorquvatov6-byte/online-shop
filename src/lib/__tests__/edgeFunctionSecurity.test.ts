@@ -3,19 +3,19 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 /*
- * Edge Function'lar uchun XAVFSIZLIK REGRESSIYA testi.
+ * Edge Functionʼlar uchun XAVFSIZLIK REGRESSIYA testi.
  *
- * Bu testlar HAQIQIY fayllarni o'qiydi — mantiqning nusxasini emas.
- * Deno funksiyalarini vitest ichida ishga tushirib bo'lmaydi (`Deno.serve`,
- * `Deno.env` yo'q), lekin ularning eng muhim xususiyatini — sirni
- * tekshirishning FAIL-CLOSED bo'lishini — manba matnidan tekshirish
+ * Bu testlar HAQIQIY fayllarni oʻqiydi — mantiqning nusxasini emas.
+ * Deno funksiyalarini vitest ichida ishga tushirib boʻlmaydi (`Deno.serve`,
+ * `Deno.env` yoʻq), lekin ularning eng muhim xususiyatini — sirni
+ * tekshirishning FAIL-CLOSED boʻlishini — manba matnidan tekshirish
  * mumkin va bu aynan qaytib kelishi eng oson xato.
  *
  * Nima uchun bu shunchalik muhim:
- * eski kod `if (WEBHOOK_SECRET) { ...tekshirish... }` ko'rinishida edi.
- * Sir o'rnatilmagan bo'lsa tekshiruv BUTUNLAY o'chib qolardi va funksiya
- * URL'ini bilgan har kim botni service_role huquqlari bilan boshqara
- * olardi. Bu xatoni qaytadan kiritish juda oson, ko'zga esa tashlanmaydi.
+ * eski kod `if (WEBHOOK_SECRET) { ...tekshirish... }` koʻrinishida edi.
+ * Sir oʻrnatilmagan boʻlsa tekshiruv BUTUNLAY oʻchib qolardi va funksiya
+ * URLʼini bilgan har kim botni service_role huquqlari bilan boshqara
+ * olardi. Bu xatoni qaytadan kiritish juda oson, koʻzga esa tashlanmaydi.
  */
 
 const FUNCTIONS_DIR = join(process.cwd(), 'supabase', 'functions');
@@ -45,8 +45,8 @@ const FUNCTIONS = entrypoints();
 
 describe('Edge Function webhook xavfsizligi', () => {
   it('kamida uchta funksiya topildi', () => {
-    // Test o'z-o'zini tekshiradi: papka nomi o'zgarsa yoki fayl
-    // ko'chirilsa, quyidagi testlar "hech narsa tekshirmay" o'tib
+    // Test oʻz-oʻzini tekshiradi: papka nomi oʻzgarsa yoki fayl
+    // koʻchirilsa, quyidagi testlar "hech narsa tekshirmay" oʻtib
     // ketmasligi kerak.
     expect(FUNCTIONS.length).toBeGreaterThanOrEqual(3);
     expect(FUNCTIONS.map((f) => f.name)).toContain('telegram-bot');
@@ -62,10 +62,10 @@ describe('Edge Function webhook xavfsizligi', () => {
 
       it('FAIL-OPEN naqshi yoʻq', () => {
         /*
-         * Taqiqlangan naqsh: sir MAVJUD bo'lgandagina tekshirish.
+         * Taqiqlangan naqsh: sir MAVJUD boʻlgandagina tekshirish.
          *   if (WEBHOOK_SECRET) { ... }
          *   if (WEBHOOK_SECRET && header !== WEBHOOK_SECRET) { ... }
-         * Ikkalasi ham sir yo'q bo'lganda so'rovni O'TKAZIB YUBORADI.
+         * Ikkalasi ham sir yoʻq boʻlganda soʻrovni OʻTKAZIB YUBORADI.
          */
         const failOpen = /if\s*\(\s*[A-Z_]*WEBHOOK_SECRET\s*(\)|&&)/.test(code);
         expect(failOpen, `${name} da fail-open sir tekshiruvi bor`).toBe(false);
@@ -93,11 +93,11 @@ describe('Sirlar logʻga tushmaydi', () => {
     it(`${name} sir qiymatini chop etmaydi`, () => {
       /*
        * `console.log(SERVICE_KEY)` yoki `console.error(BOT_TOKEN)` kabi
-       * chaqiruvlar sirni log oqimiga chiqaradi — Supabase log'lari esa
-       * loyihaga kirish huquqi bor har kimga ko'rinadi.
+       * chaqiruvlar sirni log oqimiga chiqaradi — Supabase logʻlari esa
+       * loyihaga kirish huquqi bor har kimga koʻrinadi.
        *
        * Sir NOMINI matnda eslatish (masalan "SECRET is not configured")
-       * xavfsiz; taqiqlanadigani — o'zgaruvchining QIYMATINI uzatish.
+       * xavfsiz; taqiqlanadigani — oʻzgaruvchining QIYMATINI uzatish.
        */
       const leaks = [...code.matchAll(/console\.(log|error|warn|info)\(([^)]*)\)/g)]
         .map((m) => m[2])

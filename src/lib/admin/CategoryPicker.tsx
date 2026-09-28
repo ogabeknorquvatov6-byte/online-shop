@@ -7,24 +7,24 @@ import { cx, selectBase } from '../design';
 /*
  * MAHSULOT UCHUN KATEGORIYA TANLASH — KETMA-KET.
  *
- * Ilgari bu bitta uzun ochiluvchi ro'yxat edi: butun daraxt chekinish
+ * Ilgari bu bitta uzun ochiluvchi roʻyxat edi: butun daraxt chekinish
  * bilan tekislanib, hammasi bitta `<select>` ichiga solinardi. Ikki
  * muammo bor edi:
  *
- *   1. Kategoriyalar ko'payganda ro'yxat o'qib bo'lmas holga keladi.
- *   2. Ikki xil bo'limda bir xil nomli ichki kategoriya bo'lsa
+ *   1. Kategoriyalar koʻpayganda roʻyxat oʻqib boʻlmas holga keladi.
+ *   2. Ikki xil boʻlimda bir xil nomli ichki kategoriya boʻlsa
  *      (masalan ikkita "Aksessuarlar"), qaysi biri ekanini ajratib
- *      bo'lmaydi.
+ *      boʻlmaydi.
  *
- * Endi har daraja O'Z tanlovchisiga ega va keyingisi faqat kerak
- * bo'lganda paydo bo'ladi:
+ * Endi har daraja OʻZ tanlovchisiga ega va keyingisi faqat kerak
+ * boʻlganda paydo boʻladi:
  *
  *   Asosiy kategoriya  [ Telefonlar va planshetlar ▼ ]
- *   Bo'lim             [ Telefon ▼ ]
+ *   Boʻlim             [ Telefon ▼ ]
  *   ✓ Yakuniy kategoriya tanlandi
  *
  * CHUQURLIK CHEKLANMAGAN: tanlovchilar soni daraxtdan kelib chiqadi,
- * shuning uchun admin 4- yoki 5-daraja qo'shsa, kod o'zgarmaydi.
+ * shuning uchun admin 4- yoki 5-daraja qoʻshsa, kod oʻzgarmaydi.
  *
  * Mahsulotga HAR DOIM oxirgi tanlangan kategoriya biriktiriladi.
  */
@@ -34,7 +34,7 @@ export function CategoryPicker({
   onChange,
 }: {
   categories: Category[];
-  /** Tanlangan kategoriya id — yoki bo'sh satr. */
+  /** Tanlangan kategoriya id — yoki boʻsh satr. */
   value: string;
   onChange: (categoryId: string) => void;
 }) {
@@ -42,8 +42,8 @@ export function CategoryPicker({
 
   /*
    * Darajalarni hisoblash SOF FUNKSIYADA (`categoryLevels`) — u yerda
-   * sinaladi, chunki bu yerda sinash uchun DOM muhiti kerak bo'lardi.
-   * Mavjud mahsulot tahrirlanganda forma o'zi to'g'ri darajalarni
+   * sinaladi, chunki bu yerda sinash uchun DOM muhiti kerak boʻlardi.
+   * Mavjud mahsulot tahrirlanganda forma oʻzi toʻgʻri darajalarni
    * ochib beradi.
    */
   const { levels, trail, isLeaf, orphaned } = useMemo(
@@ -80,12 +80,12 @@ export function CategoryPicker({
             value={trail[i]?.id ?? ''}
             onChange={(e) => {
               /*
-               * Shu darajada tanlov o'zgarsa — undan PASTDAGI tanlovlar
-               * o'z-o'zidan bekor bo'ladi, chunki `trail` yangi
-               * qiymatdan qayta hisoblanadi. Qo'lda tozalash kerak emas.
+               * Shu darajada tanlov oʻzgarsa — undan PASTDAGI tanlovlar
+               * oʻz-oʻzidan bekor boʻladi, chunki `trail` yangi
+               * qiymatdan qayta hisoblanadi. Qoʻlda tozalash kerak emas.
                *
-               * Bo'sh tanlansa: ota darajaga qaytamiz (yoki umuman
-               * bo'shatamiz) — "yarim tanlangan" holat qolmaydi.
+               * Boʻsh tanlansa: ota darajaga qaytamiz (yoki umuman
+               * boʻshatamiz) — "yarim tanlangan" holat qolmaydi.
                */
               const next = e.target.value;
               onChange(next || (i > 0 ? trail[i - 1].id : ''));

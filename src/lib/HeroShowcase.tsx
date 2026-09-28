@@ -14,41 +14,41 @@ import { fetchPriorityAttr } from './Img';
 /*
  * HERO — JISMONIY MAHSULOT KARUSELI.
  *
- * Markazda katta faol karta, yonida esa HAQIQIY qo'shni karta chetdan
- * ko'rinib turadi. Surilganda kartalar birgalikda siljiydi va o'rin
- * almashadi — ya'ni bu "rasm almashtirgich" emas, jismoniy karusel.
+ * Markazda katta faol karta, yonida esa HAQIQIY qoʻshni karta chetdan
+ * koʻrinib turadi. Surilganda kartalar birgalikda siljiydi va oʻrin
+ * almashadi — yaʼni bu "rasm almashtirgich" emas, jismoniy karusel.
  *
  * ── YAGONA HOLAT TIZIMI ───────────────────────────────────────────
  *
  * Butun karusel BITTA uzluksiz qiymat — `pos` — atrofida qurilgan.
- * U "o'ralmagan" (unwrapped) slayd pozitsiyasi: 0, 1, 2, -1 …
+ * U "oʻralmagan" (unwrapped) slayd pozitsiyasi: 0, 1, 2, -1 …
  *
- *   surish     → `pos` ni barmoq bilan birga real vaqtda o'zgartiradi
+ *   surish     → `pos` ni barmoq bilan birga real vaqtda oʻzgartiradi
  *   strelka    → `target` ni ±1 qiladi
  *   klaviatura → xuddi shunday
- *   pagination → eng qisqa yo'l bilan `target` ni o'zgartiradi
+ *   pagination → eng qisqa yoʻl bilan `target` ni oʻzgartiradi
  *   avtoplay   → `target` ni +1 qiladi
  *
  * Hammasi bir joyga borib taqaladi, shuning uchun strelka va surish
- * uchun ALOHIDA animatsiya yo'q va ular bir-biri bilan urishmaydi.
+ * uchun ALOHIDA animatsiya yoʻq va ular bir-biri bilan urishmaydi.
  *
- * Har bir slaydning ko'rinishi (x, scale, opacity, rotateY) `pos` dan
+ * Har bir slaydning koʻrinishi (x, scale, opacity, rotateY) `pos` dan
  * HOSILA sifatida hisoblanadi. Shu sababli surish davomida kartalar
- * uzluksiz kichrayadi/kattalashadi — qo'yib yuborilgunicha kutilmaydi.
+ * uzluksiz kichrayadi/kattalashadi — qoʻyib yuborilgunicha kutilmaydi.
  *
  * ── IKKI SLAYD HOLATI ─────────────────────────────────────────────
  *
- * Ikkita bannerda "oldingi" va "keyingi" bir xil slayd bo'lib qolishi
- * mumkin degan xavotir bor edi. Amalda yo'q: eng qisqa yo'l hisobi
+ * Ikkita bannerda "oldingi" va "keyingi" bir xil slayd boʻlib qolishi
+ * mumkin degan xavotir bor edi. Amalda yoʻq: eng qisqa yoʻl hisobi
  * (`wrapDelta`) har doim BITTA tomonni tanlaydi —
- *   1-slayd faol → 2-slayd O'NGDA
+ *   1-slayd faol → 2-slayd OʻNGDA
  *   2-slayd faol → 1-slayd CHAPDA
- * Ya'ni bir xil rasm ikki tomonda hech qachon chizilmaydi.
+ * Yaʼni bir xil rasm ikki tomonda hech qachon chizilmaydi.
  */
 
-/** Qo'shni karta markazdan qancha uzoqda turadi (karta enining ulushi). */
+/** Qoʻshni karta markazdan qancha uzoqda turadi (karta enining ulushi). */
 const STEP_RATIO = 0.62;
-/** Avtomatik almashinuv oralig'i. */
+/** Avtomatik almashinuv oraligʻi. */
 const AUTOPLAY_MS = 7000;
 /** Shu ulushdan ortiq surilsa slayd almashadi. */
 const SWIPE_FRACTION = 0.22;
@@ -60,25 +60,25 @@ const SWIPE_FRACTION = 0.22;
 const CLICK_SLOP_PX = 8;
 
 /**
- * `i` ga `from` dan eng qisqa (o'ralgan) masofa.
+ * `i` ga `from` dan eng qisqa (oʻralgan) masofa.
  *
- * DIQQAT: `from` CHEKLANMAGAN. Avtoplay `pos` ni to'xtovsiz oshirib
- * boradi (0, 1, 2 … 7, 8 …), shuning uchun bu yerda TO'LIQ modul
+ * DIQQAT: `from` CHEKLANMAGAN. Avtoplay `pos` ni toʻxtovsiz oshirib
+ * boradi (0, 1, 2 … 7, 8 …), shuning uchun bu yerda TOʻLIQ modul
  * arifmetikasi kerak.
  *
  * Ilgari bu funksiya faqat BIR MARTA ±count tuzatish qilardi. U
- * `|raw| <= 1.5*count` gacha to'g'ri ishlaydi, keyin buziladi:
- * `pos = 7`, `count = 4` bo'lganda 0-slayd uchun `raw = -7` →
- * `-7 + 4 = -3` qaytarardi, holbuki to'g'ri javob `+1`. Natijada bir
+ * `|raw| <= 1.5*count` gacha toʻgʻri ishlaydi, keyin buziladi:
+ * `pos = 7`, `count = 4` boʻlganda 0-slayd uchun `raw = -7` →
+ * `-7 + 4 = -3` qaytarardi, holbuki toʻgʻri javob `+1`. Natijada bir
  * necha avtoplay siklidan keyin BARCHA kartalar ekrandan chapga chiqib
- * ketardi va markazda hech narsa qolmasdi (o'lchandi: markazlar
- * -1101, -735, -552; hech bir kartada `opacity: 1` yo'q).
+ * ketardi va markazda hech narsa qolmasdi (oʻlchandi: markazlar
+ * -1101, -735, -552; hech bir kartada `opacity: 1` yoʻq).
  */
 function wrapDelta(i: number, from: number, count: number): number {
   const half = count / 2;
-  // Avval [0, count) oralig'iga keltiramiz — manfiy qiymatlarda ham.
+  // Avval [0, count) oraligʻiga keltiramiz — manfiy qiymatlarda ham.
   const d = (((i - from) % count) + count) % count;
-  // So'ng (-half, half] oralig'iga: qaysi tomon yaqinroq bo'lsa.
+  // Soʻng (-half, half] oraligʻiga: qaysi tomon yaqinroq boʻlsa.
   return d > half ? d - count : d;
 }
 
@@ -92,7 +92,7 @@ export function HeroShowcase({ banners }: { banners: Banner[] }) {
 
   /* Uzluksiz pozitsiya — karuselning yagona haqiqat manbai. */
   const pos = useMotionValue(0);
-  /* O'ralmagan nishon. `pos` shunga qarab animatsiya qilinadi. */
+  /* Oʻralmagan nishon. `pos` shunga qarab animatsiya qilinadi. */
   const targetRef = useRef(0);
   const [index, setIndex] = useState(0);
 
@@ -114,14 +114,14 @@ export function HeroShowcase({ banners }: { banners: Banner[] }) {
     return () => ro.disconnect();
   }, []);
 
-  /* `pos` o'zgarganda ko'rinadigan indeks yangilanadi (pagination uchun). */
+  /* `pos` oʻzgarganda koʻrinadigan indeks yangilanadi (pagination uchun). */
   useMotionValueEvent(pos, 'change', (v) => {
     if (count === 0) return;
     const next = ((Math.round(v) % count) + count) % count;
     setIndex((prev) => (prev === next ? prev : next));
   });
 
-  /** Nishonga siljish — barcha boshqaruvlar shu yerdan o'tadi. */
+  /** Nishonga siljish — barcha boshqaruvlar shu yerdan oʻtadi. */
   const settleTo = useCallback(
     (target: number, manual: boolean) => {
       if (count === 0) return;
@@ -129,9 +129,9 @@ export function HeroShowcase({ banners }: { banners: Banner[] }) {
       targetRef.current = target;
       /*
        * `as never` — `springs.soft` da `type: 'spring'` literal emas,
-       * oddiy `string` deb tiplangan (motion.ts da `as const` yo'q),
-       * shuning uchun TS `animate()` ning noto'g'ri overload'ini
-       * tanlaydi. Umumiy tokenni o'zgartirmaslik uchun cast shu yerda.
+       * oddiy `string` deb tiplangan (motion.ts da `as const` yoʻq),
+       * shuning uchun TS `animate()` ning notoʻgʻri overloadʼini
+       * tanlaydi. Umumiy tokenni oʻzgartirmaslik uchun cast shu yerda.
        */
       animate(pos, target, (reduce ? { duration: DURATION.ui } : springs.soft) as never);
     },
@@ -145,17 +145,17 @@ export function HeroShowcase({ banners }: { banners: Banner[] }) {
    *
    * Karta butunlay bosiladigan havola bilan qoplangan. Agar hech narsa
    * qilinmasa, foydalanuvchi karuselni surganida barmoq uzilishi bilan
-   * o'sha havola ham ochilib ketadi — ya'ni surmoqchi bo'lgan odam
+   * oʻsha havola ham ochilib ketadi — yaʼni surmoqchi boʻlgan odam
    * boshqa sahifaga tushib qoladi.
    *
-   * Shuning uchun gesture davomida bosib o'tilgan masofa o'lchanadi va
+   * Shuning uchun gesture davomida bosib oʻtilgan masofa oʻlchanadi va
    * u chegaradan oshsa, keyingi `click` bekor qilinadi. Kichik
    * tebranish (barmoqning tabiiy qimirlashi) bosishligicha qoladi.
    */
   const dragDistRef = useRef(0);
   const consumedClick = useCallback(() => dragDistRef.current > CLICK_SLOP_PX, []);
 
-  /* Avtoplay — xuddi shu `settleTo` orqali, ya'ni bir xil jismoniy o'tish. */
+  /* Avtoplay — xuddi shu `settleTo` orqali, yaʼni bir xil jismoniy oʻtish. */
   useEffect(() => {
     if (!multiple || reduce || userTookOver || paused || dragging) return;
     const t = window.setInterval(() => {
@@ -174,7 +174,7 @@ export function HeroShowcase({ banners }: { banners: Banner[] }) {
     [multiple, step]
   );
 
-  /* Qaysi slaydlar umuman chiziladi — faol va uning bevosita qo'shnilari. */
+  /* Qaysi slaydlar umuman chiziladi — faol va uning bevosita qoʻshnilari. */
   const rendered = useMemo(() => {
     return banners
       .map((b, i) => ({ banner: b, i, delta: wrapDelta(i, index, count) }))
@@ -202,18 +202,18 @@ export function HeroShowcase({ banners }: { banners: Banner[] }) {
            * SAHNA — SHAFFOF va EKRAN CHETIGACHA.
            *
            * Ilgari bu yerda `bg-ink-100` va `rounded-surface` bor edi:
-           * natijada hero sahifa ustiga qo'yilgan kulrang KARTA bo'lib
-           * ko'rinardi ("oq sahifa → alohida kulrang quti → banner").
-           * Endi sahna ko'rinmaydi — kartalar to'g'ridan-to'g'ri sahifa
-           * fonida turadi va hero Home sahifasining tabiiy qismi bo'ladi.
+           * natijada hero sahifa ustiga qoʻyilgan kulrang KARTA boʻlib
+           * koʻrinardi ("oq sahifa → alohida kulrang quti → banner").
+           * Endi sahna koʻrinmaydi — kartalar toʻgʻridan-toʻgʻri sahifa
+           * fonida turadi va hero Home sahifasining tabiiy qismi boʻladi.
            *
-           * `-mx-*` — `shell` ning yon to'ldirishini bekor qiladi, ya'ni
+           * `-mx-*` — `shell` ning yon toʻldirishini bekor qiladi, yaʼni
            * mobilda kartalar ekran chetigacha boradi va "suzuvchi
-           * orolcha" taassuroti yo'qoladi. `lg:mx-0` da hero yana
+           * orolcha" taassuroti yoʻqoladi. `lg:mx-0` da hero yana
            * konteyner ichiga qaytadi.
            *
-           * `overflow-hidden` SAQLANADI — qo'shni kartalarni aynan shu
-           * kesadi va sahifada gorizontal scroll paydo bo'lmaydi.
+           * `overflow-hidden` SAQLANADI — qoʻshni kartalarni aynan shu
+           * kesadi va sahifada gorizontal scroll paydo boʻlmaydi.
            */
           'relative isolate overflow-hidden',
           '-mx-4 sm:-mx-5 lg:mx-0 lg:rounded-surface',
@@ -224,7 +224,7 @@ export function HeroShowcase({ banners }: { banners: Banner[] }) {
            * PAST EKRANLI noutbuklar uchun cheklov. `clamp()` faqat
            * kenglikka qaraydi; 1280×800 da u 544px berardi — ekran
            * balandligining 68% i. 1920×1080 da 62vh = 670px > 544px,
-           * ya'ni baland ekranlarda hech narsa o'zgarmaydi.
+           * yaʼni baland ekranlarda hech narsa oʻzgarmaydi.
            */
           'lg:max-h-[62vh]',
           focusRing
@@ -249,7 +249,7 @@ export function HeroShowcase({ banners }: { banners: Banner[] }) {
           onDrag={(_, info) => {
             dragDistRef.current = Math.abs(info.offset.x);
             if (!stepPx) return;
-            // Surish davomida `pos` ni real vaqtda o'zgartiramiz —
+            // Surish davomida `pos` ni real vaqtda oʻzgartiramiz —
             // kartalar barmoq bilan birga harakatlanadi.
             pos.set(targetRef.current - info.offset.x / stepPx);
           }}
@@ -272,7 +272,7 @@ export function HeroShowcase({ banners }: { banners: Banner[] }) {
               reduce={!!reduce}
               priority={i === 0}
               /* Holatdan olinadi, `pos.get()` dan EMAS: motion qiymati
-                 o'zgarganda React qayta render qilmaydi, ya'ni havolaning
+                 oʻzgarganda React qayta render qilmaydi, yaʼni havolaning
                  bosilishi/tab tartibi eskirib qolardi. */
               isCenter={i === index}
               consumedClick={consumedClick}
@@ -348,26 +348,26 @@ function SlideCard({
   const { x: gyroX, y: gyroY, enable: enableGyro } = useGyroParallax();
 
   /*
-   * Ko'rinish `pos` DAN HOSILA. Barmoq harakatlanganda bu qiymatlar
-   * uzluksiz o'zgaradi, ya'ni kartalar bosqichma-bosqich o'rin
-   * almashadi — "qo'yib yuborgach rasm almashdi" emas.
+   * Koʻrinish `pos` DAN HOSILA. Barmoq harakatlanganda bu qiymatlar
+   * uzluksiz oʻzgaradi, yaʼni kartalar bosqichma-bosqich oʻrin
+   * almashadi — "qoʻyib yuborgach rasm almashdi" emas.
    *
    * `d` — shu slaydning markazdan uzoqligi (slayd birligida).
    */
   const d = useTransform(pos, (p) => wrapDelta(slideIndex, p, count));
   const clamped = useTransform(d, (v) => Math.max(-1, Math.min(1, v)));
 
-  /* Markazlashtirish `x` ICHIDA: Motion `transform` ni to'liq egallaydi
-     va sinfdagi `-translate-x-1/2` ni o'chirib yuborardi. */
+  /* Markazlashtirish `x` ICHIDA: Motion `transform` ni toʻliq egallaydi
+     va sinfdagi `-translate-x-1/2` ni oʻchirib yuborardi. */
   const x = useTransform(d, (v) => `calc(-50% + ${v * STEP_RATIO * 100}%)`);
   const scale = useTransform(clamped, (v) => 1 - Math.abs(v) * 0.16);
   /*
    * Yon kartalar 0.82 — 0.55 EMAS.
    *
-   * 0.55 da qo'shni bannerlar oqarib ketardi va "o'chirilgan"
-   * ko'rinardi: foydalanuvchi yonida nima turganini umuman ajrata
-   * olmasdi. 0.82 da esa ular aniq o'qiladi, lekin markazdagi karta
-   * baribir ustun bo'lib qoladi — chunki ierarxiyani asosan O'LCHAM
+   * 0.55 da qoʻshni bannerlar oqarib ketardi va "oʻchirilgan"
+   * koʻrinardi: foydalanuvchi yonida nima turganini umuman ajrata
+   * olmasdi. 0.82 da esa ular aniq oʻqiladi, lekin markazdagi karta
+   * baribir ustun boʻlib qoladi — chunki ierarxiyani asosan OʻLCHAM
    * (scale 0.84) va chuqurlik (rotateY, z-index) ushlab turadi,
    * shaffoflik esa faqat yordamchi.
    */
@@ -378,14 +378,14 @@ function SlideCard({
   return (
     <motion.div
       /*
-       * Bosishni QAMRAB OLISH bosqichida to'xtatamiz.
+       * Bosishni QAMRAB OLISH bosqichida toʻxtatamiz.
        *
        * `Link` ning `onClick` propi argument qabul qilmaydi
        * (`() => void`), shuning uchun u yerdan `preventDefault()`
-       * chaqirib bo'lmaydi. Capture bosqichi hodisa havolaga
+       * chaqirib boʻlmaydi. Capture bosqichi hodisa havolaga
        * yetib borishidan OLDIN ishlaydi — shuning uchun surishdan
        * keyingi "tasodifiy" bosish shu yerda uziladi va umumiy
-       * `Link` komponentini o'zgartirish kerak emas.
+       * `Link` komponentini oʻzgartirish kerak emas.
        */
       onClickCapture={(e) => {
         if (!consumedClick()) return;
@@ -402,9 +402,9 @@ function SlideCard({
       <div
         className="relative h-full w-full overflow-hidden rounded-surface bg-ink-200 shadow-[0_24px_60px_-28px_rgb(23_20_17/0.55)]"
         /*
-         * iOS ruxsati AYNAN shu yerdan so'raladi: foydalanuvchi
+         * iOS ruxsati AYNAN shu yerdan soʻraladi: foydalanuvchi
          * bannerga tekkanda. Tizim oynasi shu sababli kutilmaganda
-         * emas, u o'ynayotgan element ustida chiqadi. Boshqa
+         * emas, u oʻynayotgan element ustida chiqadi. Boshqa
          * platformalarda bu chaqiruv hech narsa qilmaydi.
          */
         onTouchEnd={isCenter ? enableGyro : undefined}
@@ -418,14 +418,14 @@ function SlideCard({
           /*
            * PARALLAKS FAQAT MARKAZDAGI KARTADA.
            *
-           * Yon kartalarda ham qo'llansa uchala rasm barobar
+           * Yon kartalarda ham qoʻllansa uchala rasm barobar
            * siljirdi — bu parallaks emas, butun karuselning
-           * qimirlashi bo'lib ko'rinardi. Chuqurlik tuyg'usi aynan
+           * qimirlashi boʻlib koʻrinardi. Chuqurlik tuygʻusi aynan
            * BITTA element boshqalardan boshqacha harakat qilganda
-           * paydo bo'ladi.
+           * paydo boʻladi.
            *
-           * `scale` — siljiganda chetda bo'shliq ochilmasligi uchun
-           * zaxira. Ramka (`overflow-hidden`) qimirlamaydi, ya'ni
+           * `scale` — siljiganda chetda boʻshliq ochilmasligi uchun
+           * zaxira. Ramka (`overflow-hidden`) qimirlamaydi, yaʼni
            * rasm uning ichida suzadi.
            */
           <motion.img

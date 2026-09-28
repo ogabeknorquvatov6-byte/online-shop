@@ -27,7 +27,7 @@ export function CartPage() {
   const delivery = quoteDelivery(settings, subtotal);
   const total = subtotal + delivery.fee;
 
-  // Savat bazaga solishtirilib yangilangan bo'lsa (narx o'zgargan, mahsulot
+  // Savat bazaga solishtirilib yangilangan boʻlsa (narx oʻzgargan, mahsulot
   // tugagan) — foydalanuvchini bir marta xabardor qilamiz.
   useEffect(() => {
     if (!notice) return;
@@ -88,13 +88,13 @@ export function CartPage() {
                      *
                      * Ilgari bu yerda `height: 0 → auto` bor edi. Balandlik
                      * — layout xossasi: uning har kadri qayta oqim (reflow)
-                     * keltirib chiqaradi va uzun savatda seziladi. Bo'shliq
-                     * yopilishini `layout` prop'ining o'zi hal qiladi
+                     * keltirib chiqaradi va uzun savatda seziladi. Boʻshliq
+                     * yopilishini `layout` propʼining oʻzi hal qiladi
                      * (Motion buni transform bilan bajaradi), shuning uchun
                      * bu yerda faqat `opacity` va `transform` qoladi.
                      *
                      * Chiqish chapga siljish bilan — element "olib
-                     * tashlandi" degan yo'nalishni ko'rsatadi.
+                     * tashlandi" degan yoʻnalishni koʻrsatadi.
                      */
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}

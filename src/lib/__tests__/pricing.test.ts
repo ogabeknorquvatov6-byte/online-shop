@@ -8,11 +8,11 @@ import { normalizePhone } from '../phone';
 import type { Product, Settings } from '../types';
 
 /*
- * Pul bilan bog'liq har bir hisob-kitob shu yerda qulflanadi.
+ * Pul bilan bogʻliq har bir hisob-kitob shu yerda qulflanadi.
  *
- * Bu funksiyalar mijoz ekranida ko'rsatiladigan narxni belgilaydi. Ular
- * jimgina buzilsa (masalan chegirma foizi noto'g'ri yaxlitlansa), xato
- * hech qanday xato xabari bermaydi — shunchaki noto'g'ri narx ko'rsatiladi.
+ * Bu funksiyalar mijoz ekranida koʻrsatiladigan narxni belgilaydi. Ular
+ * jimgina buzilsa (masalan chegirma foizi notoʻgʻri yaxlitlansa), xato
+ * hech qanday xato xabari bermaydi — shunchaki notoʻgʻri narx koʻrsatiladi.
  */
 
 function makeProduct(overrides: Partial<Product> = {}): Product {
@@ -44,7 +44,7 @@ describe('formatPrice', () => {
   });
 
   it('narxi yoʻq mahsulotni "bepul" deb koʻrsatmaydi', () => {
-    // "0 so'm" mijozni chalg'itadi — u mahsulotni bepul deb tushunadi.
+    // "0 soʻm" mijozni chalgʻitadi — u mahsulotni bepul deb tushunadi.
     expect(formatPrice(0)).toBe('Narxi kelishiladi');
     expect(formatPrice(-100)).toBe('Narxi kelishiladi');
   });
@@ -73,7 +73,7 @@ describe('discountPercent', () => {
   });
 
   it('bazadagi buzuq qiymatda nishoncha chiqarmaydi', () => {
-    // Narxi 0 bo'lgan mahsulot ilgari kartada "−100%" degan ishonchsiz
+    // Narxi 0 boʻlgan mahsulot ilgari kartada "−100%" degan ishonchsiz
     // nishoncha chiqarardi.
     expect(discountPercent(0, 100_000)).toBeNull();
     expect(discountPercent(-10, 100_000)).toBeNull();
@@ -81,12 +81,12 @@ describe('discountPercent', () => {
 
   it('foizni 1..99 oraligʻiga cheklaydi', () => {
     expect(discountPercent(1, 1_000_000)).toBe(99);
-    // 0.4% — yaxlitlanganda 0 bo'ladi, ya'ni "chegirma bor" deyish yolg'on.
+    // 0.4% — yaxlitlanganda 0 boʻladi, yaʼni "chegirma bor" deyish yolgʻon.
     expect(discountPercent(99_600, 100_000)).toBeNull();
   });
 });
 
-/* ── Mahsulot moslashuvi: qaysi narx g'olib bo'ladi ──────────────────── */
+/* ── Mahsulot moslashuvi: qaysi narx gʻolib boʻladi ──────────────────── */
 
 function makeRow(overrides: Partial<ProductRow> = {}): ProductRow {
   return {
@@ -118,11 +118,11 @@ describe('adaptProduct — narx tanlash', () => {
   });
 
   it('ikkita chegirma boʻlsa mijoz uchun ARZONROGʻI tanlanadi', () => {
-    // 20% aksiya = 80 000, qat'iy chegirma narxi = 75 000 → 75 000.
+    // 20% aksiya = 80 000, qatʼiy chegirma narxi = 75 000 → 75 000.
     const cheaperFixed = adaptProduct(makeRow({ discount_price: 75_000 }), 20);
     expect(cheaperFixed.price).toBe(75_000);
 
-    // 40% aksiya = 60 000, qat'iy chegirma narxi = 75 000 → 60 000.
+    // 40% aksiya = 60 000, qatʼiy chegirma narxi = 75 000 → 60 000.
     const cheaperPromo = adaptProduct(makeRow({ discount_price: 75_000 }), 40);
     expect(cheaperPromo.price).toBe(60_000);
   });
@@ -133,8 +133,8 @@ describe('adaptProduct — narx tanlash', () => {
   });
 
   it('asosiy rasm har doim birinchi boʻladi', () => {
-    // Katalog kartochkasi, savat va buyurtma tarixi ro'yxatning [0]
-    // elementini oladi — tartib buzilsa mijoz boshqa rasmni ko'radi.
+    // Katalog kartochkasi, savat va buyurtma tarixi roʻyxatning [0]
+    // elementini oladi — tartib buzilsa mijoz boshqa rasmni koʻradi.
     const p = adaptProduct(
       makeRow({
         product_images: [
@@ -168,7 +168,7 @@ describe('cartItemKey', () => {
   });
 
   it('variant ID matnli nomdan ustun', () => {
-    // Admin variant nomini o'zgartirsa savatdagi pozitsiya "adashib"
+    // Admin variant nomini oʻzgartirsa savatdagi pozitsiya "adashib"
     // ketmasligi kerak.
     const product = makeProduct();
     expect(cartItemKey({ product, variant: 'Qora', variantId: 'v1' })).toBe(
@@ -188,7 +188,7 @@ describe('maxQuantityFor', () => {
   });
 
   it('server chegarasidan oshmaydi', () => {
-    // `create_order` serverda 50 dona chegarasini qo'yadi — UI undan
+    // `create_order` serverda 50 dona chegarasini qoʻyadi — UI undan
     // oshiq miqdorni taklif qilsa, buyurtma serverda rad etilardi.
     expect(maxQuantityFor(makeProduct({ stock: 9999 }))).toBe(MAX_QTY_PER_ITEM);
   });
@@ -214,8 +214,8 @@ describe('maxQuantityFor', () => {
   });
 
   it('tugagan mahsulotda ham kamida 1 qaytaradi', () => {
-    // Miqdor tanlagich 0 dan 0 gacha bo'lgan oraliqqa tushib qolmasligi
-    // kerak — "tugagan" holati alohida ko'rsatiladi.
+    // Miqdor tanlagich 0 dan 0 gacha boʻlgan oraliqqa tushib qolmasligi
+    // kerak — "tugagan" holati alohida koʻrsatiladi.
     expect(maxQuantityFor(makeProduct({ stock: 0 }))).toBe(1);
   });
 });
@@ -301,7 +301,7 @@ describe('quoteDelivery', () => {
   });
 
   it('sozlamalar yuklanmagan boʻlsa zaxira tarif ishlatiladi', () => {
-    // Checkout sozlamalar kelishini kutmaydi — narx doim ko'rsatilishi kerak.
+    // Checkout sozlamalar kelishini kutmaydi — narx doim koʻrsatilishi kerak.
     const quote = quoteDelivery(null, 0, 'Toshkent');
     expect(quote.fee).toBe(30_000);
     expect(quote.freeThreshold).toBe(500_000);

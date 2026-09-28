@@ -3,33 +3,33 @@ import { ImageOff } from 'lucide-react';
 import { cx, skeleton } from './design';
 
 /*
- * Sayt bo'ylab yagona rasm komponenti.
+ * Sayt boʻylab yagona rasm komponenti.
  *
  * Ilgari har bir joyda oddiy `<img>` yozilardi va natijada:
- *   • bir joyda skeleton bor, boshqasida yo'q;
- *   • buzuq havolada ba'zan bo'sh oq quti, ba'zan brauzerning
+ *   • bir joyda skeleton bor, boshqasida yoʻq;
+ *   • buzuq havolada baʼzan boʻsh oq quti, baʼzan brauzerning
  *     "sinuq rasm" ikonkasi chiqardi;
- *   • `loading`/`decoding` atributlari tasodifiy qo'yilgandi.
+ *   • `loading`/`decoding` atributlari tasodifiy qoʻyilgandi.
  *
  * Bu komponent uchala holatni bitta joyda hal qiladi.
  *
  * CLS (layout shift) haqida:
  * konteynerga HAR DOIM aspect-ratio beriladi, shuning uchun rasm
- * yuklanmasidan oldin ham joy band bo'ladi va kontent sakramaydi.
+ * yuklanmasidan oldin ham joy band boʻladi va kontent sakramaydi.
  * Bu sekin internetda eng sezilarli farqni beradi.
  */
 
 /*
- * Supabase Storage server tomonida rasm o'lchamini o'zgartira oladi
+ * Supabase Storage server tomonida rasm oʻlchamini oʻzgartira oladi
  * (`/render/image/...`), LEKIN bu Pro tarifni talab qiladi. Bepul
- * tarifda u xato qaytaradi va rasmlar UMUMAN ko'rinmay qoladi.
+ * tarifda u xato qaytaradi va rasmlar UMUMAN koʻrinmay qoladi.
  *
- * Shuning uchun standart bo'yicha O'CHIQ. Pro tarifga o'tsangiz
- * `.env` ga `VITE_SUPABASE_IMAGE_TRANSFORM=true` qo'shsangiz —
- * srcset avtomatik yoqiladi va hech qanday kod o'zgarmaydi.
+ * Shuning uchun standart boʻyicha OʻCHIQ. Pro tarifga oʻtsangiz
+ * `.env` ga `VITE_SUPABASE_IMAGE_TRANSFORM=true` qoʻshsangiz —
+ * srcset avtomatik yoqiladi va hech qanday kod oʻzgarmaydi.
  *
  * Bepul tarifda ham rasmlar baribir yengil: admin yuklashda ular
- * WebP'ga o'girilib, 1600px gacha kichraytiriladi (lib/admin/upload.ts).
+ * WebPʼga oʻgirilib, 1600px gacha kichraytiriladi (lib/admin/upload.ts).
  */
 const TRANSFORM_ENABLED = import.meta.env.VITE_SUPABASE_IMAGE_TRANSFORM === 'true';
 const OBJECT_MARKER = '/storage/v1/object/public/';
@@ -44,7 +44,7 @@ function transformUrl(url: string, width: number): string {
   return `${url.replace(OBJECT_MARKER, RENDER_MARKER)}?width=${width}&resize=contain&quality=78`;
 }
 
-/** Faqat o'z Storage'imizdagi rasmlar uchun srcset; tashqi havolalarga tegilmaydi. */
+/** Faqat oʻz Storageʼimizdagi rasmlar uchun srcset; tashqi havolalarga tegilmaydi. */
 function buildSrcSet(src: string): string | undefined {
   if (!TRANSFORM_ENABLED || !isStorageUrl(src)) return undefined;
   return WIDTHS.map((w) => `${transformUrl(src, w)} ${w}w`).join(', ');
@@ -54,12 +54,12 @@ function buildSrcSet(src: string): string | undefined {
  * `fetchpriority` atributi — kichik harflarda.
  *
  * React 18 camelCase `fetchPriority` ni TANIMAYDI: konsolga ogohlantirish
- * yozadi va atributni DOM'ga umuman qo'ymaydi. Ya'ni LCP rasmi uchun
- * mo'ljallangan ustuvorlik hech qachon ishlamagan — bosh sahifadagi
+ * yozadi va atributni DOMʼga umuman qoʻymaydi. Yaʼni LCP rasmi uchun
+ * moʻljallangan ustuvorlik hech qachon ishlamagan — bosh sahifadagi
  * banner va mahsulot galereyasi ham shu ahvolda edi.
  *
- * Kichik harfli noma'lum atributni React o'zgarishsiz o'tkazadi.
- * (React 19 ga o'tilganda hammasini `fetchPriority` ga qaytarish mumkin.)
+ * Kichik harfli nomaʼlum atributni React oʻzgarishsiz oʻtkazadi.
+ * (React 19 ga oʻtilganda hammasini `fetchPriority` ga qaytarish mumkin.)
  */
 export function fetchPriorityAttr(priority: boolean): { fetchpriority: 'high' | 'auto' } {
   return { fetchpriority: priority ? 'high' : 'auto' };
@@ -70,18 +70,18 @@ export type ImgProps = {
   alt: string;
   /** Konteyner sinflari (aspect-ratio, radius, fon). */
   className?: string;
-  /** `<img>` ning o'z sinflari (object-fit, transform va h.k.). */
+  /** `<img>` ning oʻz sinflari (object-fit, transform va h.k.). */
   imgClassName?: string;
   /**
    * LCP rasmi uchun `true`: darhol yuklanadi va yuqori ustuvorlik oladi.
-   * Sahifada 1–2 tadan ko'p bo'lmasin, aks holda mazmuni yo'qoladi.
+   * Sahifada 1–2 tadan koʻp boʻlmasin, aks holda mazmuni yoʻqoladi.
    */
   priority?: boolean;
-  /** Responsive `sizes` — srcset yoqilganda brauzerga kerak bo'ladi. */
+  /** Responsive `sizes` — srcset yoqilganda brauzerga kerak boʻladi. */
   sizes?: string;
-  /** Rasm yo'q yoki buzuq bo'lsa ko'rsatiladigan matn. */
+  /** Rasm yoʻq yoki buzuq boʻlsa koʻrsatiladigan matn. */
   fallbackLabel?: string;
-  /** Buzuq rasm o'rniga ko'rsatiladigan ikonka o'lchami. */
+  /** Buzuq rasm oʻrniga koʻrsatiladigan ikonka oʻlchami. */
   iconClassName?: string;
 };
 
@@ -99,13 +99,13 @@ export function Img({
   const [failed, setFailed] = useState(false);
 
   /*
-   * `src` o'zgarganda holat tozalanadi.
+   * `src` oʻzgarganda holat tozalanadi.
    *
-   * Galereyada bitta buzuq rasm ochilsa `failed` true bo'lib qolar va
-   * KEYINGI (butun) rasmlar ham "yuklanmadi" ikonkasi bilan ko'rsatilardi,
-   * chunki holat hech qachon qayta o'rnatilmasdi. Bu React hujjatlaridagi
-   * "props o'zgarganda holatni to'g'rilash" naqshi — effekt emas, shuning
-   * uchun ortiqcha render bo'lmaydi.
+   * Galereyada bitta buzuq rasm ochilsa `failed` true boʻlib qolar va
+   * KEYINGI (butun) rasmlar ham "yuklanmadi" ikonkasi bilan koʻrsatilardi,
+   * chunki holat hech qachon qayta oʻrnatilmasdi. Bu React hujjatlaridagi
+   * "props oʻzgarganda holatni toʻgʻrilash" naqshi — effekt emas, shuning
+   * uchun ortiqcha render boʻlmaydi.
    */
   const [renderedSrc, setRenderedSrc] = useState(src);
   if (src !== renderedSrc) {
@@ -120,11 +120,11 @@ export function Img({
   /*
    * KESHDAGI RASM MUAMMOSI.
    *
-   * Rasm brauzer keshida bo'lsa, u React `onLoad` ni ulgurmasidan oldin
-   * yuklanib bo'lishi mumkin — hodisa umuman kelmaydi. Natijada `loaded`
-   * doim `false` qolib, rasm `opacity-0` bilan KO'RINMAY qolardi: takroriy
-   * tashrifda katalog bo'm-bo'sh ko'rinardi. Shuning uchun element DOMga
-   * qo'shilgan zahoti `complete` bayrog'ini o'zimiz tekshiramiz.
+   * Rasm brauzer keshida boʻlsa, u React `onLoad` ni ulgurmasidan oldin
+   * yuklanib boʻlishi mumkin — hodisa umuman kelmaydi. Natijada `loaded`
+   * doim `false` qolib, rasm `opacity-0` bilan KOʻRINMAY qolardi: takroriy
+   * tashrifda katalog boʻm-boʻsh koʻrinardi. Shuning uchun element DOMga
+   * qoʻshilgan zahoti `complete` bayrogʻini oʻzimiz tekshiramiz.
    */
   const attachImg = (node: HTMLImageElement | null) => {
     if (node?.complete && node.naturalWidth > 0) setLoaded(true);

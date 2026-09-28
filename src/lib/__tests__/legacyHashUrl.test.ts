@@ -2,15 +2,15 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { migrateLegacyHashUrl } from '../router';
 
 /*
- * Eski `#/...` havolalarining ko'chirilishi.
+ * Eski `#/...` havolalarining koʻchirilishi.
  *
  * Bu kod bir marta — ilova ishga tushishida — bajariladi va uni sinash
- * juda qiyin: xato bo'lsa, Telegram botdagi barcha eski havolalar bosh
+ * juda qiyin: xato boʻlsa, Telegram botdagi barcha eski havolalar bosh
  * sahifaga tushib qoladi va buni hech kim darhol sezmaydi.
  *
- * To'liq DOM kerak emas — funksiya faqat `window.location` va
+ * Toʻliq DOM kerak emas — funksiya faqat `window.location` va
  * `window.history.replaceState` bilan ishlaydi, shuning uchun ularning
- * minimal maketi yetarli (jsdom o'rnatishning hojati yo'q).
+ * minimal maketi yetarli (jsdom oʻrnatishning hojati yoʻq).
  */
 
 function stubLocation(href: string) {
@@ -48,7 +48,7 @@ describe('migrateLegacyHashUrl', () => {
 
   it('OAuth qaytishidagi `?code=` ni yoʻqotmaydi', () => {
     // Supabase PKCE oqimi `?code=...` bilan qaytadi. Agar shu paytda
-    // manzilda eski hash ham bo'lsa, ikkalasi ham saqlanishi SHART —
+    // manzilda eski hash ham boʻlsa, ikkalasi ham saqlanishi SHART —
     // aks holda foydalanuvchi tizimga kira olmaydi.
     const replaceState = stubLocation('https://shop.uz/?code=abc123#/account');
     migrateLegacyHashUrl();
@@ -68,14 +68,14 @@ describe('migrateLegacyHashUrl', () => {
   });
 
   it('sahifa ichidagi langar havolaga tegmaydi', () => {
-    // `/faq#delivery` — bu marshrut emas, sahifa ichidagi bo'limga havola.
+    // `/faq#delivery` — bu marshrut emas, sahifa ichidagi boʻlimga havola.
     const replaceState = stubLocation('https://shop.uz/faq#delivery');
     migrateLegacyHashUrl();
     expect(replaceState).not.toHaveBeenCalled();
   });
 
   it('haqiqiy yoʻlda turgan hashni marshrut deb hisoblamaydi', () => {
-    // Foydalanuvchi allaqachon `/catalog` da bo'lsa, `#/cart` uni
+    // Foydalanuvchi allaqachon `/catalog` da boʻlsa, `#/cart` uni
     // boshqa sahifaga uloqtirmasligi kerak.
     const replaceState = stubLocation('https://shop.uz/catalog#/cart');
     migrateLegacyHashUrl();

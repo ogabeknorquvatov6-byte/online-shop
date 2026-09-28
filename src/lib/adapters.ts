@@ -1,26 +1,26 @@
 // Production (`openshop`) sxemasi bilan dizayn (`project`) kutayotgan
-// `types.ts` shakllari orasidagi ko'prik. Bu fayl faqat DATA MOSLASHUVI
+// `types.ts` shakllari orasidagi koʻprik. Bu fayl faqat DATA MOSLASHUVI
 // uchun — JSX/komponentlarga tegilmagan.
 
 import type { Product, Banner, Promotion, CategoryRef } from './types';
 
 const PRODUCT_SELECT = '*, product_images(*), product_variants(*)';
 
-// products so'rovlariga shu maydonni qo'shing:
+// products soʻrovlariga shu maydonni qoʻshing:
 // supabase.from('products').select(PRODUCT_SELECT)...
 export { PRODUCT_SELECT };
 
 /*
- * Aniq ustunlar ro'yxatlari — `select('*')` O'RNIGA.
+ * Aniq ustunlar roʻyxatlari — `select('*')` OʻRNIGA.
  *
  * `*` ikki jihatdan zararli:
- *   1. Kod ishlatmaydigan ustunlar ham har so'rovda tarmoqdan tortiladi.
- *   2. Jadvalga kelajakda ustun qo'shilsa (ichki izoh, xarid narxi,
+ *   1. Kod ishlatmaydigan ustunlar ham har soʻrovda tarmoqdan tortiladi.
+ *   2. Jadvalga kelajakda ustun qoʻshilsa (ichki izoh, xarid narxi,
  *      tahliliy maydon), u JIMGINA barcha mijozlarga yuborila boshlaydi.
- *      Bu ortiqcha trafik va ehtimoliy ma'lumot sizishi — hech kim
+ *      Bu ortiqcha trafik va ehtimoliy maʼlumot sizishi — hech kim
  *      buni ataylab qilmaydi, shunchaki `*` shunday ishlaydi.
  *
- * Ro'yxatlar pastdagi `*Row` tiplari va `types.ts` shakllariga mos.
+ * Roʻyxatlar pastdagi `*Row` tiplari va `types.ts` shakllariga mos.
  */
 export const BANNER_SELECT =
   'id, title, description, image_url, button_text, destination, is_active, sort_order, created_at';
@@ -49,9 +49,9 @@ export type ProductRow = {
     stock?: number | null; price_adjustment?: number | null; is_active?: boolean;
   }[];
   /*
-   * Supabase `select('*, categories(*)')` da bog'liq jadval nomi bilan
-   * keladi. To'liq `Category` bo'lmasligi mumkin (so'rovda faqat bir
-   * nechta ustun tanlansa), shuning uchun `Partial` emas — aniq ro'yxat.
+   * Supabase `select('*, categories(*)')` da bogʻliq jadval nomi bilan
+   * keladi. Toʻliq `Category` boʻlmasligi mumkin (soʻrovda faqat bir
+   * nechta ustun tanlansa), shuning uchun `Partial` emas — aniq roʻyxat.
    */
   categories?: CategoryRef | null;
 };
@@ -84,7 +84,7 @@ export function adaptProduct(row: ProductRow, promoDiscountPercent?: number | nu
     updated_at: row.created_at,
     category: row.categories ?? null,
     // Asosiy rasm har doim birinchi: katalog kartochkasi, savat va
-    // buyurtmalar tarixi ro'yxatning [0] elementini oladi.
+    // buyurtmalar tarixi roʻyxatning [0] elementini oladi.
     product_images: [...(row.product_images ?? [])].sort(
       (a, b) => Number(b.is_primary ?? false) - Number(a.is_primary ?? false) || a.sort_order - b.sort_order
     ),
@@ -135,7 +135,7 @@ export function adaptPromotion(row: PromotionRow): Promotion {
 }
 
 // Faol promo-chegirmalarni product_id -> discount_percent shaklida oladi.
-// Bo'sh xato holatida ham bo'sh map qaytaradi (chegirma yo'q deb hisoblanadi).
+// Boʻsh xato holatida ham boʻsh map qaytaradi (chegirma yoʻq deb hisoblanadi).
 export async function fetchPromoDiscountMap(supabase: import('@supabase/supabase-js').SupabaseClient): Promise<Record<string, number>> {
   const { data } = await supabase.rpc('active_promotion_discounts');
   const map: Record<string, number> = {};

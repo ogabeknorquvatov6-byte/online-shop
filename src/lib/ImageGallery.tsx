@@ -12,18 +12,18 @@ export type GalleryImage = { id: string; image_url: string };
 /*
  * Mahsulot galereyasi.
  *
- * Ilgari mahsulotga amalda faqat BITTA rasm qo'shish mumkin edi va
- * ko'rish rejimi yo'q edi. Endi:
+ * Ilgari mahsulotga amalda faqat BITTA rasm qoʻshish mumkin edi va
+ * koʻrish rejimi yoʻq edi. Endi:
  *  - cheksiz rasm, katta asosiy rasm + miniatyuralar;
  *  - mobil: barmoq bilan surish, rasm hisoblagichi;
  *  - desktop: strelkalar va miniatyuralar;
- *  - to'liq ekran (lightbox): klaviatura ← → Esc bilan boshqariladi.
+ *  - toʻliq ekran (lightbox): klaviatura ← → Esc bilan boshqariladi.
  */
 
 export function ImageGallery({
   images,
   alt,
-  /** Tashqaridan boshqarish (masalan rang tanlanganda mos rasmga o'tish). */
+  /** Tashqaridan boshqarish (masalan rang tanlanganda mos rasmga oʻtish). */
   activeIndex,
   onActiveIndexChange,
   badge,
@@ -37,9 +37,9 @@ export function ImageGallery({
   /**
    * Telefon egilganda rasm ramka ichida siljisinmi.
    *
-   * Ixtiyoriy va standart holda O'CHIQ: galereya lightbox ichida ham
+   * Ixtiyoriy va standart holda OʻCHIQ: galereya lightbox ichida ham
    * ishlatiladi, u yerda esa rasm allaqachon butun ekranni egallaydi
-   * va siljitish joyi yo'q.
+   * va siljitish joyi yoʻq.
    */
   parallax?: boolean;
 }) {
@@ -93,7 +93,7 @@ export function ImageGallery({
           `fetchpriority="high"` va `decoding="sync"` bilan yuklanadi. */}
       <div
         className="group relative overflow-hidden rounded-card border border-ink-200 bg-white"
-        /* iOS ruxsati foydalanuvchi rasmga tekkanda so'raladi. */
+        /* iOS ruxsati foydalanuvchi rasmga tekkanda soʻraladi. */
         onTouchEnd={parallax ? enableGyro : undefined}
       >
         {/*
@@ -147,11 +147,11 @@ export function ImageGallery({
           aria-label="Rasmni toʻliq ekranda ochish"
           className={cx(
             // Sensorli qurilmalarda 44px — bu tugma rasm ustida turadi va
-            // noto'g'ri bosilsa foydalanuvchi kutilmagan joyga tushib qoladi.
+            // notoʻgʻri bosilsa foydalanuvchi kutilmagan joyga tushib qoladi.
             //
             // Chegara `xl` (1280px): pastroq har qanday qiymatda
-            // planshetda (768–1279px, hover YO'Q) "to'liq ekran" tugmasi
-            // butunlay ko'rinmay qolardi.
+            // planshetda (768–1279px, hover YOʻQ) "toʻliq ekran" tugmasi
+            // butunlay koʻrinmay qolardi.
             'absolute right-3 top-3 flex h-11 w-11 items-center justify-center rounded-full bg-white/90 text-ink-700 shadow-sm backdrop-blur-sm transition-opacity xl:h-9 xl:w-9',
             'xl:opacity-0 xl:group-hover:opacity-100 xl:focus-visible:opacity-100',
             focusRing
@@ -167,7 +167,7 @@ export function ImageGallery({
               onClick={() => step(-1)}
               aria-label="Oldingi rasm"
               className={cx(
-                // Planshetda strelkalar DOIMO ko'rinadi (hover yo'q), faqat
+                // Planshetda strelkalar DOIMO koʻrinadi (hover yoʻq), faqat
                 // desktopda hover bilan ochiladi — shuning uchun `xl:opacity-0`.
                 'absolute left-2 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-ink-700 shadow-sm backdrop-blur-sm transition-opacity sm:flex xl:opacity-0 xl:group-hover:opacity-100 xl:focus-visible:opacity-100',
                 focusRing
@@ -275,7 +275,7 @@ function Lightbox({
   const current = images[index];
   const multiple = images.length > 1;
 
-  // Portal: lightbox sahifadagi `overflow-hidden` yoki `transform` bo'lgan
+  // Portal: lightbox sahifadagi `overflow-hidden` yoki `transform` boʻlgan
   // ota-elementlar ichida qamalib qolmasligi kerak.
   return createPortal(
     <motion.div

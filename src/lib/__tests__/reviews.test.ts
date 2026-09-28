@@ -6,9 +6,9 @@ import type { ProductReview } from '../types';
 /*
  * Sharhlar va ijtimoiy isbotning QOIDALARI shu yerda qulflanadi.
  *
- * Ikkalasi ham jimgina buziladigan turdagi mantiq: ostona noto'g'ri
- * bo'lsa yoki o'rtacha boshqacha yaxlitlansa, hech qanday xato
- * chiqmaydi — mijoz shunchaki noto'g'ri raqamni ko'radi va unga
+ * Ikkalasi ham jimgina buziladigan turdagi mantiq: ostona notoʻgʻri
+ * boʻlsa yoki oʻrtacha boshqacha yaxlitlansa, hech qanday xato
+ * chiqmaydi — mijoz shunchaki notoʻgʻri raqamni koʻradi va unga
  * ishonadi.
  */
 
@@ -30,7 +30,7 @@ function makeReview(rating: number, overrides: Partial<ProductReview> = {}): Pro
 describe('socialProof', () => {
   it('10 tadan kam sotuvda HECH NARSA koʻrsatmaydi', () => {
     // "3 marta sotib olingan" ijtimoiy isbot bermaydi — u aksincha,
-    // mahsulot sotilmayotganini e'lon qiladi.
+    // mahsulot sotilmayotganini eʼlon qiladi.
     expect(socialProof(0)).toBeNull();
     expect(socialProof(1)).toBeNull();
     expect(socialProof(9)).toBeNull();
@@ -41,8 +41,8 @@ describe('socialProof', () => {
   });
 
   it('katta sonda ming ajratuvchi qoʻyiladi', () => {
-    // Ajratuvchi belgisi muhitga bog'liq (NBSP), shuning uchun uni
-    // qat'iy yozmasdan `formatCount` bilan solishtiramiz.
+    // Ajratuvchi belgisi muhitga bogʻliq (NBSP), shuning uchun uni
+    // qatʼiy yozmasdan `formatCount` bilan solishtiramiz.
     expect(socialProof(1234)).toBe(`${formatCount(1234)} marta sotib olingan`);
     expect(formatCount(1234).replace(/\s/g, ' ')).toBe('1 234');
   });
@@ -65,11 +65,11 @@ describe('summarizeReviews', () => {
      * `products.rating` ustuni `numeric(2,1)` — bazadagi trigger ham
      * aynan shunday yaxlitlaydi. Agar bu yerda boshqacha yaxlitlansa,
      * sharh yuborilgan lahzada ekrandagi raqam sakrab, keyin sahifa
-     * yangilanganda yana o'zgarardi.
+     * yangilanganda yana oʻzgarardi.
      */
     // 5 + 4 + 4 = 13 / 3 = 4.333… → 4.3
     expect(summarizeReviews([makeReview(5), makeReview(4), makeReview(4)])).toEqual({ rating: 4.3, count: 3 });
-    // 5 + 4 = 9 / 2 = 4.5 — aniq qiymat, yaxlitlash o'zgartirmaydi
+    // 5 + 4 = 9 / 2 = 4.5 — aniq qiymat, yaxlitlash oʻzgartirmaydi
     expect(summarizeReviews([makeReview(5), makeReview(4)])).toEqual({ rating: 4.5, count: 2 });
     // 2 + 3 + 3 = 8 / 3 = 2.666… → 2.7 (yuqoriga)
     expect(summarizeReviews([makeReview(2), makeReview(3), makeReview(3)])).toEqual({ rating: 2.7, count: 3 });

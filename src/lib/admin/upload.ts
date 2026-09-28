@@ -3,9 +3,9 @@ import { supabase } from '../supabase';
 /*
  * Rasm yuklash.
  *
- * `images` bucket'i 20260816020000 migratsiyasida yaratilgan: ochiq o'qish,
+ * `images` bucketʼi 20260816020000 migratsiyasida yaratilgan: ochiq oʻqish,
  * yozish esa faqat admin uchun (RLS). Ilgari admin panelida faqat "Rasm URL"
- * maydoni bor edi, ya'ni bucket umuman ishlatilmasdi va admin rasmni
+ * maydoni bor edi, yaʼni bucket umuman ishlatilmasdi va admin rasmni
  * qayerdadir alohida joylashtirishi kerak edi.
  */
 
@@ -40,17 +40,17 @@ function safeName(name: string, ext: string): string {
  * Yuklashdan OLDIN siqish.
  *
  * Nega bu eng muhim optimizatsiya:
- * telefondan olingan surat odatda 3–5 MB va 4000px kenglikda bo'ladi.
- * Saytda esa u eng kattasi 1200px joyda ko'rsatiladi. Ya'ni mijoz
- * mobil internetda o'nlab barobar ortiqcha trafik yuklaydi.
+ * telefondan olingan surat odatda 3–5 MB va 4000px kenglikda boʻladi.
+ * Saytda esa u eng kattasi 1200px joyda koʻrsatiladi. Yaʼni mijoz
+ * mobil internetda oʻnlab barobar ortiqcha trafik yuklaydi.
  *
- * Brauzerdagi canvas orqali o'lchamni kamaytirib, WebP'ga o'giramiz —
+ * Brauzerdagi canvas orqali oʻlchamni kamaytirib, WebPʼga oʻgiramiz —
  * bu odatda hajmni 70–85% ga qisqartiradi. Supabase'ning server
  * tomonidagi rasm transformatsiyasi Pro tarifni talab qiladi, bu yechim
- * esa HAR QANDAY tarifda ishlaydi va hech narsa qo'shimcha to'lanmaydi.
+ * esa HAR QANDAY tarifda ishlaydi va hech narsa qoʻshimcha toʻlanmaydi.
  */
-const MAX_DIMENSION = 1600; // saytdagi eng katta ko'rsatish joyidan ~1.3×
-const WEBP_QUALITY = 0.82; // ko'z ilg'amaydigan yo'qotish, sezilarli yutuq
+const MAX_DIMENSION = 1600; // saytdagi eng katta koʻrsatish joyidan ~1.3×
+const WEBP_QUALITY = 0.82; // koʻz ilgʻamaydigan yoʻqotish, sezilarli yutuq
 
 function canUseCanvas(): boolean {
   return typeof document !== 'undefined' && typeof HTMLCanvasElement !== 'undefined';
@@ -73,18 +73,18 @@ async function loadBitmap(file: File): Promise<ImageBitmap | HTMLImageElement> {
       img.src = url;
     });
   } finally {
-    // `img.src` allaqachon o'qilgan; URL'ni bo'shatamiz.
+    // `img.src` allaqachon oʻqilgan; URLʼni boʻshatamiz.
     setTimeout(() => URL.revokeObjectURL(url), 0);
   }
 }
 
 /**
- * Rasmni kichraytirib WebP'ga o'giradi.
- * Muvaffaqiyatsiz bo'lsa yoki foyda bermasa — ASL faylni qaytaradi.
- * Ya'ni bu qadam hech qachon yuklashni buzmaydi.
+ * Rasmni kichraytirib WebPʼga oʻgiradi.
+ * Muvaffaqiyatsiz boʻlsa yoki foyda bermasa — ASL faylni qaytaradi.
+ * Yaʼni bu qadam hech qachon yuklashni buzmaydi.
  */
 export async function compressImage(file: File): Promise<{ file: File; savedBytes: number }> {
-  // Animatsiyali GIF canvas orqali o'tkazilsa harakati yo'qoladi — tegmaymiz.
+  // Animatsiyali GIF canvas orqali oʻtkazilsa harakati yoʻqoladi — tegmaymiz.
   if (file.type === 'image/gif' || !canUseCanvas()) return { file, savedBytes: 0 };
 
   try {
@@ -109,9 +109,9 @@ export async function compressImage(file: File): Promise<{ file: File; savedByte
       canvas.toBlob(resolve, 'image/webp', WEBP_QUALITY)
     );
 
-    // WebP qo'llab-quvvatlanmasa `toBlob` null yoki PNG qaytaradi.
+    // WebP qoʻllab-quvvatlanmasa `toBlob` null yoki PNG qaytaradi.
     if (!blob || blob.type !== 'image/webp') return { file, savedBytes: 0 };
-    // Siqilgan variant kattaroq bo'lsa (masalan allaqachon optimallashgan
+    // Siqilgan variant kattaroq boʻlsa (masalan allaqachon optimallashgan
     // kichik rasm) — asl faylni qoldiramiz.
     if (blob.size >= file.size) return { file, savedBytes: 0 };
 
@@ -146,8 +146,8 @@ export async function uploadImage(file: File, folder = 'products'): Promise<Uplo
 }
 
 /**
- * Bucket'dan faylni o'chiradi. URL bizning bucket'imizga tegishli
- * bo'lmasa (masalan tashqi havola) hech narsa qilinmaydi.
+ * Bucketʼdan faylni oʻchiradi. URL bizning bucketʼimizga tegishli
+ * boʻlmasa (masalan tashqi havola) hech narsa qilinmaydi.
  */
 export async function deleteImageByUrl(url: string): Promise<void> {
   const marker = `/storage/v1/object/public/${BUCKET}/`;

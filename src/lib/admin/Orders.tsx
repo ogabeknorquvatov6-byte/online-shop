@@ -32,17 +32,17 @@ export function AdminOrders() {
   /*
    * Qidiruv va filtr SERVERDA — `AdminProducts` dagi naqsh bilan bir xil.
    *
-   * ILGARI NIMA XATO EDI. So'rov `.limit(200)` bilan cheklangan, qidiruv
+   * ILGARI NIMA XATO EDI. Soʻrov `.limit(200)` bilan cheklangan, qidiruv
    * esa brauzerda `Array.filter` orqali bajarilardi. Bu shunchaki sekin
-   * emas — JIMGINA NOTO'G'RI edi: 201-buyurtma admin uchun UMUMAN
-   * mavjud emasdek ko'rinardi. Sahifalash ham, "yana yuklash" tugmasi
-   * ham yo'q, hech qanday ogohlantirish ham yo'q. Admin buyurtma
-   * yo'qolgan deb o'ylardi — do'kon uchun bu eng yomon xatolardan biri.
+   * emas — JIMGINA NOTOʻGʻRI edi: 201-buyurtma admin uchun UMUMAN
+   * mavjud emasdek koʻrinardi. Sahifalash ham, "yana yuklash" tugmasi
+   * ham yoʻq, hech qanday ogohlantirish ham yoʻq. Admin buyurtma
+   * yoʻqolgan deb oʻylardi — doʻkon uchun bu eng yomon xatolardan biri.
    */
   const debouncedSearch = useDebounced(search);
 
-  // Filtr o'zgarsa 1-sahifaga qaytamiz: aks holda 5-sahifadagi admin
-  // filtrni torroq qilganda bo'sh ro'yxat ko'rardi.
+  // Filtr oʻzgarsa 1-sahifaga qaytamiz: aks holda 5-sahifadagi admin
+  // filtrni torroq qilganda boʻsh roʻyxat koʻrardi.
   useEffect(() => { setPage(1); }, [debouncedSearch, statusFilter]);
 
   const load = useCallback(() => {
@@ -56,7 +56,7 @@ export function AdminOrders() {
       const term = sanitizeOrFilterTerm(debouncedSearch);
       if (term) {
         // Foydalanuvchi matni `.or()` sintaksisini buzmasligi uchun
-        // tozalanadi (`,` va `(` filtrni butunlay o'zgartirib yuborardi).
+        // tozalanadi (`,` va `(` filtrni butunlay oʻzgartirib yuborardi).
         query = query.or(`order_number.ilike.%${term}%,customer_name.ilike.%${term}%,phone.ilike.%${term}%`);
       }
       if (statusFilter !== 'all') query = query.eq('status', statusFilter);
@@ -104,8 +104,8 @@ export function AdminOrders() {
   };
 
   /*
-   * Mijoz tomonidagi `filter` OLIB TASHLANDI — u endi noto'g'ri bo'lardi:
-   * brauzerda faqat BITTA sahifa bor, ya'ni filtrlash natijani yana
+   * Mijoz tomonidagi `filter` OLIB TASHLANDI — u endi notoʻgʻri boʻlardi:
+   * brauzerda faqat BITTA sahifa bor, yaʼni filtrlash natijani yana
    * qisqartirib, boshqa sahifalardagi mos buyurtmalarni yashirardi.
    * Qidiruv va status filtri yuqorida serverga berilgan.
    */

@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { matchRoute, normalizePathname, isPrivateRoute, INDEXABLE_STATIC_PATHS } from '../routes';
 
 /*
- * Marshrut jadvali — butun ilovaning kirish nuqtasi. Bu yerda xato bo'lsa
- * foydalanuvchi "404" yoki umuman boshqa sahifani ko'radi, shuning uchun
+ * Marshrut jadvali — butun ilovaning kirish nuqtasi. Bu yerda xato boʻlsa
+ * foydalanuvchi "404" yoki umuman boshqa sahifani koʻradi, shuning uchun
  * u eng katta test qamroviga loyiq.
  */
 
@@ -11,7 +11,7 @@ describe('normalizePathname', () => {
   it('bir xil sahifaning turli yozilishlarini birlashtiradi', () => {
     // Oxirgi `/`, takroriy `/` va bosh `/` siz yozuv — hammasi bitta sahifa.
     // Aks holda `/catalog` va `/catalog/` qidiruv tizimi uchun IKKITA
-    // alohida (takroriy mazmunli) manzil bo'lib ko'rinadi.
+    // alohida (takroriy mazmunli) manzil boʻlib koʻrinadi.
     expect(normalizePathname('/catalog/')).toBe('/catalog');
     expect(normalizePathname('catalog')).toBe('/catalog');
     expect(normalizePathname('//catalog//')).toBe('/catalog');
@@ -43,8 +43,8 @@ describe('matchRoute', () => {
   });
 
   it('kodlangan slugni dekodlaydi', () => {
-    // Kirill yoki bo'shliqli slug manzilda `%D0%B0` ko'rinishida keladi;
-    // bazaga so'rov esa asl matn bilan yuborilishi kerak.
+    // Kirill yoki boʻshliqli slug manzilda `%D0%B0` koʻrinishida keladi;
+    // bazaga soʻrov esa asl matn bilan yuborilishi kerak.
     expect(matchRoute('/category/maishiy%20texnika')).toEqual({ name: 'category', slug: 'maishiy texnika' });
   });
 
@@ -52,7 +52,7 @@ describe('matchRoute', () => {
     /*
      * `decodeURIComponent('%E0%A4%A')` `URIError` otadi. Marshrut tanlash
      * render paytida bajarilgani uchun bu butun React daraxtini yiqitib,
-     * xatolik ekranini chiqarardi — ya'ni manzil qatoriga qo'lda buzuq
+     * xatolik ekranini chiqarardi — yaʼni manzil qatoriga qoʻlda buzuq
      * havola yozgan har qanday odam saytni ishdan chiqara olardi.
      */
     expect(() => matchRoute('/product/%E0%A4%A')).not.toThrow();
@@ -68,8 +68,8 @@ describe('matchRoute', () => {
   });
 
   it('`/register` eski havolalari kirish sahifasiga tushadi', () => {
-    // Ro'yxatdan o'tish Telegram bot orqali. Eski havolalar (bot xabarlari,
-    // xatcho'plar) 404 bermasligi kerak.
+    // Roʻyxatdan oʻtish Telegram bot orqali. Eski havolalar (bot xabarlari,
+    // xatchoʻplar) 404 bermasligi kerak.
     expect(matchRoute('/register')).toEqual({ name: 'login' });
     expect(matchRoute('/login')).toEqual({ name: 'login' });
   });
@@ -77,16 +77,16 @@ describe('matchRoute', () => {
   it('hisob boʻlimlari faqat maʼlum tab nomlarini qabul qiladi', () => {
     expect(matchRoute('/account')).toEqual({ name: 'account', tab: 'profile' });
     expect(matchRoute('/account/orders')).toEqual({ name: 'account', tab: 'orders' });
-    // Noma'lum tab — jim turib "profil"ga tushirish emas, ochiq 404.
+    // Nomaʼlum tab — jim turib "profil"ga tushirish emas, ochiq 404.
     // Aks holda `/account/ordrs` xatosi hech qachon sezilmasdi.
     expect(matchRoute('/account/ordrs')).toEqual({ name: 'notFound' });
   });
 
   it('bitta buyurtmaga chuqur havola', () => {
     /*
-     * Ilgari uchinchi bo'lak JIMGINA tashlab yuborilardi: `matchRoute`
-     * faqat `segments[1]` ni o'qir edi. Natijada `/account/orders/<id>`
-     * oddiy ro'yxatga tushar, chuqur havola ham, brauzer "orqaga"
+     * Ilgari uchinchi boʻlak JIMGINA tashlab yuborilardi: `matchRoute`
+     * faqat `segments[1]` ni oʻqir edi. Natijada `/account/orders/<id>`
+     * oddiy roʻyxatga tushar, chuqur havola ham, brauzer "orqaga"
      * tugmasi ham buyurtmani ocholmasdi.
      */
     expect(matchRoute('/account/orders/abc-123')).toEqual({
@@ -100,10 +100,10 @@ describe('matchRoute', () => {
       tab: 'orders',
       orderId: 'a b',
     });
-    // Uchinchi bo'lak FAQAT `orders` da ma'noga ega — boshqa joyda 404.
+    // Uchinchi boʻlak FAQAT `orders` da maʼnoga ega — boshqa joyda 404.
     expect(matchRoute('/account/profile/abc')).toEqual({ name: 'notFound' });
     expect(matchRoute('/account/settings/abc')).toEqual({ name: 'notFound' });
-    // Buyurtmasiz manzilda kalit umuman paydo bo'lmasin.
+    // Buyurtmasiz manzilda kalit umuman paydo boʻlmasin.
     expect(matchRoute('/account/orders')).not.toHaveProperty('orderId');
   });
 
@@ -121,7 +121,7 @@ describe('matchRoute', () => {
 
   it('ortiqcha boʻlakli manzil 404 beradi', () => {
     // `/catalog/anything` avval ham `/catalog` deb qabul qilinardi:
-    // istalgan axlat manzil haqiqiy sahifa bo'lib ko'rinar, natijada
+    // istalgan axlat manzil haqiqiy sahifa boʻlib koʻrinar, natijada
     // qidiruv tizimi cheksiz dublikat indekslashi mumkin edi.
     expect(matchRoute('/catalog/extra')).toEqual({ name: 'notFound' });
     expect(matchRoute('/cart/extra')).toEqual({ name: 'notFound' });
@@ -152,7 +152,7 @@ describe('isPrivateRoute', () => {
 
 describe('INDEXABLE_STATIC_PATHS', () => {
   it('har bir manzil haqiqiy marshrutga olib boradi', () => {
-    // Sitemap'da 404 beradigan manzil bo'lishi — SEO'da jiddiy xato.
+    // Sitemapʼda 404 beradigan manzil boʻlishi — SEOʻda jiddiy xato.
     for (const path of INDEXABLE_STATIC_PATHS) {
       const route = matchRoute(path);
       expect(route.name, `sitemap manzili buzuq: ${path}`).not.toBe('notFound');

@@ -29,9 +29,9 @@ const PAGE_STEP = 8;
 const PROMO_LIMIT = 12;
 const TRENDING_LIMIT = 12;
 
-/* ── "Yana ko'rish" bilan ishlaydigan ro'yxat ────────────────────────
- * Bo'lim boshida PAGE_FIRST ta mahsulot, keyin har bosishda PAGE_STEP ta
- * qo'shiladi. Mavjud mahsulotlar tugaganda tugma yo'qoladi.
+/* ── "Yana koʻrish" bilan ishlaydigan roʻyxat ────────────────────────
+ * Boʻlim boshida PAGE_FIRST ta mahsulot, keyin har bosishda PAGE_STEP ta
+ * qoʻshiladi. Mavjud mahsulotlar tugaganda tugma yoʻqoladi.
  */
 function useIncrementalProducts(orderColumn: 'sales_count' | 'created_at') {
   const [products, setProducts] = useState<Product[]>([]);
@@ -113,17 +113,17 @@ export function HomePage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [promoProducts, setPromoProducts] = useState<Product[]>([]);
   /*
-   * "Hozir trendda" — HAQIQIY `products.view_count` bo'yicha.
+   * "Hozir trendda" — HAQIQIY `products.view_count` boʻyicha.
    *
-   * Nega "Bugun" emas? Chunki bunday ma'lumot yo'q: `view_count` —
+   * Nega "Bugun" emas? Chunki bunday maʼlumot yoʻq: `view_count` —
    * umrbod hisoblagich (migratsiya `20260816030000`), unda vaqt belgisi
-   * yo'q, `best_selling_products()` esa butun tarix bo'yicha yig'adi.
-   * Sarlavhada "bugun" deyish — o'ylab topilgan da'vo bo'lardi, shuning
-   * uchun bo'lim ko'rilishlar bo'yicha nomlanadi va shunday nomlanadi.
+   * yoʻq, `best_selling_products()` esa butun tarix boʻyicha yigʻadi.
+   * Sarlavhada "bugun" deyish — oʻylab topilgan daʼvo boʻlardi, shuning
+   * uchun boʻlim koʻrilishlar boʻyicha nomlanadi va shunday nomlanadi.
    *
-   * `.gt('view_count', 0)` MUHIM: hech kim hech narsa ko'rmagan do'konda
-   * "trend" tartibi tasodifiy bo'lardi. Bunday holda so'rov bo'sh qaytadi
-   * va bo'lim umuman chizilmaydi — ya'ni signal bo'lmasa, da'vo ham yo'q.
+   * `.gt('view_count', 0)` MUHIM: hech kim hech narsa koʻrmagan doʻkonda
+   * "trend" tartibi tasodifiy boʻlardi. Bunday holda soʻrov boʻsh qaytadi
+   * va boʻlim umuman chizilmaydi — yaʼni signal boʻlmasa, daʼvo ham yoʻq.
    */
   const [trending, setTrending] = useState<Product[]>([]);
   const [activePromo, setActivePromo] = useState<Promotion | null>(null);
@@ -142,7 +142,7 @@ export function HomePage() {
   });
 
   /*
-   * Organization + WebSite strukturaviy ma'lumoti FAQAT bosh sahifada.
+   * Organization + WebSite strukturaviy maʼlumoti FAQAT bosh sahifada.
    * Uni har bir sahifada takrorlash Google uchun foyda bermaydi, lekin
    * har bir sahifada ortiqcha JSON-LD bloki hosil qiladi.
    */
@@ -180,8 +180,8 @@ export function HomePage() {
         setBanners((b ?? []).map(adaptBanner));
         setCategories(cats);
 
-        // Trend bo'limi chegirma xaritasidan mustaqil — u aksiya narxini
-        // emas, e'tiborni ko'rsatadi. Narxlar odatdagidek adapterdan keladi.
+        // Trend boʻlimi chegirma xaritasidan mustaqil — u aksiya narxini
+        // emas, eʼtiborni koʻrsatadi. Narxlar odatdagidek adapterdan keladi.
         setTrending(adaptProducts(trendingRes.data ?? [], {}));
 
         const now = Date.now();
@@ -216,8 +216,8 @@ export function HomePage() {
 
   /*
    * Menyudan «Aksiya» / «Xit» / «Yangi» bosilganda bu yerga kelinadi.
-   * Kontent yuklanib bo'lgandan keyin scroll qilamiz — aks holda bo'lim
-   * balandligi hali 0 bo'lib, noto'g'ri joyga sakrab tushardi.
+   * Kontent yuklanib boʻlgandan keyin scroll qilamiz — aks holda boʻlim
+   * balandligi hali 0 boʻlib, notoʻgʻri joyga sakrab tushardi.
    */
   useEffect(() => {
     if (loading) return;
@@ -270,7 +270,7 @@ export function HomePage() {
           className={cx(
             'w-full rounded-surface',
             'h-[clamp(21rem,64vw+5rem,26rem)] tab:h-[clamp(24rem,42vw+6rem,30rem)] lg:h-[clamp(28rem,34vw+8rem,34rem)]',
-            // `lg:max-h-[62vh]` HeroShowcase bilan bir xil bo'lishi shart —
+            // `lg:max-h-[62vh]` HeroShowcase bilan bir xil boʻlishi shart —
             // aks holda yuklanish tugagach past ekranlarda sahifa sakraydi.
             'lg:max-h-[62vh]',
             skeleton
@@ -280,10 +280,10 @@ export function HomePage() {
         <HeroShowcase banners={banners} />
       ) : (
         /*
-         * Banner yo'q bo'lsa ilgari bu yerda UMUMAN hech narsa
-         * chizilmasdi va bosh sahifa to'g'ridan-to'g'ri kategoriya
-         * lentasidan boshlanardi — yangi yoki sozlanmagan do'kon
-         * birinchi ekranda bo'm-bo'sh ko'rinardi. Endi do'kon o'z
+         * Banner yoʻq boʻlsa ilgari bu yerda UMUMAN hech narsa
+         * chizilmasdi va bosh sahifa toʻgʻridan-toʻgʻri kategoriya
+         * lentasidan boshlanardi — yangi yoki sozlanmagan doʻkon
+         * birinchi ekranda boʻm-boʻsh koʻrinardi. Endi doʻkon oʻz
          * nomi va taklifi bilan ochiladi; rasm talab qilinmaydi,
          * shuning uchun u har doim ishlaydi.
          */
@@ -301,9 +301,9 @@ export function HomePage() {
                 to={`/category/${c.slug}`}
                 /*
                   Bosishga javob — sensorli qurilmada bu yagona qaytar
-                  aloqa (hover yo'q). CSS `active:` yetarli: JS kerak emas,
+                  aloqa (hover yoʻq). CSS `active:` yetarli: JS kerak emas,
                   `prefers-reduced-motion` esa global qoida bilan
-                  o'tish vaqtini nolga tushiradi.
+                  oʻtish vaqtini nolga tushiradi.
                 */
                 className={cx(
                   'flex w-[4.25rem] shrink-0 flex-col items-center gap-1.5 rounded-control',
@@ -342,7 +342,7 @@ export function HomePage() {
                   'group flex items-center gap-2.5 p-2.5 transition-[border-color,box-shadow] hover:border-ink-300 hover:shadow-card',
                   // Planshetda kartalar vertikal — kengroq ikonka va
                   // markazlashgan matn. `lg` da yana ixcham gorizontal
-                  // ko'rinishga qaytadi, chunki u yerda 6–8 ustun bor.
+                  // koʻrinishga qaytadi, chunki u yerda 6–8 ustun bor.
                   'tab:flex-col tab:items-center tab:gap-2 tab:p-4 lg:flex-row lg:items-center lg:gap-2.5 lg:p-2.5',
                   'transition-transform duration-150 ease-standard active:scale-[0.97]',
                   focusRing
@@ -453,21 +453,21 @@ export function HomePage() {
 
 
 /**
- * Banner bo'lmaganda ko'rsatiladigan hero.
+ * Banner boʻlmaganda koʻrsatiladigan hero.
  *
- * Ataylab RASMSIZ: do'kon hali sozlanmagan bo'lishi mumkin, shuning uchun
- * bu blok hech qanday yuklangan kontentga bog'liq emas va har doim
+ * Ataylab RASMSIZ: doʻkon hali sozlanmagan boʻlishi mumkin, shuning uchun
+ * bu blok hech qanday yuklangan kontentga bogʻliq emas va har doim
  * ishlaydi. Fon — bitta CSS gradient (rasm ham, blur ham, zarracha effekt
- * ham yo'q), shuning uchun u o'rta darajali telefonda ham tekin.
+ * ham yoʻq), shuning uchun u oʻrta darajali telefonda ham tekin.
  *
- * Ranglar mavjud identikadan: to'q neytral yuza (`ink-900` — aynan aksiya
- * bo'limidagi kabi) va yagona brend urg'usi (to'q sariq).
+ * Ranglar mavjud identikadan: toʻq neytral yuza (`ink-900` — aynan aksiya
+ * boʻlimidagi kabi) va yagona brend urgʻusi (toʻq sariq).
  */
 function FallbackHero({ storeName }: { storeName: string }) {
   const reduce = useReducedMotion();
   /*
    * Kirish xoreografiyasi — STORY darajasi, lekin mazmun KUTMAYDI:
-   * har bir qator o'z joyida turadi va faqat ustidan yumshoq
+   * har bir qator oʻz joyida turadi va faqat ustidan yumshoq
    * ochiladi. Kechikishlar kichik (0.06s qadam), shuning uchun
    * butun ketma-ketlik ~0.35s ichida tugaydi.
    */
@@ -535,13 +535,13 @@ function FallbackHero({ storeName }: { storeName: string }) {
   );
 }
 
-/* ── Aksiya bo'limi ──────────────────────────────────────────────── */
+/* ── Aksiya boʻlimi ──────────────────────────────────────────────── */
 
 /**
- * Aksiya bo'limi qolgan bo'limlardan vizual jihatdan ajralib turishi kerak,
- * lekin YANGI rang kiritmasdan: to'q neytral fon + mavjud brend to'q sariq
- * urg'usi. Shu bilan u "boshqa sayt"dek emas, xuddi shu saytning kuchaytirilgan
- * bloki bo'lib ko'rinadi.
+ * Aksiya boʻlimi qolgan boʻlimlardan vizual jihatdan ajralib turishi kerak,
+ * lekin YANGI rang kiritmasdan: toʻq neytral fon + mavjud brend toʻq sariq
+ * urgʻusi. Shu bilan u "boshqa sayt"dek emas, xuddi shu saytning kuchaytirilgan
+ * bloki boʻlib koʻrinadi.
  */
 function PromoSection({
   promo, products, highlighted, onExpire,
@@ -619,7 +619,7 @@ function PromoSection({
   );
 }
 
-/* ── "Yana ko'rish" bo'limi ──────────────────────────────────────── */
+/* ── "Yana koʻrish" boʻlimi ──────────────────────────────────────── */
 
 function LoadMoreSection({
   id, eyebrow, eyebrowIcon, title, subtitle, state, seeAllHref, highlighted,

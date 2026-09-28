@@ -12,14 +12,14 @@ import type { Category } from '../types';
 
 /*
  * Kategoriya daraxti — katalogning butun navigatsiyasi shu utilitalarga
- * tayanadi (desktop mega-menyu, mobil drill-down, admin ro'yxati va
+ * tayanadi (desktop mega-menyu, mobil drill-down, admin roʻyxati va
  * eng muhimi: ota-kategoriya sahifasida qaysi mahsulotlar chiqishi).
  *
  * Bu yerda ATAYLAB chegaraviy holatlar tekshiriladi — yetim tugun,
- * halqa, o'zini ota qilib olgan tugun. Ularning hammasi haqiqiy
- * bazada bo'lishi mumkin (admin ota-kategoriyani o'chirsa yoki
- * noto'g'ri ko'chirsa) va ularning har biri ilova butunlay oq ekran
- * bo'lib qolishiga olib kelishi mumkin edi.
+ * halqa, oʻzini ota qilib olgan tugun. Ularning hammasi haqiqiy
+ * bazada boʻlishi mumkin (admin ota-kategoriyani oʻchirsa yoki
+ * notoʻgʻri koʻchirsa) va ularning har biri ilova butunlay oq ekran
+ * boʻlib qolishiga olib kelishi mumkin edi.
  */
 
 let seq = 0;
@@ -68,9 +68,9 @@ describe('buildCategoryTree', () => {
   });
 
   /*
-   * Yetim tugun — admin ota-kategoriyani o'chirganda yuzaga keladi.
-   * Bola YO'QOLMASLIGI kerak, aks holda mahsulotlari bilan birga
-   * butun shoxcha saytdan jimgina g'oyib bo'lardi.
+   * Yetim tugun — admin ota-kategoriyani oʻchirganda yuzaga keladi.
+   * Bola YOʻQOLMASLIGI kerak, aks holda mahsulotlari bilan birga
+   * butun shoxcha saytdan jimgina gʻoyib boʻlardi.
    */
   it('promotes orphans to root instead of dropping them', () => {
     const tree = buildCategoryTree([cat('Lost', 'id-DoesNotExist')]);
@@ -143,9 +143,9 @@ describe('hasNesting', () => {
 
 /*
  * Bu blok eng muhimi: ota-kategoriya sahifasida mahsulotlar
- * ko'rinishi aynan shunga bog'liq. Mahsulot faqat BARG kategoriyaga
- * biriktiriladi, shuning uchun ota `category_id` bo'yicha aniq moslik
- * bilan qidirilsa, sahifa bo'sh chiqadi.
+ * koʻrinishi aynan shunga bogʻliq. Mahsulot faqat BARG kategoriyaga
+ * biriktiriladi, shuning uchun ota `category_id` boʻyicha aniq moslik
+ * bilan qidirilsa, sahifa boʻsh chiqadi.
  */
 describe('expandWithDescendants', () => {
   const rows = [
@@ -182,7 +182,7 @@ describe('expandWithDescendants', () => {
   });
 
   it('keeps an unknown id so the query narrows instead of widening', () => {
-    // Xavfsizlik: noma'lum id "hammasini ko'rsat" ga aylanmasligi kerak.
+    // Xavfsizlik: nomaʼlum id "hammasini koʻrsat" ga aylanmasligi kerak.
     expect(expandWithDescendants(tree, ['ghost'])).toEqual(['ghost']);
   });
 
@@ -195,10 +195,10 @@ describe('expandWithDescendants', () => {
  * KETMA-KET TANLOVCHILAR (`categoryLevels`).
  *
  * Bu mantiq admin mahsulotga kategoriya biriktirayotganda ishlaydi va
- * uni brauzerda sinash mumkin emas: hozirgi bazada ierarxiya yo'q
- * (hamma kategoriya ildiz), ya'ni ikkinchi tanlovchi UMUMAN
+ * uni brauzerda sinash mumkin emas: hozirgi bazada ierarxiya yoʻq
+ * (hamma kategoriya ildiz), yaʼni ikkinchi tanlovchi UMUMAN
  * chizilmaydi. Shuning uchun chuqurlik shu yerda — sintetik daraxtda —
- * qo'riqlanadi.
+ * qoʻriqlanadi.
  */
 describe('categoryLevels', () => {
   //  Telefonlar ─┬─ Telefon ──┬─ Flagman
@@ -227,7 +227,7 @@ describe('categoryLevels', () => {
     const { levels, isLeaf } = categoryLevels(nested(), 'id-Telefonlar');
     expect(levels).toHaveLength(2);
     expect(levels[1].map((n) => n.name)).toEqual(['Telefon', 'Planshet']);
-    // Hali yakuniy emas — ichida bo'limlar bor.
+    // Hali yakuniy emas — ichida boʻlimlar bor.
     expect(isLeaf).toBe(false);
   });
 
@@ -238,7 +238,7 @@ describe('categoryLevels', () => {
     expect(trail.map((n) => n.name)).toEqual(['Telefonlar', 'Telefon']);
   });
 
-  /* Barg tanlanganda ORTIQCHA bo'sh tanlovchi chiqmasligi kerak. */
+  /* Barg tanlanganda ORTIQCHA boʻsh tanlovchi chiqmasligi kerak. */
   it('barg tanlansa — ortiqcha boʻsh tanlovchi qoʻshilmaydi', () => {
     const { levels, isLeaf, trail } = categoryLevels(nested(), 'id-Flagman');
     expect(levels).toHaveLength(3);
@@ -254,11 +254,11 @@ describe('categoryLevels', () => {
   });
 
   /*
-   * ENG MUHIM HOLAT. Ro'yxat faqat FAOL kategoriyalarni oladi, ya'ni
-   * mahsulot nofaol qilingan kategoriyaga biriktirilgan bo'lsa id
-   * daraxtda topilmaydi. Bu jimgina o'tib ketsa, admin
-   * "biriktirilmagan" deb o'ylab saqlaydi va eski bog'lanish
-   * ko'rinmas holda saqlanib qolaveradi.
+   * ENG MUHIM HOLAT. Roʻyxat faqat FAOL kategoriyalarni oladi, yaʼni
+   * mahsulot nofaol qilingan kategoriyaga biriktirilgan boʻlsa id
+   * daraxtda topilmaydi. Bu jimgina oʻtib ketsa, admin
+   * "biriktirilmagan" deb oʻylab saqlaydi va eski bogʻlanish
+   * koʻrinmas holda saqlanib qolaveradi.
    */
   it('daraxtda yoʻq id — `orphaned` bayrogʻini koʻtaradi', () => {
     const { orphaned, trail, levels } = categoryLevels(nested(), 'id-Ochirilgan');

@@ -11,49 +11,49 @@ import { cx, focusRing, input, skeleton } from './design';
 import { Img } from './Img';
 
 /*
- * MOBIL KATALOG — to'liq ekranli ierarxik navigatsiya.
+ * MOBIL KATALOG — toʻliq ekranli ierarxik navigatsiya.
  *
  * Bu desktop mega-menyuning kichraytirilgan nusxasi EMAS. Telefonda
- * uch ustunli menyu o'qilmaydi, shuning uchun bu yerda boshqa shakl
+ * uch ustunli menyu oʻqilmaydi, shuning uchun bu yerda boshqa shakl
  * tanlangan: bitta ustun + darajama-daraja kirib borish.
  *
- * MA'LUMOT BIR XIL. Ikkala yuza ham `useCategoryTree()` dan oziqlanadi,
- * ya'ni admin qo'shgan kategoriya ikkalasida ham bir vaqtda paydo
- * bo'ladi. Faqat TAQDIMOT farq qiladi.
+ * MAʼLUMOT BIR XIL. Ikkala yuza ham `useCategoryTree()` dan oziqlanadi,
+ * yaʼni admin qoʻshgan kategoriya ikkalasida ham bir vaqtda paydo
+ * boʻladi. Faqat TAQDIMOT farq qiladi.
  *
  * Daraja almashishi BROWSER TARIXINI ifloslantirmaydi: bu navigatsiya
- * UI'si, marshrut emas. Foydalanuvchi "orqaga" tugmasini bosganda
- * do'kondan chiqib ketmasligi kerak. Marshrutga o'tish faqat oxirgi
- * bosqichda — kategoriya tanlanganda — sodir bo'ladi.
+ * UIʼsi, marshrut emas. Foydalanuvchi "orqaga" tugmasini bosganda
+ * doʻkondan chiqib ketmasligi kerak. Marshrutga oʻtish faqat oxirgi
+ * bosqichda — kategoriya tanlanganda — sodir boʻladi.
  *
  * Hayot sikli `AnimatedDrawer` dan meros: `useIsPresent()` tufayli
- * scroll qulfi, fokus tuzog'i va Escape chiqish animatsiyasini KUTMAYDI.
+ * scroll qulfi, fokus tuzogʻi va Escape chiqish animatsiyasini KUTMAYDI.
  */
 
 /*
- * CHIQAYOTGAN RO'YXAT BOSISHNI YUTIB QOLMASIN.
+ * CHIQAYOTGAN ROʻYXAT BOSISHNI YUTIB QOLMASIN.
  *
- * `popLayout` chiqayotgan ro'yxatni `position: absolute` ga o'tkazadi
- * va u yangisining USTIDA qoladi. O'lchandi: `opacity: 0` bo'lsa ham
- * `elementFromPoint` aynan o'sha ko'rinmas ro'yxatni qaytardi — ya'ni
- * tez bosayotgan foydalanuvchining bosishi "yo'qolardi".
+ * `popLayout` chiqayotgan roʻyxatni `position: absolute` ga oʻtkazadi
+ * va u yangisining USTIDA qoladi. Oʻlchandi: `opacity: 0` boʻlsa ham
+ * `elementFromPoint` aynan oʻsha koʻrinmas roʻyxatni qaytardi — yaʼni
+ * tez bosayotgan foydalanuvchining bosishi "yoʻqolardi".
  *
  * NEGA `useIsPresent()`, NEGA `exit={{ pointerEvents: 'none' }}` EMAS.
- * Ikkinchisi himoyani ANIMATSIYAGA bog'laydi: Motion qiymatni faqat
- * birinchi kadrda yozadi. Sahifa fon rejimida bo'lsa kadr umuman
- * kelmaydi (o'lchandi: 1645ms ichida 0 kadr) va himoya ishlamaydi.
- * `useIsPresent()` esa — React holati: u render paytida qo'llanadi va
- * `requestAnimationFrame` ga umuman bog'liq emas.
+ * Ikkinchisi himoyani ANIMATSIYAGA bogʻlaydi: Motion qiymatni faqat
+ * birinchi kadrda yozadi. Sahifa fon rejimida boʻlsa kadr umuman
+ * kelmaydi (oʻlchandi: 1645ms ichida 0 kadr) va himoya ishlamaydi.
+ * `useIsPresent()` esa — React holati: u render paytida qoʻllanadi va
+ * `requestAnimationFrame` ga umuman bogʻliq emas.
  */
 /*
  * `forwardRef` SHART, bezak emas.
  *
- * `popLayout` bolani `PopChildMeasure` ichiga o'raydi va chiqayotgan
- * elementni oqimdan chiqarishdan OLDIN uning o'lchamini ref orqali
- * o'lchaydi. Oddiy funksional komponent ref ni yutib yuboradi (React
+ * `popLayout` bolani `PopChildMeasure` ichiga oʻraydi va chiqayotgan
+ * elementni oqimdan chiqarishdan OLDIN uning oʻlchamini ref orqali
+ * oʻlchaydi. Oddiy funksional komponent ref ni yutib yuboradi (React
  * ogohlantiradi: "Function components cannot be given refs") va u holda
- * `popLayout` ro'yxatni o'lchay olmaydi — chiqayotgan ro'yxat o'z
- * kengligi/joyini saqlamay, ko'z oldida siqilib qoladi.
+ * `popLayout` roʻyxatni oʻlchay olmaydi — chiqayotgan roʻyxat oʻz
+ * kengligi/joyini saqlamay, koʻz oldida siqilib qoladi.
  */
 const NavList = forwardRef<HTMLUListElement, React.ComponentProps<typeof motion.ul>>(
   function NavList({ children, ...rest }, ref) {
@@ -73,23 +73,23 @@ const NavList = forwardRef<HTMLUListElement, React.ComponentProps<typeof motion.
 export function CatalogNavSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { tree, loading } = useCategoryTree();
   const reduce = useReducedMotion();
-  /** Ochilgan darajalar yo'li. Bo'sh = yuqori daraja. */
+  /** Ochilgan darajalar yoʻli. Boʻsh = yuqori daraja. */
   const [stack, setStack] = useState<CategoryNode[]>([]);
   const [query, setQuery] = useState('');
-  /** +1 = ichkariga, −1 = orqaga. Slayd yo'nalishini belgilaydi. */
+  /** +1 = ichkariga, −1 = orqaga. Slayd yoʻnalishini belgilaydi. */
   const [dir, setDir] = useState(1);
 
   /*
    * BREND BOSQICHI — navigatsiyaning oxirgi darajasi.
    *
-   *   Kategoriya → Bo'lim → BREND → Mahsulotlar
+   *   Kategoriya → Boʻlim → BREND → Mahsulotlar
    *
-   * Bo'lim ichida boshqa bo'lim bo'lmasa (barg), mahsulotlarga
-   * TO'G'RIDAN-TO'G'RI o'tilmaydi: avval shu bo'limdagi brendlar
-   * ko'rsatiladi. Brend tanlanganda katalog filtr bilan ochiladi.
+   * Boʻlim ichida boshqa boʻlim boʻlmasa (barg), mahsulotlarga
+   * TOʻGʻRIDAN-TOʻGʻRI oʻtilmaydi: avval shu boʻlimdagi brendlar
+   * koʻrsatiladi. Brend tanlanganda katalog filtr bilan ochiladi.
    *
-   * `brandFor` — brendlari ko'rsatilayotgan bo'lim. `null` bo'lsa
-   * odatdagi kategoriya ro'yxati chiziladi.
+   * `brandFor` — brendlari koʻrsatilayotgan boʻlim. `null` boʻlsa
+   * odatdagi kategoriya roʻyxati chiziladi.
    */
   const [brandFor, setBrandFor] = useState<CategoryNode | null>(null);
   const { brands, loading: brandsLoading } = useCategoryBrands(brandFor, tree);
@@ -115,7 +115,7 @@ export function CatalogNavSheet({ open, onClose }: { open: boolean; onClose: () 
   /**
    * Ichkariga kirish.
    *
-   * Ichki bo'limlari bor tugun → keyingi kategoriya darajasi.
+   * Ichki boʻlimlari bor tugun → keyingi kategoriya darajasi.
    * Barg tugun → BREND bosqichi.
    */
   const enter = (node: CategoryNode) => {
@@ -131,7 +131,7 @@ export function CatalogNavSheet({ open, onClose }: { open: boolean; onClose: () 
     else setStack((s) => s.slice(0, -1));
   };
 
-  /** Sarlavhada ko'rinadigan joriy daraja nomi. */
+  /** Sarlavhada koʻrinadigan joriy daraja nomi. */
   const heading = brandFor ? brandFor.name : current ? current.name : 'Katalog';
   const canGoBack = Boolean(brandFor) || stack.length > 0;
 
@@ -145,9 +145,9 @@ export function CatalogNavSheet({ open, onClose }: { open: boolean; onClose: () 
 
   const sheet = (
     /*
-     * O'ram `AnimatePresence` DAN TASHQARIDA va bosishni qabul qilishi
-     * `open` HOLATIGA bog'langan. Bu — filtr varag'idagi bilan bir xil
-     * qoida: ko'rinmas qatlam hech qachon bosishni yutib qolmasligi
+     * Oʻram `AnimatePresence` DAN TASHQARIDA va bosishni qabul qilishi
+     * `open` HOLATIGA bogʻlangan. Bu — filtr varagʻidagi bilan bir xil
+     * qoida: koʻrinmas qatlam hech qachon bosishni yutib qolmasligi
      * kerak, hatto chiqish animatsiyasi tugamasa ham.
      */
     <div className={cx('fixed inset-0 z-[75] tab:hidden', !open && 'pointer-events-none')}>
@@ -230,29 +230,29 @@ export function CatalogNavSheet({ open, onClose }: { open: boolean; onClose: () 
                 /*
                  * `popLayout`, `wait` EMAS — va bu ikki sababdan MUHIM.
                  *
-                 * 1. TO'G'RILIK. `mode="wait"` da yangi ro'yxat eskisining
+                 * 1. TOʻGʻRILIK. `mode="wait"` da yangi roʻyxat eskisining
                  *    CHIQISH animatsiyasi tugagunicha umuman mount
-                 *    bo'lmaydi. Sahifa fon rejimiga o'tsa brauzer
-                 *    `requestAnimationFrame` ni to'xtatadi (o'lchandi:
-                 *    1645ms ichida 0 kadr) — ya'ni chiqish HECH QACHON
+                 *    boʻlmaydi. Sahifa fon rejimiga oʻtsa brauzer
+                 *    `requestAnimationFrame` ni toʻxtatadi (oʻlchandi:
+                 *    1645ms ichida 0 kadr) — yaʼni chiqish HECH QACHON
                  *    tugamaydi. Natijada sarlavha «Telefonlar» ga
-                 *    o'zgaradi, lekin ostida hamon ESKI ro'yxat turadi.
-                 *    Navigatsiyaning to'g'riligi animatsiyaga bog'lanib
-                 *    qolgan edi; endi bog'lanmagan.
+                 *    oʻzgaradi, lekin ostida hamon ESKI roʻyxat turadi.
+                 *    Navigatsiyaning toʻgʻriligi animatsiyaga bogʻlanib
+                 *    qolgan edi; endi bogʻlanmagan.
                  *
                  * 2. TEZLIK. `wait` da har bosish 300ms chiqish + 300ms
-                 *    kirish = 600ms. To'rt bosqichli yo'lda bu sezilarli
+                 *    kirish = 600ms. Toʻrt bosqichli yoʻlda bu sezilarli
                  *    sustlik. `popLayout` eskisini oqimdan chiqarib,
                  *    ikkalasini BARAVARIGA harakatlantiradi — telefondagi
-                 *    odatiy "push" o'tishi, 300ms.
+                 *    odatiy "push" oʻtishi, 300ms.
                  */
                 <AnimatePresence mode="popLayout" initial={false}>
                   <NavList
                     /*
                      * `key` ga brend bosqichi ham kiradi — aks holda
-                     * kategoriya ro'yxatidan brendlarga o'tishda
+                     * kategoriya roʻyxatidan brendlarga oʻtishda
                      * `AnimatePresence` almashinuvni sezmay qolardi va
-                     * slayd animatsiyasi o'ynamasdi.
+                     * slayd animatsiyasi oʻynamasdi.
                      */
                     key={brandFor ? `brand-${brandFor.id}` : current?.id ?? 'root'}
                     {...slide}
@@ -389,10 +389,10 @@ export function CatalogNavSheet({ open, onClose }: { open: boolean; onClose: () 
   /*
    * PORTAL — `document.body` ga.
    *
-   * Chaqiruvchi (pastki navigatsiya) `transform` qo'llanadigan
-   * elementlarni o'z ichiga oladi; transformlangan ota `position: fixed`
-   * uchun yangi koordinata boshlanishi yaratadi va to'liq ekranli
-   * qatlam noto'g'ri joyga tushib qolardi.
+   * Chaqiruvchi (pastki navigatsiya) `transform` qoʻllanadigan
+   * elementlarni oʻz ichiga oladi; transformlangan ota `position: fixed`
+   * uchun yangi koordinata boshlanishi yaratadi va toʻliq ekranli
+   * qatlam notoʻgʻri joyga tushib qolardi.
    */
   return typeof document === 'undefined' ? null : createPortal(sheet, document.body);
 }
@@ -410,10 +410,10 @@ function CategoryIcon({ node }: { node: CategoryNode }) {
 }
 
 /**
- * Qidiruv natijalari — har biri o'z YO'LI bilan.
+ * Qidiruv natijalari — har biri oʻz YOʻLI bilan.
  *
- * Faqat nom ko'rsatilsa, "Smartfonlar" qaysi bo'limga tegishli ekani
- * noma'lum bo'lardi. Yo'l ("Telefonlar → Smartfonlar") buni hal qiladi.
+ * Faqat nom koʻrsatilsa, "Smartfonlar" qaysi boʻlimga tegishli ekani
+ * nomaʼlum boʻlardi. Yoʻl ("Telefonlar → Smartfonlar") buni hal qiladi.
  */
 function SearchResults({
   results, onPick,

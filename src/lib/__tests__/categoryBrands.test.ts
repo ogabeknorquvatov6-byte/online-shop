@@ -3,12 +3,12 @@ import { countBrands } from '../categoryBrands';
 
 /*
  * Katalog navigatsiyasining oxirgi bosqichi brendlarni SON bilan
- * ko'rsatadi («Apple 3»). Bu son foydalanuvchiga va'da: bosgandan keyin
+ * koʻrsatadi («Apple 3»). Bu son foydalanuvchiga vaʼda: bosgandan keyin
  * shuncha mahsulot chiqishi kerak.
  *
- * Shuning uchun hisoblash aynan shu yerda — so'rovdan ajratilgan, sof
- * funksiyada — sinaladi. Xato son "yo'q mahsulot" ni ko'rsatib qo'yadi
- * va bu o'ylab topilgan ma'lumotdan farq qilmaydi.
+ * Shuning uchun hisoblash aynan shu yerda — soʻrovdan ajratilgan, sof
+ * funksiyada — sinaladi. Xato son "yoʻq mahsulot" ni koʻrsatib qoʻyadi
+ * va bu oʻylab topilgan maʼlumotdan farq qilmaydi.
  */
 
 describe('countBrands', () => {
@@ -25,10 +25,10 @@ describe('countBrands', () => {
   });
 
   /*
-   * ENG MUHIM HOLAT. `products.brand` — erkin matn, ya'ni bazada
+   * ENG MUHIM HOLAT. `products.brand` — erkin matn, yaʼni bazada
    * "Apple" va "apple" yonma-yon turishi mumkin. Ular ikki alohida
-   * brend bo'lib chiqsa, ro'yxat ikki marta "Apple" ko'rsatadi va har
-   * biri sonni YARIM ko'rsatadi.
+   * brend boʻlib chiqsa, roʻyxat ikki marta "Apple" koʻrsatadi va har
+   * biri sonni YARIM koʻrsatadi.
    */
   it('registr dublikatlarini bitta brendga birlashtiradi', () => {
     const out = countBrands(['Apple', 'apple', 'APPLE']);
@@ -46,7 +46,7 @@ describe('countBrands', () => {
     expect(countBrands(['', '   ', 'JBL'])).toEqual([{ name: 'JBL', count: 1 }]);
   });
 
-  /* Ko'p mahsulotli brend yuqorida — foydalanuvchi izlaydigan narsa. */
+  /* Koʻp mahsulotli brend yuqorida — foydalanuvchi izlaydigan narsa. */
   it('son boʻyicha kamayish tartibida saralaydi', () => {
     const out = countBrands(['Honor', 'Apple', 'Apple', 'Apple', 'Xiaomi', 'Xiaomi']);
     expect(out.map((b) => b.name)).toEqual(['Apple', 'Xiaomi', 'Honor']);
@@ -58,8 +58,8 @@ describe('countBrands', () => {
   });
 
   /*
-   * Sonlar yig'indisi kiruvchi ro'yxat uzunligiga TENG bo'lishi kerak:
-   * ya'ni birorta mahsulot yo'qolmaydi va ikki marta hisoblanmaydi.
+   * Sonlar yigʻindisi kiruvchi roʻyxat uzunligiga TENG boʻlishi kerak:
+   * yaʼni birorta mahsulot yoʻqolmaydi va ikki marta hisoblanmaydi.
    */
   it('sonlar yigʻindisi mahsulotlar sonini saqlaydi', () => {
     const raw = ['Apple', 'apple', 'Xiaomi', 'Honor', 'honor', 'Honor'];
