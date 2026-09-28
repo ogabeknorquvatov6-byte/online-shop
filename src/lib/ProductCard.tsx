@@ -1,27 +1,221 @@
 import { Link } from './router';
 import { createPortal } from 'react-dom';
-import { Heart, ShoppingCart, Check, WifiOff, RotateCw, Plus, Star, Eye, TrendingUp } from 'lucide-react';
-import { useRef, useState, type ReactNode } from 'react';
+import {
+  Heart, ShoppingCart, Check, WifiOff, RotateCw, Plus, Minus, Star, Eye, TrendingUp, ChevronRight,
+} from 'lucide-react';
+import { useRef, useState, type ReactNode, type RefObject } from 'react';
 import { motion, AnimatePresence, useMotionValue, useReducedMotion, useSpring } from 'motion/react';
 import type { Product } from './types';
 import { formatPrice, discountPercent, hasSellablePrice } from './types';
 import { useCart } from './cart';
+import { cartItemKey, maxQuantityFor, quantityForProduct } from './cartUtils';
 import { useFavorites } from './favorites';
 import { useToast } from './toast';
+import { AnimatedNumber } from './AnimatedNumber';
 import { AnimatedButton, StaggerGroup, StaggerItem, ResponsiveModal } from './AnimatedPrimitives';
 import { Img } from './Img';
 import { DURATION, EASE, SHINE, TILT, springOptions } from './motion';
-import { button, card, cx, discountBadge, focusRing, glassPanel, skeleton } from './design';
-import { socialProof, stockState } from './productUtils';
+import { button, card, cx, discountBadge, focusRing, skeleton } from './design';
+import { hasSelectableVariants, socialProof, stockState } from './productUtils';
 import { useFlight } from './flightContext';
 
+/*
+ * ── SAVAT AMALI — UCHALA KIRISH NUQTASI UCHUN BITTA KOMPONENT ───────
+ *
+ * Mahsulotni savatga qoʻshish uchta joydan mumkin: grid kartochkasi,
+ * Spotlight va tezkor koʻrish. Ilgari uchalasi ham OʻZ tugmasini
+ * yozgandi va uchalasi ham bir xil ikkita xatoga yoʻl qoʻyardi:
+ *
+ *   1. Variantli mahsulotni VARIANTSIZ qoʻshib yuborardi — savatga
+ *      rangi va xotirasi koʻrsatilmagan pozitsiya tushardi.
+ *   2. "Savatda" yozuvi 1.4 soniya turib yoʻqolardi, yaʼni karta
+ *      savatda nima borligini AYTMASDI — faqat "bosildi" deb
+ *      javob berardi.
+ *
+ * Endi holatlar shu yerda, bitta joyda hal qilinadi va uchalasi ham
+ * bir xil qoidaga boʻysunadi.
+ */
+type CartActionProps = {
+  product: Product;
+  /** Uchish animatsiyasi boshlanadigan element (odatda rasm). */
+  flyFrom?: RefObject<HTMLElement | null>;
+  /** `card` — kartochkadagi 44px (desktopda 36px); `lg` — kengroq joylar. */
+  size?: 'card' | 'lg';
+  /** Boʻsh holatdagi tugma koʻrinishi. Spotlight toʻq fonda — toʻldirilgan. */
+  tone?: 'outline' | 'primary';
+  /** Havolaga oʻtilganda yopilishi kerak boʻlgan oyna (tezkor koʻrish). */
+  onNavigate?: () => void;
+  className?: string;
+};
+
+function CartAction({
+  product, flyFrom, size = 'card', tone = 'outline', onNavigate, className,
+}: CartActionProps) {
+  const { items, addItem, updateQuantity } = useCart();
+  const { notify } = useToast();
+  const fly = useFlight();
+
+  const stock = stockState(product.stock);
+  const purchasable = hasSellablePrice(product.price);
+  const image = product.product_images?.[0]?.image_url;
+
+  /*
+   * Kartadagi son — `quantityForProduct`, yaʼni shu mahsulotning
+   * BARCHA pozitsiyalari yigʻindisi. Aynan shu qiymat savat sahifasida
+   * ham koʻrinadi (u ham bir xil pozitsiyalarni qoʻshadi), shuning
+   * uchun ikkala ekran hech qachon turlicha son koʻrsatmaydi.
+   */
+  const qty = quantityForProduct(items, product.id);
+  const lines = items.filter((i) => i.product.id === product.id);
+  const variants = hasSelectableVariants(product);
+
+  const btnSize = size === 'card' ? 'card' : 'lg';
+  const height = size === 'card' ? 'h-11 xl:h-9' : 'h-12';
+
+  /* ── Sotib boʻlmaydigan holatlar ─────────────────────────────── */
+  if (!purchasable || stock === 'out') {
+    return (
+      <button
+        type="button"
+        disabled
+        className={cx(button('outline', btnSize), 'w-full bg-ink-50 text-ink-500', className)}
+      >
+        {purchasable ? 'Sotuvda yoʻq' : 'Narxi aniqlanmagan'}
+      </button>
+    );
+  }
+
+  /* ── Variantli mahsulot: tanlov mahsulot sahifasida ──────────── */
+  if (variants) {
+    return (
+      <Link
+        to={`/product/${product.slug}`}
+        onClick={onNavigate}
+        className={cx(
+          button(qty > 0 ? 'outline' : tone, btnSize),
+          'relative z-10 w-full',
+          // Savatda bor holatida tugma "yashil xabar"ga aylanadi, lekin
+          // amal oʻsha-oʻsha: variant tanlash uchun sahifaga oʻtish.
+          qty > 0 && 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-50',
+          className
+        )}
+      >
+        {qty > 0 ? (
+          <>
+            <Check className="h-4 w-4 shrink-0" />
+            Savatda · <AnimatedNumber value={qty} className="tabular-nums" />
+          </>
+        ) : (
+          <>
+            Variantni tanlash
+            <ChevronRight className="h-4 w-4 shrink-0" />
+          </>
+        )}
+      </Link>
+    );
+  }
+
+  /* ── Variantsiz, savatda bor: haqiqiy son bilan stepper ──────── */
+  const line = lines.length === 1 ? lines[0] : null;
+  if (qty > 0 && line) {
+    const key = cartItemKey(line);
+    // Chegara XOM `stock` emas: variantning oʻz ombori va serverdagi
+    // 50 donalik chegara ham shu funksiyada hisobga olingan.
+    const max = maxQuantityFor(product, line.variantId);
+    const atMax = qty >= max;
+
+    return (
+      <div
+        role="group"
+        aria-label={`${product.name} — savatda ${qty} dona`}
+        className={cx(
+          'relative z-10 flex items-center overflow-hidden rounded-control border',
+          'border-emerald-200 bg-emerald-50 text-emerald-700',
+          height,
+          className
+        )}
+      >
+        <AnimatedButton
+          sink="flat"
+          type="button"
+          onClick={() => updateQuantity(key, qty - 1)}
+          aria-label={qty === 1 ? 'Savatdan olib tashlash' : 'Bittaga kamaytirish'}
+          className={cx('flex h-full w-11 shrink-0 items-center justify-center', focusRing)}
+        >
+          <Minus className="h-4 w-4" />
+        </AnimatedButton>
+
+        <span className="flex flex-1 items-center justify-center gap-1.5 text-sm font-semibold">
+          <Check className="h-3.5 w-3.5 shrink-0" />
+          <AnimatedNumber value={qty} className="tabular-nums" />
+        </span>
+
+        <AnimatedButton
+          sink="flat"
+          type="button"
+          onClick={() => updateQuantity(key, qty + 1)}
+          disabled={atMax}
+          aria-label="Bittaga koʻpaytirish"
+          className={cx(
+            'flex h-full w-11 shrink-0 items-center justify-center',
+            atMax && 'text-ink-400',
+            focusRing
+          )}
+        >
+          <Plus className="h-4 w-4" />
+        </AnimatedButton>
+      </div>
+    );
+  }
+
+  /* ── Bir nechta pozitsiya (variantsiz mahsulotda kutilmaydi) ──── */
+  if (qty > 0) {
+    return (
+      <Link
+        to="/cart"
+        onClick={onNavigate}
+        className={cx(
+          button('outline', btnSize),
+          'relative z-10 w-full border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-50',
+          className
+        )}
+      >
+        <Check className="h-4 w-4 shrink-0" />
+        Savatda · <AnimatedNumber value={qty} className="tabular-nums" />
+      </Link>
+    );
+  }
+
+  /* ── Boʻsh holat: "Savatga" + uchish animatsiyasi ─────────────── */
+  return (
+    <AnimatedButton
+      sink="flat"
+      type="button"
+      onClick={() => {
+        addItem(product);
+        fly('cart', flyFrom?.current ?? null, image);
+        notify(`${product.name} savatga qoʻshildi`, 'success');
+      }}
+      aria-label={`${product.name} — savatga qoʻshish`}
+      className={cx(
+        'relative z-10 w-full',
+        button(tone, btnSize),
+        // Tugmaning qalinligi: oq tugmada neytral yon tomon, toʻldirilgan
+        // tugmada brend rangining toʻqrogʻi.
+        tone === 'outline' ? 'shadow-press-ink' : 'shadow-press-sm',
+        className
+      )}
+    >
+      <Plus className="h-4 w-4" /> Savatga
+    </AnimatedButton>
+  );
+}
+
 export function ProductCard({ product, priority }: { product: Product; priority?: boolean }) {
-  const { addItem } = useCart();
   const { toggle, isFavorite } = useFavorites();
   const { notify } = useToast();
   const reduce = useReducedMotion();
   const fly = useFlight();
-  const [added, setAdded] = useState(false);
   const [quickOpen, setQuickOpen] = useState(false);
   /*
    * Sevimliga qoʻshilganda bir marta chiqadigan halqa. Hisoblagich —
@@ -84,16 +278,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
   const purchasable = hasSellablePrice(product.price);
   const inStock = stock !== 'out' && purchasable;
   const fav = isFavorite(product.id);
-
-  const handleAdd = () => {
-    if (!inStock) return;
-    // Savat holati DARHOL yangilanadi — animatsiya hech narsani kutmaydi.
-    addItem(product);
-    setAdded(true);
-    fly('cart', mediaRef.current, image);
-    notify(`${product.name} savatga qoʻshildi`, 'success');
-    setTimeout(() => setAdded(false), 1400);
-  };
+  const saving = product.old_price != null ? product.old_price - product.price : 0;
 
   const handleFav = () => {
     // Mukofot faqat QOʻSHILGANDA. Olib tashlash — neytral harakat va
@@ -233,14 +418,17 @@ export function ProductCard({ product, priority }: { product: Product; priority?
           <div className="pointer-events-none absolute left-2 top-2 flex flex-col items-start gap-1">
             {discount != null && <span className={discountBadge('sm')}>−{discount}%</span>}
             {product.is_new && discount == null && (
-              <span className="rounded-md bg-ink-900 px-1.5 py-0.5 text-[11px] font-semibold leading-5 text-white">
+              // Geometriya `discountBadgeSize.sm` bilan AYNAN bir xil:
+              // ikkalasi bitta ustunda birin-ketin turadi va oʻlchami
+              // farq qilsa qatorlar tekislanmay qolardi.
+              <span className="rounded-md bg-ink-900 px-1.5 py-0.5 text-xs font-semibold leading-5 text-white">
                 Yangi
               </span>
             )}
           </div>
 
           {!inStock && (
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-ink-900/70 py-1.5 text-center text-[11px] font-semibold text-white backdrop-blur-[2px]">
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-ink-900/[0.78] py-1.5 text-center text-xs font-semibold text-white backdrop-blur-[2px]">
               {purchasable ? 'Sotuvda yoʻq' : 'Narxi aniqlanmagan'}
             </div>
           )}
@@ -346,16 +534,35 @@ export function ProductCard({ product, priority }: { product: Product; priority?
           </button>
         </div>
 
-        <div className="flex flex-1 flex-col p-3">
+        {/* Ichki toʻldirish 10px — dizayndagi kartochka zichligi. */}
+        <div className="flex flex-1 flex-col p-2.5">
           {product.brand && (
-            <p className="line-clamp-1 text-[11px] font-medium uppercase tracking-wide text-ink-400">{product.brand}</p>
+            /*
+              `ink-500`, ILGARI `ink-400` edi.
+
+              Oʻlchandi: `ink-400` (#a3a09a) oq fonda 2.6:1 — AA (4.5:1)
+              dan ancha past, yaʼni brend nomi amalda "yarim koʻrinadigan"
+              matn edi. `ink-500` (#78756e) 4.6:1 beradi va iyerarxiya
+              saqlanadi: u hamon nomdan ochiqroq.
+            */
+            <p className="line-clamp-1 text-xs font-medium uppercase tracking-[0.04em] text-ink-500">
+              {product.brand}
+            </p>
           )}
 
-          {/* Stretched link — kartaning butun yuzasi bosiladi, lekin DOM'da bitta oddiy havola */}
-          <h3 className="mt-1 text-[13px] font-medium leading-snug text-ink-900 sm:text-sm">
+          {/*
+            Stretched link — kartaning butun yuzasi bosiladi, lekin DOMʼda
+            bitta oddiy havola.
+
+            `min-h-[2.4rem]` OLIB TASHLANDI. U bir qatorli nomlarda boʻsh
+            ikkinchi qator qoldirardi va kartochka ichida sabab koʻrsatib
+            boʻlmaydigan tirqish hosil qilardi. Qatorlar baribir tekis
+            turadi, chunki narx bloki `mt-auto` bilan pastga bosiladi.
+          */}
+          <h3 className="mt-1 text-sm font-medium leading-snug text-ink-900">
             <Link
               to={`/product/${product.slug}`}
-              className={cx('line-clamp-2 min-h-[2.4rem] rounded-sm before:absolute before:inset-0 before:content-[""]', focusRing)}
+              className={cx('line-clamp-2 rounded-sm before:absolute before:inset-0 before:content-[""]', focusRing)}
             >
               {product.name}
             </Link>
@@ -370,7 +577,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
           */}
           {product.rating > 0 && (
             <p
-              className="mt-1.5 flex items-center gap-1 text-[11px] leading-none text-ink-500"
+              className="mt-1.5 flex items-center gap-1 text-xs leading-none text-ink-500"
               aria-label={
                 product.reviews_count > 0
                   ? `Reyting ${product.rating} / 5, ${product.reviews_count} ta sharh`
@@ -380,52 +587,67 @@ export function ProductCard({ product, priority }: { product: Product; priority?
               <Star className="h-3 w-3 shrink-0 fill-amber-400 text-amber-400" aria-hidden="true" />
               <span className="font-semibold tabular-nums text-ink-700">{product.rating.toFixed(1)}</span>
               {product.reviews_count > 0 && (
-                <span className="tabular-nums text-ink-400">({product.reviews_count})</span>
+                <span className="tabular-nums text-ink-500">({product.reviews_count})</span>
               )}
             </p>
           )}
 
-          <div className="mt-auto pt-2.5">
+          <div className="mt-auto pt-2">
             {/*
-              CHEGIRMA BOR kartochkada narx o'z yuzasiga ko'chadi —
-              mahsulot sahifasidagi `glassPanel('brand')` ning ixcham
-              nusxasi (`p-4` emas, `p-2`).
+              NARX — shisha panelsiz.
 
-              Chegirmasiz kartochkada panel ATAYLAB yo'q. Agar u hamma
-              joyda bo'lsa, "bu yerda tejash bor" degan signal yo'qolardi:
-              grid'da 40 ta bir xil panel — bu shunchaki yangi fon rangi,
-              urg'u emas. Panel faqat aytadigan gapi bor kartochkada
-              paydo bo'lgani uchun ko'z unga tushadi.
-
-              Faqat narx + eski narx qatori o'raladi. Ombor holati
-              (`Sotuvda bor` / `Kam qoldi`) panel TASHQARISIDA qoladi —
-              u boshqa turdagi ma'lumot va uni narx bilan bitta yuzaga
-              qo'yish ikkalasini ham susaytirardi.
+              Ilgari chegirmali kartochkada narx `glassPanel('brand')`
+              ichiga olinardi. Dizayn uni olib tashladi va sabab bor:
+              tejash haqidagi xabarni PANEL emas, aniq jumla beradi
+              ("N soʻm tejaysiz"). Panel esa 2×N to'rda takrorlanib,
+              kartochkalarni bir-biridan ajratib turadigan oq yuzani
+              parchalab yuborardi.
             */}
-            <div
-              className={cx(
-                'flex flex-wrap items-baseline gap-x-2 gap-y-0.5',
-                discount != null && glassPanel('brand', 'p-2')
-              )}
-            >
-              <span className="text-[15px] font-bold tracking-tight text-ink-900 sm:text-base">
+            <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
+              <span className="text-base font-bold tracking-tight tabular-nums text-ink-900">
                 {formatPrice(product.price)}
               </span>
               {product.old_price != null && (
-                <span className="text-xs text-ink-400 line-through">{formatPrice(product.old_price)}</span>
+                // `ink-500` — brend nomi bilan ayni sabab: `ink-400` 2.6:1.
+                <span className="text-xs tabular-nums text-ink-500 line-through">
+                  {formatPrice(product.old_price)}
+                </span>
               )}
             </div>
 
+            {/*
+              "N soʻm tejaysiz" — chegirma FOIZI emas, SUMMASI.
+              Foiz nishonda allaqachon bor (rasm ustida); bu yerda esa
+              xaridor uchun haqiqiy maʼnoga ega boʻlgan raqam turadi.
+            */}
+            {discount != null && saving > 0 && (
+              <p className="mt-0.5 text-xs font-semibold tabular-nums text-emerald-700">
+                {formatPrice(saving)} tejaysiz
+              </p>
+            )}
+
+            {/*
+              Ombor holati ranglari AA uchun bir pogʻona toʻqlashtirildi
+              (oʻlchandi, oq fonda):
+                emerald-600 3.8:1 → emerald-700 5.5:1
+                amber-600   3.2:1 → amber-700   4.8:1
+                ink-400     2.6:1 → ink-500     4.6:1
+              Bu ranglar dizayn palitrasida allaqachon bor — yangi
+              qiymat kiritilmadi.
+            */}
             <p
               className={cx(
-                'mt-1.5 flex items-center gap-1 text-[11px] font-medium',
-                !purchasable ? 'text-ink-400' : stock === 'in' ? 'text-emerald-600' : stock === 'low' ? 'text-amber-600' : 'text-ink-400'
+                'mt-1 flex items-center gap-1 text-xs font-medium',
+                !purchasable ? 'text-ink-500'
+                  : stock === 'in' ? 'text-emerald-700'
+                  : stock === 'low' ? 'text-amber-700'
+                  : 'text-ink-500'
               )}
             >
               {!purchasable ? (
                 <>Narxi aniqlanmagan</>
               ) : stock === 'in' ? (
-                <><Check className="h-3 w-3" /> Sotuvda bor</>
+                <><Check className="h-3 w-3 shrink-0" /> Sotuvda bor</>
               ) : stock === 'low' ? (
                 <>Kam qoldi — {product.stock} dona</>
               ) : (
@@ -434,53 +656,11 @@ export function ProductCard({ product, priority }: { product: Product; priority?
             </p>
 
             {/*
-              `sink="flat"` — botish bor, ostidagi soya YO'Q.
-              `lifted` variantidagi soya tugmadan pastda, `top-full` da
-              chiziladi; bu yerda esa tugma kartochkaning eng pastki
-              elementi va undan keyin atigi 12px to'ldirish bor — soya
-              kartochka chegarasiga taqalib, kesilib qolardi.
-              Ayni mantiq `ProductPage` dagi stepper tugmalarida ham.
+              Amal — `CartAction` da. Karta endi savatdagi HAQIQIY sonni
+              koʻrsatadi (1.4 soniyalik "Savatda" fleshi emas), shuning
+              uchun bu yerda holat saqlanmaydi: yagona manba — `useCart`.
             */}
-            <AnimatedButton
-              sink="flat"
-              type="button"
-              onClick={handleAdd}
-              disabled={!inStock}
-              aria-label={`${product.name} — savatga qoʻshish`}
-              className={cx(
-                // z-10 shart: stretched link kartaning ustini qoplaydi.
-                'relative z-10 mt-2.5 w-full',
-                added
-                  ? button('success', 'card')
-                  : button('outline', 'card')
-              )}
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                {added ? (
-                  <motion.span
-                    key="added"
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -5 }}
-                    transition={{ duration: 0.15 }}
-                    className="flex items-center gap-1.5"
-                  >
-                    <Check className="h-4 w-4" /> Savatda
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    key="add"
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -5 }}
-                    transition={{ duration: 0.15 }}
-                    className="flex items-center gap-1.5"
-                  >
-                    <Plus className="h-4 w-4" /> Savatga
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </AnimatedButton>
+            <CartAction product={product} flyFrom={mediaRef} size="card" className="mt-2" />
           </div>
         </div>
 
@@ -571,19 +751,17 @@ export function ProductGrid({
  * kompozitsiya jurnaldagi kabi koʻrinadi, katalog qatoridek emas.
  */
 export function SpotlightCard({ product, priority }: { product: Product; priority?: boolean }) {
-  const { addItem } = useCart();
-  const { notify } = useToast();
   const reduce = useReducedMotion();
+  /* Uchish AYNAN rasmdan boshlansin — grid kartochkasidagi kabi. */
+  const mediaRef = useRef<HTMLDivElement>(null);
 
   const image = product.product_images?.[0]?.image_url;
   const discount = discountPercent(product.price, product.old_price);
-  const stock = stockState(product.stock);
-  const purchasable = hasSellablePrice(product.price);
-  const inStock = stock !== 'out' && purchasable;
   const sold = socialProof(product.sales_count);
 
   return (
     <article
+      ref={mediaRef}
       className={cx(
         'group relative isolate flex h-full min-h-[20rem] flex-col justify-end overflow-hidden rounded-surface bg-ink-900',
         'transition-shadow duration-300 ease-standard hover:shadow-overlay'
@@ -613,7 +791,7 @@ export function SpotlightCard({ product, priority }: { product: Product; priorit
 
       <div className="relative p-5 sm:p-6">
         {product.brand && (
-          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-orange-300">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-orange-300">
             {product.brand}
           </p>
         )}
@@ -661,34 +839,23 @@ export function SpotlightCard({ product, priority }: { product: Product; priorit
         )}
 
         <div className="mt-3 flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
-          <span className="text-2xl font-bold tracking-tight text-white">{formatPrice(product.price)}</span>
+          <span className="text-display-md tabular-nums text-white">{formatPrice(product.price)}</span>
           {product.old_price != null && (
-            <span className="text-sm text-white/50 line-through">{formatPrice(product.old_price)}</span>
+            <span className="text-sm tabular-nums text-white/60 line-through">
+              {formatPrice(product.old_price)}
+            </span>
           )}
         </div>
 
         {/*
-          `sink="flat"`, `lifted` emas — Spotlight fonida (`ink-900`)
-          qora kontakt soyasi umuman ko'rinmaydi, faqat bekorga qatlam
-          yaratardi. Bosilish javobi esa qolgan ikkita "Savatga"
-          tugmasi bilan bir xil.
+          Amal grid kartochkasi bilan AYNI komponentdan — shu sababli
+          variantli mahsulot bu yerda ham variantsiz qoʻshilmaydi va
+          savatdagi son bir xil koʻrinadi.
+
+          `tone="primary"` — Spotlight foni toʻq (`ink-900`) va oq
+          konturli tugma u yerda "oʻchgan" boʻlib koʻrinardi.
         */}
-        <AnimatedButton
-          sink="flat"
-          type="button"
-          onClick={() => {
-            if (!inStock) return;
-            addItem(product);
-            notify(`${product.name} savatga qoʻshildi`, 'success');
-          }}
-          disabled={!inStock}
-          aria-label={`${product.name} — savatga qoʻshish`}
-          // `z-10` — stretched link ustida turishi uchun. (`relative` ni
-          // `AnimatedButton` ning oʻzi qoʻshadi.)
-          className={cx('z-10 mt-4', button('primary', 'md'))}
-        >
-          <Plus className="h-4 w-4" /> Savatga
-        </AnimatedButton>
+        <CartAction product={product} flyFrom={mediaRef} size="lg" tone="primary" className="mt-4" />
       </div>
     </article>
   );
@@ -702,12 +869,10 @@ export function SpotlightCard({ product, priority }: { product: Product; priorit
  * mavjud boʻlganda. Hech qanday oʻylab topilgan qiymat yoʻq.
  */
 function QuickViewBody({ product, onClose }: { product: Product; onClose: () => void }) {
-  const { addItem } = useCart();
   const { toggle, isFavorite } = useFavorites();
   const { notify } = useToast();
   const reduce = useReducedMotion();
   const fly = useFlight();
-  const [added, setAdded] = useState(false);
   /* Tezkor koʻrish ichidan ham xuddi shu ikki harakat ishlaydi. */
   const qvMediaRef = useRef<HTMLDivElement>(null);
   const qvFavRef = useRef<HTMLButtonElement>(null);
@@ -716,17 +881,7 @@ function QuickViewBody({ product, onClose }: { product: Product; onClose: () => 
   const discount = discountPercent(product.price, product.old_price);
   const stock = stockState(product.stock);
   const purchasable = hasSellablePrice(product.price);
-  const inStock = stock !== 'out' && purchasable;
   const fav = isFavorite(product.id);
-
-  const handleAdd = () => {
-    if (!inStock) return;
-    addItem(product);
-    setAdded(true);
-    fly('cart', qvMediaRef.current, image);
-    notify(`${product.name} savatga qoʻshildi`, 'success');
-    setTimeout(() => setAdded(false), 1400);
-  };
 
   return (
     <div className="grid gap-5 sm:grid-cols-2">
@@ -747,7 +902,7 @@ function QuickViewBody({ product, onClose }: { product: Product; onClose: () => 
       <div className="flex min-w-0 flex-col">
         {/* Brend — sayt bo'ylab bir xil "urg'u chizig'i" uslubi. */}
         {product.brand && (
-          <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-orange-700">
+          <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-orange-700">
             <span aria-hidden="true" className="h-px w-5 shrink-0 bg-orange-400/70" />
             <span className="line-clamp-1">{product.brand}</span>
           </p>
@@ -778,15 +933,17 @@ function QuickViewBody({ product, onClose }: { product: Product; onClose: () => 
           )}
         >
           <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
-            <span className="text-2xl font-bold leading-none tracking-tight text-ink-900">
+            <span className="text-display-md leading-none tabular-nums text-ink-900">
               {formatPrice(product.price)}
             </span>
             {product.old_price != null && (
-              <span className="text-sm text-ink-400 line-through">{formatPrice(product.old_price)}</span>
+              <span className="text-sm tabular-nums text-ink-500 line-through">
+                {formatPrice(product.old_price)}
+              </span>
             )}
           </div>
           {discount != null && product.old_price != null && (
-            <p className="mt-2 inline-flex items-center rounded-full bg-orange-700 px-2.5 py-1 text-[11px] font-semibold text-white">
+            <p className="mt-2 inline-flex items-center rounded-full bg-orange-700 px-2.5 py-1 text-xs font-semibold tabular-nums text-white">
               −{discount}% · {formatPrice(product.old_price - product.price)} tejaysiz
             </p>
           )}
@@ -795,7 +952,10 @@ function QuickViewBody({ product, onClose }: { product: Product; onClose: () => 
         <p
           className={cx(
             'mt-2 flex items-center gap-1 text-xs font-medium',
-            !purchasable ? 'text-ink-400' : stock === 'in' ? 'text-emerald-600' : stock === 'low' ? 'text-amber-600' : 'text-ink-400'
+            !purchasable ? 'text-ink-500'
+              : stock === 'in' ? 'text-emerald-700'
+              : stock === 'low' ? 'text-amber-700'
+              : 'text-ink-500'
           )}
         >
           {!purchasable ? (
@@ -815,20 +975,19 @@ function QuickViewBody({ product, onClose }: { product: Product; onClose: () => 
 
         <div className="mt-auto space-y-2 pt-5">
           <div className="flex gap-2">
-            {/* Tezkor ko'rish oynasida ham `flat`: tugma yonidagi yurakcha
-                bilan bitta qatorda turadi, ostida soya uchun joy yo'q. */}
-            <AnimatedButton
-              sink="flat"
-              type="button"
-              onClick={handleAdd}
-              disabled={!inStock}
-              className={cx(
-                'flex-1',
-                added ? button('success', 'lg') : button('primary', 'lg')
-              )}
-            >
-              {added ? (<><Check className="h-4 w-4" /> Savatda</>) : (<><ShoppingCart className="h-4 w-4" /> Savatga</>)}
-            </AnimatedButton>
+            {/*
+              Karta va Spotlight bilan AYNI komponent: variantli mahsulot
+              bu yerda ham jimgina variantsiz qoʻshilmaydi, savatdagi son
+              esa uchala joyda bir xil koʻrinadi.
+            */}
+            <CartAction
+              product={product}
+              flyFrom={qvMediaRef}
+              size="lg"
+              tone="primary"
+              onNavigate={onClose}
+              className="flex-1"
+            />
             <motion.button
               ref={qvFavRef}
               type="button"

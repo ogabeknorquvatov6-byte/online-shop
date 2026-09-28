@@ -286,7 +286,13 @@ export const countBadge = {
  * tekislanmay qolardi.
  */
 export const discountBadgeSize = {
-  sm: 'px-1.5 py-0.5 text-[11px] leading-5',
+  /*
+   * 12px — tipografiya shkalasining eng kichik qadami. Ilgari 11px edi,
+   * yaʼni shkalada umuman yoʻq qiymat: nishon yonidagi "Yangi" belgisi
+   * ham, kartochkadagi qolgan mayda matn ham 12px ga oʻtgach, u yolgʻiz
+   * bir piksel kichik boʻlib qolardi.
+   */
+  sm: 'px-1.5 py-0.5 text-xs leading-5',
   md: 'px-2 py-1 text-xs',
 } as const;
 

@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { sanitizeStoredCart, cartItemKey, MAX_CART_LINES, MAX_QTY_PER_ITEM } from '../cartUtils';
+import {
+  sanitizeStoredCart, cartItemKey, quantityForProduct, MAX_CART_LINES, MAX_QTY_PER_ITEM,
+} from '../cartUtils';
+import { hasSelectableVariants } from '../productUtils';
 import { cartSignature, newCheckoutRequestId } from '../idempotency';
 import type { CartItem, Product } from '../types';
 
@@ -162,5 +165,100 @@ describe('cartSignature', () => {
   it('imzo savat kaliti bilan mos', () => {
     const items = [line({ variantId: 'v1' })];
     expect(cartSignature(items)).toContain(cartItemKey(items[0]));
+  });
+});
+
+/*
+ * ── KARTOCHKADAGI SON SAVAT SAHIFASI BILAN MOS ──────────────────────
+ *
+ * Mahsulot kartochkasi savatdagi haqiqiy sonni koʻrsatadi. Agar bu son
+ * savat sahifasidagidan farq qilsa, xaridor qaysi biriga ishonishni
+ * bilmaydi — va bu pul bilan bogʻliq ekranda eng yomon holat.
+ */
+describe('quantityForProduct — kartochkadagi son', () => {
+  it('savatda yoʻq mahsulotda 0', () => {
+    expect(quantityForProduct([], 'p1')).toBe(0);
+    expect(quantityForProduct([line()], 'boshqa-id')).toBe(0);
+  });
+
+  it('bitta pozitsiyaning sonini qaytaradi', () => {
+    expect(quantityForProduct([line({ quantity: 3 })], 'p1')).toBe(3);
+  });
+
+  it('BIR XIL mahsulotning barcha variantlarini qoʻshadi', () => {
+    // Xaridor mahsulot sahifasida qora 128 GB (1 ta) va oq 256 GB (2 ta)
+    // tanlagan — kartochka 3 koʻrsatishi kerak, 1 emas.
+    const items = [
+      line({ variantId: 'v-qora', quantity: 1 }),
+      line({ variantId: 'v-oq', quantity: 2 }),
+    ];
+    expect(quantityForProduct(items, 'p1')).toBe(3);
+  });
+
+  it('boshqa mahsulotlarni qoʻshmaydi', () => {
+    const items = [
+      line({ quantity: 2 }),
+      line({ product: product({ id: 'p2' }), quantity: 5 }),
+    ];
+    expect(quantityForProduct(items, 'p1')).toBe(2);
+    expect(quantityForProduct(items, 'p2')).toBe(5);
+  });
+
+  it('savatning UMUMIY soni bilan kelishadi', () => {
+    // `cart.tsx` dagi `count` — barcha pozitsiyalar yigʻindisi. Har bir
+    // mahsulot boʻyicha yigʻindilar shunga teng boʻlishi SHART, aks holda
+    // kartochkalardagi sonlar header nishonchasi bilan mos kelmasdi.
+    const items = [
+      line({ quantity: 2 }),
+      line({ variantId: 'v1', quantity: 1 }),
+      line({ product: product({ id: 'p2' }), quantity: 4 }),
+    ];
+    const total = items.reduce((s, i) => s + i.quantity, 0);
+    const perProduct = ['p1', 'p2'].reduce((s, id) => s + quantityForProduct(items, id), 0);
+    expect(perProduct).toBe(total);
+  });
+});
+
+/*
+ * ── VARIANTLI MAHSULOT KARTOCHKADAN QOʻSHILMAYDI ────────────────────
+ *
+ * Kartochkada variant tanlagich yoʻq. Ilgari "Savatga" tugmasi variantli
+ * mahsulotni ham qoʻshib yuborardi va savatga rangi/xotirasi
+ * koʻrsatilmagan pozitsiya tushardi.
+ */
+describe('hasSelectableVariants', () => {
+  it('variantsiz mahsulotda false', () => {
+    expect(hasSelectableVariants(product())).toBe(false);
+    expect(hasSelectableVariants(product({ product_variants: [] }))).toBe(false);
+  });
+
+  it('faol variant boʻlsa true', () => {
+    const p = product({
+      product_variants: [{ id: 'v1', product_id: 'p1', type: 'color', value: 'Qora', sort_order: 0 }],
+    });
+    expect(hasSelectableVariants(p)).toBe(true);
+  });
+
+  it('faqat NOFAOL variantlar boʻlsa false', () => {
+    // Nofaol variant mahsulot sahifasida ham koʻrsatilmaydi, yaʼni uni
+    // tanlash imkoni yoʻq — demak kartochka xaridni oʻzi yakunlashi mumkin.
+    const p = product({
+      product_variants: [
+        { id: 'v1', product_id: 'p1', type: 'color', value: 'Qora', sort_order: 0, is_active: false },
+      ],
+    });
+    expect(hasSelectableVariants(p)).toBe(false);
+  });
+
+  it('`is_active` koʻrsatilmagan variant FAOL hisoblanadi', () => {
+    // Baza standarti `true`; `undefined` ni "nofaol" deb hisoblash
+    // variantli mahsulotni kartochkadan qoʻshiladigan qilib qoʻyardi.
+    const p = product({
+      product_variants: [
+        { id: 'v1', product_id: 'p1', type: 'storage', value: '256 GB', sort_order: 0 },
+        { id: 'v2', product_id: 'p1', type: 'storage', value: '512 GB', sort_order: 1, is_active: false },
+      ],
+    });
+    expect(hasSelectableVariants(p)).toBe(true);
   });
 });

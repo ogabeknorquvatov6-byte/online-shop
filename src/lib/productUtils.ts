@@ -3,12 +3,36 @@
  * sahifasi ham, admin roʻyxati ham AYNAN shu chegaralarga tayanadi, aks
  * holda "kam qoldi" belgisi joyiga qarab turlicha chiqib qolardi.
  */
-import { formatCount, type ProductReview } from './types';
+import { formatCount, type Product, type ProductReview } from './types';
 
 export function stockState(stock: number): 'out' | 'low' | 'in' {
   if (stock <= 0) return 'out';
   if (stock <= 5) return 'low';
   return 'in';
+}
+
+/**
+ * Mahsulotda tanlanadigan variant bormi (rang, xotira, oʻlcham)?
+ *
+ * ── NEGA BU KARTA UCHUN MUHIM ───────────────────────────────────────
+ *
+ * Kartada variant tanlagich yoʻq va boʻlishi ham kerak emas. Lekin
+ * "Savatga" tugmasi ilgari variantli mahsulotni ham VARIANTSIZ qoʻshib
+ * yuborardi — natijada savatga "iPhone 15 Pro" tushardi, rangi va
+ * xotirasi esa koʻrsatilmagan holda qolardi. Xaridor buni checkout
+ * bosqichigacha sezmasligi mumkin edi.
+ *
+ * Endi bunday mahsulotda karta xaridni OʻZI yakunlamaydi, mahsulot
+ * sahifasiga yuboradi. Uchala kirish nuqtasi ham (karta, Spotlight,
+ * tezkor koʻrish) shu bitta qoidaga tayanadi — aks holda bir xil
+ * mahsulot qayerdan bosilganiga qarab turlicha ishlardi.
+ *
+ * `is_active === false` variantlar hisobga olinmaydi: ular mahsulot
+ * sahifasida ham koʻrsatilmaydi (`ProductPage.variantGroups` bilan
+ * AYNI shart), yaʼni ularni "tanlash" imkoni yoʻq.
+ */
+export function hasSelectableVariants(product: Pick<Product, 'product_variants'>): boolean {
+  return (product.product_variants ?? []).some((v) => v.is_active !== false);
 }
 
 /*

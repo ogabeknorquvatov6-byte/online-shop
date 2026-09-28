@@ -47,6 +47,30 @@ export function unitPrice(item: Pick<CartItem, 'product' | 'variantId'>): number
   return Math.max(0, item.product.price + (variant?.price_adjustment ?? 0));
 }
 
+/**
+ * Shu mahsulotning savatdagi UMUMIY soni — barcha variantlari bilan.
+ *
+ * Mahsulot kartasi savatdagi haqiqiy sonni koʻrsatadi. Savol shu yerda
+ * tugʻiladi: bitta mahsulot savatda bir necha POZITSIYA boʻlishi mumkin
+ * (qora 128 GB — 1 ta, oq 256 GB — 2 ta), karta esa bitta son koʻrsatadi.
+ *
+ * Yigʻindi tanlandi, chunki karta savat sahifasi bilan KELISHMAY qolsa,
+ * xaridor qaysi biriga ishonishni bilmaydi. "3" deb turgan karta savatda
+ * ham 3 ta topilishini anglatadi — qaysi variantda ekani mahsulot
+ * sahifasida koʻrinadi.
+ *
+ * Aynan shu sababli variantli mahsulotda kartada stepper CHIQMAYDI
+ * (qarang: `hasSelectableVariants`) — "+" qaysi pozitsiyaga qoʻshishini
+ * karta bilolmaydi va jimgina yangi pozitsiya yaratib qoʻyardi.
+ */
+export function quantityForProduct(items: CartItem[], productId: string): number {
+  let total = 0;
+  for (const item of items) {
+    if (item.product.id === productId) total += item.quantity;
+  }
+  return total;
+}
+
 /*
  * ── Saqlangan savatni tozalash ──────────────────────────────────────
  *
