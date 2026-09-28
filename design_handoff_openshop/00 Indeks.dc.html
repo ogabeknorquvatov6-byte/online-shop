@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Onest:wght@600;700&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#f8f8f7;font-family:Inter,system-ui,sans-serif;color:#181716;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}a{color:#c2410c;text-decoration:none}a:hover{color:#9a3412}*{box-sizing:border-box}</style>
+</helmet>
+<div style="max-width:1120px; margin:0 auto; padding:40px 24px 64px;">
+  <div style="display:flex; align-items:center; gap:12px;">
+    <span style="position:relative; width:40px; height:40px; border-radius:10px; background:#ea6100;"><span style="position:absolute; left:8px; top:8px; width:10px; height:10px; border-radius:2px; background:#fff;"></span><span style="position:absolute; right:8px; top:8px; width:10px; height:10px; border-radius:2px; background:#fff;"></span><span style="position:absolute; left:8px; bottom:8px; width:10px; height:10px; border-radius:2px; background:#fff;"></span><span style="position:absolute; right:8px; bottom:8px; width:10px; height:10px; border-radius:2px; background:#fff;"></span></span>
+    <span style="font-size:28px; font-weight:700; letter-spacing:-0.02em;">Open<span style="color:#c2410c;">Shop</span> — dizayn tizimi</span>
+  </div>
+  <p style="margin:12px 0 0; max-width:720px; font-size:16px; line-height:1.6; color:#403e39;">“Iliq vitrina” yoʻnalishi, B dan: hero sarlavhasi va “Hozir trendda” studiya tasmasi. Har bir sahifa 390 / 820 / 1280 da (yuqoridagi tugmalar), savat va sevimlilar sahifalar orasida umumiy. Har sahifa ostida — ishlatilgan tokenlar va harakat spetsifikatsiyasi.</p>
+
+  <h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:32px 0 12px; font-size:20px; font-weight:700;">Sahifalar</h2>
+  <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:10px;">
+    <sc-for list="{{ pages }}" as="p" hint-placeholder-count="14">
+      <a href="{{ p.href }}" style="display:flex; align-items:center; gap:12px; min-height:60px; padding:12px 14px; border-radius:12px; background:#fff; border:1px solid #e6e5e2; color:#181716; transition:transform 220ms cubic-bezier(0.22,1,0.36,1);" style-hover="transform:translateY(-2px);"><span style="width:34px; height:34px; flex-shrink:0; border-radius:8px; background:#fff7ed; color:#9a3412; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700;">{{ p.n }}</span><span style="font-size:14px; font-weight:600; line-height:1.3;">{{ p.t }}</span></a>
+    </sc-for>
+  </div>
+
+  <h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:36px 0 12px; font-size:20px; font-weight:700;">Tokenlar</h2>
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:12px;">
+    <div style="padding:18px; border-radius:12px; background:#fff; border:1px solid #e6e5e2;">
+      <h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 10px; font-size:14px; font-weight:700;">Rang (mavjud)</h3>
+      <div style="display:flex; flex-wrap:wrap; gap:6px;"><sc-for list="{{ colors }}" as="c" hint-placeholder-count="12"><span style="display:flex; flex-direction:column; gap:4px; width:74px; font-size:12px; color:#403e39;"><span style="height:36px; border-radius:6px; background:{{ c.v }}; box-shadow:inset 0 0 0 1px rgb(24 23 22 / .08);"></span><b style="font-weight:600;">{{ c.n }}</b><span style="font-family:ui-monospace, Menlo, monospace; color:#57544e;">{{ c.v }}</span></span></sc-for></div>
+    </div>
+    <div style="padding:18px; border-radius:12px; background:#fff7ed; border:1px solid #fed7aa;">
+      <h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 10px; font-size:14px; font-weight:700;">Yangi tokenlar (4 ta)</h3>
+      <sc-for list="{{ newTokens }}" as="t" hint-placeholder-count="4"><div style="padding:8px 0; border-bottom:1px solid #fed7aa; font-size:14px; line-height:1.5;"><code style="font-weight:700;">{{ t.n }}</code> <span style="font-family:ui-monospace, Menlo, monospace; color:#57544e;">{{ t.v }}</span><div style="color:#403e39;">{{ t.why }}</div></div></sc-for>
+    </div>
+    <div style="padding:18px; border-radius:12px; background:#fff; border:1px solid #e6e5e2; font-size:14px; line-height:1.6; color:#403e39;">
+      <h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 10px; font-size:14px; font-weight:700; color:#181716;">Kontrast qoidasi (hamma joyda)</h3>
+      Oq matnli toʻldirilgan element foni: <b>brand-700 #c2410c</b> (5.2:1), press soyasi brand-800. Kichik matn urgʻusi: brand-700 oq fonda, brand-300/400 toʻq fonda. brand-600 #ea6100 faqat matnsiz yuzalar uchun: logo, yurak, nav nuri, tanlangan chegara, aurora. Yorliqlar kamida ink-600. Barcha bosiladigan joylar ≥ 44px.
+    </div>
+  </div>
+
+  <h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:36px 0 12px; font-size:20px; font-weight:700;">Harakat tili</h2>
+  <div style="border-radius:12px; background:#fff; border:1px solid #e6e5e2; overflow:hidden;">
+    <sc-for list="{{ motion }}" as="m" hint-placeholder-count="12">
+      <div style="display:grid; grid-template-columns:minmax(0,1.3fr) 90px minmax(0,1fr) minmax(0,1.3fr); gap:12px; padding:10px 16px; border-bottom:1px solid #f1f1ef; font-size:14px; line-height:1.45;">
+        <b style="font-weight:600;">{{ m.name }}</b><span style="font-family:ui-monospace, Menlo, monospace; color:#9a3412;">{{ m.tier }}</span><span style="font-family:ui-monospace, Menlo, monospace; color:#403e39;">{{ m.spec }}</span><span style="color:#57544e;">{{ m.when }}</span>
+      </div>
+    </sc-for>
+  </div>
+  <p style="margin:12px 0 0; font-size:14px; line-height:1.6; color:#57544e;">Faqat transform + opacity. prefers-reduced-motion: barcha animatsiyalar 0.01ms, doimiy halqalar oʻchadi, oxirgi holat koʻrsatiladi. Blur faqat statik aurora dogʻlarida (harakatlanadi transform bilan, blur oʻzgarmaydi).</p>
+
+  <h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:36px 0 12px; font-size:20px; font-weight:700;">Arxiv</h2>
+  <p style="margin:0; font-size:14px; color:#403e39;"><a href="Yonalish A - Iliq vitrina.dc.html">1a · Iliq vitrina</a> (tanlangan) · <a href="Yonalish B - Tungi studiya.dc.html">1b · Tungi studiya</a></p>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const P = [['01', 'Mahsulot kartochkasi', '01 Kartochka'], ['02', 'Mahsulot sahifasi', '02 Mahsulot'], ['03', 'Bosh sahifa', '03 Bosh sahifa'], ['04', 'Katalog / kategoriya', '04 Katalog'], ['05', 'Qidiruv', '05 Qidiruv'], ['06', 'Tezkor koʻrish', '06 Tezkor korish'], ['07', 'Savat + yon panel', '07 Savat'], ['08', 'Checkout', '08 Checkout'], ['09', 'Sevimlilar', '09 Sevimlilar'], ['10', 'Kabinet', '10 Kabinet'], ['11', 'Kirish (Telegram, Google)', '11 Kirish'], ['12', 'Header, mega-menyu, nav, footer', '12 Navigatsiya'], ['13', 'Splash, 404, boʻsh, xato', '13 Holatlar'], ['14', 'Yetkazib berish, Biz haqimizda', '14 Malumot sahifalari']];
+    return {
+      pages: P.map(([n, t, f]) => ({ n, t, href: f + '.dc.html' })),
+      colors: [['brand-600', '#ea6100'], ['brand-700', '#c2410c'], ['brand-800', '#9a3412'], ['brand-50', '#fff7ed'], ['brand-300', '#fdba74'], ['ink-50', '#f8f8f7'], ['ink-100', '#f1f1ef'], ['ink-200', '#e6e5e2'], ['ink-500', '#78756e'], ['ink-600', '#57544e'], ['ink-900', '#181716'], ['emerald-600', '#059669']].map(([n, v]) => ({ n, v })),
+      newTokens: [
+        { n: 'shadow-press', v: '0 4px 0 0 #9a3412', why: 'Toʻldirilgan CTA ostidagi qalinlik; bosilganda 2px ga qisqaradi.' },
+        { n: 'ink-950', v: '#0e0e0d', why: 'Faqat “Hozir trendda” studiya tasmasi foni.' },
+        { n: 'info', v: 'sky-50 / 200 / 900', why: 'Neytral maʼlumot bannerlari (checkoutʼdagi Telegram eslatmasi).' },
+        { n: 'rounded-tile', v: '18px', why: 'Boʻsh / xato holat belgisi plitkasi.' },
+      ],
+      motion: [
+        ['Tugma botishi', 'MICRO', '140ms · standard · Y+2px, soya qisqaradi', 'pointer down'],
+        ['Karta 3D burilishi', 'MICRO', '160ms · ≤5° · qaytish 420ms prujina', 'kursor/barmoq ostida'],
+        ['Yorugʻlik chizigʻi', 'COMP', '1.1s chiziqli · bir marta', 'karta birinchi koʻringanda'],
+        ['Savatga uchish', 'COMP', '620ms · (0.45,0,0.25,1) · yoy', '“Savatga” bosilganda'],
+        ['Yurak halqasi', 'COMP', '420ms · scale .6→1.9, opacity', 'sevimliga qoʻshilganda'],
+        ['4 kub (Katalog)', 'COMP', '560ms · 28ms qadam', 'Katalog ikonkasini bosish'],
+        ['Nav nuri / segment', 'COMP', '300ms · (0.34,1.3,0.64,1)', 'tab almashganda'],
+        ['Sonlar surilishi', 'COMP', '240ms · Y 70%→0', 'narx, savat soni, taymer, jami'],
+        ['Sheet / drawer', 'COMP', '300ms · standard · translate', 'filtr, savat paneli, katalog'],
+        ['Checkout “tanga”', 'COMP', '460ms · rotateY 180° · overshoot', 'bosqich bajarilganda'],
+        ['Galereya parallaksi', 'COMP', '200ms · ≤8px · scale 1.05', 'telefon egilishi / kursor'],
+        ['Splash', 'STORY', '~500ms yigʻilish + 220ms soʻnish', 'sessiyada birinchi ochilish'],
+        ['Hero sarlavhasi', 'STORY', '600ms · 60ms qadam', 'bosh sahifa ochilishi'],
+        ['Buyurtma tasdigʻi', 'STORY', 'check 600ms rotateY + kublar 2.4–3.6s', 'buyurtma qabul qilinganda'],
+        ['Aurora', 'FON', '12–17s · alternate', 'hero, aksiya, trend (doimiy)'],
+      ].map(([name, tier, spec, when]) => ({ name, tier, spec, when })),
+    };
+  }
+}
+</script>
+</body>
+</html>

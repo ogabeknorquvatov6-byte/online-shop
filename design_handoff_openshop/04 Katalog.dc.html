@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Onest:wght@600;700&display=swap" rel="stylesheet">
+<script src="os-proto.js"></script>
+<script src="os-app.js"></script>
+<style>
+body{margin:0;background:#e6e5e2;font-family:Inter,system-ui,sans-serif;color:#181716;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:#c2410c;text-decoration:none}a:hover{color:#9a3412}
+*{box-sizing:border-box}
+[data-scroll]::-webkit-scrollbar,[data-hscroll]::-webkit-scrollbar{display:none}
+@keyframes os-up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes os-shine{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes os-swap{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@keyframes os-shimmer{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes os-fade{from{opacity:0}to{opacity:1}}
+@keyframes os-toast{from{opacity:0;transform:translateY(-10px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes os-sheet{from{transform:translateY(100%)}to{transform:none}}
+@keyframes os-drawer-l{from{transform:translateX(-100%)}to{transform:none}}
+@keyframes os-drawer-r{from{transform:translateX(100%)}to{transform:none}}
+@keyframes os-pop-in{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes os-float{from{transform:translate(0,0) rotate(0)}to{transform:translate(3px,-4px) rotate(8deg)}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;animation-delay:0s!important;transition-duration:.01ms!important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh; display:flex; flex-direction:column; align-items:center; gap:12px; padding:14px 16px 40px;">
+  <div style="width:100%; max-width:1320px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <a href="00 Indeks.dc.html" style="font-size:14px; font-weight:600; color:#57544e;">← Barcha sahifalar</a>
+      <span style="font-size:16px; font-weight:700;">04 · Katalog / kategoriya</span>
+    </div>
+    <div style="display:flex; gap:4px; padding:4px; background:#fff; border:1px solid #d3d1cd; border-radius:10px;">
+      <sc-for list="{{ sizeTabs }}" as="t" hint-placeholder-count="3"><button type="button" onClick="{{ t.go }}" style="height:34px; padding:0 12px; border:0; border-radius:7px; font:600 14px Inter, system-ui, sans-serif; cursor:pointer; background:{{ t.bg }}; color:{{ t.fg }};">{{ t.label }}</button></sc-for>
+    </div>
+  </div>
+
+  <div style="position:relative; width:{{ stageW }}; height:{{ stageH }};">
+    <div ref="{{ frame }}" style="position:absolute; left:12px; top:12px; width:{{ frameW }}; height:{{ frameH }}; transform:scale({{ frameScale }}); transform-origin:0 0; border-radius:{{ frameRadius }}; overflow:hidden; background:#f8f8f7; box-shadow:{{ frameRing }}; isolation:isolate;">
+      <div data-scroll="" style="position:absolute; inset:0; overflow-y:auto; overflow-x:hidden; scrollbar-width:none; padding-bottom:{{ bottomPad }};">
+        <dc-import name="OSHeader" bp="{{ bp }}" cart-count="{{ cartCount }}" fav-count="{{ favCount }}" hint-size="100%,56px"></dc-import>
+
+        <main style="max-width:1280px; margin:0 auto; padding:16px {{ pad }} 40px;">
+          <nav aria-label="Yoʻl" style="display:flex; gap:6px; font-size:14px; color:#78756e;"><a href="03 Bosh sahifa.dc.html" style="color:#57544e;">Bosh sahifa</a><span>/</span><span>Katalog</span></nav>
+          <div style="margin-top:6px; display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 12px;"><h1 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0; font-size:{{ h1 }}; letter-spacing:-0.025em; font-weight:700;">Telefon va texnika</h1><span style="font-size:14px; color:#57544e;">{{ countText }}</span></div>
+          <div data-hscroll="" style="margin:14px {{ negPad }} 0; padding:0 {{ pad }}; display:flex; gap:8px; overflow-x:auto; scrollbar-width:none;">
+            <sc-for list="{{ catChips }}" as="c" hint-placeholder-count="6"><button type="button" onClick="{{ c.pick }}" style="flex-shrink:0; height:40px; padding:0 14px; border-radius:999px; border:1px solid {{ c.bd }}; background:{{ c.bg }}; color:{{ c.fg }}; font:500 14px Inter, system-ui, sans-serif; cursor:pointer; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), background 220ms;" style-active="transform:scale(0.96);">{{ c.name }}</button></sc-for>
+          </div>
+          <div style="margin-top:16px; display:grid; grid-template-columns:{{ layoutCols }}; gap:28px; align-items:start;">
+            <sc-if value="{{ isD }}" hint-placeholder-val="{{ false }}">
+              <aside aria-label="Filtrlar" style="position:sticky; top:124px; padding:18px; border-radius:12px; background:#fff; border:1px solid #e6e5e2;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;"><span style="font-size:16px; font-weight:700;">Filtrlar</span><sc-if value="{{ hasFilters }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ reset }}" style="min-height:36px; border:0; background:transparent; color:#c2410c; font:600 14px Inter, system-ui, sans-serif; cursor:pointer;">Tozalash</button></sc-if></div>
+                
+                <div style="display:flex; flex-direction:column; gap:22px;">
+                  <div>
+                    <p style="margin:0 0 10px; font-size:14px; font-weight:700;">Narx, soʻm</p>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                      <label style="min-width:0; display:flex; flex-direction:column; gap:4px; font-size:12px; color:#57544e;">dan<input inputmode="numeric" value="{{ fMin }}" onInput="{{ onMin }}" placeholder="0" style="height:44px; border-radius:8px; border:1px solid #d3d1cd; padding:0 12px; font:500 16px Inter, system-ui, sans-serif; color:#181716; background:#fff; outline:none; width:100%; min-width:0;" style-focus="border-color:#f97316; box-shadow:0 0 0 3px rgb(249 115 22 / .2);"></label>
+                      <label style="min-width:0; display:flex; flex-direction:column; gap:4px; font-size:12px; color:#57544e;">gacha<input inputmode="numeric" value="{{ fMax }}" onInput="{{ onMax }}" placeholder="20 000 000" style="height:44px; border-radius:8px; border:1px solid #d3d1cd; padding:0 12px; font:500 16px Inter, system-ui, sans-serif; color:#181716; background:#fff; outline:none; width:100%; min-width:0;" style-focus="border-color:#f97316; box-shadow:0 0 0 3px rgb(249 115 22 / .2);"></label>
+                    </div>
+                  </div>
+                  <div>
+                    <p style="margin:0 0 6px; font-size:14px; font-weight:700;">Brend</p>
+                    <sc-for list="{{ brandOpts }}" as="b" hint-placeholder-count="6">
+                      <button type="button" onClick="{{ b.toggle }}" role="checkbox" aria-checked="{{ b.aria }}" style="width:100%; min-height:44px; display:flex; align-items:center; gap:10px; padding:0; border:0; background:transparent; font:500 14px Inter, system-ui, sans-serif; color:#292825; cursor:pointer; text-align:left;">
+                        <span style="width:22px; height:22px; flex-shrink:0; border-radius:6px; border:1.5px solid {{ b.bd }}; background:{{ b.bg }}; color:#fff; display:flex; align-items:center; justify-content:center; transition:background 150ms, border-color 150ms;"><span style="display:flex; opacity:{{ b.op }}; transform:scale({{ b.sc }}); transition:transform 220ms cubic-bezier(0.34,1.45,0.64,1), opacity 150ms;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span></span>
+                        <span style="flex:1;">{{ b.name }}</span><span style="font-size:14px; color:#78756e;">{{ b.count }}</span>
+                      </button>
+                    </sc-for>
+                  </div>
+                  <div style="display:flex; flex-direction:column;">
+                    <p style="margin:0 0 6px; font-size:14px; font-weight:700;">Qoʻshimcha</p>
+                    <sc-for list="{{ toggles }}" as="t" hint-placeholder-count="3">
+                      <button type="button" onClick="{{ t.toggle }}" role="switch" aria-checked="{{ t.aria }}" style="min-height:48px; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:0; border:0; background:transparent; font:500 14px Inter, system-ui, sans-serif; color:#292825; cursor:pointer; text-align:left;">
+                        <span>{{ t.label }}</span>
+                        <span style="position:relative; width:44px; height:26px; flex-shrink:0; border-radius:999px; background:{{ t.track }}; transition:background 220ms;"><span style="position:absolute; left:3px; top:3px; width:20px; height:20px; border-radius:999px; background:#fff; box-shadow:0 1px 3px rgb(24 23 22 / .3); transform:translateX({{ t.x }}); transition:transform 260ms cubic-bezier(0.34,1.45,0.64,1);"></span></span>
+                      </button>
+                    </sc-for>
+                  </div>
+                </div>
+              </aside>
+            </sc-if>
+            <div style="min-width:0;">
+              <div style="position:sticky; top:{{ barTop }}; z-index:10; margin:0 {{ negPad }}; padding:8px {{ pad }}; display:flex; align-items:center; gap:8px; background:rgb(248 248 247 / .96);">
+                <sc-if value="{{ isMT }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ openSheet }}" style="height:44px; padding:0 14px; display:flex; align-items:center; gap:8px; border:1px solid #e6e5e2; border-radius:8px; background:#fff; color:#292825; font:600 14px Inter, system-ui, sans-serif; cursor:pointer; transition:transform 140ms cubic-bezier(0.22,1,0.36,1);" style-active="transform:scale(0.97);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="21" x2="14" y1="4" y2="4"></line><line x1="10" x2="3" y1="4" y2="4"></line><line x1="21" x2="12" y1="12" y2="12"></line><line x1="8" x2="3" y1="12" y2="12"></line><line x1="21" x2="16" y1="20" y2="20"></line><line x1="12" x2="3" y1="20" y2="20"></line><line x1="14" x2="14" y1="2" y2="6"></line><line x1="8" x2="8" y1="10" y2="14"></line><line x1="16" x2="16" y1="18" y2="22"></line></svg>Filtr<sc-if value="{{ hasFilters }}" hint-placeholder-val="{{ false }}"><span style="min-width:20px; height:20px; padding:0 6px; border-radius:999px; background:#c2410c; color:#fff; font-size:12px; font-weight:700; line-height:20px; text-align:center;">{{ filterCount }}</span></sc-if></button></sc-if>
+                <div style="position:relative; flex:{{ sortFlex }}; margin-left:{{ sortMl }};">
+                  <button type="button" onClick="{{ toggleSort }}" aria-haspopup="listbox" aria-expanded="{{ sortAria }}" style="width:100%; height:44px; padding:0 12px; display:flex; align-items:center; justify-content:space-between; gap:8px; border:1px solid #e6e5e2; border-radius:8px; background:#fff; color:#292825; font:600 14px Inter, system-ui, sans-serif; cursor:pointer;"><span style="display:flex; align-items:center; gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 16-4 4-4-4"></path><path d="M17 20V4"></path><path d="m3 8 4-4 4 4"></path><path d="M7 4v16"></path></svg>{{ sortLabel }}</span><span style="display:flex; transform:rotate({{ sortRot }}); transition:transform 220ms cubic-bezier(0.22,1,0.36,1);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></span></button>
+                  <sc-if value="{{ sortOpen }}" hint-placeholder-val="{{ false }}"><div role="listbox" style="position:absolute; right:0; top:50px; z-index:20; min-width:220px; padding:6px; border-radius:12px; background:#fff; border:1px solid #e6e5e2; box-shadow:0 8px 40px -12px rgb(24 23 22 / 0.28); transform-origin:top right; animation:os-pop-in 200ms cubic-bezier(0.22,1,0.36,1) both;"><sc-for list="{{ sorts }}" as="s" hint-placeholder-count="5"><button type="button" role="option" aria-selected="{{ s.aria }}" onClick="{{ s.pick }}" style="width:100%; min-height:44px; display:flex; align-items:center; justify-content:space-between; padding:0 10px; border:0; border-radius:8px; background:{{ s.bg }}; color:{{ s.fg }}; font:500 14px Inter, system-ui, sans-serif; cursor:pointer; text-align:left;">{{ s.label }}<span style="display:flex; opacity:{{ s.op }};"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c2410c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span></button></sc-for></div></sc-if>
+                </div>
+              </div>
+              <sc-if value="{{ hasFilters }}" hint-placeholder-val="{{ false }}">
+                <div style="margin-top:4px; display:flex; flex-wrap:wrap; gap:6px;"><sc-for list="{{ activeChips }}" as="c" hint-placeholder-count="2"><button type="button" onClick="{{ c.remove }}" aria-label="{{ c.aria }}" style="height:36px; padding:0 8px 0 12px; display:flex; align-items:center; gap:4px; border:1px solid #fdba74; border-radius:999px; background:#fff7ed; color:#9a3412; font:500 14px Inter, system-ui, sans-serif; cursor:pointer; animation:os-pop-in 200ms cubic-bezier(0.22,1,0.36,1) both;">{{ c.label }}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button></sc-for></div>
+              </sc-if>
+              <sc-if value="{{ hasResults }}" hint-placeholder-val="{{ true }}">
+                <div style="margin-top:14px; display:grid; grid-template-columns:{{ gridCols }}; gap:{{ gridGap }};">
+                  <sc-for list="{{ results }}" as="p" hint-placeholder-count="8"><dc-import name="OSKarta" p="{{ p }}" hint-size="100%,340px"></dc-import></sc-for>
+                </div>
+                <div style="margin-top:28px; display:flex; flex-direction:column; align-items:center; gap:8px;"><span style="font-size:14px; color:#57544e;">{{ shownText }}</span><button type="button" style="height:48px; min-width:220px; padding:0 20px; border:1px solid #e6e5e2; border-radius:8px; background:#fff; color:#292825; font:600 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 2px 0 0 #e6e5e2; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px); box-shadow:0 0 0 0 #e6e5e2;">Yana koʻrsatish</button></div>
+              </sc-if>
+              <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex; flex-direction:column; align-items:center; text-align:center; padding:48px 16px; animation:os-up 300ms cubic-bezier(0.22,1,0.36,1) both;">
+  <span aria-hidden="true" style="position:relative; width:72px; height:72px; border-radius:18px; background:#fff; border:1px solid #e6e5e2; box-shadow:0 1px 2px 0 rgb(24 23 22 / 0.04), 0 4px 16px -6px rgb(24 23 22 / 0.10);">
+    <span style="position:absolute; left:17px; top:17px; width:16px; height:16px; border-radius:4px; background:#ea6100;"></span>
+    <span style="position:absolute; right:17px; top:17px; width:16px; height:16px; border-radius:4px; background:#fdba74;"></span>
+    <span style="position:absolute; left:17px; bottom:17px; width:16px; height:16px; border-radius:4px; background:#fdba74;"></span>
+    <span style="position:absolute; right:17px; bottom:17px; width:16px; height:16px; border-radius:4px; border:2px dashed #d3d1cd; animation:os-float 3.2s cubic-bezier(0.65,0,0.35,1) infinite alternate;"></span>
+  </span>
+  <h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:18px 0 0; font-size:20px; font-weight:700; letter-spacing:-0.02em;">Bu filtrlar boʻyicha hech narsa yoʻq</h2>
+  <p style="margin:6px 0 0; max-width:340px; font-size:14px; line-height:1.55; color:#57544e;">Narx oraligʻini kengaytiring yoki bir nechta filtrni olib tashlang.</p>
+  
+  <button type="button" onClick="{{ reset }}" style="margin-top:18px; height:48px; padding:0 22px; border:0; border-radius:8px; background:#c2410c; color:#fff; font:700 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 4px 0 0 #9a3412; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px) scale(0.985); box-shadow:0 2px 0 0 #9a3412;">Filtrlarni tozalash</button>
+</div>
+              </sc-if>
+            </div>
+          </div>
+        </main>
+        <dc-import name="OSFooter" bp="{{ bp }}" hint-size="100%,420px"></dc-import>
+      </div>
+
+      <sc-if value="{{ isMT }}" hint-placeholder-val="{{ true }}"><dc-import name="OSNav" active="catalog" cart-count="{{ cartCount }}" fav-count="{{ favCount }}" hint-size="100%,53px" style="position:absolute; left:0; right:0; bottom:0; z-index:40;"></dc-import></sc-if>
+      <sc-if value="{{ hasQuick }}" hint-placeholder-val="{{ false }}"><dc-import name="OSQuick" p="{{ quickP }}" on-close="{{ closeQuick }}" hint-size="100%,100%"></dc-import></sc-if>
+      <sc-if value="{{ sheet }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; inset:0; z-index:92; display:flex; align-items:flex-end; justify-content:center;">
+          <div onClick="{{ closeSheet }}" style="position:absolute; inset:0; background:rgb(24 23 22 / .45); animation:os-fade 220ms both;"></div>
+          <div role="dialog" aria-label="Filtrlar" style="position:relative; width:100%; max-width:640px; max-height:86%; display:flex; flex-direction:column; border-radius:16px 16px 0 0; background:#fff; box-shadow:0 8px 40px -12px rgb(24 23 22 / 0.28); animation:os-sheet 300ms cubic-bezier(0.22,1,0.36,1) both;">
+            <span style="display:block; margin:8px auto 0; width:40px; height:4px; border-radius:999px; background:#d3d1cd;"></span>
+            <div style="display:flex; align-items:center; justify-content:space-between; padding:6px 8px 6px 20px;"><span style="font-size:20px; font-weight:700;">Filtrlar</span><button type="button" onClick="{{ closeSheet }}" aria-label="Yopish" style="width:44px; height:44px; display:flex; align-items:center; justify-content:center; border:0; background:transparent; color:#403e39; cursor:pointer;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button></div>
+            <div style="flex:1; overflow-y:auto; padding:4px 20px 16px;">
+                <div style="display:flex; flex-direction:column; gap:22px;">
+                  <div>
+                    <p style="margin:0 0 10px; font-size:14px; font-weight:700;">Narx, soʻm</p>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                      <label style="min-width:0; display:flex; flex-direction:column; gap:4px; font-size:12px; color:#57544e;">dan<input inputmode="numeric" value="{{ fMin }}" onInput="{{ onMin }}" placeholder="0" style="height:44px; border-radius:8px; border:1px solid #d3d1cd; padding:0 12px; font:500 16px Inter, system-ui, sans-serif; color:#181716; background:#fff; outline:none; width:100%; min-width:0;" style-focus="border-color:#f97316; box-shadow:0 0 0 3px rgb(249 115 22 / .2);"></label>
+                      <label style="min-width:0; display:flex; flex-direction:column; gap:4px; font-size:12px; color:#57544e;">gacha<input inputmode="numeric" value="{{ fMax }}" onInput="{{ onMax }}" placeholder="20 000 000" style="height:44px; border-radius:8px; border:1px solid #d3d1cd; padding:0 12px; font:500 16px Inter, system-ui, sans-serif; color:#181716; background:#fff; outline:none; width:100%; min-width:0;" style-focus="border-color:#f97316; box-shadow:0 0 0 3px rgb(249 115 22 / .2);"></label>
+                    </div>
+                  </div>
+                  <div>
+                    <p style="margin:0 0 6px; font-size:14px; font-weight:700;">Brend</p>
+                    <sc-for list="{{ brandOpts }}" as="b" hint-placeholder-count="6">
+                      <button type="button" onClick="{{ b.toggle }}" role="checkbox" aria-checked="{{ b.aria }}" style="width:100%; min-height:44px; display:flex; align-items:center; gap:10px; padding:0; border:0; background:transparent; font:500 14px Inter, system-ui, sans-serif; color:#292825; cursor:pointer; text-align:left;">
+                        <span style="width:22px; height:22px; flex-shrink:0; border-radius:6px; border:1.5px solid {{ b.bd }}; background:{{ b.bg }}; color:#fff; display:flex; align-items:center; justify-content:center; transition:background 150ms, border-color 150ms;"><span style="display:flex; opacity:{{ b.op }}; transform:scale({{ b.sc }}); transition:transform 220ms cubic-bezier(0.34,1.45,0.64,1), opacity 150ms;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span></span>
+                        <span style="flex:1;">{{ b.name }}</span><span style="font-size:14px; color:#78756e;">{{ b.count }}</span>
+                      </button>
+                    </sc-for>
+                  </div>
+                  <div style="display:flex; flex-direction:column;">
+                    <p style="margin:0 0 6px; font-size:14px; font-weight:700;">Qoʻshimcha</p>
+                    <sc-for list="{{ toggles }}" as="t" hint-placeholder-count="3">
+                      <button type="button" onClick="{{ t.toggle }}" role="switch" aria-checked="{{ t.aria }}" style="min-height:48px; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:0; border:0; background:transparent; font:500 14px Inter, system-ui, sans-serif; color:#292825; cursor:pointer; text-align:left;">
+                        <span>{{ t.label }}</span>
+                        <span style="position:relative; width:44px; height:26px; flex-shrink:0; border-radius:999px; background:{{ t.track }}; transition:background 220ms;"><span style="position:absolute; left:3px; top:3px; width:20px; height:20px; border-radius:999px; background:#fff; box-shadow:0 1px 3px rgb(24 23 22 / .3); transform:translateX({{ t.x }}); transition:transform 260ms cubic-bezier(0.34,1.45,0.64,1);"></span></span>
+                      </button>
+                    </sc-for>
+                  </div>
+                </div></div>
+            <div style="display:flex; gap:10px; padding:12px 20px 20px; border-top:1px solid #f1f1ef;">
+              <button type="button" onClick="{{ reset }}" style="height:48px; padding:0 18px; border:1px solid #e6e5e2; border-radius:8px; background:#fff; color:#292825; font:600 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 2px 0 0 #e6e5e2; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px); box-shadow:0 0 0 0 #e6e5e2;">Tozalash</button>
+              <button type="button" onClick="{{ closeSheet }}" style="flex:1; height:48px; border:0; border-radius:8px; background:#c2410c; color:#fff; font:700 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 4px 0 0 #9a3412; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px) scale(0.985); box-shadow:0 2px 0 0 #9a3412;"><span style="display:inline-block; overflow:hidden; height:20px; vertical-align:middle;"><span data-roll-res="" style="display:block; line-height:20px;">{{ applyText }}</span></span></button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ hasQuick }}" hint-placeholder-val="{{ false }}"><dc-import name="OSQuick" p="{{ quickP }}" on-close="{{ closeQuick }}" hint-size="100%,100%"></dc-import></sc-if>
+      <div data-fly="" style="position:absolute; inset:0; z-index:95; pointer-events:none;"></div>
+      <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; left:16px; right:16px; top:14px; z-index:96; display:flex; justify-content:center; pointer-events:none;"><span style="max-width:100%; padding:10px 14px; border-radius:12px; background:#181716; color:#fff; font-size:14px; font-weight:500; box-shadow:0 8px 40px -12px rgb(24 23 22 / 0.28); animation:os-toast 220ms cubic-bezier(0.22,1,0.36,1) both; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ toast }}</span></div>
+      </sc-if>
+    </div>
+  </div>
+
+  <section style="width:100%; max-width:1320px; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px; font-size:14px; line-height:1.55; color:#403e39;">
+    <div style="padding:16px; border-radius:12px; background:#fff; border:1px solid #d3d1cd;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Ishlatilgan tokenlar</h3><p style="margin:0;"><b>Rang:</b> ink-900 (tanlangan kategoriya chipi), brand-700 (belgilangan checkbox, switch, filtr soni), brand-50/300/800 (faol filtr chiplari), ink-400 (oʻchiq switch).<br><b>Radius:</b> rounded-full (chip, switch), rounded-control (input, saralash), rounded-card (desktop filtr paneli), rounded-surface (sheet).<br><b>Soya:</b> shadow-overlay (saralash menyusi, sheet), shadow-card.</p></div>
+    <div style="padding:16px; border-radius:12px; background:#fff; border:1px solid #d3d1cd;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Tuzilish</h3><p style="margin:0;">390/820: yopishqoq qator — “Filtr” (faol filtrlar soni bilan) + saralash; filtrlar pastdan chiquvchi panelda, pastki tugma natija sonini jonli koʻrsatadi. 1280: chapda 264px yopishqoq filtr paneli + 4 ustunli toʻr.</p></div>
+    <div style="padding:16px; border-radius:12px; background:#fff; border:1px solid #d3d1cd;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Harakat</h3><p style="margin:0;">Sheet 300ms translateY · checkbox belgisi prujina bilan kattalashadi (220ms, overshoot) · switch tutqichi 260ms prujina · faol filtr chipi 200ms pop-in · natija soni tugmada yuqoriga suriladi (240ms) · saralash menyusi 200ms pop-in.</p></div>
+    <div style="padding:16px; border-radius:12px; background:#fff7ed; border:1px solid #fed7aa;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Tasdiqlang</h3><p style="margin:0;">1280 da toʻr 4 ustun — filtr paneli joy egallagani uchun. “Kompyuterda 5” filtr paneli yoʻq sahifalarda (bosh sahifa, sevimlilar, qidiruv) saqlangan.</p></div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { cat: 'Hammasi', brands: {}, stock: false, disc: false, r4: false, min: '', max: '', sort: 'pop', sortOpen: false, sheet: false };
+  componentDidMount() {
+    if (!window.OS || !OS.kit) { this.waitT = setTimeout(() => this.componentDidMount(), 30); return; }
+    this.k = OS.kit(this); this.k.mount();
+  }
+  componentWillUnmount() { clearTimeout(this.waitT); this.k && this.k.unmount(); }
+  componentDidUpdate() { if (!this.k || !this.frame.current) return; const c = this.count(this.state), prev = this._prevCount; this._prevCount = c; if (prev != null && prev !== c) this.frame.current.querySelectorAll('[data-roll-res]').forEach((el) => OS.roll(el)); }
+  CATMAP = { p1: 'Telefonlar', p2: 'Telefonlar', p5: 'Telefonlar', p3: 'Quloqchinlar', p6: 'Quloqchinlar', p4: 'Noutbuklar', p7: 'Aksessuarlar', p8: 'Maishiy texnika', p10: 'Maishiy texnika', p9: 'Planshetlar' };
+  num(s) { const n = parseInt(String(s || '').replace(/\D/g, ''), 10); return isNaN(n) ? null : n; }
+  filtered(S) {
+    if (!window.OS || !OS.products) return [];
+    const min = this.num(S.min), max = this.num(S.max), bs = Object.keys(S.brands || {});
+    const r = OS.products.filter((p) => (S.cat === 'Hammasi' || this.CATMAP[p.id] === S.cat) && (!bs.length || S.brands[p.brand]) && (!S.stock || p.stock > 0) && (!S.disc || p.old_price) && (!S.r4 || p.rating >= 4) && (min == null || p.price >= min) && (max == null || p.price <= max));
+    const f = { pop: (a, b) => b.sales_count - a.sales_count, cheap: (a, b) => a.price - b.price, exp: (a, b) => b.price - a.price, rate: (a, b) => b.rating - a.rating, new: (a, b) => (b.is_new - a.is_new) };
+    return r.sort((a, b) => ((b.stock > 0) - (a.stock > 0)) || f[S.sort || 'pop'](a, b));
+  }
+  count(S) { return this.filtered(S).length; }
+  fmtN(s) { const n = this.num(s); return n == null ? '' : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
+  renderVals() {
+    if (!this.k) return { sizeTabs: [], catChips: [], brandOpts: [], toggles: [], sorts: [], activeChips: [], results: [], isMT: true, isM: true, bp: 'm' };
+    const v = this.k.vals(), K = this.k, S = this.state, d = v.isD;
+    const res = this.filtered(S);
+    const brands = [...new Set(OS.products.map((p) => p.brand))].sort();
+    const chips = [];
+    Object.keys(S.brands).forEach((b) => chips.push({ label: b, rm: () => this.setState((s) => { const x = { ...s.brands }; delete x[b]; return { brands: x }; }) }));
+    if (S.stock) chips.push({ label: 'Sotuvda bor', rm: () => this.setState({ stock: false }) });
+    if (S.disc) chips.push({ label: 'Chegirmali', rm: () => this.setState({ disc: false }) });
+    if (S.r4) chips.push({ label: 'Reyting 4+', rm: () => this.setState({ r4: false }) });
+    if (this.num(S.min) != null || this.num(S.max) != null) chips.push({ label: (this.fmtN(S.min) || '0') + ' – ' + (this.fmtN(S.max) || '∞') + ' soʻm', rm: () => this.setState({ min: '', max: '' }) });
+    const SORTS = [['pop', 'Ommabop'], ['cheap', 'Avval arzonlari'], ['exp', 'Avval qimmatlari'], ['rate', 'Reyting boʻyicha'], ['new', 'Avval yangilari']];
+    const q = S.quick && OS.byId(S.quick);
+    const cats = ['Hammasi', 'Telefonlar', 'Noutbuklar', 'Quloqchinlar', 'Aksessuarlar', 'Maishiy texnika', 'Planshetlar'];
+    return {
+      ...v, h1: v.isM ? '28px' : '28px', negPad: '-' + v.pad, countText: res.length + ' ta mahsulot',
+      catChips: cats.map((c) => ({ name: c, pick: () => this.setState({ cat: c }), bd: S.cat === c ? '#181716' : '#e6e5e2', bg: S.cat === c ? '#181716' : '#fff', fg: S.cat === c ? '#fff' : '#292825' })),
+      layoutCols: d ? '264px minmax(0,1fr)' : 'minmax(0,1fr)', barTop: d ? '108px' : '56px', sortFlex: d ? '0 0 260px' : '1', sortMl: d ? 'auto' : '0',
+      gridCols: d ? 'repeat(4, minmax(0,1fr))' : v.cols, gridGap: d ? '24px 18px' : v.isT ? '20px 16px' : '18px 12px',
+      fMin: this.fmtN(S.min), fMax: this.fmtN(S.max), onMin: (e) => this.setState({ min: e.target.value }), onMax: (e) => this.setState({ max: e.target.value }),
+      brandOpts: brands.map((b) => { const on = !!S.brands[b]; return { name: b, count: OS.products.filter((p) => p.brand === b).length, aria: on ? 'true' : 'false', bd: on ? '#c2410c' : '#a3a09a', bg: on ? '#c2410c' : '#fff', op: on ? 1 : 0, sc: on ? 1 : 0.4, toggle: () => this.setState((s) => { const x = { ...s.brands }; if (x[b]) delete x[b]; else x[b] = true; return { brands: x }; }) }; }),
+      toggles: [['stock', 'Faqat sotuvda borlari'], ['disc', 'Chegirmadagilar'], ['r4', 'Reyting 4 va undan yuqori']].map(([k, label]) => ({ label, aria: S[k] ? 'true' : 'false', track: S[k] ? '#c2410c' : '#a3a09a', x: S[k] ? '18px' : '0px', toggle: () => this.setState({ [k]: !S[k] }) })),
+      hasFilters: chips.length > 0, filterCount: chips.length, activeChips: chips.map((c) => ({ label: c.label, aria: c.label + ' filtrini olib tashlash', remove: c.rm })),
+      reset: () => this.setState({ brands: {}, stock: false, disc: false, r4: false, min: '', max: '' }),
+      sortLabel: SORTS.find((s) => s[0] === S.sort)[1], sortOpen: S.sortOpen, sortAria: S.sortOpen ? 'true' : 'false', sortRot: S.sortOpen ? '180deg' : '0deg',
+      toggleSort: () => this.setState({ sortOpen: !S.sortOpen }),
+      sorts: SORTS.map(([k, label]) => ({ label, aria: S.sort === k ? 'true' : 'false', bg: S.sort === k ? '#fff7ed' : 'transparent', fg: S.sort === k ? '#9a3412' : '#292825', op: S.sort === k ? 1 : 0, pick: () => this.setState({ sort: k, sortOpen: false }) })),
+      results: res.map((p, i) => K.view(p, i)), hasResults: res.length > 0, noResults: res.length === 0, shownText: res.length + ' tadan ' + res.length + ' tasi koʻrsatildi',
+      sheet: S.sheet && !d, openSheet: () => this.setState({ sheet: true }), closeSheet: () => this.setState({ sheet: false }),
+      applyText: res.length ? res.length + ' ta natijani koʻrsatish' : 'Natija yoʻq',
+      hasQuick: !!q && d, quickP: q ? K.view(q, 0) : null, closeQuick: () => this.setState({ quick: null }),
+    };
+  }
+}
+</script>
+</body>
+</html>

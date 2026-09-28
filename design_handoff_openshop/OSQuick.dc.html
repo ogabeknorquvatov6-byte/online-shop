@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="position:fixed; inset:0; z-index:90; display:flex; align-items:center; justify-content:center; padding:32px; font-family:Inter, system-ui, sans-serif; color:#181716;">
+  <div onClick="{{ close }}" style="position:absolute; inset:0; background:rgb(24 23 22 / .5); animation:os-fade 220ms both;"></div>
+  <div role="dialog" aria-label="Tezkor koʻrish" data-card="{{ p.id }}" style="position:relative; width:900px; max-width:100%; max-height:100%; overflow:auto; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); border-radius:16px; background:#fff; box-shadow:0 8px 40px -12px rgb(24 23 22 / 0.28); animation:os-pop-in 260ms cubic-bezier(0.22,1,0.36,1) both;">
+    <div data-media="" onPointerMove="{{ gyroPointer }}" onPointerLeave="{{ gyroRest }}" style="position:relative; aspect-ratio:1 / 1; overflow:hidden; background:#f1f1ef;">
+      <div data-gyro="" style="position:absolute; inset:0; transform:scale(1.05); background:repeating-linear-gradient(135deg, #f1f1ef 0 9px, #e6e5e2 9px 18px); display:flex; align-items:flex-end; padding:24px 28px; font-family:ui-monospace, Menlo, monospace; font-size:12px; color:#57544e;">{{ p.img }}</div>
+      <sc-if value="{{ p.hasDisc }}" hint-placeholder-val="{{ false }}"><span style="position:absolute; left:16px; top:16px; border-radius:6px; background:#c2410c; color:#fff; font-weight:700; font-size:12px; padding:4px 8px; box-shadow:0 4px 14px -4px rgb(234 97 0 / 0.9);">−{{ p.discount }}%</span></sc-if>
+      <div style="position:absolute; left:16px; right:16px; bottom:16px; display:flex; gap:8px;">
+        <sc-for list="{{ thumbs }}" as="t" hint-placeholder-count="4"><span style="width:56px; height:56px; border-radius:8px; border:2px solid {{ t.ring }}; background:repeating-linear-gradient(135deg, #f8f8f7 0 5px, #e6e5e2 5px 10px);"></span></sc-for>
+      </div>
+    </div>
+    <div style="position:relative; display:flex; flex-direction:column; padding:28px;">
+      <button type="button" onClick="{{ close }}" aria-label="Yopish" style="position:absolute; right:12px; top:12px; width:44px; height:44px; display:flex; align-items:center; justify-content:center; border:0; border-radius:999px; background:#f1f1ef; color:#403e39; cursor:pointer; transition:transform 140ms cubic-bezier(0.22,1,0.36,1);" style-active="transform:scale(0.92);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+      <p style="margin:0; font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#57544e;">{{ p.brand }}</p>
+      <h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:8px 48px 0 0; font-size:20px; line-height:1.25; letter-spacing:-0.02em; font-weight:700;">{{ p.name }}</h2>
+      <div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:6px 14px; font-size:14px; color:#57544e;">
+        <sc-if value="{{ p.hasRating }}" hint-placeholder-val="{{ true }}"><span style="display:flex; align-items:center; gap:4px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><b style="color:#181716;">{{ p.ratingText }}</b>{{ p.reviewsLong }}</span></sc-if>
+        <sc-if value="{{ p.hasSold }}" hint-placeholder-val="{{ false }}"><span>{{ p.soldText }}</span></sc-if>
+      </div>
+      <div style="margin-top:18px; padding:14px 16px; border-radius:12px; border:1px solid rgb(254 215 170 / .9); background:rgb(255 247 237 / .55); box-shadow:inset 0 1px 0 0 rgb(255 255 255 / 0.7), inset 0 -1px 0 0 rgb(24 23 22 / 0.05);">
+        <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 10px;"><span style="font-size:28px; font-weight:700; letter-spacing:-0.025em;">{{ p.priceText }}</span><sc-if value="{{ p.hasDisc }}" hint-placeholder-val="{{ false }}"><span style="font-size:14px; color:#78756e; text-decoration:line-through;">{{ p.oldText }}</span></sc-if></div>
+        <sc-if value="{{ p.isIn }}" hint-placeholder-val="{{ true }}"><p style="margin:8px 0 0; font-size:14px; font-weight:500; color:#047857;">✓ Sotuvda bor · Toshkentda — ertagayoq</p></sc-if>
+        <sc-if value="{{ p.isLow }}" hint-placeholder-val="{{ false }}"><p style="margin:8px 0 0; font-size:14px; font-weight:600; color:#b45309;">{{ p.lowText }}</p></sc-if>
+        <sc-if value="{{ p.isOut }}" hint-placeholder-val="{{ false }}"><p style="margin:8px 0 0; font-size:14px; font-weight:500; color:#57544e;">Vaqtincha mavjud emas</p></sc-if>
+      </div>
+      <div style="margin-top:auto; padding-top:20px; display:flex; gap:10px;">
+        <sc-if value="{{ canBuy }}" hint-placeholder-val="{{ true }}">
+          <button type="button" onClick="{{ p.onAdd }}" style="flex:1; height:48px; display:flex; align-items:center; justify-content:center; gap:8px; border:0; border-radius:8px; background:#c2410c; color:#fff; font:700 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 4px 0 0 #9a3412; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px) scale(0.985); box-shadow:0 2px 0 0 #9a3412;">{{ addLabel }}</button>
+        </sc-if>
+        <sc-if value="{{ p.isOut }}" hint-placeholder-val="{{ false }}">
+          <button type="button" disabled="" style="flex:1; height:48px; border:1px solid #e6e5e2; border-radius:8px; background:#f8f8f7; color:#78756e; font:600 16px Inter, system-ui, sans-serif;">Sotuvda yoʻq</button>
+        </sc-if>
+        <button type="button" onClick="{{ p.onFav }}" aria-label="Sevimlilarga qoʻshish" style="position:relative; width:48px; height:48px; display:flex; align-items:center; justify-content:center; border:1px solid #e6e5e2; border-radius:8px; background:#fff; color:{{ favColor }}; cursor:pointer; transition:transform 140ms cubic-bezier(0.22,1,0.36,1);" style-active="transform:scale(0.92);"><svg width="20" height="20" viewBox="0 0 24 24" fill="{{ favFill }}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg><span data-ring="" style="position:absolute; inset:10px; border-radius:999px; box-shadow:0 0 0 2px #f97316; opacity:0; pointer-events:none;"></span></button>
+      </div>
+      <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:8px 16px; font-size:12px; color:#57544e;"><span>1 kunda yetkazish (Toshkent)</span><span>·</span><span>14 kun ichida qaytarish</span><span>·</span><span>Rasmiy kafolat</span></div>
+      <a href="02 Mahsulot.dc.html" style="margin-top:14px; font-size:14px; font-weight:600; color:#c2410c;">Toʻliq maʼlumot va sharhlar →</a>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:960,&quot;height&quot;:620},&quot;p&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;object&quot;},&quot;onClose&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;}}">
+class Component extends DCLogic {
+  componentDidMount() { this.onKey = (e) => { if (e.key === 'Escape') this.props.onClose && this.props.onClose(); }; window.addEventListener('keydown', this.onKey); }
+  componentWillUnmount() { window.removeEventListener('keydown', this.onKey); }
+  renderVals() {
+    const p = this.props.p || {};
+    return {
+      p, close: this.props.onClose, canBuy: !p.isOut, addLabel: p.qty ? 'Savatda · ' + p.qty + ' — yana qoʻshish' : 'Savatga qoʻshish',
+      favColor: p.fav ? '#ea6100' : '#292825', favFill: p.fav ? 'currentColor' : 'none',
+      thumbs: [0, 1, 2, 3].map((i) => ({ ring: i === 0 ? '#ea6100' : '#fff' })),
+      gyroPointer: window.OS && OS.gyroPointer, gyroRest: window.OS && OS.gyroRest,
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <!--
+      Favicon eski holatda `/vite.svg` ga ishora qilardi, lekin loyihada
+      `public/` papkasi yo'q — ya'ni har bir sahifa ochilishida 404 so'rov
+      ketardi va brauzer yorlig'ida bo'sh ikonka turardi. Endi ikonka
+      inline data-URI: qo'shimcha so'rov ham, 404 ham yo'q.
+    -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ea6100'/%3E%3Cpath d='M10 11V9.5a6 6 0 0 1 12 0V11h2.2l1.3 12.6A2.5 2.5 0 0 1 23 26.3H9a2.5 2.5 0 0 1-2.5-2.7L7.8 11H10Zm2 0h8V9.5a4 4 0 0 0-8 0V11Z' fill='white'/%3E%3C/svg%3E"
+    />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#181716" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light" />
+
+    <title>OpenShop — Online-do‘kon</title>
+    <meta
+      name="description"
+      content="OpenShop — O‘zbekistondagi ishonchli online-do‘kon. Telefonlar, noutbuklar, audio va aksessuarlar. Rasmiy kafolat, tez yetkazib berish."
+    />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph asoslari; har bir marshrutda src/lib/seo.ts ularni yangilaydi. -->
+    <meta property="og:site_name" content="OpenShop" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="uz_UZ" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <div style="padding: 2rem; font-family: system-ui, sans-serif; text-align: center">
+        <h1 style="font-size: 1.125rem">OpenShop ishlashi uchun JavaScript kerak</h1>
+        <p style="color: #57544e">Brauzeringizda JavaScript'ni yoqing va sahifani yangilang.</p>
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

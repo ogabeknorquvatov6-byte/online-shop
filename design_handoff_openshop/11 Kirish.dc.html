@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Onest:wght@600;700&display=swap" rel="stylesheet">
+<script src="os-proto.js"></script>
+<script src="os-app.js"></script>
+<style>
+body{margin:0;background:#e6e5e2;font-family:Inter,system-ui,sans-serif;color:#181716;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:#c2410c;text-decoration:none}a:hover{color:#9a3412}
+*{box-sizing:border-box}
+[data-scroll]::-webkit-scrollbar,[data-hscroll]::-webkit-scrollbar{display:none}
+@keyframes os-up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes os-shine{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes os-swap{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@keyframes os-shimmer{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes os-fade{from{opacity:0}to{opacity:1}}
+@keyframes os-toast{from{opacity:0;transform:translateY(-10px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes os-sheet{from{transform:translateY(100%)}to{transform:none}}
+@keyframes os-drawer-l{from{transform:translateX(-100%)}to{transform:none}}
+@keyframes os-drawer-r{from{transform:translateX(100%)}to{transform:none}}
+@keyframes os-pop-in{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes os-a1{from{transform:translate(-26px,-18px) scale(.92)}to{transform:translate(26px,18px) scale(1.14)}}
+@keyframes os-a2{from{transform:translate(22px,16px) scale(1.12)}to{transform:translate(-22px,-16px) scale(.9)}}
+@keyframes os-spin{to{transform:rotate(360deg)}}
+@keyframes os-shake{0%,100%{transform:none}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;animation-delay:0s!important;transition-duration:.01ms!important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh; display:flex; flex-direction:column; align-items:center; gap:12px; padding:14px 16px 40px;">
+  <div style="width:100%; max-width:1320px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <a href="00 Indeks.dc.html" style="font-size:14px; font-weight:600; color:#57544e;">← Barcha sahifalar</a>
+      <span style="font-size:16px; font-weight:700;">11 · Kirish (login+parol, Google, bot)</span>
+    </div>
+    <div style="display:flex; gap:4px; padding:4px; background:#fff; border:1px solid #d3d1cd; border-radius:10px;">
+      <sc-for list="{{ sizeTabs }}" as="t" hint-placeholder-count="3"><button type="button" onClick="{{ t.go }}" style="height:34px; padding:0 12px; border:0; border-radius:7px; font:600 14px Inter, system-ui, sans-serif; cursor:pointer; background:{{ t.bg }}; color:{{ t.fg }};">{{ t.label }}</button></sc-for>
+    </div>
+  </div>
+
+  <div style="position:relative; width:{{ stageW }}; height:{{ stageH }};">
+    <div ref="{{ frame }}" style="position:absolute; left:12px; top:12px; width:{{ frameW }}; height:{{ frameH }}; transform:scale({{ frameScale }}); transform-origin:0 0; border-radius:{{ frameRadius }}; overflow:hidden; background:#f8f8f7; box-shadow:{{ frameRing }}; isolation:isolate;">
+      <div data-scroll="" style="position:absolute; inset:0; overflow-y:auto; overflow-x:hidden; scrollbar-width:none; padding-bottom:{{ bottomPad }};">
+        
+
+        <main style="min-height:{{ frameH }}; display:grid; grid-template-columns:{{ layout }};">
+          <sc-if value="{{ isD }}" hint-placeholder-val="{{ false }}">
+            <section style="position:relative; isolation:isolate; overflow:hidden; background:#181716; color:#fff; padding:48px; display:flex; flex-direction:column; justify-content:space-between;">
+              <div aria-hidden="true" style="position:absolute; inset:0; z-index:-1; pointer-events:none;"><span style="position:absolute; right:-80px; top:-80px; width:360px; height:360px; border-radius:999px; background:rgb(234 97 0 / .25); filter:blur(40px); animation:os-a1 13s cubic-bezier(0.65,0,0.35,1) infinite alternate;"></span><span style="position:absolute; left:10%; bottom:-120px; width:300px; height:300px; border-radius:999px; background:rgb(249 115 22 / .15); filter:blur(48px); animation:os-a2 17.2s cubic-bezier(0.65,0,0.35,1) 2.4s infinite alternate;"></span></div>
+              <a href="03 Bosh sahifa.dc.html" style="display:flex; align-items:center; gap:10px; color:#fff;"><span style="position:relative; width:36px; height:36px; border-radius:9px; background:#ea6100;"><span style="position:absolute; left:7px; top:7px; width:9px; height:9px; border-radius:2px; background:#fff;"></span><span style="position:absolute; right:7px; top:7px; width:9px; height:9px; border-radius:2px; background:#fff;"></span><span style="position:absolute; left:7px; bottom:7px; width:9px; height:9px; border-radius:2px; background:#fff;"></span><span style="position:absolute; right:7px; bottom:7px; width:9px; height:9px; border-radius:2px; background:#fff;"></span></span><span style="font-size:20px; font-weight:700; letter-spacing:-0.02em;">Open<span style="color:#fdba74;">Shop</span></span></a>
+              <div><h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0; font-size:40px; line-height:1.1; letter-spacing:-0.03em; font-weight:700;">Texnika va kundalik hayot<br><span style="color:#fdba74;">uchun kerakli hamma narsa.</span></h2>
+                <div style="margin-top:28px; display:flex; flex-direction:column; gap:14px; font-size:16px; color:#e6e5e2;">
+                  <span style="display:flex; align-items:center; gap:10px;"><span style="display:flex; color:#fb923c;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"></path><path d="M12 22V12"></path><path d="m3.3 7 7.703 4.734a2 2 0 0 0 1.994 0L20.7 7"></path></svg></span>Buyurtma holati real vaqtda</span>
+                  <span style="display:flex; align-items:center; gap:10px;"><span style="display:flex; color:#fb923c;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg></span>Sevimlilar va savat hisobingizda</span>
+                  <span style="display:flex; align-items:center; gap:10px;"><span style="display:flex; color:#fb923c;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg></span>Rasmiy kafolat va 14 kunlik qaytarish</span>
+                </div></div>
+              <span style="font-size:14px; color:#a3a09a;">© 2026 <span data-ph="SETTINGS: store_name" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[SETTINGS: store_name]</span></span>
+            </section>
+          </sc-if>
+          <section style="display:flex; flex-direction:column; justify-content:center; align-items:center; padding:{{ formPad }}; background:#fff;">
+            <div style="width:100%; max-width:384px;">
+              <sc-if value="{{ notD }}" hint-placeholder-val="{{ true }}"><a href="03 Bosh sahifa.dc.html" style="margin-bottom:24px; min-height:44px; display:inline-flex; align-items:center; gap:6px; font-size:14px; font-weight:500; color:#57544e;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>Bosh sahifa</a></sc-if>
+              <sc-if value="{{ stOk }}" hint-placeholder-val="{{ false }}">
+                <div style="text-align:center; padding:24px 0;"><span style="margin:0 auto; width:72px; height:72px; border-radius:999px; background:#059669; color:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 12px 30px -10px rgb(5 150 105 / .7); animation:os-pop-in 300ms cubic-bezier(0.22,1,0.36,1) both;"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span><h1 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:18px 0 0; font-size:28px; font-weight:700; letter-spacing:-0.02em;">Xush kelibsiz!</h1><p style="margin:6px 0 0; font-size:16px; color:#57544e;">Savat va sevimlilar hisobingizga ulandi.</p><a href="10 Kabinet.dc.html" style="margin-top:20px; height:52px; display:flex; align-items:center; justify-content:center; border:0; border-radius:8px; background:#c2410c; color:#fff; font:700 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 4px 0 0 #9a3412; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px) scale(0.985); box-shadow:0 2px 0 0 #9a3412;">Kabinetga oʻtish</a><button type="button" onClick="{{ reset }}" style="margin-top:8px; min-height:44px; border:0; background:transparent; color:#57544e; font:600 14px Inter, system-ui, sans-serif; cursor:pointer;">↺ Demo: qaytadan</button></div>
+              </sc-if>
+              <sc-if value="{{ notOk }}" hint-placeholder-val="{{ true }}">
+                <h1 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0; font-size:28px; letter-spacing:-0.025em; font-weight:700;">Hisobingizga kiring</h1>
+                <p style="margin:6px 0 0; font-size:14px; color:#57544e;">Telegram botda tanlagan login va parolingiz bilan.</p>
+                <sc-if value="{{ hasErr }}" hint-placeholder-val="{{ false }}"><div role="alert" style="margin-top:20px; display:flex; align-items:flex-start; gap:10px; padding:12px 14px; border-radius:8px; border:1px solid #fecaca; background:#fef2f2; font-size:14px; line-height:1.45; color:#b91c1c; animation:os-swap 220ms cubic-bezier(0.22,1,0.36,1) both;"><span style="display:flex; margin-top:1px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg></span>{{ err }}</div></sc-if>
+                <form onSubmit="{{ submit }}" novalidate="" style="margin-top:20px; display:flex; flex-direction:column; gap:16px;">
+                  <div>
+                  <label for="lg-login" style="display:block; margin-bottom:6px; font-size:12px; font-weight:500; color:#57544e;">Login</label>
+                  <div style="position:relative;">
+                    <span style="position:absolute; left:14px; top:50%; transform:translateY(-50%); display:flex; color:#78756e; pointer-events:none;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
+                    <input id="lg-login" type="text" value="{{ login }}" onInput="{{ on_login }}" placeholder="masalan: alibek" aria-invalid="{{ loginAria }}" style="width:100%; height:48px; border-radius:8px; border:1.5px solid {{ loginBd }}; padding:0 14px 0 40px; font:500 16px Inter, system-ui, sans-serif; color:#181716; background:#fff; outline:none; animation:{{ shake }};" style-focus="border-color:#f97316; box-shadow:0 0 0 3px rgb(249 115 22 / .2);">
+                    
+                  </div>
+                  <sc-if value="{{ loginErr }}" hint-placeholder-val="{{ false }}"><p style="margin:6px 0 0; font-size:12px; font-weight:500; color:#dc2626;">{{ loginMsg }}</p></sc-if>
+                </div>
+                  <div>
+                  <label for="lg-pw" style="display:block; margin-bottom:6px; font-size:12px; font-weight:500; color:#57544e;">Parol</label>
+                  <div style="position:relative;">
+                    <span style="position:absolute; left:14px; top:50%; transform:translateY(-50%); display:flex; color:#78756e; pointer-events:none;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></span>
+                    <input id="lg-pw" type="{{ pwType }}" value="{{ pw }}" onInput="{{ on_pw }}" placeholder="" aria-invalid="{{ pwAria }}" style="width:100%; height:48px; border-radius:8px; border:1.5px solid {{ pwBd }}; padding:0 48px 0 40px; font:500 16px Inter, system-ui, sans-serif; color:#181716; background:#fff; outline:none; animation:{{ shake }};" style-focus="border-color:#f97316; box-shadow:0 0 0 3px rgb(249 115 22 / .2);">
+                    <button type="button" onClick="{{ togglePw }}" aria-label="{{ pwAria }}" style="position:absolute; right:0; top:0; width:48px; height:48px; display:flex; align-items:center; justify-content:center; border:0; background:transparent; color:#78756e; cursor:pointer;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.06 12.35a1 1 0 0 1 0-.7 10.75 10.75 0 0 1 19.88 0 1 1 0 0 1 0 .7 10.75 10.75 0 0 1-19.88 0"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                  </div>
+                  <sc-if value="{{ pwErr }}" hint-placeholder-val="{{ false }}"><p style="margin:6px 0 0; font-size:12px; font-weight:500; color:#dc2626;">{{ pwMsg }}</p></sc-if>
+                </div>
+                  <button type="submit" disabled="{{ busy }}" style="height:52px; display:flex; align-items:center; justify-content:center; gap:8px; border:0; border-radius:8px; background:#c2410c; color:#fff; font:700 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 4px 0 0 #9a3412; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px) scale(0.985); box-shadow:0 2px 0 0 #9a3412;"><sc-if value="{{ busy }}" hint-placeholder-val="{{ false }}"><span style="width:16px; height:16px; border-radius:999px; border:2px solid rgb(255 255 255 / .4); border-top-color:#fff; animation:os-spin 700ms linear infinite;"></span>Kirilmoqda…</sc-if><sc-if value="{{ notBusy }}" hint-placeholder-val="{{ true }}">Kirish</sc-if></button>
+                </form>
+                <p style="margin:12px 0 0; text-align:center; font-size:14px; color:#57544e;">Parolni unutdingizmi? <a href="https://t.me/" title="[ENV: VITE_TELEGRAM_BOT_USERNAME]" style="font-weight:600; color:#c2410c;">Bot orqali tiklang</a></p>
+                <div aria-hidden="true" style="margin:24px 0; display:flex; align-items:center; gap:12px; font-size:12px; font-weight:500; color:#78756e;"><span style="flex:1; height:1px; background:#e6e5e2;"></span>yoki<span style="flex:1; height:1px; background:#e6e5e2;"></span></div>
+                <button type="button" onClick="{{ google }}" style="width:100%; height:52px; display:flex; align-items:center; justify-content:center; gap:10px; border:1px solid #e6e5e2; border-radius:8px; background:#fff; color:#292825; font:600 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 2px 0 0 #e6e5e2; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px); box-shadow:0 0 0 0 #e6e5e2;"><span style="width:22px; height:22px; border-radius:999px; border:1px solid #d3d1cd; display:flex; align-items:center; justify-content:center; font:700 12px Inter, system-ui, sans-serif; color:#403e39;">G</span>Google bilan davom etish</button>
+                <section aria-labelledby="reg-h" style="margin-top:24px; overflow:hidden; border-radius:12px; border:1px solid #e6e5e2; background:#fff; box-shadow:0 1px 2px 0 rgb(24 23 22 / 0.04), 0 4px 16px -6px rgb(24 23 22 / 0.10);">
+                  <div style="display:flex; align-items:flex-start; gap:12px; padding:16px;"><span style="width:40px; height:40px; flex-shrink:0; border-radius:8px; background:#f0f9ff; color:#0284c7; display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"></path><path d="M22 2 11 13"></path></svg></span><div><h2 id="reg-h" style="margin:0; font-size:14px; font-weight:600;">Hisobingiz yoʻqmi?</h2><p style="margin:4px 0 0; font-size:14px; line-height:1.5; color:#57544e;">Roʻyxatdan oʻtish Telegram bot orqali — bir daqiqada. Bot sizga login va parol beradi, shu bilan saytga kirasiz.</p></div></div>
+                  <ul style="margin:0; padding:12px 16px; list-style:none; display:flex; flex-direction:column; gap:6px; border-top:1px solid #f1f1ef; font-size:14px; color:#403e39;"><li style="display:flex; align-items:center; gap:8px;"><span style="display:flex; color:#059669;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Telefon raqamingiz Telegram orqali tasdiqlanadi</li><li style="display:flex; align-items:center; gap:8px;"><span style="display:flex; color:#059669;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>Buyurtma holati botga ham xabar qilib turiladi</li></ul>
+                  <div style="padding:12px; border-top:1px solid #f1f1ef;"><a href="https://t.me/" title="[ENV: VITE_TELEGRAM_BOT_USERNAME]" style="height:48px; display:flex; align-items:center; justify-content:center; gap:8px; border:0; border-radius:8px; background:#181716; color:#fff; font:600 16px Inter, system-ui, sans-serif; cursor:pointer; transition:transform 140ms cubic-bezier(0.22,1,0.36,1);" style-active="transform:translateY(2px) scale(0.985);"><span style="display:flex; color:#38bdf8;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"></path><path d="M22 2 11 13"></path></svg></span>Telegram bot orqali roʻyxatdan oʻtish</a><p style="margin:8px 0 0; text-align:center;"><span data-ph="ENV: VITE_TELEGRAM_BOT_USERNAME" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[ENV: VITE_TELEGRAM_BOT_USERNAME]</span></p></div>
+                </section>
+                <p style="margin:20px 0 0; text-align:center; font-size:12px; line-height:1.55; color:#57544e;">Davom etish orqali siz <a href="14 Malumot sahifalari.dc.html" style="color:#403e39; text-decoration:underline;">xizmat shartlari</a>ga rozilik bildirasiz.</p>
+                <div style="margin-top:12px; display:flex; justify-content:center; gap:12px; font-size:12px;"><button type="button" onClick="{{ demoErr }}" style="min-height:40px; border:0; background:transparent; color:#b91c1c; font:600 12px Inter, system-ui, sans-serif; cursor:pointer;">▸ Demo: notoʻgʻri parol</button></div>
+              </sc-if>
+            </div>
+          </section>
+        </main>
+        
+      </div>
+
+      
+      <sc-if value="{{ hasQuick }}" hint-placeholder-val="{{ false }}"><dc-import name="OSQuick" p="{{ quickP }}" on-close="{{ closeQuick }}" hint-size="100%,100%"></dc-import></sc-if>
+      <div data-fly="" style="position:absolute; inset:0; z-index:95; pointer-events:none;"></div>
+      <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; left:16px; right:16px; top:14px; z-index:96; display:flex; justify-content:center; pointer-events:none;"><span style="max-width:100%; padding:10px 14px; border-radius:12px; background:#181716; color:#fff; font-size:14px; font-weight:500; box-shadow:0 8px 40px -12px rgb(24 23 22 / 0.28); animation:os-toast 220ms cubic-bezier(0.22,1,0.36,1) both; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ toast }}</span></div>
+      </sc-if>
+    </div>
+  </div>
+
+  <section style="width:100%; max-width:1320px; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px; font-size:14px; line-height:1.55; color:#403e39;">
+    <div style="padding:16px; border-radius:12px; background:#fff7ed; border:1px solid #fed7aa;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Koddan olingan (AuthPage.tsx)</h3><p style="margin:0;">Saytda oʻz-oʻzidan roʻyxatdan oʻtish yoʻq: hisob faqat Telegram bot orqali. Kirish — bot bergan login + parol; parolni tiklash — bot; Google bilan davom etish. Barcha matnlar AuthPageʼdan. Bot nomi — <code>VITE_TELEGRAM_BOT_USERNAME</code>, doʻkon nomi — store_settings.store_name.</p></div>
+    <div style="padding:16px; border-radius:12px; background:#fff; border:1px solid #d3d1cd;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Ishlatilgan tokenlar</h3><p style="margin:0;"><b>Rang:</b> brand-700 “Kirish” + shadow-press, ink-900 bot tugmasi (kodda sky-500 + oq matn = 2.8:1, AAʼdan oʻtmaydi — ink-900 ga almashtirildi, koʻk faqat ikonkada), sky-50/600 bot belgisi (mavjud), red-50/200/700 xato (mavjud), emerald-600 belgilar.<br><b>Radius:</b> rounded-control, rounded-card.</p></div>
+    <div style="padding:16px; border-radius:12px; background:#fff; border:1px solid #d3d1cd;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Harakat</h3><p style="margin:0;">Xato banneri 220ms paydo boʻladi; boʻsh yuborishda maydonlar 280ms chayqaladi. Tugmada spinner (700ms aylanish) — “Kirilmoqda…”. Muvaffaqiyat check 300ms pop-in. Chap panel aurora 13/17s.</p></div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { login: '', pw: '', show: false, touched: false, busy: false, err: '', ok: false, shakeN: 0 };
+  componentDidMount() {
+    if (!window.OS || !OS.kit) { this.waitT = setTimeout(() => this.componentDidMount(), 30); return; }
+    this.k = OS.kit(this); this.k.mount();
+  }
+  componentWillUnmount() { clearTimeout(this.waitT); this.k && this.k.unmount(); }
+  renderVals() {
+    if (!this.k) return { sizeTabs: [], notOk: true, notD: true, notBusy: true, bp: 'm' };
+    const v = this.k.vals(), S = this.state;
+    const le = S.touched && !S.login.trim() ? 'Loginni kiriting' : '', pe = S.touched && !S.pw ? 'Parolni kiriting' : '';
+    const fld = (k, e) => ({ [k + 'Err']: !!e, [k + 'Msg']: e, [k + 'Bd']: e ? '#dc2626' : '#d3d1cd', [k + 'Aria']: e ? 'true' : 'false' });
+    return { ...v, bottomPad: '0px', layout: v.isD ? 'minmax(0,1fr) minmax(0,1fr)' : 'minmax(0,1fr)', formPad: v.isM ? '28px 20px' : '48px 32px',
+      login: S.login, pw: S.pw, on_login: (e) => this.setState({ login: e.target.value, err: '' }), on_pw: (e) => this.setState({ pw: e.target.value, err: '' }),
+      ...fld('login', le), ...fld('pw', pe), pwType: S.show ? 'text' : 'password', pwAria: S.show ? 'Parolni yashirish' : 'Parolni koʻrsatish', togglePw: () => this.setState({ show: !S.show }),
+      shake: S.shakeN ? 'os-shake 280ms cubic-bezier(0.22,1,0.36,1)' : 'none',
+      busy: S.busy, notBusy: !S.busy, hasErr: !!S.err, err: S.err, stOk: S.ok, notOk: !S.ok,
+      submit: (e) => { e.preventDefault(); if (!S.login.trim() || !S.pw) { this.setState({ touched: true, shakeN: S.shakeN + 1 }); return; } this.setState({ busy: true }); setTimeout(() => this.setState({ busy: false, ok: true }), 900); },
+      demoErr: () => this.setState({ err: 'Login yoki parol notoʻgʻri. Parolni unutgan boʻlsangiz — bot orqali tiklang.', shakeN: S.shakeN + 1 }),
+      google: () => this.setState({ busy: true }, () => setTimeout(() => this.setState({ busy: false, ok: true }), 900)),
+      reset: () => this.setState({ ok: false, login: '', pw: '', touched: false, err: '' }) };
+  }
+}
+</script>
+</body>
+</html>

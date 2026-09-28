@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Onest:wght@600;700&display=swap" rel="stylesheet">
+<script src="os-proto.js"></script>
+<script src="os-app.js"></script>
+<style>
+body{margin:0;background:#e6e5e2;font-family:Inter,system-ui,sans-serif;color:#181716;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:#c2410c;text-decoration:none}a:hover{color:#9a3412}
+*{box-sizing:border-box}
+[data-scroll]::-webkit-scrollbar,[data-hscroll]::-webkit-scrollbar{display:none}
+@keyframes os-up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes os-shine{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes os-swap{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@keyframes os-shimmer{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes os-fade{from{opacity:0}to{opacity:1}}
+@keyframes os-toast{from{opacity:0;transform:translateY(-10px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes os-sheet{from{transform:translateY(100%)}to{transform:none}}
+@keyframes os-drawer-l{from{transform:translateX(-100%)}to{transform:none}}
+@keyframes os-drawer-r{from{transform:translateX(100%)}to{transform:none}}
+@keyframes os-pop-in{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes os-a1{from{transform:translate(-26px,-18px) scale(.92)}to{transform:translate(26px,18px) scale(1.14)}}
+@keyframes os-a2{from{transform:translate(22px,16px) scale(1.12)}to{transform:translate(-22px,-16px) scale(.9)}}
+@keyframes os-a3{from{transform:translate(-18px,20px) scale(1.06)}to{transform:translate(18px,-20px) scale(.88)}}
+@keyframes os-cube-in{0%{opacity:0;transform:translate(var(--fx),var(--fy)) rotate(-90deg) scale(.4)}60%{opacity:1;transform:translate(var(--rx),var(--ry)) rotate(4deg) scale(1.08)}100%{opacity:1;transform:translate(var(--rx),var(--ry)) rotate(0) scale(1)}}
+@keyframes os-cube3d{from{transform:rotateX(-22deg) rotateY(0deg)}to{transform:rotateX(-22deg) rotateY(360deg)}}
+@keyframes os-bob{from{transform:translate3d(0,-10px,0) rotate(-6deg)}to{transform:translate3d(0,10px,0) rotate(6deg)}}
+@keyframes os-fadeout{to{opacity:0;visibility:hidden}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;animation-delay:0s!important;transition-duration:.01ms!important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh; display:flex; flex-direction:column; align-items:center; gap:12px; padding:14px 16px 40px;">
+  <div style="width:100%; max-width:1320px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <a href="00 Indeks.dc.html" style="font-size:14px; font-weight:600; color:#57544e;">← Barcha sahifalar</a>
+      <span style="font-size:16px; font-weight:700;">03 · Bosh sahifa</span>
+    </div>
+    <div style="display:flex; gap:4px; padding:4px; background:#fff; border:1px solid #d3d1cd; border-radius:10px;">
+      <sc-for list="{{ sizeTabs }}" as="t" hint-placeholder-count="3"><button type="button" onClick="{{ t.go }}" style="height:34px; padding:0 12px; border:0; border-radius:7px; font:600 14px Inter, system-ui, sans-serif; cursor:pointer; background:{{ t.bg }}; color:{{ t.fg }};">{{ t.label }}</button></sc-for>
+    </div>
+  </div>
+
+  <div style="position:relative; width:{{ stageW }}; height:{{ stageH }};">
+    <div ref="{{ frame }}" style="position:absolute; left:12px; top:12px; width:{{ frameW }}; height:{{ frameH }}; transform:scale({{ frameScale }}); transform-origin:0 0; border-radius:{{ frameRadius }}; overflow:hidden; background:#f8f8f7; box-shadow:{{ frameRing }}; isolation:isolate;">
+      <div data-scroll="" style="position:absolute; inset:0; overflow-y:auto; overflow-x:hidden; scrollbar-width:none; padding-bottom:{{ bottomPad }};">
+        <dc-import name="OSHeader" bp="{{ bp }}" cart-count="{{ cartCount }}" fav-count="{{ favCount }}" hint-size="100%,56px"></dc-import>
+
+        <main style="max-width:1280px; margin:0 auto; padding:{{ topPad }} {{ pad }} 48px;">
+            <section style="position:relative; isolation:isolate; overflow:hidden; border-radius:16px; background:#181716; padding:{{ heroPad }}; display:grid; grid-template-columns:{{ heroCols }}; gap:{{ heroGap }}; align-items:center;">
+              <div aria-hidden="true" style="position:absolute; inset:0; z-index:-1; overflow:hidden; pointer-events:none;">
+                <span style="position:absolute; right:-64px; top:-64px; width:320px; height:320px; border-radius:999px; background:rgb(234 97 0 / .25); filter:blur(40px); animation:os-a1 13s cubic-bezier(0.65,0,0.35,1) infinite alternate;"></span>
+                <span style="position:absolute; left:16px; bottom:-96px; width:260px; height:260px; border-radius:999px; background:rgb(249 115 22 / .15); filter:blur(48px); animation:os-a2 17.2s cubic-bezier(0.65,0,0.35,1) 2.4s infinite alternate;"></span>
+                <span style="position:absolute; left:33%; top:25%; width:128px; height:128px; border-radius:999px; background:rgb(249 115 22 / .15); filter:blur(48px); animation:os-a3 12.35s cubic-bezier(0.65,0,0.35,1) 4.8s infinite alternate;"></span>
+              </div>
+              <div>
+                <p style="margin:0; display:flex; align-items:center; gap:8px; font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#fb923c; animation:os-up 600ms cubic-bezier(0.22,1,0.36,1) both;"><span style="width:6px; height:6px; border-radius:999px; background:#fb923c; box-shadow:0 0 8px rgba(251,146,60,.9);"></span>OpenShop</p>
+                <h1 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:14px 0 0; font-size:{{ heroH }}; line-height:1.06; letter-spacing:-0.035em; font-weight:700; color:#fff; text-wrap:balance;">
+                  <span style="display:block; animation:os-up 600ms cubic-bezier(0.22,1,0.36,1) 60ms both;">Yangi texnika.</span>
+                  <span style="display:block; animation:os-up 600ms cubic-bezier(0.22,1,0.36,1) 120ms both;">Halol narx.</span>
+                  <span style="display:block; color:#fdba74; animation:os-up 600ms cubic-bezier(0.22,1,0.36,1) 180ms both;">Toshkentda&nbsp;— ertagayoq.</span>
+                </h1>
+                <p style="margin:14px 0 0; max-width:440px; font-size:{{ heroSub }}; line-height:1.55; color:rgb(255 255 255 / .75); animation:os-up 600ms cubic-bezier(0.22,1,0.36,1) 240ms both;">Telefonlar, noutbuklar va maishiy texnika rasmiy kafolat bilan. Viloyatlarga 2–3 kunda.</p>
+                <div style="margin-top:22px; display:flex; flex-wrap:wrap; gap:10px; animation:os-up 600ms cubic-bezier(0.22,1,0.36,1) 300ms both;">
+                  <a href="04 Katalog.dc.html" style="height:48px; padding:0 20px; display:flex; align-items:center; gap:8px; border-radius:8px; background:#c2410c; color:#fff; font-weight:700; font-size:16px; box-shadow:0 4px 0 0 #9a3412, 0 8px 24px -8px rgba(234,97,0,.9); transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px) scale(0.985); box-shadow:0 2px 0 0 #9a3412;">Katalogni koʻrish<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+                  <a href="#aksiya" onClick="{{ toPromo }}" style="height:48px; padding:0 18px; display:flex; align-items:center; border:1px solid rgb(255 255 255 / .25); border-radius:8px; background:rgb(255 255 255 / .08); color:#fff; font-weight:600; font-size:16px; transition:transform 140ms cubic-bezier(0.22,1,0.36,1);" style-active="transform:translateY(2px) scale(0.985);">Aksiyalar</a>
+                </div>
+              </div>
+              <div style="position:relative; height:{{ heroImgH }}; border-radius:12px; overflow:hidden; background:repeating-linear-gradient(135deg, #292825 0 8px, #403e39 8px 16px); animation:os-up 600ms cubic-bezier(0.22,1,0.36,1) 240ms both;">
+                <span style="position:absolute; left:12px; bottom:12px; font-family:ui-monospace, Menlo, monospace; font-size:12px; color:#d3d1cd;">hero surati · iPhone 15 Pro yongʻoq stolda, iliq yorugʻ</span>
+              </div>
+            </section>
+
+            <div style="margin-top:12px; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:{{ trustGrid }};">
+              <div style="display:flex; flex-direction:{{ trustDir }}; align-items:{{ trustAlign }}; gap:{{ trustGap }}; padding:{{ trustPad }}; border-radius:12px; background:#fff; border:1px solid #e6e5e2; box-shadow:inset 0 1px 0 0 rgb(255 255 255 / 0.7), inset 0 -1px 0 0 rgb(24 23 22 / 0.05);">
+                <span style="width:{{ trustIc }}; height:{{ trustIc }}; flex-shrink:0; border-radius:999px; background:#fff7ed; color:#c2410c; display:flex; align-items:center; justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg></span>
+                <span style="font-size:{{ trustSub }}; line-height:1.3; color:#403e39;"><b style="display:block; font-size:{{ trustTitle }}; color:#181716;">Toshkentda 1 kunda</b>{{ trustTxt1 }}</span>
+              </div>
+              <div style="display:flex; flex-direction:{{ trustDir }}; align-items:{{ trustAlign }}; gap:{{ trustGap }}; padding:{{ trustPad }}; border-radius:12px; background:#fff; border:1px solid #e6e5e2; box-shadow:inset 0 1px 0 0 rgb(255 255 255 / 0.7), inset 0 -1px 0 0 rgb(24 23 22 / 0.05);">
+                <span style="width:{{ trustIc }}; height:{{ trustIc }}; flex-shrink:0; border-radius:999px; background:#fff7ed; color:#c2410c; display:flex; align-items:center; justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg></span>
+                <span style="font-size:{{ trustSub }}; line-height:1.3; color:#403e39;"><b style="display:block; font-size:{{ trustTitle }}; color:#181716;">14 kun</b>ichida qaytarish</span>
+              </div>
+              <div style="display:flex; flex-direction:{{ trustDir }}; align-items:{{ trustAlign }}; gap:{{ trustGap }}; padding:{{ trustPad }}; border-radius:12px; background:#fff; border:1px solid #e6e5e2; box-shadow:inset 0 1px 0 0 rgb(255 255 255 / 0.7), inset 0 -1px 0 0 rgb(24 23 22 / 0.05);">
+                <span style="width:{{ trustIc }}; height:{{ trustIc }}; flex-shrink:0; border-radius:999px; background:#fff7ed; color:#c2410c; display:flex; align-items:center; justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg></span>
+                <span style="font-size:{{ trustSub }}; line-height:1.3; color:#403e39;"><b style="display:block; font-size:{{ trustTitle }}; color:#181716;">Rasmiy</b>kafolat</span>
+              </div>
+            </div>
+
+            <section style="margin-top:{{ secGap }};">
+              <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:12px;">
+                <div><p style="margin:0; font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#57544e;">Katalog</p><h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:6px 0 0; font-size:{{ h2 }}; line-height:1.2; letter-spacing:-0.02em; font-weight:700;">Kategoriyalar</h2></div>
+                <a href="04 Katalog.dc.html" style="min-height:44px; display:flex; align-items:center; font-size:14px; font-weight:600; color:#181716; white-space:nowrap;">Barchasi →</a>
+              </div>
+              <nav aria-label="Kategoriyalar" data-hscroll="" style="margin:12px -{{ pad }} 0; padding:0 {{ pad }} 4px; display:flex; gap:{{ catGap }}; overflow-x:auto; scrollbar-width:none; scroll-snap-type:x proximity;">
+                <sc-for list="{{ categories }}" as="c" hint-placeholder-count="6">
+                  <a href="04 Katalog.dc.html" style="width:{{ catW }}; flex-shrink:0; scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; gap:8px; color:#292825; transition:transform 150ms cubic-bezier(0.22,1,0.36,1);" style-hover="transform:translateY(-3px);" style-active="transform:scale(0.95);">
+                    <span style="width:{{ catD }}; height:{{ catD }}; border-radius:999px; background:#fff; border:1px solid #e6e5e2; box-shadow:0 1px 2px 0 rgb(24 23 22 / 0.04), 0 4px 16px -6px rgb(24 23 22 / 0.10); display:flex; align-items:center; justify-content:center; overflow:hidden;"><span style="position:relative; width:40%; height:40%;"><span style="position:absolute; left:0; top:0; width:44%; height:44%; border-radius:3px; background:#ea6100;"></span><span style="position:absolute; right:0; top:0; width:44%; height:44%; border-radius:3px; background:#fdba74;"></span><span style="position:absolute; left:0; bottom:0; width:44%; height:44%; border-radius:3px; background:#fdba74;"></span><span style="position:absolute; right:0; bottom:0; width:44%; height:44%; border-radius:3px; background:#ea6100;"></span></span></span>
+                    <span style="font-size:{{ catF }}; font-weight:500; line-height:1.2; text-align:center;">{{ c.name }}</span>
+                  </a>
+                </sc-for>
+              </nav>
+            </section>
+          </main>
+
+          <section aria-label="Hozir trendda" style="position:relative; isolation:isolate; overflow:hidden; background:#0e0e0d; color:#fff;">
+            <div aria-hidden="true" style="position:absolute; inset:0; z-index:-1; overflow:hidden; pointer-events:none;">
+                <span style="position:absolute; right:-64px; top:-64px; width:320px; height:320px; border-radius:999px; background:rgb(234 97 0 / .25); filter:blur(40px); animation:os-a1 13s cubic-bezier(0.65,0,0.35,1) infinite alternate;"></span>
+                <span style="position:absolute; left:16px; bottom:-96px; width:260px; height:260px; border-radius:999px; background:rgb(249 115 22 / .15); filter:blur(48px); animation:os-a2 17.2s cubic-bezier(0.65,0,0.35,1) 2.4s infinite alternate;"></span>
+                <span style="position:absolute; left:33%; top:25%; width:128px; height:128px; border-radius:999px; background:rgb(249 115 22 / .15); filter:blur(48px); animation:os-a3 12.35s cubic-bezier(0.65,0,0.35,1) 4.8s infinite alternate;"></span>
+              </div>
+            <div style="max-width:1280px; margin:0 auto; padding:{{ bandPad }} {{ pad }};">
+              <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:12px;">
+                <div><p style="margin:0; display:flex; align-items:center; gap:6px; font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#fb923c;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>Koʻp koʻrilgan</p><h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:6px 0 0; font-size:{{ h2 }}; line-height:1.2; letter-spacing:-0.02em; font-weight:700; color:#fff;">Hozir trendda</h2><p style="margin:4px 0 0; font-size:14px; color:#d3d1cd;">Shu hafta xaridorlar eng koʻp ochgan mahsulotlar</p></div>
+                <a href="04 Katalog.dc.html" style="min-height:44px; display:flex; align-items:center; font-size:14px; font-weight:600; color:#fdba74; white-space:nowrap;">Barchasi →</a>
+              </div>
+              <div style="margin-top:20px; display:grid; grid-template-columns:{{ spotCols }}; gap:16px; align-items:stretch;">
+                <article data-card="{{ spot.id }}" onPointerMove="{{ spot.tiltMove }}" onPointerDown="{{ spot.tiltDown }}" onPointerUp="{{ spot.tiltRest }}" onPointerLeave="{{ spot.tiltRest }}" style="position:relative; isolation:isolate; min-height:{{ spotH }}; display:flex; flex-direction:column; justify-content:flex-end; overflow:hidden; border-radius:16px; background:#181716; box-shadow:inset 0 0 0 1px rgb(255 255 255 / .08);">
+                  <a href="02 Mahsulot.dc.html" data-media="" aria-label="{{ spot.name }}" style="position:absolute; inset:0; z-index:-2; background:repeating-linear-gradient(135deg, #1c1b19 0 9px, #292825 9px 18px);"><span style="position:absolute; left:18px; top:58px; font-family:ui-monospace, Menlo, monospace; font-size:12px; color:#d3d1cd;">{{ spot.img }}</span></a>
+                  <span aria-hidden="true" style="position:absolute; inset:0; z-index:-1; pointer-events:none; background-image:linear-gradient(105deg, transparent 38%, rgba(255,255,255,0.14) 50%, transparent 62%); animation:os-shine 1.4s linear 0.3s 1 both;"></span>
+                  <div aria-hidden="true" style="position:absolute; inset:0; z-index:-1; pointer-events:none; background:linear-gradient(to top, #0e0e0d 0%, rgb(14 14 13 / .6) 50%, rgb(14 14 13 / .05) 100%);"></div>
+                  <span style="position:absolute; left:18px; top:18px; display:inline-flex; border-radius:6px; background:#0e0e0d; color:#fcd34d; font-weight:600; font-size:12px; padding:5px 9px; box-shadow:inset 0 0 0 1px rgb(252 211 77 / .35);">{{ spot.lowText }}</span>
+                  <div style="padding:{{ spotInner }};">
+                    <p style="margin:0; font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#fdba74;">{{ spot.brand }}</p>
+                    <h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:8px 0 0; font-size:{{ spotTitle }}; line-height:1.15; letter-spacing:-0.025em; font-weight:700; color:#fff; max-width:520px;">{{ spot.name }}</h3>
+                    <div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:6px 16px; font-size:14px; color:#d3d1cd;">
+                      <span style="display:flex; align-items:center; gap:4px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><b style="color:#fff;">{{ spot.ratingText }}</b>{{ spot.reviewsLong }}</span>
+                      <span style="display:flex; align-items:center; gap:5px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fdba74" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>{{ spot.soldText }}</span>
+                    </div>
+                    <div style="margin-top:16px; display:flex; flex-wrap:wrap; align-items:center; gap:12px 20px;">
+                      <span style="font-size:{{ spotPrice }}; font-weight:700; letter-spacing:-0.025em; color:#fff;">{{ spot.priceText }}</span>
+                      <button type="button" onClick="{{ spot.onAdd }}" style="height:48px; padding:0 22px; display:inline-flex; align-items:center; gap:8px; border:0; border-radius:8px; background:#c2410c; color:#fff; font:700 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 4px 0 0 #7c2d12; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px) scale(0.985); box-shadow:0 2px 0 0 #7c2d12;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>{{ spot.addText }}</button>
+                    </div>
+                  </div>
+                </article>
+                <div style="display:grid; grid-template-columns:{{ rowCols }}; gap:12px; align-content:start;">
+                  <sc-for list="{{ trendRows }}" as="p" hint-placeholder-count="3">
+                    <div data-card="{{ p.id }}" style="display:flex; gap:12px; align-items:center; padding:10px; border-radius:12px; background:#181716; box-shadow:inset 0 0 0 1px rgb(255 255 255 / .08); animation:os-up 300ms cubic-bezier(0.22,1,0.36,1) both; animation-delay:{{ p.delay }};">
+                      <a href="02 Mahsulot.dc.html" data-media="" aria-label="{{ p.name }}" style="width:{{ rowImg }}; height:{{ rowImg }}; flex-shrink:0; border-radius:8px; background:repeating-linear-gradient(135deg, #292825 0 6px, #403e39 6px 12px);"></a>
+                      <div style="flex:1; min-width:0;">
+                        <p style="margin:0; font-size:12px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#fdba74;">{{ p.brand }}</p>
+                        <a href="02 Mahsulot.dc.html" style="margin-top:2px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; font-size:14px; font-weight:500; line-height:1.3; color:#f1f1ef;">{{ p.name }}</a>
+                        <div style="margin-top:6px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px;">
+                          <span style="font-size:16px; font-weight:700; color:#fff;">{{ p.priceText }}</span>
+                          <sc-if value="{{ p.canAdd }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ p.onAdd }}" style="height:44px; padding:0 14px; display:flex; align-items:center; gap:6px; border:1px solid rgb(255 255 255 / .18); border-radius:8px; background:rgb(255 255 255 / .06); color:#fff; font:600 14px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 2px 0 0 rgb(255 255 255 / .1); transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px); box-shadow:0 0 0 0 rgb(255 255 255 / .1);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>Savatga</button></sc-if>
+                          <sc-if value="{{ p.added }}" hint-placeholder-val="{{ false }}"><span style="height:44px; padding:0 14px; display:flex; align-items:center; gap:6px; border-radius:8px; background:#059669; color:#fff; font-size:14px; font-weight:600; animation:os-swap 150ms both;">✓ Savatda</span></sc-if>
+                          <sc-if value="{{ p.inCartIdle }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ p.onAdd }}" style="height:44px; padding:0 14px; display:flex; align-items:center; gap:6px; border:1px solid rgb(52 211 153 / .45); border-radius:8px; background:rgb(5 150 105 / .16); color:#6ee7b7; font:600 14px Inter, system-ui, sans-serif; cursor:pointer;">{{ p.inCartText }}</button></sc-if>
+                        </div>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <main style="max-width:1280px; margin:0 auto; padding:0 {{ pad }} 48px;">
+            <section style="margin-top:{{ secGap }};">
+              <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:12px;">
+                <div><p style="margin:0; display:flex; align-items:center; gap:6px; font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#57544e;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>Eng koʻp sotilgan</p><h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:6px 0 0; font-size:{{ h2 }}; line-height:1.2; letter-spacing:-0.02em; font-weight:700;">Xit mahsulotlar</h2></div>
+                <a href="04 Katalog.dc.html" style="min-height:44px; display:flex; align-items:center; font-size:14px; font-weight:600; color:#181716; white-space:nowrap;">Barchasi →</a>
+              </div>
+              <div style="margin-top:16px; display:grid; grid-template-columns:{{ cols }}; gap:{{ gridGap }};">
+                <sc-for list="{{ hits }}" as="p" hint-placeholder-count="5"><dc-import name="OSKarta" p="{{ p }}" hint-size="100%,340px"></dc-import></sc-for>
+              </div>
+            </section>
+
+          </main>
+
+          <sc-if value="{{ hasPromo }}" hint-placeholder-val="{{ true }}">
+          <section id="aksiya" aria-label="Aksiya" style="margin-top:{{ secGap }}; position:relative; isolation:isolate; overflow:hidden; background:#0e0e0d; color:#fff;">
+            <div aria-hidden="true" style="position:absolute; inset:0; z-index:-1; overflow:hidden; pointer-events:none; perspective:900px;">
+              <span style="position:absolute; right:-70px; top:-70px; width:280px; height:280px; border-radius:999px; background:rgb(234 97 0 / .25); filter:blur(40px); animation:os-a1 13s cubic-bezier(0.65,0,0.35,1) infinite alternate;"></span>
+              <span style="position:absolute; left:10px; bottom:-110px; width:240px; height:240px; border-radius:999px; background:rgb(249 115 22 / .15); filter:blur(48px); animation:os-a2 17.2s cubic-bezier(0.65,0,0.35,1) 2.4s infinite alternate;"></span>
+              <span style="position:absolute; left:calc(100% - 118px); top:64px; width:88px; height:88px; opacity:0.9; animation:os-bob 14s cubic-bezier(0.65,0,0.35,1) 0s infinite alternate;"><span style="position:absolute; inset:0; transform-style:preserve-3d; animation:os-cube3d 24s linear 0s infinite;"><span style="position:absolute; inset:0; border-radius:12px; border:1px solid rgb(251 146 60 / .5); background:linear-gradient(135deg, rgb(234 97 0 / .34), rgb(234 97 0 / .04)); transform:rotateY(0deg) translateZ(44px); backface-visibility:visible;"></span><span style="position:absolute; inset:0; border-radius:12px; border:1px solid rgb(251 146 60 / .5); background:linear-gradient(135deg, rgb(234 97 0 / .34), rgb(234 97 0 / .04)); transform:rotateY(90deg) translateZ(44px); backface-visibility:visible;"></span><span style="position:absolute; inset:0; border-radius:12px; border:1px solid rgb(251 146 60 / .5); background:linear-gradient(135deg, rgb(234 97 0 / .34), rgb(234 97 0 / .04)); transform:rotateY(180deg) translateZ(44px); backface-visibility:visible;"></span><span style="position:absolute; inset:0; border-radius:12px; border:1px solid rgb(251 146 60 / .5); background:linear-gradient(135deg, rgb(234 97 0 / .34), rgb(234 97 0 / .04)); transform:rotateY(-90deg) translateZ(44px); backface-visibility:visible;"></span><span style="position:absolute; inset:0; border-radius:12px; border:1px solid rgb(251 146 60 / .5); background:linear-gradient(135deg, rgb(234 97 0 / .34), rgb(234 97 0 / .04)); transform:rotateX(90deg) translateZ(44px); backface-visibility:visible;"></span><span style="position:absolute; inset:0; border-radius:12px; border:1px solid rgb(251 146 60 / .5); background:linear-gradient(135deg, rgb(234 97 0 / .34), rgb(234 97 0 / .04)); transform:rotateX(-90deg) translateZ(44px); backface-visibility:visible;"></span></span></span>
+              <span style="position:absolute; left:calc(100% - 190px); top:210px; width:46px; height:46px; opacity:0.7; animation:os-bob 12.5s cubic-bezier(0.65,0,0.35,1) -6s infinite alternate;"><span style="position:absolute; inset:0; transform-style:preserve-3d; animation:os-cube3d 18s linear -6s infinite;"><span style="position:absolute; inset:0; border-radius:6px; border:1px solid rgb(251 146 60 / .5); background:linear-gradient(135deg, rgb(234 97 0 / .34), rgb(234 97 0 / .04)); transform:rotateY(0deg) translateZ(23px); backface-visibility:visible;"></span><span style="position:absolute; inset:0; border-radius:6px; border:1px solid rgb(251 146 60 / .5); background:linear-gradient(135deg, rgb(234 97 0 / .34), rgb(234 97 0 / .04)); transform:rotateY(90deg) translateZ(23px); backface-visibility:visible;"></span><span style="position:absolute; inset:0; border-radius:6px; border:1px solid rgb(251 146 60 / .5); background:linear-gradient(135deg, rgb(234 97 0 / .34), rgb(234 97 0 / .04)); transform:rotateY(180deg) translateZ(23px); backface-visibility:visible;"></span><span style="position:absolute; inset:0; border-radius:6px; border:1px solid rgb(251 146 60 / .5); background:linear-gradient(135deg, rgb(234 97 0 / .34), rgb(234 97 0 / .04)); transform:rotateY(-90deg) translateZ(23px); backface-visibility:visible;"></span><span style="position:absolute; inset:0; border-radius:6px; border:1px solid rgb(251 146 60 / .5); background:linear-gradient(135deg, rgb(234 97 0 / .34), rgb(234 97 0 / .04)); transform:rotateX(90deg) translateZ(23px); backface-visibility:visible;"></span><span style="position:absolute; inset:0; border-radius:6px; border:1px solid rgb(251 146 60 / .5); background:linear-gradient(135deg, rgb(234 97 0 / .34), rgb(234 97 0 / .04)); transform:rotateX(-90deg) translateZ(23px); backface-visibility:visible;"></span></span></span>
+              <span style="position:absolute; left:14px; top:46%; width:34px; height:34px; opacity:0.55; animation:os-bob 16s cubic-bezier(0.65,0,0.35,1) -3s infinite alternate;"><span style="position:absolute; inset:0; transform-style:preserve-3d; animation:os-cube3d 21s linear -3s infinite;"><span style="position:absolute; inset:0; border-radius:5px; border:1px solid rgb(251 146 60 / .5); background:linear-gradient(135deg, rgb(234 97 0 / .34), rgb(234 97 0 / .04)); transform:rotateY(0deg) translateZ(17px); backface-visibility:visible;"></span><span style="position:absolute; inset:0; border-radius:5px; border:1px solid rgb(251 146 60 / .5); background:linear-gradient(135deg, rgb(234 97 0 / .34), rgb(234 97 0 / .04)); transform:rotateY(90deg) translateZ(17px); backface-visibility:visible;"></span><span style="position:absolute; inset:0; border-radius:5px; border:1px solid rgb(251 146 60 / .5); background:linear-gradient(135deg, rgb(234 97 0 / .34), rgb(234 97 0 / .04)); transform:rotateY(180deg) translateZ(17px); backface-visibility:visible;"></span><span style="position:absolute; inset:0; border-radius:5px; border:1px solid rgb(251 146 60 / .5); background:linear-gradient(135deg, rgb(234 97 0 / .34), rgb(234 97 0 / .04)); transform:rotateY(-90deg) translateZ(17px); backface-visibility:visible;"></span><span style="position:absolute; inset:0; border-radius:5px; border:1px solid rgb(251 146 60 / .5); background:linear-gradient(135deg, rgb(234 97 0 / .34), rgb(234 97 0 / .04)); transform:rotateX(90deg) translateZ(17px); backface-visibility:visible;"></span><span style="position:absolute; inset:0; border-radius:5px; border:1px solid rgb(251 146 60 / .5); background:linear-gradient(135deg, rgb(234 97 0 / .34), rgb(234 97 0 / .04)); transform:rotateX(-90deg) translateZ(17px); backface-visibility:visible;"></span></span></span>
+              <span style="position:absolute; left:38%; top:calc(100% - 120px); width:60px; height:60px; opacity:0.45; animation:os-bob 15s cubic-bezier(0.65,0,0.35,1) -9s infinite alternate;"><span style="position:absolute; inset:0; transform-style:preserve-3d; animation:os-cube3d 28s linear -9s infinite;"><span style="position:absolute; inset:0; border-radius:8px; border:1px solid rgb(251 146 60 / .5); background:linear-gradient(135deg, rgb(234 97 0 / .34), rgb(234 97 0 / .04)); transform:rotateY(0deg) translateZ(30px); backface-visibility:visible;"></span><span style="position:absolute; inset:0; border-radius:8px; border:1px solid rgb(251 146 60 / .5); background:linear-gradient(135deg, rgb(234 97 0 / .34), rgb(234 97 0 / .04)); transform:rotateY(90deg) translateZ(30px); backface-visibility:visible;"></span><span style="position:absolute; inset:0; border-radius:8px; border:1px solid rgb(251 146 60 / .5); background:linear-gradient(135deg, rgb(234 97 0 / .34), rgb(234 97 0 / .04)); transform:rotateY(180deg) translateZ(30px); backface-visibility:visible;"></span><span style="position:absolute; inset:0; border-radius:8px; border:1px solid rgb(251 146 60 / .5); background:linear-gradient(135deg, rgb(234 97 0 / .34), rgb(234 97 0 / .04)); transform:rotateY(-90deg) translateZ(30px); backface-visibility:visible;"></span><span style="position:absolute; inset:0; border-radius:8px; border:1px solid rgb(251 146 60 / .5); background:linear-gradient(135deg, rgb(234 97 0 / .34), rgb(234 97 0 / .04)); transform:rotateX(90deg) translateZ(30px); backface-visibility:visible;"></span><span style="position:absolute; inset:0; border-radius:8px; border:1px solid rgb(251 146 60 / .5); background:linear-gradient(135deg, rgb(234 97 0 / .34), rgb(234 97 0 / .04)); transform:rotateX(-90deg) translateZ(30px); backface-visibility:visible;"></span></span></span>
+            </div>
+            <div style="max-width:1280px; margin:0 auto; padding:{{ bandPad }} {{ pad }};">
+              <div style="display:grid; grid-template-columns:{{ pbCols }}; gap:{{ pbGap }}; align-items:center;">
+                <div style="min-width:0;">
+                  <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:10px;">
+                    <div style="min-width:0;"><p style="margin:0; display:flex; align-items:center; gap:6px; font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#fb923c;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>Aksiya</p><h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:6px 0 0; font-size:{{ pbH }}; line-height:1.1; letter-spacing:-0.03em; font-weight:700; color:#fff;">Kuzgi texnika haftaligi</h2><div style="margin-top:8px; display:flex; flex-wrap:wrap; gap:4px;"><span data-ph="PROMO: title" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[PROMO: title]</span><span data-ph="PROMO: subtitle" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[PROMO: subtitle]</span></div></div>
+                    <sc-if value="{{ promoActive }}" hint-placeholder-val="{{ true }}"><a href="04 Katalog.dc.html" style="flex-shrink:0; min-height:44px; display:flex; align-items:center; font-size:14px; font-weight:600; color:#fdba74; white-space:nowrap;">Barchasini koʻrish →</a></sc-if>
+                  </div>
+                  <sc-if value="{{ promoActive }}" hint-placeholder-val="{{ true }}">
+                    <div role="timer" aria-label="{{ timerAria }}" style="margin-top:16px; display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 12px; padding:14px 16px; border-radius:12px; border:1px solid rgb(255 255 255 / .1); background:rgb(255 255 255 / .05);">
+                      <span style="font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:rgb(255 255 255 / .72);">Tugashiga</span>
+                      <span style="display:flex; align-items:baseline; gap:4px; font-weight:700; font-variant-numeric:tabular-nums;"><span style="overflow:hidden; height:{{ tH }};"><span data-roll-d="" style="display:block; font-size:{{ tF }}; line-height:{{ tH }};">{{ t.d }}</span></span><span style="font-size:14px; font-weight:500; color:#d3d1cd; margin-right:6px;">kun</span><span style="overflow:hidden; height:{{ tH }};"><span data-roll-h="" style="display:block; font-size:{{ tF }}; line-height:{{ tH }};">{{ t.h }}</span></span><span style="color:rgb(255 255 255 / .4);">:</span><span style="overflow:hidden; height:{{ tH }};"><span data-roll-m="" style="display:block; font-size:{{ tF }}; line-height:{{ tH }};">{{ t.m }}</span></span><span style="color:rgb(255 255 255 / .4);">:</span><span style="overflow:hidden; height:{{ tH }};"><span data-roll-s="" style="display:block; font-size:{{ tF }}; line-height:{{ tH }}; color:#fdba74;">{{ t.s }}</span></span></span>
+                    </div>
+                    <p style="margin:6px 0 0; font-size:12px; color:rgb(255 255 255 / .6);">Tugash vaqti: <span data-ph="PROMO: ends_at" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[PROMO: ends_at]</span></p>
+                  </sc-if>
+                  <sc-if value="{{ promoEnded }}" hint-placeholder-val="{{ false }}">
+                    <div style="margin-top:16px; display:flex; align-items:center; gap:10px;"><span style="width:40px; height:40px; border-radius:999px; background:rgb(255 255 255 / .08); color:#d3d1cd; display:flex; align-items:center; justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></span><div><p style="margin:0; font-size:16px; font-weight:700;">Aksiya yakunlandi</p><p style="margin:2px 0 0; font-size:14px; color:#d3d1cd;">Narxlar odatiy holatga qaytdi.</p></div></div>
+                    <a href="04 Katalog.dc.html" style="margin-top:8px; min-height:44px; display:inline-flex; align-items:center; font-size:14px; font-weight:600; color:#fdba74;">Katalogga oʻtish →</a>
+                  </sc-if>
+                </div>
+                <sc-if value="{{ promoActive }}" hint-placeholder-val="{{ true }}">
+                  <article data-card="{{ top.id }}" onPointerMove="{{ top.tiltMove }}" onPointerLeave="{{ top.tiltRest }}" style="position:relative; isolation:isolate; overflow:hidden; border-radius:16px; background:#181716; box-shadow:inset 0 0 0 1px rgb(255 255 255 / .08); display:grid; grid-template-columns:{{ topCols }};">
+                    <a href="02 Mahsulot.dc.html" data-media="" aria-label="{{ top.name }}" style="position:relative; display:block; aspect-ratio:{{ topRatio }}; background:repeating-linear-gradient(135deg, #1c1b19 0 9px, #292825 9px 18px);"><span style="position:absolute; right:14px; top:14px; font-family:ui-monospace, Menlo, monospace; font-size:12px; color:#d3d1cd;">{{ top.img }}</span><span aria-hidden="true" style="position:absolute; inset:0; background:linear-gradient(to top, #181716 0%, rgb(24 23 22 / 0) 55%);"></span><span aria-hidden="true" style="position:absolute; inset:0; background-image:linear-gradient(105deg, transparent 38%, rgba(255,255,255,0.14) 50%, transparent 62%); animation:os-shine 1.4s linear 0.3s 1 both;"></span><span style="position:absolute; left:14px; top:10px; font-size:{{ pctF }}; line-height:1; font-weight:700; letter-spacing:-0.05em; color:#fff;">−{{ top.discount }}<span style="font-size:.5em; color:#fdba74;">%</span></span></a>
+                    <div style="padding:{{ topPad2 }}; display:flex; flex-direction:column; justify-content:flex-end; position:relative;">
+                      <p style="margin:0; font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#fdba74;">Eng katta chegirma · {{ top.brand }}</p>
+                      <a href="02 Mahsulot.dc.html" style="margin-top:6px; display:block; font-size:{{ topNameF }}; font-weight:700; line-height:1.25; letter-spacing:-0.01em; color:#fff;">{{ top.name }}</a>
+                      <div style="margin-top:10px; display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 10px;"><span style="font-size:28px; font-weight:700; letter-spacing:-0.02em; color:#fff;">{{ top.priceText }}</span><span style="font-size:14px; color:#d3d1cd; text-decoration:line-through;">{{ top.oldText }}</span></div>
+                      <p style="margin:6px 0 14px; align-self:flex-start; border-radius:999px; background:rgb(5 150 105 / .2); color:#6ee7b7; font-size:12px; font-weight:600; padding:3px 10px;">{{ top.saveText }}</p>
+                      <sc-if value="{{ top.canAdd }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ top.onAdd }}" style="width:100%; height:48px; display:flex; align-items:center; justify-content:center; gap:6px; border:0; border-radius:8px; background:#c2410c; color:#fff; font:700 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 4px 0 0 #9a3412; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px) scale(0.985); box-shadow:0 2px 0 0 #9a3412;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>Savatga</button></sc-if>
+                    <sc-if value="{{ top.inCart }}" hint-placeholder-val="{{ false }}"><div role="group" aria-label="{{ top.qtyAria }}" style="height:48px; display:flex; align-items:center; border-radius:8px; border:1px solid #a7f3d0; background:#ecfdf5; color:#047857;"><button type="button" onClick="{{ top.onDec }}" aria-label="Kamaytirish" style="width:48px; height:46px; display:flex; align-items:center; justify-content:center; border:0; background:transparent; color:#047857; cursor:pointer;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path></svg></button><span style="flex:1; text-align:center; font:600 16px Inter, system-ui, sans-serif;">✓ Savatda · {{ top.qty }}</span><button type="button" onClick="{{ top.onInc }}" aria-label="Koʻpaytirish" style="width:48px; height:46px; display:flex; align-items:center; justify-content:center; border:0; background:transparent; color:{{ top.incC }}; cursor:pointer;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button></div></sc-if>
+                    </div>
+                  </article>
+                </sc-if>
+              </div>
+              <sc-if value="{{ promoActive }}" hint-placeholder-val="{{ true }}">
+                <div data-hscroll="" style="margin:{{ restMargin }}; padding:{{ restPad }}; display:grid; grid-auto-flow:{{ restFlow }}; grid-auto-columns:{{ restAuto }}; grid-template-columns:{{ restTpl }}; gap:12px; overflow-x:auto; scrollbar-width:none; scroll-snap-type:x mandatory;">
+                  <sc-for list="{{ rest }}" as="p" hint-placeholder-count="3"><div style="scroll-snap-align:start; min-width:0;"><dc-import name="OSKarta" p="{{ p }}" hint-size="100%,320px"></dc-import></div></sc-for>
+                </div>
+              </sc-if>
+            </div>
+          </section>
+          </sc-if>
+
+          <main style="max-width:1280px; margin:0 auto; padding:0 {{ pad }} 48px;">
+
+            <section style="margin-top:{{ secGap }};">
+              <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:12px;">
+                <div><p style="margin:0; display:flex; align-items:center; gap:6px; font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#57544e;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8L20 10l-6.1 1.2L12 17l-1.9-5.8L4 10l6.1-1.2z"></path></svg>Yangi kelganlar</p><h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:6px 0 0; font-size:{{ h2 }}; line-height:1.2; letter-spacing:-0.02em; font-weight:700;">Yangi qoʻshilganlar</h2></div>
+                <a href="04 Katalog.dc.html" style="min-height:44px; display:flex; align-items:center; font-size:14px; font-weight:600; color:#181716; white-space:nowrap;">Barchasi →</a>
+              </div>
+              <div style="margin-top:16px; display:grid; grid-template-columns:{{ cols }}; gap:{{ gridGap }};">
+                <sc-for list="{{ fresh }}" as="p" hint-placeholder-count="5"><dc-import name="OSKarta" p="{{ p }}" hint-size="100%,340px"></dc-import></sc-for>
+              </div>
+            </section>
+          </main>
+        <dc-import name="OSFooter" bp="{{ bp }}" hint-size="100%,420px"></dc-import>
+      </div>
+
+      <sc-if value="{{ isMT }}" hint-placeholder-val="{{ true }}"><dc-import name="OSNav" active="home" cart-count="{{ cartCount }}" fav-count="{{ favCount }}" hint-size="100%,53px" style="position:absolute; left:0; right:0; bottom:0; z-index:40;"></dc-import></sc-if>
+      <sc-if value="{{ hasQuick }}" hint-placeholder-val="{{ false }}"><dc-import name="OSQuick" p="{{ quickP }}" on-close="{{ closeQuick }}" hint-size="100%,100%"></dc-import></sc-if>
+      <sc-if value="{{ hasQuick }}" hint-placeholder-val="{{ false }}"><dc-import name="OSQuick" p="{{ quickP }}" on-close="{{ closeQuick }}" hint-size="100%,100%"></dc-import></sc-if>
+      <sc-if value="{{ splash }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; inset:0; z-index:100; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; background:#f8f8f7; animation:os-fadeout 220ms cubic-bezier(0.22,1,0.36,1) 820ms both;">
+          <span style="position:relative; width:60px; height:60px; border-radius:14px; background:#ea6100; box-shadow:0 12px 30px -10px rgb(234 97 0 / .7);">
+            <span style="position:absolute; left:23px; top:23px; width:14px; height:14px; border-radius:3px; background:#fff; --fx:-60px; --fy:-80px; --rx:-9px; --ry:-9px; animation:os-cube-in 360ms cubic-bezier(0.22,1,0.36,1) 0ms both;"></span>
+            <span style="position:absolute; left:23px; top:23px; width:14px; height:14px; border-radius:3px; background:#fff; --fx:70px; --fy:-60px; --rx:9px; --ry:-9px; animation:os-cube-in 360ms cubic-bezier(0.22,1,0.36,1) 70ms both;"></span>
+            <span style="position:absolute; left:23px; top:23px; width:14px; height:14px; border-radius:3px; background:#fff; --fx:-70px; --fy:60px; --rx:-9px; --ry:9px; animation:os-cube-in 360ms cubic-bezier(0.22,1,0.36,1) 140ms both;"></span>
+            <span style="position:absolute; left:23px; top:23px; width:14px; height:14px; border-radius:3px; background:#fff; --fx:60px; --fy:80px; --rx:9px; --ry:9px; animation:os-cube-in 360ms cubic-bezier(0.22,1,0.36,1) 210ms both;"></span>
+          </span>
+          <span style="font-size:28px; font-weight:700; letter-spacing:-0.02em; animation:os-up 260ms cubic-bezier(0.22,1,0.36,1) 300ms both;">Open<span style="color:#c2410c;">Shop</span></span>
+        </div>
+      </sc-if>
+      <div data-fly="" style="position:absolute; inset:0; z-index:95; pointer-events:none;"></div>
+      <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; left:16px; right:16px; top:14px; z-index:96; display:flex; justify-content:center; pointer-events:none;"><span style="max-width:100%; padding:10px 14px; border-radius:12px; background:#181716; color:#fff; font-size:14px; font-weight:500; box-shadow:0 8px 40px -12px rgb(24 23 22 / 0.28); animation:os-toast 220ms cubic-bezier(0.22,1,0.36,1) both; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ toast }}</span></div>
+      </sc-if>
+    </div>
+  </div>
+
+  <section style="width:100%; max-width:1320px; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px; font-size:14px; line-height:1.55; color:#403e39;">
+    <div style="padding:16px; border-radius:12px; background:#fff; border:1px solid #d3d1cd;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Ishlatilgan tokenlar</h3><p style="margin:0;"><b>Rang:</b> ink-900 (hero, aksiya), brand-700 (CTA, sekund plitkasi), brand-300/400 (toʻq fondagi urgʻu), brand-50 (ishonch ikonkalari), amber-300 (kam qoldi, toʻq fonda).<br><b>Radius:</b> rounded-surface 16 (hero, spotlight, aksiya), rounded-card 12, rounded-control 8.<br><b>Soya:</b> shadow-card (kategoriya), shadow-glass (ishonch plitkasi), shadow-press.</p></div>
+    <div style="padding:16px; border-radius:12px; background:#fff7ed; border:1px solid #fed7aa;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Yangi token</h3><p style="margin:0;"><code>ink-950</code> = #0e0e0d — faqat “Hozir trendda” studiya tasmasi foni (B yoʻnalishidan). Hero/aksiya kartalaridan (ink-900) bir pogʻona toʻqroq, shunda ichidagi kartalar ajralib turadi.</p></div>
+    <div style="padding:16px; border-radius:12px; background:#fff; border:1px solid #d3d1cd;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Harakat</h3><p style="margin:0;">Kirish ekrani: 4 kub yigʻiladi (360ms, 70ms qadam) + soʻz, jami ~500ms, keyin 220ms soʻnadi; faqat sessiyada birinchi marta. Hero sarlavhasi qatorma-qator (600ms, 60ms qadam, STORY). Aurora 12–17s, alternate. Taymer raqamlari 240ms suriladi. Kategoriya plitkasi hoverʼda −3px (220ms).</p></div>
+    <div style="padding:16px; border-radius:12px; background:#fff7ed; border:1px solid #fed7aa;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Haqiqiy maʼlumot</h3><p style="margin:0;">Taymer faqat aksiyaning haqiqiy tugash sanasidan (1-oktabr 23:59, Toshkent vaqti). Spotlight nishoni “Kam qoldi — 3 dona” — stockʼdan. “Hozir trendda” = koʻrishlar soni boʻyicha saralash (bazada yoʻq boʻlsa — sales_count boʻyicha); “koʻryapti” soni koʻrsatilmaydi.</p></div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { now: Date.now(), splash: false };
+  promoEnd = new Date('2026-10-01T23:59:59+05:00').getTime(); // [PROMO: ends_at] — namuna
+  componentDidMount() {
+    if (!window.OS || !OS.kit) { this.waitT = setTimeout(() => this.componentDidMount(), 30); return; }
+    this.k = OS.kit(this); this.k.mount();
+    this.tick = setInterval(() => this.setState({ now: Date.now() }), 1000);
+    let seen = false; try { seen = sessionStorage.getItem('openshop-splash') === '1'; sessionStorage.setItem('openshop-splash', '1'); } catch (e) {}
+    if (!seen) { this.setState({ splash: true }); this.splashT = setTimeout(() => this.setState({ splash: false }), 1100); }
+  }
+  componentWillUnmount() { clearTimeout(this.waitT); clearInterval(this.tick); clearTimeout(this.splashT); this.k && this.k.unmount(); }
+  componentDidUpdate() {
+    const root = this.frame.current; if (!root || !window.OS) return;
+    const prevNow = this._prevNow; this._prevNow = this.state.now; if (prevNow == null) return;
+    const a = OS.parts(this.promoEnd - prevNow), b = OS.parts(this.promoEnd - this.state.now);
+    ['d', 'h', 'm', 's'].forEach((k) => { if (a[k] !== b[k]) root.querySelectorAll('[data-roll-' + k + ']').forEach((el) => OS.roll(el)); });
+  }
+  renderVals() {
+    if (!this.k) return { sizeTabs: [], categories: [], hits: [], fresh: [], rest: [], trendRows: [], spot: {}, top: {}, t: {}, isM: true, isMT: true, bp: 'm', hasPromo: true, promoActive: true };
+    const v = this.k.vals(), K = this.k, m = v.isM, t = v.isT, d = v.isD, n = v.colsN;
+    const vw = (ids) => ids.map((id, i) => K.view(OS.byId(id), i));
+    const left = this.promoEnd - this.state.now, T = OS.parts(left);
+    const spot = K.view(OS.byId('p2'), 0);
+    const q = this.state.quick && OS.byId(this.state.quick);
+    return {
+      ...v, t: T, timerAria: T.d + ' kun ' + T.h + ' soat ' + T.m + ' daqiqa qoldi',
+      topPad: m ? '16px' : '24px', h2: m ? '28px' : '28px', secGap: m ? '24px' : '36px',
+      heroPad: m ? '28px 20px 20px' : t ? '40px 32px' : '56px 56px', heroCols: m ? 'minmax(0,1fr)' : 'minmax(0,1.1fr) minmax(0,1fr)', heroGap: m ? '20px' : '40px',
+      heroH: m ? '40px' : t ? '40px' : '40px', heroSub: m ? '16px' : '16px', heroImgH: m ? '170px' : t ? '300px' : '360px',
+      trustGrid: m ? '8px' : '12px', trustDir: m ? 'column' : 'row', trustAlign: m ? 'flex-start' : 'center', trustGap: m ? '8px' : '12px', trustPad: m ? '12px 10px' : '16px',
+      trustIc: m ? '32px' : '40px', trustTitle: m ? '14px' : '16px', trustSub: m ? '12px' : '14px', trustTxt1: m ? 'yetkazib berish' : 'Viloyatlarga 2–3 kun',
+      catW: m ? '72px' : '104px', catD: m ? '64px' : '92px', catF: m ? '12px' : '14px', catGap: m ? '12px' : '20px', categories: OS.categories,
+      bandPad: m ? '32px' : '48px', spotCols: m ? 'minmax(0,1fr)' : d ? 'minmax(0,1.35fr) minmax(0,1fr)' : 'minmax(0,1fr)',
+      spotH: m ? '360px' : d ? '440px' : '380px', spotInner: m ? '20px' : '28px', spotTitle: m ? '28px' : '28px', spotPrice: m ? '28px' : '28px',
+      spot: { ...spot, addText: spot.qty ? spot.inCartText + ' — yana' : 'Savatga' },
+      rowCols: t ? 'repeat(2, minmax(0,1fr))' : 'minmax(0,1fr)', rowImg: m ? '84px' : '96px', trendRows: vw(t ? ['p3', 'p4', 'p7', 'p6'] : ['p3', 'p4', 'p7']),
+      gridGap: d ? '24px 20px' : t ? '20px 16px' : '18px 12px',
+      hits: vw(['p5', 'p3', 'p1', 'p2', 'p10', 'p9'].slice(0, n === 5 ? 5 : n === 3 ? 6 : 4)), hasHits: true, hasFresh: true,
+      fresh: vw(['p4', 'p7', 'p8', 'p6', 'p9', 'p10'].slice(0, n === 5 ? 5 : n === 3 ? 6 : 4)),
+      promoPad: m ? '20px' : '32px', promoCols: d ? 'minmax(0,1fr) minmax(0,1.9fr)' : 'minmax(0,1fr)', promoH: m ? '28px' : '28px',
+      unitW: m ? '52px' : '60px', digitH: m ? '32px' : '46px', digitF: m ? '20px' : '28px',
+      promoRowMargin: m ? '0 -20px' : '0', promoRowPad: m ? '4px 20px 8px' : '0', promoFlow: m ? 'column' : 'row', promoAutoCol: m ? '168px' : 'auto',
+      promoTplCols: 'none',
+      ...(() => { const promo = OS.products.filter((p) => p.old_price && p.old_price > p.price && p.stock > 0).sort((a, b) => (b.old_price - b.price) / b.old_price - (a.old_price - a.price) / a.old_price); const left = this.promoEnd - this.state.now;
+        return { hasPromo: promo.length > 0, promoActive: left > 0, promoEnded: left <= 0, top: promo[0] ? K.view(promo[0], 0) : {}, rest: promo.slice(1).map((p, i) => K.view(p, i + 1)),
+          pbCols: d ? 'minmax(0,0.9fr) minmax(0,1.1fr)' : 'minmax(0,1fr)', pbGap: d ? '40px' : '16px', pbH: m ? '28px' : d ? '40px' : '28px', tF: m ? '28px' : '40px', tH: m ? '34px' : '44px',
+          topCols: t ? 'minmax(0,1fr) minmax(0,1fr)' : 'minmax(0,1fr)', topRatio: d ? '16 / 9' : t ? '1 / 1' : '4 / 3', pctF: m ? '40px' : '40px', topPad2: t ? '20px' : '0 16px 16px', topNameF: m ? '20px' : '20px',
+          restMargin: m ? '16px -16px 0' : '20px 0 0', restPad: m ? '4px 16px 8px' : '0', restFlow: m ? 'column' : 'row', restAuto: m ? '164px' : 'auto', restTpl: m ? 'none' : (d ? 'repeat(5, minmax(0,1fr))' : 'repeat(3, minmax(0,1fr))') }; })(),
+      toPromo: (e) => { e.preventDefault(); const el = this.frame.current.querySelector('#aksiya'), sc = this.frame.current.querySelector('[data-scroll]'); sc && el && sc.scrollTo({ top: el.offsetTop - 80, behavior: 'smooth' }); },
+      hasQuick: !!q && d, quickP: q ? K.view(q, 0) : null, closeQuick: () => this.setState({ quick: null }),
+      splash: this.state.splash,
+    };
+  }
+}
+</script>
+</body>
+</html>

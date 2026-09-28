@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Onest:wght@600;700&display=swap" rel="stylesheet">
+<script src="os-proto.js"></script>
+<script src="os-app.js"></script>
+<style>
+body{margin:0;background:#e6e5e2;font-family:Inter,system-ui,sans-serif;color:#181716;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:#c2410c;text-decoration:none}a:hover{color:#9a3412}
+*{box-sizing:border-box}
+[data-scroll]::-webkit-scrollbar,[data-hscroll]::-webkit-scrollbar{display:none}
+@keyframes os-up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes os-shine{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes os-swap{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@keyframes os-shimmer{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes os-fade{from{opacity:0}to{opacity:1}}
+@keyframes os-toast{from{opacity:0;transform:translateY(-10px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes os-sheet{from{transform:translateY(100%)}to{transform:none}}
+@keyframes os-drawer-l{from{transform:translateX(-100%)}to{transform:none}}
+@keyframes os-drawer-r{from{transform:translateX(100%)}to{transform:none}}
+@keyframes os-pop-in{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;animation-delay:0s!important;transition-duration:.01ms!important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh; display:flex; flex-direction:column; align-items:center; gap:12px; padding:14px 16px 40px;">
+  <div style="width:100%; max-width:1320px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <a href="00 Indeks.dc.html" style="font-size:14px; font-weight:600; color:#57544e;">← Barcha sahifalar</a>
+      <span style="font-size:16px; font-weight:700;">10 · Kabinet</span>
+    </div>
+    <div style="display:flex; gap:4px; padding:4px; background:#fff; border:1px solid #d3d1cd; border-radius:10px;">
+      <sc-for list="{{ sizeTabs }}" as="t" hint-placeholder-count="3"><button type="button" onClick="{{ t.go }}" style="height:34px; padding:0 12px; border:0; border-radius:7px; font:600 14px Inter, system-ui, sans-serif; cursor:pointer; background:{{ t.bg }}; color:{{ t.fg }};">{{ t.label }}</button></sc-for>
+    </div>
+  </div>
+
+  <div style="position:relative; width:{{ stageW }}; height:{{ stageH }};">
+    <div ref="{{ frame }}" style="position:absolute; left:12px; top:12px; width:{{ frameW }}; height:{{ frameH }}; transform:scale({{ frameScale }}); transform-origin:0 0; border-radius:{{ frameRadius }}; overflow:hidden; background:#f8f8f7; box-shadow:{{ frameRing }}; isolation:isolate;">
+      <div data-scroll="" style="position:absolute; inset:0; overflow-y:auto; overflow-x:hidden; scrollbar-width:none; padding-bottom:{{ bottomPad }};">
+        <sc-if value="{{ isD }}" hint-placeholder-val="{{ false }}"><dc-import name="OSHeader" bp="{{ bp }}" cart-count="{{ cartCount }}" fav-count="{{ favCount }}" hint-size="100%,108px"></dc-import></sc-if><sc-if value="{{ isMT }}" hint-placeholder-val="{{ true }}"><div style="position:sticky; top:0; z-index:45; height:56px; display:flex; align-items:center; justify-content:center; background:rgb(255 255 255 / .95); border-bottom:1px solid rgb(230 229 226 / .7); font-size:16px; font-weight:600;">Kabinet</div></sc-if>
+
+        <main style="max-width:1120px; margin:0 auto; padding:20px {{ pad }} 40px;">
+          <div style="display:grid; grid-template-columns:{{ layout }}; gap:24px; align-items:start;">
+            <aside style="display:flex; flex-direction:column; gap:12px; position:{{ asidePos }}; top:{{ asideTop }};">
+              <div style="display:flex; align-items:center; gap:14px; padding:16px; border-radius:12px; background:#fff; border:1px solid #e6e5e2;">
+                <span style="width:52px; height:52px; flex-shrink:0; border-radius:999px; background:#181716; color:#fff; display:flex; align-items:center; justify-content:center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
+                <div style="min-width:0; display:flex; flex-direction:column; gap:4px;"><span data-ph="PROFILE: full_name" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[PROFILE: full_name]</span><span data-ph="PROFILE: phone" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[PROFILE: phone]</span></div>
+              </div>
+              <nav aria-label="Kabinet boʻlimlari" style="display:{{ navDisplay }}; flex-direction:column; padding:6px; border-radius:12px; background:#fff; border:1px solid #e6e5e2;">
+                <sc-for list="{{ sections }}" as="s" hint-placeholder-count="5"><button type="button" onClick="{{ s.pick }}" aria-current="{{ s.cur }}" style="min-height:44px; display:flex; align-items:center; gap:10px; padding:0 12px; border:0; border-radius:8px; background:{{ s.bg }}; color:{{ s.fg }}; font:{{ s.w }} 14px Inter, system-ui, sans-serif; cursor:pointer; text-align:left;">{{ s.label }}</button></sc-for>
+                <a href="11 Kirish.dc.html" style="min-height:44px; display:flex; align-items:center; gap:10px; padding:0 12px; border-radius:8px; color:#b91c1c; font-size:14px; font-weight:500;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" x2="9" y1="12" y2="12"></line></svg>Chiqish</a>
+              </nav>
+            </aside>
+            <div style="min-width:0;">
+              <sc-if value="{{ notD }}" hint-placeholder-val="{{ true }}"><div role="tablist" data-hscroll="" style="margin:0 -{{ pad }} 16px; padding:0 {{ pad }}; display:flex; gap:8px; overflow-x:auto; scrollbar-width:none;"><sc-for list="{{ sections }}" as="s" hint-placeholder-count="5"><button type="button" role="tab" aria-selected="{{ s.cur }}" onClick="{{ s.pick }}" style="flex-shrink:0; height:40px; padding:0 14px; border-radius:999px; border:1px solid {{ s.bd }}; background:{{ s.chipBg }}; color:{{ s.chipFg }}; font:600 14px Inter, system-ui, sans-serif; cursor:pointer; transition:background 220ms;">{{ s.label }}</button></sc-for></div></sc-if>
+              <sc-if value="{{ secOrders }}" hint-placeholder-val="{{ true }}">
+                <section style="animation:os-swap 240ms cubic-bezier(0.22,1,0.36,1) both;">
+                  <sc-if value="{{ isD }}" hint-placeholder-val="{{ false }}"><h1 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 16px; font-size:28px; letter-spacing:-0.02em; font-weight:700;">Buyurtmalar</h1></sc-if>
+                  <div style="display:flex; flex-direction:column; gap:12px;">
+                    <sc-for list="{{ orders }}" as="o" hint-placeholder-count="3">
+                      <article style="border-radius:12px; background:#fff; border:1px solid #e6e5e2; overflow:hidden;">
+                        <button type="button" onClick="{{ o.toggle }}" aria-expanded="{{ o.aria }}" style="width:100%; display:flex; align-items:center; gap:12px; padding:14px 16px; border:0; background:transparent; cursor:pointer; text-align:left; font-family:Inter, system-ui, sans-serif; color:#181716;">
+                          <div style="display:flex; flex-shrink:0;"><sc-for list="{{ o.thumbs }}" as="t" hint-placeholder-count="2"><span style="width:44px; height:44px; margin-right:-10px; border-radius:8px; border:2px solid #fff; background:repeating-linear-gradient(135deg, #f1f1ef 0 5px, #e6e5e2 5px 10px);"></span></sc-for></div>
+                          <div style="flex:1; min-width:0; padding-left:10px;"><div style="display:flex; flex-wrap:wrap; align-items:center; gap:6px 10px;"><span data-ph="orders.order_number" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[orders.order_number]</span><span style="display:inline-flex; align-items:center; gap:6px; height:26px; padding:0 10px; border-radius:999px; background:{{ o.chipBg }}; color:{{ o.chipFg }}; font-size:12px; font-weight:600;"><span style="width:6px; height:6px; border-radius:999px; background:currentColor;"></span>{{ o.status }}</span></div><div style="margin-top:4px; display:flex; flex-wrap:wrap; align-items:center; gap:4px; font-size:14px; color:#57544e;"><span data-ph="formatOrderDate(created_at)" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[formatOrderDate(created_at)]</span><span>{{ o.meta }}</span></div></div>
+                          <span style="display:flex; color:#78756e; transform:rotate({{ o.rot }}); transition:transform 240ms cubic-bezier(0.22,1,0.36,1);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></span>
+                        </button>
+                        <sc-if value="{{ o.open }}" hint-placeholder-val="{{ false }}">
+                          <div style="padding:4px 16px 16px; border-top:1px solid #f1f1ef; animation:os-swap 240ms cubic-bezier(0.22,1,0.36,1) both;">
+                            <sc-if value="{{ o.hasTrack }}" hint-placeholder-val="{{ true }}">
+                              <ol style="margin:14px 0 0; padding:0; list-style:none; display:grid; grid-template-columns:repeat(5, minmax(0,1fr));">
+                                <sc-for list="{{ o.track }}" as="t" hint-placeholder-count="5"><li style="position:relative; display:flex; flex-direction:column; align-items:center; gap:6px; text-align:center;"><sc-if value="{{ t.line }}" hint-placeholder-val="{{ true }}"><span style="position:absolute; left:calc(50% + 12px); right:calc(-50% + 12px); top:9px; height:2px; background:{{ t.lineC }};"></span></sc-if><span style="position:relative; width:20px; height:20px; border-radius:999px; background:{{ t.bg }}; box-shadow:{{ t.sh }}; display:flex; align-items:center; justify-content:center; color:#fff;"><sc-if value="{{ t.done }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></sc-if></span><sc-if value="{{ t.showLabel }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px; line-height:1.25; font-weight:{{ t.w }}; color:{{ t.c }}; white-space:nowrap;">{{ t.label }}</span></sc-if></li></sc-for>
+                              </ol>
+                            </sc-if>
+                            <div style="margin-top:14px; display:flex; justify-content:space-between; align-items:center; gap:10px; font-size:14px; color:#403e39;"><span style="color:#57544e;">Jami</span><span data-ph="orders.total_amount" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[orders.total_amount]</span></div>
+                            <div style="margin-top:14px; display:flex; flex-wrap:wrap; gap:8px;">
+                              <sc-if value="{{ o.canCancel }}" hint-placeholder-val="{{ false }}"><button type="button" style="height:44px; padding:0 16px; border:1px solid #fecaca; border-radius:8px; background:#fff; color:#b91c1c; font:600 14px Inter, system-ui, sans-serif; cursor:pointer;">Buyurtmani bekor qilish</button></sc-if>
+                              <sc-if value="{{ o.canRepeat }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ o.repeat }}" style="height:44px; padding:0 16px; border:1px solid #e6e5e2; border-radius:8px; background:#fff; color:#292825; font:600 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 2px 0 0 #e6e5e2; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px); box-shadow:0 0 0 0 #e6e5e2;">Qayta buyurtma</button></sc-if>
+                            </div>
+                          </div>
+                        </sc-if>
+                      </article>
+                    </sc-for>
+                  </div>
+                </section>
+              </sc-if>
+              <sc-if value="{{ secProfile }}" hint-placeholder-val="{{ false }}">
+                <section style="max-width:520px; display:flex; flex-direction:column; gap:14px; animation:os-swap 240ms cubic-bezier(0.22,1,0.36,1) both;">
+                  <sc-if value="{{ isD }}" hint-placeholder-val="{{ false }}"><h1 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 2px; font-size:28px; letter-spacing:-0.02em; font-weight:700;">Profil</h1></sc-if>
+                  <div style="font-size:14px; font-weight:600;">Ism<div style="margin-top:6px; min-height:48px; display:flex; align-items:center; border-radius:8px; border:1px solid #d3d1cd; padding:0 14px; background:#fff;"><span data-ph="PROFILE: full_name" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[PROFILE: full_name]</span></div></div><div style="font-size:14px; font-weight:600;">Telefon<div style="margin-top:6px; min-height:48px; display:flex; align-items:center; border-radius:8px; border:1px solid #d3d1cd; padding:0 14px; background:#fff;"><span data-ph="PROFILE: phone" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[PROFILE: phone]</span></div></div>
+                  <button type="button" onClick="{{ saved }}" style="height:52px; border:0; border-radius:8px; background:#c2410c; color:#fff; font:700 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 4px 0 0 #9a3412; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px) scale(0.985); box-shadow:0 2px 0 0 #9a3412;">Saqlash</button>
+                </section>
+              </sc-if>
+              <sc-if value="{{ secFav }}" hint-placeholder-val="{{ false }}">
+                <section style="animation:os-swap 240ms cubic-bezier(0.22,1,0.36,1) both;">
+                  <sc-if value="{{ isD }}" hint-placeholder-val="{{ false }}"><h1 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 16px; font-size:28px; letter-spacing:-0.02em; font-weight:700;">Sevimlilar</h1></sc-if>
+                  <div style="display:grid; grid-template-columns:{{ favCols }}; gap:16px 12px;"><sc-for list="{{ favs }}" as="p" hint-placeholder-count="3"><dc-import name="OSKarta" p="{{ p }}" hint-size="100%,340px"></dc-import></sc-for></div>
+                </section>
+              </sc-if>
+              <sc-if value="{{ secAddr }}" hint-placeholder-val="{{ false }}">
+                <section style="display:flex; flex-direction:column; gap:12px; animation:os-swap 240ms cubic-bezier(0.22,1,0.36,1) both;">
+                  <sc-if value="{{ isD }}" hint-placeholder-val="{{ false }}"><h1 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 4px; font-size:28px; letter-spacing:-0.02em; font-weight:700;">Manzillar</h1></sc-if>
+                  <div style="display:flex; gap:12px; padding:16px; border-radius:12px; background:#fff; border:1.5px solid #ea6100;"><span style="display:flex; color:#c2410c;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg></span><div style="flex:1; display:flex; flex-direction:column; gap:6px; font-size:14px;"><span style="display:flex; align-items:center; gap:8px;"><b>Asosiy manzil</b><span style="font-size:12px; font-weight:600; color:#9a3412; background:#fff7ed; border-radius:999px; padding:2px 8px;">Asosiy</span></span><span data-ph="addresses[0].city, street" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[addresses[0].city, street]</span></div></div>
+                  <div style="display:flex; gap:12px; padding:16px; border-radius:12px; background:#fff; border:1px solid #e6e5e2;"><span style="display:flex; color:#78756e;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg></span><div style="flex:1; display:flex; flex-direction:column; gap:6px; font-size:14px;"><b>Qoʻshimcha manzil</b><span data-ph="addresses[1].city, street" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[addresses[1].city, street]</span></div><button type="button" aria-label="Manzilni oʻchirish" style="width:44px; height:44px; margin:-10px -10px 0 0; display:flex; align-items:center; justify-content:center; border:0; background:transparent; color:#78756e; cursor:pointer;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg></button></div>
+                  <button type="button" style="height:48px; display:flex; align-items:center; justify-content:center; gap:8px; border:1.5px dashed #a3a09a; border-radius:12px; background:transparent; color:#292825; font:600 16px Inter, system-ui, sans-serif; cursor:pointer;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>Yangi manzil</button>
+                </section>
+              </sc-if>
+              <sc-if value="{{ secSec }}" hint-placeholder-val="{{ false }}">
+                <section style="max-width:520px; display:flex; flex-direction:column; gap:12px; animation:os-swap 240ms cubic-bezier(0.22,1,0.36,1) both;">
+                  <sc-if value="{{ isD }}" hint-placeholder-val="{{ false }}"><h1 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 4px; font-size:28px; letter-spacing:-0.02em; font-weight:700;">Xavfsizlik</h1></sc-if>
+                  <div style="padding:16px; border-radius:12px; background:#fff; border:1px solid #e6e5e2; font-size:14px; line-height:1.55; color:#403e39;"><b style="display:block; color:#181716;">Login va parol</b>Login va parol Telegram bot orqali beriladi va tiklanadi.</div>
+                  <a href="https://t.me/" title="[ENV: VITE_TELEGRAM_BOT_USERNAME]" style="height:52px; display:flex; align-items:center; justify-content:center; gap:8px; border:0; border-radius:8px; background:#181716; color:#fff; font:600 16px Inter, system-ui, sans-serif; cursor:pointer; transition:transform 140ms cubic-bezier(0.22,1,0.36,1);" style-active="transform:translateY(2px) scale(0.985);"><span style="display:flex; color:#38bdf8;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"></path><path d="M22 2 11 13"></path></svg></span>Bot orqali parolni tiklash</a>
+                  <p style="margin:0; text-align:center;"><span data-ph="ENV: VITE_TELEGRAM_BOT_USERNAME" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[ENV: VITE_TELEGRAM_BOT_USERNAME]</span></p>
+                </section>
+              </sc-if>
+            </div>
+          </div>
+        </main>
+        <dc-import name="OSFooter" bp="{{ bp }}" hint-size="100%,420px"></dc-import>
+      </div>
+
+      <sc-if value="{{ isMT }}" hint-placeholder-val="{{ true }}"><dc-import name="OSNav" active="user" cart-count="{{ cartCount }}" fav-count="{{ favCount }}" hint-size="100%,53px" style="position:absolute; left:0; right:0; bottom:0; z-index:40;"></dc-import></sc-if>
+      <sc-if value="{{ hasQuick }}" hint-placeholder-val="{{ false }}"><dc-import name="OSQuick" p="{{ quickP }}" on-close="{{ closeQuick }}" hint-size="100%,100%"></dc-import></sc-if>
+      <div data-fly="" style="position:absolute; inset:0; z-index:95; pointer-events:none;"></div>
+      <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; left:16px; right:16px; top:14px; z-index:96; display:flex; justify-content:center; pointer-events:none;"><span style="max-width:100%; padding:10px 14px; border-radius:12px; background:#181716; color:#fff; font-size:14px; font-weight:500; box-shadow:0 8px 40px -12px rgb(24 23 22 / 0.28); animation:os-toast 220ms cubic-bezier(0.22,1,0.36,1) both; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ toast }}</span></div>
+      </sc-if>
+    </div>
+  </div>
+
+  <section style="width:100%; max-width:1320px; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px; font-size:14px; line-height:1.55; color:#403e39;">
+    <div style="padding:16px; border-radius:12px; background:#fff; border:1px solid #d3d1cd;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Ishlatilgan tokenlar</h3><p style="margin:0;"><b>Rang:</b> ink-900 (avatar, faol chip), holat chiplari — mavjud <code>ORDER_STATUS_COLORS</code> (blue/indigo/amber/purple/green/red 100 + 700), emerald-600 (kuzatuv), red-700 (bekor qilish, chiqish), brand-50/800 (faol boʻlim desktopda).<br><b>Radius:</b> rounded-card, rounded-full (chip).</p></div>
+    <div style="padding:16px; border-radius:12px; background:#fff7ed; border:1px solid #fed7aa;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Koddan olingan</h3><p style="margin:0;">Boʻlimlar — AccountPage.tsx: Profil, Buyurtmalar, Sevimlilar, Manzillar, Xavfsizlik. Holatlar — types.ts ORDER_STATUS_LABELS (6 ta). “Bekor qilish” faqat “Yangi” da (cancel_own_order). Parol — faqat bot orqali. Ism, telefon, manzillar, buyurtma raqami/sanasi/summasi — belgilangan joy.</p></div>
+    <div style="padding:16px; border-radius:12px; background:#fff; border:1px solid #d3d1cd;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Harakat</h3><p style="margin:0;">Boʻlim almashishi 240ms. Buyurtma ochilishi: strelka 240ms aylanadi, tafsilot 240ms paydo boʻladi (balandlik animatsiyasiz).</p></div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { sec: 'orders', open: 'a' };
+  componentDidMount() {
+    if (!window.OS || !OS.kit) { this.waitT = setTimeout(() => this.componentDidMount(), 30); return; }
+    this.k = OS.kit(this); this.k.mount();
+  }
+  componentWillUnmount() { clearTimeout(this.waitT); this.k && this.k.unmount(); }
+  renderVals() {
+    if (!this.k) return { sizeTabs: [], sections: [], orders: [], favs: [], isMT: true, notD: true, secOrders: true, bp: 'm' };
+    const v = this.k.vals(), K = this.k, S = this.state, d = v.isD;
+    const SEC = [['profile', 'Profil'], ['orders', 'Buyurtmalar'], ['favorites', 'Sevimlilar'], ['addresses', 'Manzillar'], ['settings', 'Xavfsizlik']]; // AccountPage.tsx tabs
+    const ST = ['Yangi', 'Qabul qilindi', 'Tayyorlanmoqda', 'Yetkazilmoqda', 'Yetkazildi']; // types.ts ORDER_STATUS_LABELS
+    const COL = { 'Yangi': ['#dbeafe', '#1d4ed8'], 'Qabul qilindi': ['#e0e7ff', '#4338ca'], 'Tayyorlanmoqda': ['#fef3c7', '#b45309'], 'Yetkazilmoqda': ['#f3e8ff', '#7e22ce'], 'Yetkazildi': ['#dcfce7', '#15803d'], 'Bekor qilindi': ['#fee2e2', '#b91c1c'] }; // ORDER_STATUS_COLORS
+    const sample = [{ id: 'a', status: 'Yetkazilmoqda', items: ['p1'] }, { id: 'b', status: 'Yangi', items: ['p3', 'p7'] }, { id: 'c', status: 'Yetkazildi', items: ['p10'] }, { id: 'd', status: 'Bekor qilindi', items: ['p5'] }];
+    const favIds = Object.keys(OS.store.get().favs).filter((id) => OS.byId(id));
+    return { ...v, layout: d ? '280px minmax(0,1fr)' : 'minmax(0,1fr)', asidePos: d ? 'sticky' : 'relative', asideTop: d ? '124px' : 'auto', navDisplay: d ? 'flex' : 'none',
+      favCols: d ? 'repeat(4, minmax(0,1fr))' : v.cols, favs: favIds.map((id, i) => K.view(OS.byId(id), i)),
+      sections: SEC.map(([k, label]) => { const on = S.sec === k; return { label, cur: on ? 'true' : 'false', pick: () => this.setState({ sec: k }), bg: on ? '#fff7ed' : 'transparent', fg: on ? '#9a3412' : '#292825', w: on ? 600 : 500, bd: on ? '#181716' : '#e6e5e2', chipBg: on ? '#181716' : '#fff', chipFg: on ? '#fff' : '#292825' }; }),
+      secOrders: S.sec === 'orders', secProfile: S.sec === 'profile', secFav: S.sec === 'favorites', secAddr: S.sec === 'addresses', secSec: S.sec === 'settings',
+      orders: sample.map((o) => { const open = S.open === o.id, [bg, fg] = COL[o.status], step = ST.indexOf(o.status);
+        return { status: o.status, chipBg: bg, chipFg: fg, meta: '· ' + o.items.length + ' ta mahsulot', thumbs: o.items.map((i) => ({ i })), open, aria: open ? 'true' : 'false', rot: open ? '180deg' : '0deg', toggle: () => this.setState({ open: open ? null : o.id }),
+          hasTrack: step >= 0, canCancel: o.status === 'Yangi', canRepeat: o.status === 'Yetkazildi' || o.status === 'Bekor qilindi',
+          repeat: () => { OS.store.set((s) => { const c = { ...s.cart }; o.items.forEach((id) => { if (OS.byId(id).stock > 0) c[id] = (c[id] || 0) + 1; }); return { cart: c }; }); K.toast('Savatga qoʻshildi'); },
+          track: ST.map((label, i) => ({ label, showLabel: !v.isM || i === step, line: i < ST.length - 1, done: i <= step, lineC: i < step ? '#059669' : '#e6e5e2', bg: i <= step ? '#059669' : '#fff', sh: i <= step ? 'none' : 'inset 0 0 0 2px #d3d1cd', w: i === step ? 700 : 500, c: i <= step ? '#181716' : '#57544e' })) }; }),
+      saved: () => K.toast('Maʼlumotlar saqlandi') };
+  }
+}
+</script>
+</body>
+</html>

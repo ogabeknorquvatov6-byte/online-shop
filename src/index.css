@@ -1,0 +1,207 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Real rendered height of <BottomNav> (fixed bottom-0, mobile only),
+       including the device's own safe area. Any fixed/sticky element that
+       must sit above the bottom nav — or any scroll container that must not
+       be covered by it — should reference this instead of a guessed value,
+       so the two never drift out of sync.
+
+       Qiymat <BottomNav> ning haqiqiy o'lchamlaridan yig'iladi:
+       har bir havolaning `min-h-[3.25rem]` (52px) + panelning
+       `border-t` (1px) = 53px. Ilgari bu yerda dumaloqlashtirilgan
+       `4rem` (64px) turardi — 11px ortiqcha. O'sha 11px ProductPage'dagi
+       yopishqoq CTA paneli bilan navigatsiya orasida sahifa mazmuni
+       ko'rinib turadigan tirqish bo'lib chiqardi. BottomNav'dagi
+       `min-h` o'zgarsa, bu qiymat ham o'zgarishi kerak. */
+    --bottom-nav-h: calc(3.25rem + 1px + env(safe-area-inset-bottom));
+
+    /* Height of the sticky <Header>. Sticky page elements (catalog filter
+       rail, cart summary, checkout summary) offset from this so they never
+       slide underneath the header — previously each one hard-coded `top-32`,
+       which was wrong on every breakpoint except one. */
+    --header-h: 6.5rem;
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --header-h: 4.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    /* Desktop header has a second row for the category nav. */
+    :root {
+      --header-h: 7rem;
+    }
+  }
+
+  /* Short landscape phones — compact the reserved bottom-nav space so
+     content/CTAs aren't squeezed into a tiny visible area. BottomNav itself
+     shrinks to match via the [@media...] arbitrary variants in that file. */
+  @media (max-height: 500px) and (orientation: landscape) {
+    :root {
+      --bottom-nav-h: calc(2.75rem + env(safe-area-inset-bottom));
+    }
+  }
+
+  html {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Anchor / programmatic scrolling lands below the sticky header. */
+    scroll-padding-top: calc(var(--header-h) + 1rem);
+    /* Stops iOS from silently enlarging text in landscape. */
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-ink-50 text-ink-900;
+  }
+
+  /* Gorizontal toshishga qarshi zaxira to'siq.
+     `clip` tanlandi, chunki `hidden` dan farqli o'laroq u scroll konteyner
+     yaratmaydi va ichkaridagi `position: sticky` elementlarni buzmaydi.
+
+     DIQQAT: buni <html> ga BERMANG. Chrome'da <html> `overflow-x: clip`
+     bo'lganda window'ga `scroll` hodisalari umuman yuborilmay qoladi —
+     natijada header'ning yig'ilishi, "yuqoriga" tugmalari va scrollga
+     bog'liq boshqa hamma narsa jimgina ishlamay qoladi. Tekshirildi:
+     scrollY o'zgaradi, lekin listener bironta ham hodisa olmaydi.
+     Toshishning ASL sababi grid ustunlaridagi `min-width: auto` edi va u
+     joyida tuzatildi; bu qoida faqat zaxira. */
+  body {
+    overflow-x: clip;
+  }
+
+  /* Headings carry the display tracking; body copy stays neutral. */
+  h1,
+  h2,
+  h3 {
+    @apply tracking-tight text-ink-900;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* A single, consistent keyboard focus indicator for the whole app.
+     Individual components can override it, but they can no longer remove it
+     by accident with `focus:outline-none`. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-orange-500 ring-offset-2 ring-offset-white;
+  }
+
+  ::selection {
+    @apply bg-orange-100 text-orange-900;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.ink.300') transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  *::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-ink-300;
+  }
+
+  /* Images should never blow out a grid cell. */
+  img,
+  svg,
+  video {
+    max-width: 100%;
+  }
+}
+
+@layer components {
+  /*
+   * Nishon ikonkasining "qabul qildim" reaksiyasi.
+   *
+   * Savatga tushgan mahsulot yoki sevimlilarga uchgan yurakcha aynan
+   * yetib kelgan lahzada `flight.tsx` shu sinfni nishonga qo'shadi va
+   * ~360ms dan keyin olib tashlaydi.
+   *
+   * Nega CSS, Motion emas? Chunki nishon (header tugmasi yoki pastki
+   * navigatsiya havolasi) uchish tizimidan mustaqil komponent. Sinf
+   * qo'shish — ularga holat uzatish yoki ref bilan bog'lashdan ancha
+   * sodda va ular haqida hech narsa bilishni talab qilmaydi.
+   *
+   * `prefers-reduced-motion` da pastdagi global qoida davomiylikni
+   * nolga tushiradi — reaksiya bir zumlik bo'lib qoladi, lekin
+   * yo'qolmaydi.
+   */
+  .is-receiving {
+    animation: receive-pop 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @keyframes receive-pop {
+    0% {
+      transform: scale(1);
+    }
+    38% {
+      transform: scale(1.24);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+}
+
+@layer utilities {
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+  /* Horizontal scrollers (category strip, filter chips) without a visible bar. */
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Edge-to-edge scroller that still respects the page gutter. */
+  .snap-x-start {
+    scroll-snap-type: x mandatory;
+  }
+  .snap-x-start > * {
+    scroll-snap-align: start;
+  }
+}
+
+/* Users who ask the OS to reduce motion get a still interface. Motion's own
+   JS animations are handled separately by <MotionConfig reducedMotion="user">
+   in main.tsx — this block covers plain CSS transitions/animations. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

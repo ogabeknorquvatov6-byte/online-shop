@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Onest:wght@600;700&display=swap" rel="stylesheet">
+<script src="os-proto.js"></script>
+<script src="os-app.js"></script>
+<style>
+body{margin:0;background:#e6e5e2;font-family:Inter,system-ui,sans-serif;color:#181716;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:#c2410c;text-decoration:none}a:hover{color:#9a3412}
+*{box-sizing:border-box}
+[data-scroll]::-webkit-scrollbar,[data-hscroll]::-webkit-scrollbar{display:none}
+@keyframes os-up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes os-shine{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes os-swap{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@keyframes os-shimmer{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes os-fade{from{opacity:0}to{opacity:1}}
+@keyframes os-toast{from{opacity:0;transform:translateY(-10px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes os-sheet{from{transform:translateY(100%)}to{transform:none}}
+@keyframes os-drawer-l{from{transform:translateX(-100%)}to{transform:none}}
+@keyframes os-drawer-r{from{transform:translateX(100%)}to{transform:none}}
+@keyframes os-pop-in{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes os-flip{from{opacity:0;transform:perspective(520px) rotateY(-110deg)}to{opacity:1;transform:perspective(520px) rotateY(0)}}
+@keyframes os-fall{0%{opacity:0;transform:translateY(-20px) rotate(0)}14%{opacity:1}58%{opacity:1}100%{opacity:0;transform:translateY(150px) rotate(var(--r))}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;animation-delay:0s!important;transition-duration:.01ms!important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh; display:flex; flex-direction:column; align-items:center; gap:12px; padding:14px 16px 40px;">
+  <div style="width:100%; max-width:1320px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <a href="00 Indeks.dc.html" style="font-size:14px; font-weight:600; color:#57544e;">← Barcha sahifalar</a>
+      <span style="font-size:16px; font-weight:700;">02 · Mahsulot sahifasi</span>
+    </div>
+    <div style="display:flex; gap:4px; padding:4px; background:#fff; border:1px solid #d3d1cd; border-radius:10px;">
+      <sc-for list="{{ sizeTabs }}" as="t" hint-placeholder-count="3"><button type="button" onClick="{{ t.go }}" style="height:34px; padding:0 12px; border:0; border-radius:7px; font:600 14px Inter, system-ui, sans-serif; cursor:pointer; background:{{ t.bg }}; color:{{ t.fg }};">{{ t.label }}</button></sc-for>
+    </div>
+  </div>
+
+  <div style="position:relative; width:{{ stageW }}; height:{{ stageH }};">
+    <div ref="{{ frame }}" style="position:absolute; left:12px; top:12px; width:{{ frameW }}; height:{{ frameH }}; transform:scale({{ frameScale }}); transform-origin:0 0; border-radius:{{ frameRadius }}; overflow:hidden; background:#f8f8f7; box-shadow:{{ frameRing }}; isolation:isolate;">
+      <div data-scroll="" style="position:absolute; inset:0; overflow-y:auto; overflow-x:hidden; scrollbar-width:none; padding-bottom:{{ bottomPad }};">
+        <dc-import name="OSHeader" bp="{{ bp }}" variant="{{ hdrVariant }}" title="Telefonlar" back-href="04 Katalog.dc.html" cart-count="{{ cartCount }}" fav-count="{{ favCount }}" hint-size="100%,56px"></dc-import>
+
+        <main style="max-width:1280px; margin:0 auto; padding:{{ mainPadTop }} {{ pad }} 40px;">
+          <sc-if value="{{ notM }}" hint-placeholder-val="{{ false }}"><nav aria-label="Yoʻl" style="margin-bottom:16px; display:flex; gap:6px; font-size:14px; color:#78756e;"><a href="03 Bosh sahifa.dc.html" style="color:#57544e;">Bosh sahifa</a><span>/</span><a href="04 Katalog.dc.html" style="color:#57544e;">Telefonlar</a><span>/</span><span>iPhone 15 Pro</span></nav></sc-if>
+          <div style="display:grid; grid-template-columns:{{ pgCols }}; gap:{{ pgGap }}; align-items:start;">
+            <div data-card="p1" style="position:{{ galPos }}; top:{{ galTop }}; min-width:0;">
+              <sc-if value="{{ isM }}" hint-placeholder-val="{{ true }}">
+                <div style="position:relative; margin:0 -16px; background:#fff;">
+                  <div data-media="" data-hscroll="" onScroll="{{ onGallery }}" onPointerMove="{{ gyroPointer }}" onPointerLeave="{{ gyroRest }}" style="display:flex; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; aspect-ratio:1 / 1;">
+                    <sc-for list="{{ gallery }}" as="g" hint-placeholder-count="4">
+                      <div style="position:relative; flex:0 0 100%; scroll-snap-align:start; overflow:hidden;"><div data-gyro="" style="position:absolute; inset:0; transform:scale(1.05); background:repeating-linear-gradient(135deg, #f1f1ef 0 9px, #e6e5e2 9px 18px); display:flex; align-items:flex-end; padding:20px 24px 44px; font-family:ui-monospace, Menlo, monospace; font-size:12px; color:#57544e;">{{ g.label }}</div></div>
+                    </sc-for>
+                  </div>
+                  <span style="position:absolute; left:16px; top:16px; border-radius:6px; background:#c2410c; color:#fff; font-weight:700; font-size:12px; padding:4px 8px; box-shadow:0 4px 14px -4px rgb(234 97 0 / 0.9);">−{{ pd.discount }}%</span>
+                  <button type="button" onClick="{{ pd.onFav }}" aria-label="Sevimlilarga qoʻshish" style="position:absolute; right:8px; top:8px; width:44px; height:44px; display:flex; align-items:center; justify-content:center; border:0; border-radius:999px; background:rgb(255 255 255 / .9); color:{{ pd.favColor }}; cursor:pointer; box-shadow:0 1px 3px rgba(23,20,17,0.18); transition:transform 140ms cubic-bezier(0.22,1,0.36,1);" style-active="transform:scale(0.88);"><svg width="20" height="20" viewBox="0 0 24 24" fill="{{ pd.favFill }}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg><span data-ring="" style="position:absolute; inset:6px; border-radius:999px; box-shadow:0 0 0 2px #f97316; opacity:0; pointer-events:none;"></span></button>
+                  <div style="position:absolute; left:0; right:0; bottom:14px; display:flex; justify-content:center; gap:6px; pointer-events:none;"><sc-for list="{{ gallery }}" as="g" hint-placeholder-count="4"><span style="width:6px; height:6px; border-radius:999px; background:{{ g.dot }}; transform:scale({{ g.dotScale }}); transition:transform 220ms cubic-bezier(0.22,1,0.36,1), background 220ms;"></span></sc-for></div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ notM }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex; flex-direction:{{ thumbDir }}; gap:12px;">
+                  <div style="display:flex; flex-direction:{{ thumbListDir }}; gap:8px; flex-shrink:0;">
+                    <sc-for list="{{ gallery }}" as="g" hint-placeholder-count="4"><button type="button" onClick="{{ g.pick }}" aria-label="{{ g.label }}" style="width:72px; height:72px; border-radius:8px; border:2px solid {{ g.ring }}; padding:0; background:repeating-linear-gradient(135deg, #f8f8f7 0 5px, #e6e5e2 5px 10px); cursor:pointer; transition:border-color 220ms, transform 140ms;" style-active="transform:scale(0.95);"></button></sc-for>
+                  </div>
+                  <div data-media="" onPointerMove="{{ gyroPointer }}" onPointerLeave="{{ gyroRest }}" style="position:relative; flex:1; min-width:0; aspect-ratio:1 / 1; overflow:hidden; border-radius:16px; border:1px solid #e6e5e2; background:#fff;">
+                    <div data-gyro="" style="position:absolute; inset:0; transform:scale(1.05); background:repeating-linear-gradient(135deg, #f1f1ef 0 10px, #e6e5e2 10px 20px); display:flex; align-items:flex-end; padding:24px 28px; font-family:ui-monospace, Menlo, monospace; font-size:12px; color:#57544e;"><span style="animation:os-swap 220ms both;">{{ gLabel }}</span></div>
+                    <span style="position:absolute; left:16px; top:16px; border-radius:6px; background:#c2410c; color:#fff; font-weight:700; font-size:14px; padding:4px 10px; box-shadow:0 4px 14px -4px rgb(234 97 0 / 0.9);">−{{ pd.discount }}%</span>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+
+            <div style="min-width:0; position:{{ infoPos }}; top:{{ infoTop }};">
+              <div style="padding-top:{{ infoPadTop }};">
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+                  <p style="margin:0; display:flex; align-items:center; gap:8px; font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#57544e;"><span style="width:20px; height:1px; background:rgb(251 146 60 / .7);"></span>Apple</p>
+                  <sc-if value="{{ notM }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ pd.onFav }}" style="position:relative; height:40px; padding:0 12px; display:flex; align-items:center; gap:6px; border:1px solid #e6e5e2; border-radius:8px; background:#fff; color:{{ pd.favColor }}; font:500 14px Inter, system-ui, sans-serif; cursor:pointer; transition:transform 140ms cubic-bezier(0.22,1,0.36,1);" style-active="transform:scale(0.95);"><svg width="17" height="17" viewBox="0 0 24 24" fill="{{ pd.favFill }}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg><span style="color:#292825;">{{ pd.favLabel }}</span><span data-ring="" style="position:absolute; left:6px; top:5px; width:28px; height:28px; border-radius:999px; box-shadow:0 0 0 2px #f97316; opacity:0; pointer-events:none;"></span></button></sc-if>
+                </div>
+                <h1 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:8px 0 0; font-size:{{ h1 }}; line-height:1.22; letter-spacing:-0.02em; font-weight:700; text-wrap:pretty;">{{ pd.name }}</h1>
+                <div style="margin-top:10px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px; font-size:14px; color:#57544e;">
+                  <button type="button" onClick="{{ showReviews }}" style="min-height:32px; display:flex; align-items:center; gap:4px; border:0; background:transparent; padding:0; font:500 14px Inter, system-ui, sans-serif; color:#57544e; cursor:pointer;"><svg width="15" height="15" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><b style="color:#181716;">4.8</b>· 126 ta sharh</button>
+                  <span style="display:flex; align-items:center; gap:5px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c2410c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>340 marta sotib olingan</span>
+                </div>
+
+                <div style="margin-top:16px; padding:16px; border-radius:12px; border:1px solid rgb(254 215 170 / .9); background:rgb(255 247 237 / .55); box-shadow:inset 0 1px 0 0 rgb(255 255 255 / 0.7), inset 0 -1px 0 0 rgb(24 23 22 / 0.05);">
+                  <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 10px;">
+                    <span style="overflow:hidden; height:36px;"><span data-roll-price="" style="display:block; font-size:28px; line-height:36px; font-weight:700; letter-spacing:-0.025em;">{{ pd.priceText }}</span></span>
+                    <span style="font-size:14px; color:#78756e; text-decoration:line-through;">{{ pd.oldText }}</span>
+                  </div>
+                  <p style="margin:8px 0 0; display:inline-flex; border-radius:999px; background:#c2410c; color:#fff; font-size:12px; font-weight:600; padding:4px 10px;">{{ pd.saveBadge }}</p>
+                  <p style="margin:10px 0 0; display:flex; align-items:center; gap:5px; font-size:14px; font-weight:500; color:#047857;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>Sotuvda bor · Toshkentda — ertagayoq</p>
+                </div>
+
+                <p style="margin:20px 0 8px; font-size:14px; font-weight:600;">Xotira</p>
+                <div style="display:flex; gap:8px;">
+                  <sc-for list="{{ storages }}" as="s" hint-placeholder-count="3"><button type="button" onClick="{{ s.pick }}" aria-pressed="{{ s.pressed }}" style="flex:1; height:44px; border-radius:8px; border:1.5px solid {{ s.border }}; background:{{ s.bg }}; color:{{ s.fg }}; font:600 14px Inter, system-ui, sans-serif; cursor:pointer; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), background 220ms, border-color 220ms;" style-active="transform:scale(0.97);">{{ s.label }}</button></sc-for>
+                </div>
+                <p style="margin:16px 0 8px; font-size:14px; font-weight:600;">Rang: <span style="font-weight:500; color:#57544e;">{{ colorName }}</span></p>
+                <div style="display:flex; gap:6px;">
+                  <sc-for list="{{ colors }}" as="c" hint-placeholder-count="4"><button type="button" onClick="{{ c.pick }}" aria-label="{{ c.label }}" style="width:44px; height:44px; border-radius:999px; border:2px solid {{ c.ring }}; background:transparent; padding:3px; cursor:pointer; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), border-color 220ms;" style-active="transform:scale(0.92);"><span style="display:block; width:100%; height:100%; border-radius:999px; background:{{ c.c }}; box-shadow:inset 0 0 0 1px rgb(24 23 22 / .12);"></span></button></sc-for>
+                </div>
+
+              <div style="margin-top:20px; display:flex; flex-direction:{{ ctaDir }}; gap:10px;">
+                <button type="button" onClick="{{ pd.onAdd }}" style="flex:1; height:48px; display:flex; align-items:center; justify-content:center; gap:8px; border:0; border-radius:8px; background:#c2410c; color:#fff; font:700 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 4px 0 0 #9a3412; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px) scale(0.985); box-shadow:0 2px 0 0 #9a3412;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg>{{ pd.addLabel }}</button>
+                <button type="button" onClick="{{ openOneClick }}" style="flex:1; height:48px; display:flex; align-items:center; justify-content:center; gap:8px; border:0; border-radius:8px; background:#181716; color:#fff; font:600 16px Inter, system-ui, sans-serif; cursor:pointer; transition:transform 140ms cubic-bezier(0.22,1,0.36,1);" style-active="transform:translateY(2px) scale(0.985);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path></svg>Bir bosishda buyurtma</button>
+              </div>
+                <div style="margin-top:20px; border-radius:12px; border:1px solid #e6e5e2; background:#fff; overflow:hidden;">
+                  <div style="display:flex; align-items:center; gap:12px; padding:12px 14px; border-bottom:1px solid #f1f1ef;"><span style="width:36px; height:36px; flex-shrink:0; border-radius:999px; background:#fff7ed; color:#c2410c; display:flex; align-items:center; justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg></span><span style="font-size:14px; line-height:1.35;"><b style="display:block; font-weight:600;">Toshkentda — ertagayoq</b><span style="font-size:14px; color:#57544e; display:flex; flex-wrap:wrap; gap:4px; align-items:center;">Viloyatlarga 2–3 ish kuni · <span data-ph="SETTINGS: delivery_fee_tashkent" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[SETTINGS: delivery_fee_tashkent]</span></span></span></div>
+                  <div style="display:flex; align-items:center; gap:12px; padding:12px 14px; border-bottom:1px solid #f1f1ef;"><span style="width:36px; height:36px; flex-shrink:0; border-radius:999px; background:#fff7ed; color:#c2410c; display:flex; align-items:center; justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg></span><span style="font-size:14px; line-height:1.35;"><b style="display:block; font-weight:600;">14 kun ichida qaytarish</b><span style="font-size:14px; color:#57544e;">Qutisi va komplekti bilan</span></span></div>
+                  <div style="display:flex; align-items:center; gap:12px; padding:12px 14px;"><span style="width:36px; height:36px; flex-shrink:0; border-radius:999px; background:#fff7ed; color:#c2410c; display:flex; align-items:center; justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg></span><span style="font-size:14px; line-height:1.35;"><b style="display:block; font-weight:600;">Rasmiy kafolat</b><span style="font-size:14px; color:#57544e;">Ishlab chiqaruvchi kafolat taloni bilan</span></span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div data-tabs="" style="margin-top:{{ tabsTop }}; max-width:{{ tabsMax }};">
+            <div style="position:relative; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); border-bottom:1px solid #e6e5e2;">
+              <sc-for list="{{ ptabs }}" as="t" hint-placeholder-count="3"><button type="button" onClick="{{ t.pick }}" aria-selected="{{ t.sel }}" role="tab" style="height:48px; border:0; background:transparent; font:600 16px Inter, system-ui, sans-serif; color:{{ t.fg }}; cursor:pointer;">{{ t.label }}</button></sc-for>
+              <span style="position:absolute; left:0; bottom:-1px; width:33.333%; height:2px; background:#ea6100; border-radius:2px; transform:translateX({{ tabX }}); transition:transform 260ms cubic-bezier(0.34,1.3,0.64,1);"></span>
+            </div>
+            <sc-if value="{{ tabDesc }}" hint-placeholder-val="{{ false }}"><p style="margin:16px 0 0; font-size:16px; line-height:1.65; color:#403e39; animation:os-swap 220ms cubic-bezier(0.22,1,0.36,1) both;">Titan korpus, A17 Pro protsessori va 48 MP asosiy kamera. Qutida: telefon, USB-C kabel. Rasmiy kafolat talonida seriya raqami koʻrsatiladi.</p></sc-if>
+            <sc-if value="{{ tabSpecs }}" hint-placeholder-val="{{ false }}"><div style="margin-top:8px; animation:os-swap 220ms cubic-bezier(0.22,1,0.36,1) both;"><sc-for list="{{ specs }}" as="s" hint-placeholder-count="5"><div style="display:flex; justify-content:space-between; gap:12px; padding:12px 0; border-bottom:1px solid #f1f1ef; font-size:14px;"><span style="color:#57544e;">{{ s.k }}</span><span style="font-weight:500; text-align:right;">{{ s.v }}</span></div></sc-for></div></sc-if>
+            <sc-if value="{{ tabReviews }}" hint-placeholder-val="{{ true }}">
+              <div style="animation:os-swap 220ms cubic-bezier(0.22,1,0.36,1) both;">
+                <div style="margin-top:18px; display:flex; align-items:center; gap:14px;">
+                  <span style="font-size:40px; font-weight:700; letter-spacing:-0.03em; line-height:1;">4.8</span>
+                  <div><div style="display:flex; gap:2px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><p style="margin:4px 0 0; font-size:14px; color:#57544e;">126 ta sharh asosida</p></div>
+                </div>
+                <div style="display:grid; grid-template-columns:{{ revCols }}; gap:0 32px;">
+                  <sc-for list="{{ reviews }}" as="r" hint-placeholder-count="3">
+                    <div style="padding:16px 0; border-bottom:1px solid #f1f1ef;">
+                      <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;"><span style="font-size:14px; font-weight:600;">{{ r.name }}</span><span style="font-size:12px; color:#78756e;">{{ r.date }}</span></div>
+                      <div style="margin-top:4px; display:flex; align-items:center; gap:8px;">
+                        <span style="display:flex; gap:1px;"><sc-for list="{{ r.starsArr }}" as="s" hint-placeholder-count="5"><svg width="13" height="13" viewBox="0 0 24 24" fill="{{ s.c }}" stroke="{{ s.c }}" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></sc-for></span>
+                        <span style="display:inline-flex; align-items:center; gap:3px; font-size:12px; font-weight:600; color:#047857; background:#ecfdf5; border-radius:999px; padding:1px 8px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>Xarid tasdiqlangan</span>
+                      </div>
+                      <p style="margin:8px 0 0; font-size:14px; line-height:1.55; color:#403e39;">{{ r.text }}</p>
+                    </div>
+                  </sc-for>
+                </div>
+                <button type="button" style="margin-top:16px; width:{{ allRevW }}; height:44px; padding:0 20px; border:1px solid #e6e5e2; border-radius:8px; background:#fff; font:600 14px Inter, system-ui, sans-serif; color:#292825; cursor:pointer; box-shadow:0 2px 0 0 #e6e5e2; transition:transform 140ms, box-shadow 140ms;" style-active="transform:translateY(2px); box-shadow:0 0 0 0 #e6e5e2;">Barcha 126 ta sharh</button>
+              </div>
+            </sc-if>
+          </div>
+
+          <section style="margin-top:40px;">
+            <h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0; font-size:20px; letter-spacing:-0.02em; font-weight:700;">Bu bilan birga olishadi</h2>
+            <div style="margin-top:16px; display:grid; grid-template-columns:{{ cols }}; gap:{{ gridGap }};">
+              <sc-for list="{{ related }}" as="p" hint-placeholder-count="5"><dc-import name="OSKarta" p="{{ p }}" hint-size="100%,340px"></dc-import></sc-for>
+            </div>
+          </section>
+        </main>
+        <dc-import name="OSFooter" bp="{{ bp }}" hint-size="100%,420px"></dc-import>
+      </div>
+
+      <sc-if value="{{ isMT }}" hint-placeholder-val="{{ true }}"><dc-import name="OSNav" active="none" cart-count="{{ cartCount }}" fav-count="{{ favCount }}" hint-size="100%,53px" style="position:absolute; left:0; right:0; bottom:0; z-index:40;"></dc-import></sc-if>
+      <sc-if value="{{ hasQuick }}" hint-placeholder-val="{{ false }}"><dc-import name="OSQuick" p="{{ quickP }}" on-close="{{ closeQuick }}" hint-size="100%,100%"></dc-import></sc-if>
+      <sc-if value="{{ isM }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; left:0; right:0; bottom:53px; z-index:30; display:flex; align-items:center; gap:12px; padding:10px 16px; background:rgb(255 255 255 / .96); border-top:1px solid #e6e5e2; box-shadow:0 -8px 24px -16px rgb(24 23 22 / .25); transform:translateY({{ stickyY }}); transition:transform 260ms cubic-bezier(0.22,1,0.36,1);">
+          <div style="flex:1; min-width:0;"><div style="font-size:12px; color:#57544e; text-decoration:line-through;">{{ pd.oldText }}</div><div style="overflow:hidden; height:22px;"><span data-roll-price="" style="display:block; font-size:20px; line-height:22px; font-weight:700; letter-spacing:-0.02em;">{{ pd.priceText }}</span></div></div>
+          <button type="button" onClick="{{ pd.onAdd }}" style="height:44px; padding:0 22px; display:flex; align-items:center; gap:8px; border:0; border-radius:8px; background:#c2410c; color:#fff; font:700 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 3px 0 0 #9a3412; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px) scale(0.985); box-shadow:0 1px 0 0 #9a3412;">{{ pd.addShort }}</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{ sheetOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; inset:0; z-index:92; display:flex; align-items:{{ sheetAlign }}; justify-content:center;">
+          <div onClick="{{ closeSheet }}" style="position:absolute; inset:0; background:rgb(24 23 22 / .45); animation:os-fade 220ms both;"></div>
+          <div role="dialog" aria-label="Bir bosishda buyurtma" style="position:relative; width:{{ sheetW }}; overflow:hidden; border-radius:{{ sheetRadius }}; background:#fff; padding:8px 20px 28px; box-shadow:0 8px 40px -12px rgb(24 23 22 / 0.28); animation:{{ sheetAnim }} 300ms cubic-bezier(0.22,1,0.36,1) both;">
+            <span style="display:block; margin:0 auto 14px; width:40px; height:4px; border-radius:999px; background:#d3d1cd;"></span>
+            <sc-if value="{{ sheetForm }}" hint-placeholder-val="{{ true }}">
+              <h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0; font-size:20px; font-weight:700; letter-spacing:-0.02em;">Bir bosishda buyurtma</h2>
+              <p style="margin:6px 0 0; font-size:14px; line-height:1.5; color:#57544e;">Raqamingizni qoldiring — operator qoʻngʻiroq qilib, manzil va vaqtni aniqlaydi.</p>
+              <div style="margin-top:14px; display:flex; align-items:center; gap:10px; padding:10px; border-radius:12px; background:#f8f8f7; border:1px solid #e6e5e2;"><span style="width:44px; height:44px; flex-shrink:0; border-radius:8px; background:repeating-linear-gradient(135deg, #f1f1ef 0 5px, #e6e5e2 5px 10px);"></span><div style="min-width:0;"><div style="font-size:14px; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ pd.name }}</div><div style="font-size:14px; font-weight:700;">{{ pd.priceText }}</div></div></div>
+              <label for="oc-phone" style="display:block; margin-top:14px; font-size:14px; font-weight:600;">Telefon raqami</label>
+              <input id="oc-phone" value="{{ phoneVal }}" onInput="{{ onPhone }}" inputmode="tel" placeholder="+998 90 123 45 67" style="margin-top:6px; width:100%; height:48px; border-radius:8px; border:1px solid #d3d1cd; padding:0 14px; font:500 16px Inter, system-ui, sans-serif; color:#181716; outline:none;" style-focus="border-color:#f97316; box-shadow:0 0 0 3px rgb(249 115 22 / .2);">
+              <sc-if value="{{ phoneErr }}" hint-placeholder-val="{{ false }}"><p style="margin:6px 0 0; font-size:14px; color:#b91c1c;">Raqamni toʻliq kiriting: +998 va 9 ta raqam</p></sc-if>
+              <button type="button" onClick="{{ submitOneClick }}" style="margin-top:14px; width:100%; height:48px; border:0; border-radius:8px; background:#c2410c; color:#fff; font:700 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 4px 0 0 #9a3412; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px); box-shadow:0 2px 0 0 #9a3412;">Buyurtma berish</button>
+            </sc-if>
+            <sc-if value="{{ sheetDone }}" hint-placeholder-val="{{ false }}">
+              <div style="position:relative; padding:12px 0 4px; text-align:center;">
+                <div aria-hidden="true" style="position:absolute; left:-20px; right:-20px; top:-30px; height:200px; pointer-events:none; overflow:hidden;"><sc-for list="{{ fall }}" as="f" hint-placeholder-count="12"><span style="position:absolute; top:0; left:{{ f.left }}; width:{{ f.size }}; height:{{ f.size }}; border-radius:{{ f.radius }}; background:{{ f.bg }}; opacity:0; --r:{{ f.rot }}; animation:os-fall {{ f.dur }} cubic-bezier(0.22,1,0.36,1) {{ f.delay }} 1 both;"></span></sc-for></div>
+                <span style="position:relative; margin:0 auto; width:64px; height:64px; border-radius:999px; background:#059669; color:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 30px -10px rgb(5 150 105 / .7); animation:os-flip 600ms cubic-bezier(0.22,1,0.36,1) 120ms both;"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+                <h2 style="font-family:'Onest', Inter, system-ui, sans-serif; position:relative; margin:16px 0 0; font-size:20px; font-weight:700; letter-spacing:-0.02em;">Buyurtma qabul qilindi</h2>
+                <p style="position:relative; margin:6px 0 0; font-size:14px; line-height:1.5; color:#57544e;">Buyurtma <span data-ph="ORDER: order_number" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[ORDER: order_number]</span> · operator tez orada qoʻngʻiroq qiladi. Holatini Telegram bot orqali ham kuzatishingiz mumkin.</p>
+                <button type="button" onClick="{{ closeSheet }}" style="position:relative; margin-top:16px; width:100%; height:48px; border:1px solid #e6e5e2; border-radius:8px; background:#fff; color:#292825; font:600 16px Inter, system-ui, sans-serif; cursor:pointer;">Xaridni davom ettirish</button>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+      </sc-if>
+      <div data-fly="" style="position:absolute; inset:0; z-index:95; pointer-events:none;"></div>
+      <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; left:16px; right:16px; top:14px; z-index:96; display:flex; justify-content:center; pointer-events:none;"><span style="max-width:100%; padding:10px 14px; border-radius:12px; background:#181716; color:#fff; font-size:14px; font-weight:500; box-shadow:0 8px 40px -12px rgb(24 23 22 / 0.28); animation:os-toast 220ms cubic-bezier(0.22,1,0.36,1) both; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ toast }}</span></div>
+      </sc-if>
+    </div>
+  </div>
+
+  <section style="width:100%; max-width:1320px; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px; font-size:14px; line-height:1.55; color:#403e39;">
+    <div style="padding:16px; border-radius:12px; background:#fff; border:1px solid #d3d1cd;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Ishlatilgan tokenlar</h3><p style="margin:0;"><b>Rang:</b> brand-700 (CTA foni, −N%, tejash nishoni), brand-600 (tanlangan variant chegarasi, tab nuri), brand-50/200 (narx paneli), ink-900 (“Bir bosishda” tugmasi), emerald-600/700, amber-400 (yulduz).<br><b>Radius:</b> rounded-card (narx, ishonch bloki), rounded-surface 16 (galereya, modal), rounded-control (tugmalar).<br><b>Soya:</b> shadow-glass (narx paneli), shadow-brand (−N%), shadow-overlay (sheet), shadow-press (yangi).</p></div>
+    <div style="padding:16px; border-radius:12px; background:#fff; border:1px solid #d3d1cd;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Tuzilish</h3><p style="margin:0;">390: surat butun kenglikda, suriladi (snap), nuqtalar; 560px dan keyin pastda yopishqoq narx + “Savatga”. 820: ikki ustun, galereya yopishqoq. 1280: 7/5 toʻr, chapda vertikal eskizlar, oʻngda narx paneli yopishqoq; “Bir bosishda” — markaziy modal.</p></div>
+    <div style="padding:16px; border-radius:12px; background:#fff; border:1px solid #d3d1cd;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Harakat</h3><p style="margin:0;">Narx almashishi: 240ms yuqoriga surilish (xotira tanlanganda) · tab nuri 260ms prujina · galereya parallaksi ≤8px (egilish yoki kursor) · yopishqoq CTA 260ms translateY · buyurtma tasdigʻi: 3D check 600ms + tushuvchi kublar (STORY).</p></div>
+    <div style="padding:16px; border-radius:12px; background:#fff7ed; border:1px solid #fed7aa;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Faqat haqiqiy maʼlumot</h3><p style="margin:0;">“340 marta sotib olingan” — sales_count ≥ 10 boʻlgani uchun. Reyting va sharh soni — rating/reviews_count. “Xarid tasdiqlangan” faqat buyurtmaga bogʻlangan sharhda. Taymer yoʻq — bu mahsulotda aksiya sanasi yoʻq.</p></div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { storage: 1, color: 0, tab: 'reviews', gi: 0, sheet: null, phoneVal: '', phoneErr: false, stickyShow: false };
+  STORAGE = [{ label: '128 GB', d: -1500000 }, { label: '256 GB', d: 0 }, { label: '512 GB', d: 3000000 }];
+  COLORS = [{ label: 'Tabiiy titan', c: '#bab4a9' }, { label: 'Qora titan', c: '#3b3b3d' }, { label: 'Oq titan', c: '#f2f1ec' }, { label: 'Koʻk titan', c: '#3f4a5a' }];
+  GAL = ['old tomoni · yongʻoq stol, ertalabki yorugʻ', 'orqa tomoni · kamera bloki yaqindan', 'qoʻlda · marmar fonida', 'quti va kafolat taloni'];
+  fallData = Array.from({ length: 12 }, (_, i) => { const s = 10 + (i * 7) % 8; return { left: (4 + ((i * 37) % 92)) + '%', size: s + 'px', radius: (s * 1.5 / 7).toFixed(1) + 'px', bg: i % 3 ? '#f97316' : '#fdba74', rot: ((i % 2 ? 1 : -1) * (40 + i * 11)) + 'deg', dur: (2.2 + (i % 5) * 0.3) + 's', delay: ((i * 0.05) % 0.55).toFixed(2) + 's' }; });
+  componentDidMount() {
+    if (!window.OS || !OS.kit) { this.waitT = setTimeout(() => this.componentDidMount(), 30); return; }
+    this.k = OS.kit(this); this.k.mount();
+    this.unGyro = OS.bindGyro(this.frame.current);
+    this.bindScroll();
+  }
+  bindScroll() {
+    const sc = this.frame.current && this.frame.current.querySelector('[data-scroll]');
+    if (!sc) { this.waitT = setTimeout(() => this.bindScroll(), 60); return; }
+    this.sc = sc; this.onSc = () => { const show = sc.scrollTop > 560; if (show !== this.state.stickyShow) this.setState({ stickyShow: show }); };
+    sc.addEventListener('scroll', this.onSc, { passive: true });
+  }
+  componentWillUnmount() { clearTimeout(this.waitT); this.k && this.k.unmount(); this.unGyro && this.unGyro(); this.sc && this.sc.removeEventListener('scroll', this.onSc); }
+  componentDidUpdate() { const prev = this._prevSt; this._prevSt = this.state.storage; if (prev != null && prev !== this.state.storage && this.frame.current) this.frame.current.querySelectorAll('[data-roll-price]').forEach((el) => OS.roll(el)); }
+  renderVals() {
+    if (!this.k) return { sizeTabs: [], gallery: [], storages: [], colors: [], ptabs: [], reviews: [], specs: [], related: [], fall: [], pd: {}, isM: true, isMT: true, bp: 'm' };
+    const v = this.k.vals(), K = this.k, S = this.state, st = this.STORAGE[S.storage], base = OS.byId('p1'), store = OS.store.get();
+    const price = base.price + st.d, old = base.old_price + st.d, fav = !!store.favs.p1, qty = store.cart.p1 || 0, d = v.bp === 'd', m = v.isM;
+    const prod = { ...base, name: 'iPhone 15 Pro' };
+    return {
+      ...v, hdrVariant: m ? 'back' : 'main', galTop: m ? 'auto' : '124px', infoTop: d ? '124px' : 'auto', bottomPad: m ? '140px' : v.bottomPad,
+      mainPadTop: m ? '0px' : '20px', pgCols: d ? 'minmax(0,7fr) minmax(0,5fr)' : v.isT ? 'minmax(0,1fr) minmax(0,1fr)' : 'minmax(0,1fr)', pgGap: d ? '48px' : '24px',
+      galPos: m ? 'relative' : 'sticky', infoPos: d ? 'sticky' : 'relative', infoPadTop: m ? '16px' : '0px', h1: d ? '28px' : v.isT ? '28px' : '20px',
+      thumbDir: d ? 'row' : 'column-reverse', thumbListDir: d ? 'column' : 'row', ctaDir: v.isT ? 'column' : m ? 'column' : 'row',
+      tabsTop: m ? '28px' : '48px', tabsMax: d ? '860px' : 'none', revCols: m ? 'minmax(0,1fr)' : 'repeat(2, minmax(0,1fr))', allRevW: m ? '100%' : 'auto',
+      gridGap: d ? '24px 20px' : v.isT ? '20px 16px' : '18px 12px',
+      pd: {
+        name: 'iPhone 15 Pro ' + st.label + ', ' + this.COLORS[S.color].label.toLowerCase(), priceText: OS.fmt(price), oldText: OS.fmt(old), saveText: OS.fmt(old - price), saveBadge: '−' + Math.round((1 - price / old) * 100) + '% · ' + OS.fmt(old - price) + ' tejaysiz',
+        discount: Math.round((1 - price / old) * 100), addLabel: qty ? 'Savatda · ' + qty + ' — yana qoʻshish' : 'Savatga qoʻshish', addShort: qty ? 'Savatda · ' + qty : 'Savatga',
+        favColor: fav ? '#ea6100' : '#292825', favFill: fav ? 'currentColor' : 'none', favLabel: fav ? 'Sevimlida' : 'Sevimlilarga',
+        onAdd: (e) => K.add(prod, e), onFav: (e) => K.fav(base, e),
+      },
+      storages: this.STORAGE.map((s, i) => ({ label: s.label, pressed: i === S.storage ? 'true' : 'false', pick: () => this.setState({ storage: i }), border: i === S.storage ? '#ea6100' : '#e6e5e2', bg: i === S.storage ? '#fff7ed' : '#fff', fg: i === S.storage ? '#c2410c' : '#292825' })),
+      colors: this.COLORS.map((c, i) => ({ ...c, pick: () => this.setState({ color: i }), ring: i === S.color ? '#ea6100' : 'transparent' })),
+      colorName: this.COLORS[S.color].label,
+      gallery: this.GAL.map((label, i) => ({ label, pick: () => this.setState({ gi: i }), ring: i === S.gi ? '#ea6100' : '#e6e5e2', dot: i === S.gi ? '#181716' : 'rgb(24 23 22 / .3)', dotScale: i === S.gi ? 1.35 : 1 })),
+      gLabel: this.GAL[S.gi],
+      onGallery: (e) => { const el = e.currentTarget, gi = Math.round(el.scrollLeft / el.clientWidth); if (gi !== this.state.gi) this.setState({ gi }); },
+      gyroPointer: OS.gyroPointer, gyroRest: OS.gyroRest,
+      ptabs: [['desc', 'Tavsif'], ['specs', 'Xususiyatlar'], ['reviews', 'Sharhlar · 126']].map(([k, label]) => ({ label, sel: S.tab === k ? 'true' : 'false', pick: () => this.setState({ tab: k }), fg: S.tab === k ? '#181716' : '#57544e' })),
+      tabX: (['desc', 'specs', 'reviews'].indexOf(S.tab) * 100) + '%', tabDesc: S.tab === 'desc', tabSpecs: S.tab === 'specs', tabReviews: S.tab === 'reviews',
+      specs: [{ k: 'Ekran', v: '6.1″ Super Retina XDR, 120 Gts' }, { k: 'Protsessor', v: 'A17 Pro' }, { k: 'Kamera', v: '48 + 12 + 12 MP' }, { k: 'Xotira', v: st.label }, { k: 'Kafolat', v: '[PRODUCT: warranty]' }],
+      reviews: OS.reviews.map((r) => ({ ...r, starsArr: [1, 2, 3, 4, 5].map((n) => ({ c: n <= r.stars ? '#fbbf24' : '#e6e5e2' })) })),
+      showReviews: () => { this.setState({ tab: 'reviews' }); const t = this.frame.current.querySelector('[data-tabs]'); this.sc && t && this.sc.scrollTo({ top: t.offsetTop - 80, behavior: 'smooth' }); },
+      related: ['p3', 'p7', 'p6', 'p9', 'p2'].slice(0, v.colsN === 3 ? 3 : v.colsN === 5 ? 5 : 4).map((id, i) => K.view(OS.byId(id), i)),
+      stickyY: S.stickyShow ? '0%' : '120%',
+      sheetOpen: !!S.sheet, sheetForm: S.sheet === 'form', sheetDone: S.sheet === 'done', fall: this.fallData,
+      sheetAlign: m ? 'flex-end' : 'center', sheetW: m ? '100%' : '440px', sheetRadius: m ? '16px 16px 0 0' : '16px', sheetAnim: m ? 'os-sheet' : 'os-pop-in',
+      openOneClick: () => this.setState({ sheet: 'form', phoneErr: false }), closeSheet: () => this.setState({ sheet: null }),
+      phoneVal: S.phoneVal, onPhone: (e) => this.setState({ phoneVal: e.target.value, phoneErr: false }), phoneErr: S.phoneErr,
+      submitOneClick: () => { const digits = S.phoneVal.replace(/\D/g, ''); if (digits.length < 12) this.setState({ phoneErr: true }); else this.setState({ sheet: 'done' }); },
+    };
+  }
+}
+</script>
+</body>
+</html>

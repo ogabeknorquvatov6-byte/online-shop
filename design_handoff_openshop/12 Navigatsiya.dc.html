@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Onest:wght@600;700&display=swap" rel="stylesheet">
+<script src="os-proto.js"></script>
+<script src="os-app.js"></script>
+<style>
+body{margin:0;background:#e6e5e2;font-family:Inter,system-ui,sans-serif;color:#181716;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:#c2410c;text-decoration:none}a:hover{color:#9a3412}
+*{box-sizing:border-box}
+[data-scroll]::-webkit-scrollbar,[data-hscroll]::-webkit-scrollbar{display:none}
+@keyframes os-up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes os-shine{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes os-swap{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@keyframes os-shimmer{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes os-fade{from{opacity:0}to{opacity:1}}
+@keyframes os-toast{from{opacity:0;transform:translateY(-10px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes os-sheet{from{transform:translateY(100%)}to{transform:none}}
+@keyframes os-drawer-l{from{transform:translateX(-100%)}to{transform:none}}
+@keyframes os-drawer-r{from{transform:translateX(100%)}to{transform:none}}
+@keyframes os-pop-in{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;animation-delay:0s!important;transition-duration:.01ms!important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh; display:flex; flex-direction:column; align-items:center; gap:12px; padding:14px 16px 40px;">
+  <div style="width:100%; max-width:1320px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <a href="00 Indeks.dc.html" style="font-size:14px; font-weight:600; color:#57544e;">← Barcha sahifalar</a>
+      <span style="font-size:16px; font-weight:700;">12 · Header, mega-menyu, panel, pastki nav, footer</span>
+    </div>
+    <div style="display:flex; gap:4px; padding:4px; background:#fff; border:1px solid #d3d1cd; border-radius:10px;">
+      <sc-for list="{{ sizeTabs }}" as="t" hint-placeholder-count="3"><button type="button" onClick="{{ t.go }}" style="height:34px; padding:0 12px; border:0; border-radius:7px; font:600 14px Inter, system-ui, sans-serif; cursor:pointer; background:{{ t.bg }}; color:{{ t.fg }};">{{ t.label }}</button></sc-for>
+    </div>
+  </div>
+
+  <div style="position:relative; width:{{ stageW }}; height:{{ stageH }};">
+    <div ref="{{ frame }}" style="position:absolute; left:12px; top:12px; width:{{ frameW }}; height:{{ frameH }}; transform:scale({{ frameScale }}); transform-origin:0 0; border-radius:{{ frameRadius }}; overflow:hidden; background:#f8f8f7; box-shadow:{{ frameRing }}; isolation:isolate;">
+      <div data-scroll="" style="position:absolute; inset:0; overflow-y:auto; overflow-x:hidden; scrollbar-width:none; padding-bottom:{{ bottomPad }};">
+        <dc-import name="OSHeader" bp="{{ bp }}" cart-count="{{ cartCount }}" fav-count="{{ favCount }}" hint-size="100%,56px"></dc-import>
+
+        <main style="max-width:1120px; margin:0 auto; padding:20px {{ pad }} 40px; display:flex; flex-direction:column; gap:14px;">
+          <h1 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 4px; font-size:{{ h1 }}; letter-spacing:-0.025em; font-weight:700;">Navigatsiya elementlari</h1>
+          <section style="padding:18px; border-radius:12px; background:#fff; border:1px solid #e6e5e2;"><h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0; font-size:16px; font-weight:700;">Header</h2><p style="margin:6px 0 12px; font-size:14px; line-height:1.55; color:#57544e;">{{ headerText }}</p><button type="button" onClick="{{ openCatalog }}" style="height:48px; padding:0 18px; display:inline-flex; align-items:center; gap:10px; border:0; border-radius:8px; background:#c2410c; color:#fff; font:700 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 4px 0 0 #9a3412; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px) scale(0.985); box-shadow:0 2px 0 0 #9a3412;"><span data-cubes="" style="position:relative; width:20px; height:20px; perspective:220px;"><span data-cube="" style="position:absolute; left:6.5px; top:6.5px; width:7px; height:7px; border-radius:1.5px; background:#fff; transform:translate(-4.5px,-4.5px);"></span><span data-cube="" style="position:absolute; left:6.5px; top:6.5px; width:7px; height:7px; border-radius:1.5px; background:#fff; transform:translate(4.5px,-4.5px);"></span><span data-cube="" style="position:absolute; left:6.5px; top:6.5px; width:7px; height:7px; border-radius:1.5px; background:#fff; transform:translate(-4.5px,4.5px);"></span><span data-cube="" style="position:absolute; left:6.5px; top:6.5px; width:7px; height:7px; border-radius:1.5px; background:#fff; transform:translate(4.5px,4.5px);"></span></span>{{ catalogBtn }}</button></section>
+          <sc-if value="{{ isMT }}" hint-placeholder-val="{{ true }}"><section style="padding:18px; border-radius:12px; background:#fff; border:1px solid #e6e5e2;"><h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0; font-size:16px; font-weight:700;">Pastki navigatsiya</h2><p style="margin:6px 0 12px; font-size:14px; line-height:1.55; color:#57544e;">Faol tab ostidagi nur prujina bilan siljiydi (300ms, overshoot). “Katalog” bosilganda 4 kub ajralib, qaytib yigʻiladi. Savat nishoni soni yuqoriga surilib almashadi.</p><div style="display:flex; flex-wrap:wrap; gap:8px;"><sc-for list="{{ tabs }}" as="t" hint-placeholder-count="5"><button type="button" onClick="{{ t.pick }}" style="height:40px; padding:0 14px; border-radius:999px; border:1px solid {{ t.bd }}; background:{{ t.bg }}; color:{{ t.fg }}; font:500 14px Inter, system-ui, sans-serif; cursor:pointer;">{{ t.label }}</button></sc-for><button type="button" onClick="{{ bump }}" style="height:40px; padding:0 14px; border-radius:999px; border:1px dashed #a3a09a; background:transparent; color:#292825; font:500 14px Inter, system-ui, sans-serif; cursor:pointer;">+1 savatga (son animatsiyasi)</button></div></section></sc-if>
+          <section style="padding:18px; border-radius:12px; background:#fff; border:1px solid #e6e5e2;"><h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0; font-size:16px; font-weight:700;">Footer</h2><p style="margin:6px 0 0; font-size:14px; line-height:1.55; color:#57544e;">Pastda: uchta ishonch plitkasi, Telegram bot tugmasi, katalog/xaridorlarga/kompaniya havolalari, aloqa. Telefonda bir ustun, planshetda ikki, kompyuterda toʻrt.</p></section>
+        </main>
+        <dc-import name="OSFooter" bp="{{ bp }}" hint-size="100%,420px"></dc-import>
+      </div>
+
+      <sc-if value="{{ isMT }}" hint-placeholder-val="{{ true }}"><dc-import name="OSNav" active="{{ navActive }}" cart-count="{{ cartCount }}" fav-count="{{ favCount }}" hint-size="100%,53px" style="position:absolute; left:0; right:0; bottom:0; z-index:40;"></dc-import></sc-if>
+      <sc-if value="{{ hasQuick }}" hint-placeholder-val="{{ false }}"><dc-import name="OSQuick" p="{{ quickP }}" on-close="{{ closeQuick }}" hint-size="100%,100%"></dc-import></sc-if>
+      <div data-fly="" style="position:absolute; inset:0; z-index:95; pointer-events:none;"></div>
+      <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; left:16px; right:16px; top:14px; z-index:96; display:flex; justify-content:center; pointer-events:none;"><span style="max-width:100%; padding:10px 14px; border-radius:12px; background:#181716; color:#fff; font-size:14px; font-weight:500; box-shadow:0 8px 40px -12px rgb(24 23 22 / 0.28); animation:os-toast 220ms cubic-bezier(0.22,1,0.36,1) both; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ toast }}</span></div>
+      </sc-if>
+    </div>
+  </div>
+
+  <section style="width:100%; max-width:1320px; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px; font-size:14px; line-height:1.55; color:#403e39;">
+    <div style="padding:16px; border-radius:12px; background:#fff; border:1px solid #d3d1cd;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Ishlatilgan tokenlar</h3><p style="margin:0;"><b>Rang:</b> ink-900 (ishonch tasmasi, footer), brand-700 (Katalog tugmasi, nishonlar), brand-600 (nav nuri doirasi), brand-500/60 (nur ostidagi yorugʻlik, blur 4px — kichik element), brand-50/700 (mega-menyuda tanlangan kategoriya).<br><b>Soya:</b> shadow-overlay (mega-menyu, panel), shadow-press (Katalog).</p></div>
+    <div style="padding:16px; border-radius:12px; background:#fff; border:1px solid #d3d1cd;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Harakat</h3><p style="margin:0;">Mega-menyu 220ms (opacity + 5px), parda 220ms. Mobil panel 300ms translateX, kategoriya strelkasi 220ms aylanadi. Nav nuri 300ms prujina. Kublar: 560ms, 28ms qadam (CatalogCubes.tsx qiymatlari).</p></div>
+    <div style="padding:16px; border-radius:12px; background:#fff7ed; border:1px solid #fed7aa;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Kontrast</h3><p style="margin:0;">Nav yorliqlari ink-600 (#57544e, 7.4:1), faol yorliq brand-700 (5.2:1). Oldingi ink-400 yorliqlar AA dan oʻtmasdi.</p></div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { navActive: 'home' };
+  componentDidMount() {
+    if (!window.OS || !OS.kit) { this.waitT = setTimeout(() => this.componentDidMount(), 30); return; }
+    this.k = OS.kit(this); this.k.mount();
+  }
+  componentWillUnmount() { clearTimeout(this.waitT); this.k && this.k.unmount(); }
+  renderVals() {
+    if (!this.k) return { sizeTabs: [], tabs: [], isMT: true, bp: 'm', navActive: 'home' };
+    const v = this.k.vals(), S = this.state;
+    const T = [['home', 'Bosh sahifa'], ['catalog', 'Katalog'], ['fav', 'Sevimlilar'], ['cart', 'Savat'], ['user', 'Profil']];
+    return { ...v, h1: v.isM ? '28px' : '28px', navActive: S.navActive,
+      headerText: v.isD ? 'Yuqorida ishonch tasmasi (ink-900), asosiy qatorda logo, “Katalog” (mega-menyu), qidiruv, Sevimlilar / Savat / Kabinet. Mega-menyu: chapda kategoriya (hover bilan tanlanadi), oʻrtada boʻlimlar, oʻngda aksiya plitkasi.' : 'Menyu (☰) — chapdan chiquvchi katalog paneli: kategoriyalar ochiladi-yopiladi, pastda yordamchi havolalar va telefon. Qidiruv maydoni qidiruv sahifasini ochadi.',
+      catalogBtn: v.isD ? 'Mega-menyuni ochish' : 'Katalog panelini ochish',
+      openCatalog: (e) => { OS.burst(e.currentTarget.querySelector('[data-cubes]')); window.dispatchEvent(new Event(v.isD ? 'os:mega' : 'os:panel')); },
+      tabs: T.map(([k, label]) => ({ label, pick: () => this.setState({ navActive: k }), bd: S.navActive === k ? '#181716' : '#e6e5e2', bg: S.navActive === k ? '#181716' : '#fff', fg: S.navActive === k ? '#fff' : '#292825' })),
+      bump: () => { OS.store.set((s) => ({ cart: { ...s.cart, p7: (s.cart.p7 || 0) + 1 } })); } };
+  }
+}
+</script>
+</body>
+</html>

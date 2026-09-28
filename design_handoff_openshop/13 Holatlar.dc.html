@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Onest:wght@600;700&display=swap" rel="stylesheet">
+<script src="os-proto.js"></script>
+<script src="os-app.js"></script>
+<style>
+body{margin:0;background:#e6e5e2;font-family:Inter,system-ui,sans-serif;color:#181716;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:#c2410c;text-decoration:none}a:hover{color:#9a3412}
+*{box-sizing:border-box}
+[data-scroll]::-webkit-scrollbar,[data-hscroll]::-webkit-scrollbar{display:none}
+@keyframes os-up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes os-shine{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes os-swap{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@keyframes os-shimmer{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes os-fade{from{opacity:0}to{opacity:1}}
+@keyframes os-toast{from{opacity:0;transform:translateY(-10px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes os-sheet{from{transform:translateY(100%)}to{transform:none}}
+@keyframes os-drawer-l{from{transform:translateX(-100%)}to{transform:none}}
+@keyframes os-drawer-r{from{transform:translateX(100%)}to{transform:none}}
+@keyframes os-pop-in{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes os-float{from{transform:translate(0,0) rotate(0)}to{transform:translate(3px,-4px) rotate(8deg)}}
+@keyframes os-cube-in{0%{opacity:0;transform:translate(var(--fx),var(--fy)) rotate(-90deg) scale(.4)}60%{opacity:1;transform:translate(var(--rx),var(--ry)) rotate(4deg) scale(1.08)}100%{opacity:1;transform:translate(var(--rx),var(--ry)) rotate(0) scale(1)}}
+@keyframes os-fadeout{to{opacity:0;visibility:hidden}}
+@keyframes os-drop{0%{transform:translateY(-40px) rotate(-20deg);opacity:0}60%{transform:translateY(4px) rotate(6deg);opacity:1}100%{transform:none;opacity:1}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;animation-delay:0s!important;transition-duration:.01ms!important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh; display:flex; flex-direction:column; align-items:center; gap:12px; padding:14px 16px 40px;">
+  <div style="width:100%; max-width:1320px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <a href="00 Indeks.dc.html" style="font-size:14px; font-weight:600; color:#57544e;">← Barcha sahifalar</a>
+      <span style="font-size:16px; font-weight:700;">13 · Splash, 404, boʻsh va xato holatlari</span>
+    </div>
+    <div style="display:flex; gap:4px; padding:4px; background:#fff; border:1px solid #d3d1cd; border-radius:10px;">
+      <sc-for list="{{ sizeTabs }}" as="t" hint-placeholder-count="3"><button type="button" onClick="{{ t.go }}" style="height:34px; padding:0 12px; border:0; border-radius:7px; font:600 14px Inter, system-ui, sans-serif; cursor:pointer; background:{{ t.bg }}; color:{{ t.fg }};">{{ t.label }}</button></sc-for>
+    </div>
+  </div>
+
+  <div style="position:relative; width:{{ stageW }}; height:{{ stageH }};">
+    <div ref="{{ frame }}" style="position:absolute; left:12px; top:12px; width:{{ frameW }}; height:{{ frameH }}; transform:scale({{ frameScale }}); transform-origin:0 0; border-radius:{{ frameRadius }}; overflow:hidden; background:#f8f8f7; box-shadow:{{ frameRing }}; isolation:isolate;">
+      <div data-scroll="" style="position:absolute; inset:0; overflow-y:auto; overflow-x:hidden; scrollbar-width:none; padding-bottom:{{ bottomPad }};">
+        <dc-import name="OSHeader" bp="{{ bp }}" cart-count="{{ cartCount }}" fav-count="{{ favCount }}" hint-size="100%,56px"></dc-import>
+
+        <main style="max-width:1120px; margin:0 auto; padding:16px {{ pad }} 40px;">
+          <div data-hscroll="" style="margin:0 -{{ pad }}; padding:0 {{ pad }} 4px; display:flex; gap:8px; overflow-x:auto; scrollbar-width:none;">
+            <sc-for list="{{ chips }}" as="c" hint-placeholder-count="8"><button type="button" onClick="{{ c.pick }}" style="flex-shrink:0; height:40px; padding:0 14px; border-radius:999px; border:1px solid {{ c.bd }}; background:{{ c.bg }}; color:{{ c.fg }}; font:500 14px Inter, system-ui, sans-serif; cursor:pointer;">{{ c.label }}</button></sc-for>
+          </div>
+          <div style="margin-top:12px; min-height:520px;">
+            <sc-if value="{{ s404 }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex; flex-direction:column; align-items:center; text-align:center; padding:48px 16px;">
+                <div aria-hidden="true" style="display:flex; align-items:center; gap:4px;"><span style="font-size:40px; font-weight:700; letter-spacing:-0.04em; line-height:1; color:#181716;">4</span><span style="position:relative; width:36px; height:40px; align-self:center;"><span style="position:absolute; left:1px; top:3px; width:16px; height:16px; border-radius:4px; background:#ea6100; animation:os-drop 500ms cubic-bezier(0.22,1,0.36,1) 0ms both;"></span><span style="position:absolute; right:1px; top:3px; width:16px; height:16px; border-radius:4px; background:#fdba74; animation:os-drop 500ms cubic-bezier(0.22,1,0.36,1) 80ms both;"></span><span style="position:absolute; left:1px; bottom:3px; width:16px; height:16px; border-radius:4px; background:#fdba74; animation:os-drop 500ms cubic-bezier(0.22,1,0.36,1) 160ms both;"></span><span style="position:absolute; right:1px; bottom:3px; width:16px; height:16px; border-radius:4px; border:2px dashed #a3a09a; animation:os-float 3.2s cubic-bezier(0.65,0,0.35,1) infinite alternate;"></span></span><span style="font-size:40px; font-weight:700; letter-spacing:-0.04em; line-height:1; color:#181716;">4</span></div>
+                <h1 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:24px 0 0; font-size:28px; letter-spacing:-0.02em; font-weight:700;">Bu sahifa topilmadi</h1>
+                <p style="margin:8px 0 0; max-width:360px; font-size:16px; line-height:1.55; color:#57544e;">Havola eskirgan yoki mahsulot katalogdan olib tashlangan. Qidiruvdan foydalaning yoki bosh sahifaga qayting.</p>
+                <div style="margin-top:22px; display:flex; flex-wrap:wrap; justify-content:center; gap:10px;"><a href="03 Bosh sahifa.dc.html" style="height:48px; padding:0 22px; display:inline-flex; align-items:center; border:0; border-radius:8px; background:#c2410c; color:#fff; font:700 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 4px 0 0 #9a3412; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px) scale(0.985); box-shadow:0 2px 0 0 #9a3412;">Bosh sahifa</a><a href="05 Qidiruv.dc.html" style="height:48px; padding:0 20px; display:inline-flex; align-items:center; gap:8px; border:1px solid #e6e5e2; border-radius:8px; background:#fff; color:#292825; font:600 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 2px 0 0 #e6e5e2; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px); box-shadow:0 0 0 0 #e6e5e2;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>Qidirish</a></div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ sCart }}" hint-placeholder-val="{{ false }}"><div style="display:flex; flex-direction:column; align-items:center; text-align:center; padding:48px 16px; animation:os-up 300ms cubic-bezier(0.22,1,0.36,1) both;">
+  <span aria-hidden="true" style="position:relative; width:72px; height:72px; border-radius:18px; background:#fff; border:1px solid #e6e5e2; box-shadow:0 1px 2px 0 rgb(24 23 22 / 0.04), 0 4px 16px -6px rgb(24 23 22 / 0.10);">
+    <span style="position:absolute; left:17px; top:17px; width:16px; height:16px; border-radius:4px; background:#ea6100;"></span>
+    <span style="position:absolute; right:17px; top:17px; width:16px; height:16px; border-radius:4px; background:#fdba74;"></span>
+    <span style="position:absolute; left:17px; bottom:17px; width:16px; height:16px; border-radius:4px; background:#fdba74;"></span>
+    <span style="position:absolute; right:17px; bottom:17px; width:16px; height:16px; border-radius:4px; border:2px dashed #d3d1cd; animation:os-float 3.2s cubic-bezier(0.65,0,0.35,1) infinite alternate;"></span>
+  </span>
+  <h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:18px 0 0; font-size:20px; font-weight:700; letter-spacing:-0.02em;">Savat hozircha boʻsh</h2>
+  <p style="margin:6px 0 0; max-width:340px; font-size:14px; line-height:1.55; color:#57544e;">Yoqqan mahsulotni “Savatga” tugmasi bilan qoʻshing — u shu yerda kutib turadi.</p>
+  <a href="03 Bosh sahifa.dc.html" style="margin-top:18px; height:48px; padding:0 22px; display:inline-flex; align-items:center; gap:8px; border:0; border-radius:8px; background:#c2410c; color:#fff; font:700 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 4px 0 0 #9a3412; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px) scale(0.985); box-shadow:0 2px 0 0 #9a3412;">Xaridni boshlash</a>
+  
+</div></sc-if>
+            <sc-if value="{{ sFav }}" hint-placeholder-val="{{ false }}"><div style="display:flex; flex-direction:column; align-items:center; text-align:center; padding:48px 16px; animation:os-up 300ms cubic-bezier(0.22,1,0.36,1) both;">
+  <span aria-hidden="true" style="position:relative; width:72px; height:72px; border-radius:18px; background:#fff; border:1px solid #e6e5e2; box-shadow:0 1px 2px 0 rgb(24 23 22 / 0.04), 0 4px 16px -6px rgb(24 23 22 / 0.10);">
+    <span style="position:absolute; left:17px; top:17px; width:16px; height:16px; border-radius:4px; background:#ea6100;"></span>
+    <span style="position:absolute; right:17px; top:17px; width:16px; height:16px; border-radius:4px; background:#fdba74;"></span>
+    <span style="position:absolute; left:17px; bottom:17px; width:16px; height:16px; border-radius:4px; background:#fdba74;"></span>
+    <span style="position:absolute; right:17px; bottom:17px; width:16px; height:16px; border-radius:4px; border:2px dashed #d3d1cd; animation:os-float 3.2s cubic-bezier(0.65,0,0.35,1) infinite alternate;"></span>
+  </span>
+  <h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:18px 0 0; font-size:20px; font-weight:700; letter-spacing:-0.02em;">Sevimlilar roʻyxati boʻsh</h2>
+  <p style="margin:6px 0 0; max-width:340px; font-size:14px; line-height:1.55; color:#57544e;">Mahsulot kartasidagi yurakchani bosing — keyin shu yerdan tez topasiz.</p>
+  <a href="03 Bosh sahifa.dc.html" style="margin-top:18px; height:48px; padding:0 22px; display:inline-flex; align-items:center; gap:8px; border:0; border-radius:8px; background:#c2410c; color:#fff; font:700 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 4px 0 0 #9a3412; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px) scale(0.985); box-shadow:0 2px 0 0 #9a3412;">Xit mahsulotlar</a>
+  
+</div></sc-if>
+            <sc-if value="{{ sSearch }}" hint-placeholder-val="{{ false }}"><div style="display:flex; flex-direction:column; align-items:center; text-align:center; padding:48px 16px; animation:os-up 300ms cubic-bezier(0.22,1,0.36,1) both;">
+  <span aria-hidden="true" style="position:relative; width:72px; height:72px; border-radius:18px; background:#fff; border:1px solid #e6e5e2; box-shadow:0 1px 2px 0 rgb(24 23 22 / 0.04), 0 4px 16px -6px rgb(24 23 22 / 0.10);">
+    <span style="position:absolute; left:17px; top:17px; width:16px; height:16px; border-radius:4px; background:#ea6100;"></span>
+    <span style="position:absolute; right:17px; top:17px; width:16px; height:16px; border-radius:4px; background:#fdba74;"></span>
+    <span style="position:absolute; left:17px; bottom:17px; width:16px; height:16px; border-radius:4px; background:#fdba74;"></span>
+    <span style="position:absolute; right:17px; bottom:17px; width:16px; height:16px; border-radius:4px; border:2px dashed #d3d1cd; animation:os-float 3.2s cubic-bezier(0.65,0,0.35,1) infinite alternate;"></span>
+  </span>
+  <h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:18px 0 0; font-size:20px; font-weight:700; letter-spacing:-0.02em;">Hech narsa topilmadi</h2>
+  <p style="margin:6px 0 0; max-width:340px; font-size:14px; line-height:1.55; color:#57544e;">“nokia 3310” boʻyicha mahsulot yoʻq. Imloni tekshiring yoki umumiyroq soʻz yozing.</p>
+  <a href="04 Katalog.dc.html" style="margin-top:18px; height:48px; padding:0 22px; display:inline-flex; align-items:center; gap:8px; border:0; border-radius:8px; background:#c2410c; color:#fff; font:700 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 4px 0 0 #9a3412; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px) scale(0.985); box-shadow:0 2px 0 0 #9a3412;">Katalogni ochish</a>
+  
+</div></sc-if>
+            <sc-if value="{{ sReviews }}" hint-placeholder-val="{{ false }}">
+              <div style="max-width:560px; margin:24px auto 0; padding:24px; border-radius:12px; background:#fff; border:1px solid #e6e5e2; text-align:center;">
+                <div style="display:flex; justify-content:center; gap:4px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="#e6e5e2" stroke="#e6e5e2" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg width="22" height="22" viewBox="0 0 24 24" fill="#e6e5e2" stroke="#e6e5e2" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg width="22" height="22" viewBox="0 0 24 24" fill="#e6e5e2" stroke="#e6e5e2" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg width="22" height="22" viewBox="0 0 24 24" fill="#e6e5e2" stroke="#e6e5e2" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg width="22" height="22" viewBox="0 0 24 24" fill="#e6e5e2" stroke="#e6e5e2" stroke-width="2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+                <h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:14px 0 0; font-size:20px; font-weight:700;">Hali sharh yoʻq</h2>
+                <p style="margin:6px 0 0; font-size:14px; line-height:1.55; color:#57544e;">Bu mahsulotni sotib olgan birinchi xaridor boʻling. Sharh faqat tasdiqlangan xariddan keyin qoldiriladi.</p>
+                <button type="button" style="margin-top:16px; height:44px; padding:0 18px; border:1px solid #e6e5e2; border-radius:8px; background:#fff; color:#292825; font:600 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 2px 0 0 #e6e5e2; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px); box-shadow:0 0 0 0 #e6e5e2;">Sharh qoldirish</button>
+              </div>
+            </sc-if>
+            <sc-if value="{{ sError }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex; flex-direction:column; align-items:center; text-align:center; padding:48px 16px;">
+                <span style="width:72px; height:72px; border-radius:18px; background:#fef2f2; color:#b91c1c; display:flex; align-items:center; justify-content:center;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg></span>
+                <h1 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:18px 0 0; font-size:20px; letter-spacing:-0.02em; font-weight:700;">Ulanishda muammo</h1>
+                <p style="margin:8px 0 0; max-width:340px; font-size:16px; line-height:1.55; color:#57544e;">Internet aloqasini tekshiring. Savatingiz saqlangan — hech narsa yoʻqolmaydi.</p>
+                <button type="button" onClick="{{ retry }}" style="margin-top:20px; height:48px; padding:0 22px; display:inline-flex; align-items:center; gap:8px; border:0; border-radius:8px; background:#c2410c; color:#fff; font:700 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 4px 0 0 #9a3412; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px) scale(0.985); box-shadow:0 2px 0 0 #9a3412;"><span style="display:flex; transform:rotate({{ retryRot }}); transition:transform 600ms cubic-bezier(0.22,1,0.36,1);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg></span>Qayta urinish</button>
+              </div>
+            </sc-if>
+            <sc-if value="{{ sLoad }}" hint-placeholder-val="{{ false }}">
+              <div style="display:grid; grid-template-columns:{{ cols }}; gap:12px;"><sc-for list="{{ skels }}" as="k" hint-placeholder-count="4"><div style="border-radius:12px; border:1px solid #e6e5e2; background:#fff; overflow:hidden;"><div style="position:relative; overflow:hidden; aspect-ratio:1 / 1; background:#f1f1ef;"><span style="position:absolute; inset:0; background:linear-gradient(to right, transparent, rgb(255 255 255 / .7), transparent); animation:os-shimmer 1.6s linear infinite;"></span></div><div style="padding:12px; display:flex; flex-direction:column; gap:8px;"><div style="position:relative; overflow:hidden; width:33%; height:10px; border-radius:4px; background:#f1f1ef;"><span style="position:absolute; inset:0; background:linear-gradient(to right, transparent, rgb(255 255 255 / .7), transparent); animation:os-shimmer 1.6s linear infinite;"></span></div><div style="position:relative; overflow:hidden; width:100%; height:14px; border-radius:4px; background:#f1f1ef;"><span style="position:absolute; inset:0; background:linear-gradient(to right, transparent, rgb(255 255 255 / .7), transparent); animation:os-shimmer 1.6s linear infinite;"></span></div><div style="position:relative; overflow:hidden; width:66%; height:14px; border-radius:4px; background:#f1f1ef;"><span style="position:absolute; inset:0; background:linear-gradient(to right, transparent, rgb(255 255 255 / .7), transparent); animation:os-shimmer 1.6s linear infinite;"></span></div><div style="position:relative; overflow:hidden; width:50%; height:20px; border-radius:4px; background:#f1f1ef;"><span style="position:absolute; inset:0; background:linear-gradient(to right, transparent, rgb(255 255 255 / .7), transparent); animation:os-shimmer 1.6s linear infinite;"></span></div><div style="position:relative; overflow:hidden; width:100%; height:44px; border-radius:8px; background:#f1f1ef;"><span style="position:absolute; inset:0; background:linear-gradient(to right, transparent, rgb(255 255 255 / .7), transparent); animation:os-shimmer 1.6s linear infinite;"></span></div></div></div></sc-for></div>
+            </sc-if>
+            <sc-if value="{{ sSplash }}" hint-placeholder-val="{{ false }}"><div style="display:flex; flex-direction:column; align-items:center; gap:10px; padding:48px 16px; text-align:center;"><p style="margin:0; font-size:16px; color:#57544e;">Kirish ekrani butun freymni qoplaydi va ~1s da oʻzi yopiladi.</p><button type="button" onClick="{{ replay }}" style="height:48px; padding:0 20px; border:0; border-radius:8px; background:#181716; color:#fff; font:600 16px Inter, system-ui, sans-serif; cursor:pointer; transition:transform 140ms cubic-bezier(0.22,1,0.36,1);" style-active="transform:translateY(2px) scale(0.985);">↻ Qayta koʻrsatish</button></div></sc-if>
+          </div>
+        </main>
+        <dc-import name="OSFooter" bp="{{ bp }}" hint-size="100%,420px"></dc-import>
+      </div>
+
+      <sc-if value="{{ isMT }}" hint-placeholder-val="{{ true }}"><dc-import name="OSNav" active="none" cart-count="{{ cartCount }}" fav-count="{{ favCount }}" hint-size="100%,53px" style="position:absolute; left:0; right:0; bottom:0; z-index:40;"></dc-import></sc-if>
+      <sc-if value="{{ hasQuick }}" hint-placeholder-val="{{ false }}"><dc-import name="OSQuick" p="{{ quickP }}" on-close="{{ closeQuick }}" hint-size="100%,100%"></dc-import></sc-if>
+      <sc-if value="{{ splashOn }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; inset:0; z-index:100; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; background:#f8f8f7; animation:os-fadeout 220ms cubic-bezier(0.22,1,0.36,1) 820ms both;">
+          <span style="position:relative; width:60px; height:60px; border-radius:14px; background:#ea6100; box-shadow:0 12px 30px -10px rgb(234 97 0 / .7);">
+            <span style="position:absolute; left:23px; top:23px; width:14px; height:14px; border-radius:3px; background:#fff; --fx:-60px; --fy:-80px; --rx:-9px; --ry:-9px; animation:os-cube-in 360ms cubic-bezier(0.22,1,0.36,1) 0ms both;"></span>
+            <span style="position:absolute; left:23px; top:23px; width:14px; height:14px; border-radius:3px; background:#fff; --fx:70px; --fy:-60px; --rx:9px; --ry:-9px; animation:os-cube-in 360ms cubic-bezier(0.22,1,0.36,1) 70ms both;"></span>
+            <span style="position:absolute; left:23px; top:23px; width:14px; height:14px; border-radius:3px; background:#fff; --fx:-70px; --fy:60px; --rx:-9px; --ry:9px; animation:os-cube-in 360ms cubic-bezier(0.22,1,0.36,1) 140ms both;"></span>
+            <span style="position:absolute; left:23px; top:23px; width:14px; height:14px; border-radius:3px; background:#fff; --fx:60px; --fy:80px; --rx:9px; --ry:9px; animation:os-cube-in 360ms cubic-bezier(0.22,1,0.36,1) 210ms both;"></span>
+          </span>
+          <span style="font-size:28px; font-weight:700; letter-spacing:-0.02em; animation:os-up 260ms cubic-bezier(0.22,1,0.36,1) 300ms both;">Open<span style="color:#c2410c;">Shop</span></span>
+        </div>
+      </sc-if>
+      <div data-fly="" style="position:absolute; inset:0; z-index:95; pointer-events:none;"></div>
+      <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; left:16px; right:16px; top:14px; z-index:96; display:flex; justify-content:center; pointer-events:none;"><span style="max-width:100%; padding:10px 14px; border-radius:12px; background:#181716; color:#fff; font-size:14px; font-weight:500; box-shadow:0 8px 40px -12px rgb(24 23 22 / 0.28); animation:os-toast 220ms cubic-bezier(0.22,1,0.36,1) both; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ toast }}</span></div>
+      </sc-if>
+    </div>
+  </div>
+
+  <section style="width:100%; max-width:1320px; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px; font-size:14px; line-height:1.55; color:#403e39;">
+    <div style="padding:16px; border-radius:12px; background:#fff; border:1px solid #d3d1cd;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Ishlatilgan tokenlar</h3><p style="margin:0;"><b>Rang:</b> brand-600/300 (kublar), ink-400 punktir (yetishmayotgan kub = “boʻsh”), red-50/700 (xato), ink-100 (skeleton) + oq 70% shimmer.<br><b>Radius:</b> 18px (boʻsh holat belgisi — yangi, pastga qarang), rounded-card.</p></div>
+    <div style="padding:16px; border-radius:12px; background:#fff7ed; border:1px solid #fed7aa;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Yangi token</h3><p style="margin:0;"><code>rounded-tile</code> = 18px — boʻsh/xato holat belgisi plitkasi (72px). Mavjud 16px (surface) dan ajralishi uchun; xohlasangiz 16px ga tenglashtiring.</p></div>
+    <div style="padding:16px; border-radius:12px; background:#fff; border:1px solid #d3d1cd;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Harakat</h3><p style="margin:0;">Splash: 4 kub turli tomondan yigʻiladi (360ms, 70ms qadam, overshoot) + soʻz 260ms, 820ms dan keyin 220ms soʻnadi — foydalanuvchi ~1s dan ortiq kutmaydi. 404: 3 kub yuqoridan tushadi (500ms, 80ms qadam), 4-si punktir holda suzadi (3.2s). Qayta urinish: ikonka 600ms aylanadi. Skeleton 1.6s chiziqli shimmer.</p></div>
+    <div style="padding:16px; border-radius:12px; background:#fff; border:1px solid #d3d1cd;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Matn ohangi</h3><p style="margin:0;">Boʻsh holatlar aybdor qilmaydi va keyingi qadamni aytadi; xato holati “savatingiz saqlangan” deb xavotirni kamaytiradi.</p></div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { s: '404', splash: false, spin: 0 };
+  componentDidMount() {
+    if (!window.OS || !OS.kit) { this.waitT = setTimeout(() => this.componentDidMount(), 30); return; }
+    this.k = OS.kit(this); this.k.mount();
+  }
+  componentWillUnmount() { clearTimeout(this.waitT); this.k && this.k.unmount(); }
+  renderVals() {
+    if (!this.k) return { sizeTabs: [], chips: [], skels: [], isMT: true, s404: true, bp: 'm' };
+    const v = this.k.vals(), S = this.state;
+    const C = [['splash', 'Kirish ekrani'], ['404', '404'], ['cart', 'Savat boʻsh'], ['fav', 'Sevimlilar boʻsh'], ['search', 'Qidiruv: natija yoʻq'], ['reviews', 'Sharhlar yoʻq'], ['error', 'Xato holati'], ['load', 'Yuklanish']];
+    const replay = () => { this.setState({ splash: false }, () => requestAnimationFrame(() => { this.setState({ splash: true }); clearTimeout(this.sT); this.sT = setTimeout(() => this.setState({ splash: false }), 1100); })); };
+    return { ...v, chips: C.map(([k, label]) => ({ label, pick: () => { this.setState({ s: k }); if (k === 'splash') replay(); }, bd: S.s === k ? '#181716' : '#e6e5e2', bg: S.s === k ? '#181716' : '#fff', fg: S.s === k ? '#fff' : '#292825' })),
+      s404: S.s === '404', sCart: S.s === 'cart', sFav: S.s === 'fav', sSearch: S.s === 'search', sReviews: S.s === 'reviews', sError: S.s === 'error', sLoad: S.s === 'load', sSplash: S.s === 'splash',
+      splashOn: S.splash, replay, skels: Array.from({ length: v.colsN * 2 }, (_, i) => ({ i })),
+      retryRot: (S.spin * 360) + 'deg', retry: () => { this.setState({ spin: S.spin + 1 }); this.k.toast('Qayta ulanmoqda…'); } };
+  }
+}
+</script>
+</body>
+</html>

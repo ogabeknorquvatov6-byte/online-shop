@@ -1,0 +1,69 @@
+name: CI
+
+# Har bir push va PR uchun bir xil tekshiruv. Lokal mashinada "menda
+# ishlayapti" degan holat qolmasligi uchun `npm ci` ishlatiladi —
+# u `package-lock.json` ni AYNAN bajaradi va `node_modules` ni noldan
+# tiklaydi.
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install (clean, lockfile-exact)
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      # `--max-warnings 0` ATAYLAB QO'YILMAGAN.
+      #
+      # Repozitoriyada Supabase Edge Function'laridagi (Deno) `any` lar
+      # uchun 11 ta ogohlantirish bor. Ular alohida ish va ular tufayli
+      # butun CI'ni qizil qilib qo'yish — jamoani ogohlantirishlarga
+      # umuman e'tibor bermaslikka o'rgatadi. XATOLAR esa (jumladan
+      # `src/` dagi har qanday `any`) CI'ni to'xtatadi.
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit & security tests
+        run: npm run test
+
+      # Build oxirida: `VITE_SITE_URL` yo'q bo'lsa ham build o'tishi
+      # SHART (sitemap shunchaki yaratilmaydi va ogohlantirish chiqadi).
+      # Bu holat aynan CI'da tekshiriladi.
+      - name: Production build
+        run: npm run build
+
+      - name: Verify build output
+        run: |
+          set -e
+          test -f dist/index.html      || (echo "dist/index.html yo'q" && exit 1)
+          test -f dist/robots.txt      || (echo "dist/robots.txt yo'q" && exit 1)
+          test -f dist/_redirects      || (echo "dist/_redirects yo'q (SPA fallback)" && exit 1)
+          test -d dist/assets          || (echo "dist/assets yo'q" && exit 1)
+          echo "Build chiqishi to'g'ri."
+
+      # Bundle'ga maxfiy kalit tushib qolmaganini tekshiramiz.
+      # `VITE_` prefiksli har qanday o'zgaruvchi brauzer kodiga kiradi,
+      # shuning uchun bu tekshiruv avtomatik bo'lishi kerak.
+      - name: Assert no server secrets in bundle
+        run: |
+          set -e
+          if grep -rIlE 'service_role|SUPABASE_SERVICE_ROLE_KEY|TELEGRAM_BOT_TOKEN|WEBHOOK_SECRET' dist/ ; then
+            echo "XATO: bundle ichida server siriga o'xshash matn topildi"
+            exit 1
+          fi
+          echo "Bundle'da server sirlari yo'q."

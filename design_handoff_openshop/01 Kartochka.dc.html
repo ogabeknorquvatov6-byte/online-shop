@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Onest:wght@600;700&display=swap" rel="stylesheet">
+<script src="os-proto.js"></script>
+<script src="os-app.js"></script>
+<style>
+body{margin:0;background:#e6e5e2;font-family:Inter,system-ui,sans-serif;color:#181716;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:#c2410c;text-decoration:none}a:hover{color:#9a3412}
+*{box-sizing:border-box}
+[data-scroll]::-webkit-scrollbar,[data-hscroll]::-webkit-scrollbar{display:none}
+@keyframes os-up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes os-shine{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes os-swap{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@keyframes os-shimmer{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes os-fade{from{opacity:0}to{opacity:1}}
+@keyframes os-toast{from{opacity:0;transform:translateY(-10px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes os-sheet{from{transform:translateY(100%)}to{transform:none}}
+@keyframes os-drawer-l{from{transform:translateX(-100%)}to{transform:none}}
+@keyframes os-drawer-r{from{transform:translateX(100%)}to{transform:none}}
+@keyframes os-pop-in{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;animation-delay:0s!important;transition-duration:.01ms!important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh; display:flex; flex-direction:column; align-items:center; gap:12px; padding:14px 16px 40px;">
+  <div style="width:100%; max-width:1320px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <a href="00 Indeks.dc.html" style="font-size:14px; font-weight:600; color:#57544e;">← Barcha sahifalar</a>
+      <span style="font-size:16px; font-weight:700;">01 · Mahsulot kartochkasi</span>
+    </div>
+    <div style="display:flex; gap:4px; padding:4px; background:#fff; border:1px solid #d3d1cd; border-radius:10px;">
+      <sc-for list="{{ sizeTabs }}" as="t" hint-placeholder-count="3"><button type="button" onClick="{{ t.go }}" style="height:34px; padding:0 12px; border:0; border-radius:7px; font:600 14px Inter, system-ui, sans-serif; cursor:pointer; background:{{ t.bg }}; color:{{ t.fg }};">{{ t.label }}</button></sc-for>
+    </div>
+  </div>
+
+  <div style="position:relative; width:{{ stageW }}; height:{{ stageH }};">
+    <div ref="{{ frame }}" style="position:absolute; left:12px; top:12px; width:{{ frameW }}; height:{{ frameH }}; transform:scale({{ frameScale }}); transform-origin:0 0; border-radius:{{ frameRadius }}; overflow:hidden; background:#f8f8f7; box-shadow:{{ frameRing }}; isolation:isolate;">
+      <div data-scroll="" style="position:absolute; inset:0; overflow-y:auto; overflow-x:hidden; scrollbar-width:none; padding-bottom:{{ bottomPad }};">
+        <dc-import name="OSHeader" bp="{{ bp }}" cart-count="{{ cartCount }}" fav-count="{{ favCount }}" hint-size="100%,56px"></dc-import>
+
+        <main style="max-width:1280px; margin:0 auto; padding:20px {{ pad }} 40px;">
+          <nav aria-label="Yoʻl" style="display:flex; gap:6px; font-size:14px; color:#78756e;"><a href="03 Bosh sahifa.dc.html" style="color:#57544e;">Bosh sahifa</a><span>/</span><span>Kartochka holatlari</span></nav>
+          <h1 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:8px 0 0; font-size:{{ h1 }}; line-height:1.15; letter-spacing:-0.025em; font-weight:700;">Kartochka holatlari</h1>
+          <p style="margin:6px 0 0; font-size:14px; color:#57544e;">Har bir holat faqat bazadagi maydondan chiqadi. Kursorni (yoki barmoqni) kartaga olib boring, “Savatga” va yurakchani bosing.</p>
+
+          <div style="margin-top:20px; display:grid; grid-template-columns:{{ cols }}; gap:{{ gap }};">
+            <sc-for list="{{ all }}" as="p" hint-placeholder-count="10">
+              <div style="display:flex; flex-direction:column; gap:6px;">
+                <span style="display:flex; flex-direction:column; gap:1px;"><b style="font-size:12px; font-weight:600; color:#292825;">{{ p.stateLabel }}</b><span style="font-family:ui-monospace, Menlo, monospace; font-size:12px; color:#57544e;">{{ p.rule }}</span></span>
+                <dc-import name="OSKarta" p="{{ p }}" hint-size="100%,340px"></dc-import>
+              </div>
+            </sc-for>
+            <sc-for list="{{ skeletons }}" as="s" hint-placeholder-count="2">
+              <div style="display:flex; flex-direction:column; gap:6px;">
+                <span style="display:flex; flex-direction:column; gap:1px;"><b style="font-size:12px; font-weight:600; color:#292825;">Yuklanmoqda</b><span style="font-family:ui-monospace, Menlo, monospace; font-size:12px; color:#57544e;">shimmer 1.6s, chiziqli</span></span>
+                <div style="border-radius:12px; border:1px solid #e6e5e2; background:#fff; overflow:hidden;">
+                  <div style="position:relative; overflow:hidden; aspect-ratio:1 / 1; background:#f1f1ef;"><span style="position:absolute; inset:0; background:linear-gradient(to right, transparent, rgb(255 255 255 / .7), transparent); animation:os-shimmer 1.6s linear infinite;"></span></div>
+                  <div style="padding:12px; display:flex; flex-direction:column; gap:8px;">
+                    <div style="height:10px; width:33%; border-radius:4px; background:#f1f1ef;"></div>
+                    <div style="height:14px; border-radius:4px; background:#f1f1ef;"></div>
+                    <div style="height:14px; width:66%; border-radius:4px; background:#f1f1ef;"></div>
+                    <div style="height:20px; width:50%; border-radius:4px; background:#f1f1ef;"></div>
+                    <div style="height:44px; border-radius:8px; background:#f1f1ef;"></div>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </main>
+        <dc-import name="OSFooter" bp="{{ bp }}" hint-size="100%,420px"></dc-import>
+      </div>
+
+      <sc-if value="{{ isMT }}" hint-placeholder-val="{{ true }}"><dc-import name="OSNav" active="catalog" cart-count="{{ cartCount }}" fav-count="{{ favCount }}" hint-size="100%,53px" style="position:absolute; left:0; right:0; bottom:0; z-index:40;"></dc-import></sc-if>
+      <sc-if value="{{ hasQuick }}" hint-placeholder-val="{{ false }}"><dc-import name="OSQuick" p="{{ quickP }}" on-close="{{ closeQuick }}" hint-size="100%,100%"></dc-import></sc-if>
+      <div data-fly="" style="position:absolute; inset:0; z-index:95; pointer-events:none;"></div>
+      <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; left:16px; right:16px; top:14px; z-index:96; display:flex; justify-content:center; pointer-events:none;"><span style="max-width:100%; padding:10px 14px; border-radius:12px; background:#181716; color:#fff; font-size:14px; font-weight:500; box-shadow:0 8px 40px -12px rgb(24 23 22 / 0.28); animation:os-toast 220ms cubic-bezier(0.22,1,0.36,1) both; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ toast }}</span></div>
+      </sc-if>
+    </div>
+  </div>
+
+  <section style="width:100%; max-width:1320px; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px; font-size:14px; line-height:1.55; color:#403e39;">
+    <div style="padding:16px; border-radius:12px; background:#fff; border:1px solid #d3d1cd;">
+      <h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Ishlatilgan tokenlar</h3>
+      <p style="margin:0;"><b>Rang:</b> brand-700 (−N%, faol nishonlar, havolalar), brand-600 (yurakcha foni), ink-50…900, emerald-600/700 (Savatda, Sotuvda bor), amber-700 (Kam qoldi).<br><b>Radius:</b> rounded-card 12 (karta, narx paneli), rounded-control 8 (tugma), rounded-md 6 (nishon).<br><b>Soya:</b> shadow-card (karta), shadow-brand (−N%), shadow-glass (chegirma narx paneli).</p>
+    </div>
+    <div style="padding:16px; border-radius:12px; background:#fff; border:1px solid #d3d1cd;">
+      <h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Toʻr va oʻlchamlar</h3>
+      <p style="margin:0;">Telefonda 2 ustun (gap 12), planshetda 3 (gap 16), kompyuterda 5 (gap 20). Rasm 1:1. “Savatga” tugmasi har doim 44px. Kompyuterda rasm ustida “Tezkor koʻrish” (36px, faqat kursor bilan ishlatiladi).</p>
+    </div>
+    <div style="padding:16px; border-radius:12px; background:#fff; border:1px solid #d3d1cd;">
+      <h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Harakat</h3>
+      <p style="margin:0;">3D burilish ≤5° (160ms, qaytish prujina 420ms) · yorugʻlik chizigʻi bir marta 1.1s · uchish 620ms yoy · halqa 420ms · botish 2px/140ms · ketma-ket paydo boʻlish 40ms qadam, 300ms.</p>
+    </div>
+    <div style="padding:16px; border-radius:12px; background:#fff7ed; border:1px solid #fed7aa;">
+      <h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Yangi token</h3>
+      <p style="margin:0;"><code>shadow-press</code> = 0 4px 0 0 brand-800 (#9a3412) — toʻldirilgan CTA ostidagi qalinlik, bosilganda 2px ga qisqaradi.</p>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {};
+  componentDidMount() {
+    if (!window.OS || !OS.kit) { this.waitT = setTimeout(() => this.componentDidMount(), 30); return; }
+    this.k = OS.kit(this); this.k.mount();
+  }
+  componentWillUnmount() { clearTimeout(this.waitT); this.k && this.k.unmount(); }
+  renderVals() {
+    if (!this.k) return { sizeTabs: [], all: [], skeletons: [], isMT: true, bp: 'm' };
+    const v = this.k.vals(), K = this.k;
+    const rules = {
+      p8: 'is_new=false, old_price=null, rating=0', p1: 'old_price > price → −N%', p7: 'is_new=true, rating 4.5',
+      p2: 'stock 1…5 → “Kam qoldi — N dona”', p5: 'stock=0 → tugma oʻchadi', p3: 'savatda qty ≥ 1',
+      p4: 'is_new, reviews_count=0 → yulduz yoʻq', p6: 'sevimlida → toʻq sariq yurak', p9: 'chegirma + reyting', p10: 'sales_count ≥ 10',
+    };
+    const ids = ['p8', 'p1', 'p7', 'p2', 'p5', 'p3', 'p4', 'p6', 'p9', 'p10'];
+    const all = ids.map((id, i) => K.view(OS.byId(id), i, { stateLabel: OS.byId(id).stateLabel, rule: rules[id] }));
+    const q = this.state.quick && OS.byId(this.state.quick);
+    return {
+      ...v, all, skeletons: Array.from({ length: v.colsN === 5 ? 5 : v.colsN === 3 ? 2 : 2 }, (_, i) => ({ i })),
+      gap: v.bp === 'd' ? '24px 20px' : v.bp === 't' ? '20px 16px' : '18px 12px', h1: v.bp === 'm' ? '28px' : '28px',
+      hasQuick: !!q && v.isD, quickP: q ? K.view(q, 0) : null, closeQuick: () => this.setState({ quick: null }),
+    };
+  }
+}
+</script>
+</body>
+</html>

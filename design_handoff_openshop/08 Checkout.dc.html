@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Onest:wght@600;700&display=swap" rel="stylesheet">
+<script src="os-proto.js"></script>
+<script src="os-app.js"></script>
+<style>
+body{margin:0;background:#e6e5e2;font-family:Inter,system-ui,sans-serif;color:#181716;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:#c2410c;text-decoration:none}a:hover{color:#9a3412}
+*{box-sizing:border-box}
+[data-scroll]::-webkit-scrollbar,[data-hscroll]::-webkit-scrollbar{display:none}
+@keyframes os-up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes os-shine{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes os-swap{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@keyframes os-shimmer{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes os-fade{from{opacity:0}to{opacity:1}}
+@keyframes os-toast{from{opacity:0;transform:translateY(-10px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes os-sheet{from{transform:translateY(100%)}to{transform:none}}
+@keyframes os-drawer-l{from{transform:translateX(-100%)}to{transform:none}}
+@keyframes os-drawer-r{from{transform:translateX(100%)}to{transform:none}}
+@keyframes os-pop-in{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes os-slot{from{transform:translateX(-60px)}to{transform:translateX(320px)}}
+@keyframes os-receipt-in{from{opacity:0;transform:translateY(-14px) rotate(-2deg)}to{opacity:1;transform:none}}
+@keyframes os-flip{from{opacity:0;transform:perspective(520px) rotateY(-110deg)}to{opacity:1;transform:perspective(520px) rotateY(0)}}
+@keyframes os-fall{0%{opacity:0;transform:translateY(-20px) rotate(0)}14%{opacity:1}58%{opacity:1}100%{opacity:0;transform:translateY(260px) rotate(var(--r))}}
+@keyframes os-shake{0%,100%{transform:none}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;animation-delay:0s!important;transition-duration:.01ms!important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh; display:flex; flex-direction:column; align-items:center; gap:12px; padding:14px 16px 40px;">
+  <div style="width:100%; max-width:1320px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <a href="00 Indeks.dc.html" style="font-size:14px; font-weight:600; color:#57544e;">← Barcha sahifalar</a>
+      <span style="font-size:16px; font-weight:700;">08 · Checkout</span>
+    </div>
+    <div style="display:flex; gap:4px; padding:4px; background:#fff; border:1px solid #d3d1cd; border-radius:10px;">
+      <sc-for list="{{ sizeTabs }}" as="t" hint-placeholder-count="3"><button type="button" onClick="{{ t.go }}" style="height:34px; padding:0 12px; border:0; border-radius:7px; font:600 14px Inter, system-ui, sans-serif; cursor:pointer; background:{{ t.bg }}; color:{{ t.fg }};">{{ t.label }}</button></sc-for>
+    </div>
+  </div>
+
+  <div style="position:relative; width:{{ stageW }}; height:{{ stageH }};">
+    <div ref="{{ frame }}" style="position:absolute; left:12px; top:12px; width:{{ frameW }}; height:{{ frameH }}; transform:scale({{ frameScale }}); transform-origin:0 0; border-radius:{{ frameRadius }}; overflow:hidden; background:#f8f8f7; box-shadow:{{ frameRing }}; isolation:isolate;">
+      <div data-scroll="" style="position:absolute; inset:0; overflow-y:auto; overflow-x:hidden; scrollbar-width:none; padding-bottom:{{ bottomPad }};">
+        <dc-import name="OSHeader" bp="{{ bp }}" variant="{{ hdrVariant }}" title="Rasmiylashtirish" back-href="07 Savat.dc.html" cart-count="{{ cartCount }}" fav-count="{{ favCount }}" hint-size="100%,56px"></dc-import>
+
+        <main style="max-width:1120px; margin:0 auto; padding:20px {{ pad }} 40px;">
+          <sc-if value="{{ notDone }}" hint-placeholder-val="{{ true }}">
+            <sc-if value="{{ notM }}" hint-placeholder-val="{{ false }}"><h1 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 20px; font-size:28px; letter-spacing:-0.025em; font-weight:700;">Rasmiylashtirish</h1></sc-if>
+            <ol aria-label="Bosqichlar" style="margin:0; padding:0; list-style:none; display:flex; align-items:flex-start;">
+              <sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
+                <li style="flex:1; position:relative; display:flex; flex-direction:column; align-items:center; gap:6px;">
+                  <sc-if value="{{ s.hasLine }}" hint-placeholder-val="{{ true }}"><span aria-hidden="true" style="position:absolute; left:calc(50% + 22px); right:calc(-50% + 22px); top:17px; height:2px; background:#e6e5e2; overflow:hidden;"><span style="position:absolute; inset:0; background:#c2410c; transform-origin:left; transform:scaleX({{ s.fill }}); transition:transform 400ms cubic-bezier(0.22,1,0.36,1);"></span></span></sc-if>
+                  <button type="button" onClick="{{ s.go }}" aria-current="{{ s.current }}" aria-label="{{ s.aria }}" style="position:relative; width:44px; height:36px; padding:0; border:0; background:transparent; cursor:{{ s.cursor }}; perspective:300px;">
+                    <span style="position:absolute; left:4px; top:0; width:36px; height:36px; transform-style:preserve-3d; transform:rotateY({{ s.rot }}); transition:transform 460ms cubic-bezier(0.34,1.3,0.64,1);">
+                      <span style="position:absolute; inset:0; border-radius:999px; display:flex; align-items:center; justify-content:center; backface-visibility:hidden; opacity:{{ s.fOp }}; transition:background 220ms, opacity 0s linear 200ms; background:{{ s.bg }}; color:{{ s.fg }}; box-shadow:{{ s.sh }}; font:700 16px Inter, system-ui, sans-serif;">{{ s.n }}</span>
+                      <span style="position:absolute; inset:0; border-radius:999px; display:flex; align-items:center; justify-content:center; backface-visibility:hidden; opacity:{{ s.bOp }}; transition:opacity 0s linear 200ms; transform:rotateY(180deg); background:#059669; color:#fff;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+                    </span>
+                  </button>
+                  <span style="font-size:12px; font-weight:{{ s.w }}; color:{{ s.lc }}; text-align:center;">{{ s.label }}</span>
+                </li>
+              </sc-for>
+            </ol>
+
+            <div style="margin-top:24px; display:grid; grid-template-columns:{{ layout }}; gap:28px; align-items:start;">
+              <div style="min-width:0;">
+                <sc-if value="{{ st1 }}" hint-placeholder-val="{{ true }}">
+                  <section style="display:flex; flex-direction:column; gap:16px; animation:os-swap 260ms cubic-bezier(0.22,1,0.36,1) both;">
+                    <h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:4px 0 0; font-size:20px; font-weight:700;">Qabul qiluvchi</h2>
+                    <div style="display:grid; grid-template-columns:{{ twoCol }}; gap:14px;"><div style="min-width:0;">
+                    <label for="co-name" style="display:block; font-size:14px; font-weight:600; color:#292825;">Ism</label>
+                    <input id="co-name" value="{{ f.name }}" onInput="{{ on.name }}"  placeholder="Ismingiz" aria-invalid="{{ err.nameAria }}" style="margin-top:6px; width:100%; min-width:0; height:48px; border-radius:8px; border:1.5px solid {{ err.nameBd }}; padding:0 14px; font:500 16px Inter, system-ui, sans-serif; color:#181716; background:#fff; outline:none; animation:{{ err.nameAnim }};" style-focus="border-color:#f97316; box-shadow:0 0 0 3px rgb(249 115 22 / .2);">
+                    <sc-if value="{{ err.name }}" hint-placeholder-val="{{ false }}"><p style="margin:6px 0 0; display:flex; align-items:center; gap:5px; font-size:14px; color:#b91c1c;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg>{{ err.nameMsg }}</p></sc-if>
+                  </div><div style="min-width:0;">
+                    <label for="co-phone" style="display:block; font-size:14px; font-weight:600; color:#292825;">Telefon</label>
+                    <input id="co-phone" value="{{ f.phone }}" onInput="{{ on.phone }}" inputmode="tel" placeholder="+998 90 123 45 67" aria-invalid="{{ err.phoneAria }}" style="margin-top:6px; width:100%; min-width:0; height:48px; border-radius:8px; border:1.5px solid {{ err.phoneBd }}; padding:0 14px; font:500 16px Inter, system-ui, sans-serif; color:#181716; background:#fff; outline:none; animation:{{ err.phoneAnim }};" style-focus="border-color:#f97316; box-shadow:0 0 0 3px rgb(249 115 22 / .2);">
+                    <sc-if value="{{ err.phone }}" hint-placeholder-val="{{ false }}"><p style="margin:6px 0 0; display:flex; align-items:center; gap:5px; font-size:14px; color:#b91c1c;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg>{{ err.phoneMsg }}</p></sc-if>
+                  </div></div>
+                    <h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:8px 0 0; font-size:20px; font-weight:700;">Manzil</h2>
+                    <div role="radiogroup" aria-label="Hudud" style="display:flex; gap:8px;"><sc-for list="{{ regions }}" as="r" hint-placeholder-count="2"><button type="button" role="radio" aria-checked="{{ r.aria }}" onClick="{{ r.pick }}" style="flex:1; height:48px; border-radius:8px; border:1.5px solid {{ r.bd }}; background:{{ r.bg }}; color:{{ r.fg }}; font:600 14px Inter, system-ui, sans-serif; cursor:pointer; transition:background 220ms, border-color 220ms;">{{ r.label }}</button></sc-for></div>
+                    <sc-if value="{{ isRegion }}" hint-placeholder-val="{{ false }}"><div style="min-width:0;">
+                    <label for="co-city" style="display:block; font-size:14px; font-weight:600; color:#292825;">Viloyat / shahar</label>
+                    <input id="co-city" value="{{ f.city }}" onInput="{{ on.city }}"  placeholder="Masalan: Samarqand" aria-invalid="{{ err.cityAria }}" style="margin-top:6px; width:100%; min-width:0; height:48px; border-radius:8px; border:1.5px solid {{ err.cityBd }}; padding:0 14px; font:500 16px Inter, system-ui, sans-serif; color:#181716; background:#fff; outline:none; animation:{{ err.cityAnim }};" style-focus="border-color:#f97316; box-shadow:0 0 0 3px rgb(249 115 22 / .2);">
+                    <sc-if value="{{ err.city }}" hint-placeholder-val="{{ false }}"><p style="margin:6px 0 0; display:flex; align-items:center; gap:5px; font-size:14px; color:#b91c1c;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg>{{ err.cityMsg }}</p></sc-if>
+                  </div></sc-if>
+                    <div style="min-width:0;">
+                    <label for="co-addr" style="display:block; font-size:14px; font-weight:600; color:#292825;">Koʻcha, uy, xonadon</label>
+                    <input id="co-addr" value="{{ f.addr }}" onInput="{{ on.addr }}"  placeholder="Koʻcha nomi, uy va xonadon raqami" aria-invalid="{{ err.addrAria }}" style="margin-top:6px; width:100%; min-width:0; height:48px; border-radius:8px; border:1.5px solid {{ err.addrBd }}; padding:0 14px; font:500 16px Inter, system-ui, sans-serif; color:#181716; background:#fff; outline:none; animation:{{ err.addrAnim }};" style-focus="border-color:#f97316; box-shadow:0 0 0 3px rgb(249 115 22 / .2);">
+                    <sc-if value="{{ err.addr }}" hint-placeholder-val="{{ false }}"><p style="margin:6px 0 0; display:flex; align-items:center; gap:5px; font-size:14px; color:#b91c1c;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg>{{ err.addrMsg }}</p></sc-if>
+                  </div>
+                    <div style="min-width:0;">
+                    <label for="co-note" style="display:block; font-size:14px; font-weight:600; color:#292825;">Moʻljal <span style="font-weight:400; color:#78756e;">(ixtiyoriy)</span></label>
+                    <input id="co-note" value="{{ f.note }}" onInput="{{ on.note }}"  placeholder="Masalan: metro yonida" aria-invalid="{{ err.noteAria }}" style="margin-top:6px; width:100%; min-width:0; height:48px; border-radius:8px; border:1.5px solid {{ err.noteBd }}; padding:0 14px; font:500 16px Inter, system-ui, sans-serif; color:#181716; background:#fff; outline:none; animation:{{ err.noteAnim }};" style-focus="border-color:#f97316; box-shadow:0 0 0 3px rgb(249 115 22 / .2);">
+                    <sc-if value="{{ err.note }}" hint-placeholder-val="{{ false }}"><p style="margin:6px 0 0; display:flex; align-items:center; gap:5px; font-size:14px; color:#b91c1c;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg>{{ err.noteMsg }}</p></sc-if>
+                  </div>
+                  </section>
+                </sc-if>
+                <sc-if value="{{ st2 }}" hint-placeholder-val="{{ false }}">
+                  <section style="display:flex; flex-direction:column; gap:14px; animation:os-swap 260ms cubic-bezier(0.22,1,0.36,1) both;">
+                    <h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0; font-size:20px; font-weight:700;">Yetkazib berish</h2>
+                    <p style="margin:-6px 0 0; font-size:14px; color:#57544e;">{{ addrLine }}</p>
+                    <div role="radiogroup" style="display:flex; flex-direction:column; gap:8px;"><sc-for list="{{ slots }}" as="o" hint-placeholder-count="3">
+                  <button type="button" role="radio" aria-checked="{{ o.aria }}" onClick="{{ o.pick }}" style="min-height:60px; display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:12px; border:1.5px solid {{ o.bd }}; background:{{ o.bg }}; color:#181716; font:500 16px Inter, system-ui, sans-serif; cursor:pointer; text-align:left; transition:border-color 220ms, background 220ms, transform 140ms cubic-bezier(0.22,1,0.36,1);" style-active="transform:scale(0.99);">
+                    <span style="width:22px; height:22px; flex-shrink:0; border-radius:999px; border:2px solid {{ o.ring }}; display:flex; align-items:center; justify-content:center;"><span style="width:10px; height:10px; border-radius:999px; background:#c2410c; transform:scale({{ o.dot }}); transition:transform 220ms cubic-bezier(0.34,1.45,0.64,1);"></span></span>
+                    <span style="flex:1; min-width:0;"><b style="display:block; font-weight:600;">{{ o.title }}</b><span style="font-size:14px; color:#57544e;">{{ o.sub }}</span></span>
+                  </button></sc-for></div>
+                    <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 14px; border-radius:12px; background:#fff; border:1px solid #e6e5e2; font-size:14px;"><span>Narx</span><sc-if value="{{ isTsh }}" hint-placeholder-val="{{ true }}"><span data-ph="SETTINGS: delivery_fee_tashkent" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[SETTINGS: delivery_fee_tashkent]</span></sc-if><sc-if value="{{ isRegion }}" hint-placeholder-val="{{ false }}"><span data-ph="SETTINGS: delivery_fee_republic" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[SETTINGS: delivery_fee_republic]</span></sc-if></div>
+                    <p style="margin:0; display:flex; flex-wrap:wrap; align-items:center; gap:4px; font-size:14px; color:#047857;">Summa <span data-ph="SETTINGS: free_delivery_threshold" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[SETTINGS: free_delivery_threshold]</span> dan oshsa — bepul (quoteDelivery)</p>
+                  </section>
+                </sc-if>
+                <sc-if value="{{ st3 }}" hint-placeholder-val="{{ false }}">
+                  <section style="display:flex; flex-direction:column; gap:14px; animation:os-swap 260ms cubic-bezier(0.22,1,0.36,1) both;">
+                    <h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0; font-size:20px; font-weight:700;">Toʻlov usuli</h2>
+                    <div role="radiogroup" style="display:flex; flex-direction:column; gap:8px;"><sc-for list="{{ pays }}" as="o" hint-placeholder-count="3">
+                  <button type="button" role="radio" aria-checked="{{ o.aria }}" onClick="{{ o.pick }}" style="min-height:60px; display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:12px; border:1.5px solid {{ o.bd }}; background:{{ o.bg }}; color:#181716; font:500 16px Inter, system-ui, sans-serif; cursor:pointer; text-align:left; transition:border-color 220ms, background 220ms, transform 140ms cubic-bezier(0.22,1,0.36,1);" style-active="transform:scale(0.99);">
+                    <span style="width:22px; height:22px; flex-shrink:0; border-radius:999px; border:2px solid {{ o.ring }}; display:flex; align-items:center; justify-content:center;"><span style="width:10px; height:10px; border-radius:999px; background:#c2410c; transform:scale({{ o.dot }}); transition:transform 220ms cubic-bezier(0.34,1.45,0.64,1);"></span></span>
+                    <span style="flex:1; min-width:0;"><b style="display:block; font-weight:600;">{{ o.title }}</b><span style="font-size:14px; color:#57544e;">{{ o.sub }}</span></span>
+                  </button></sc-for></div>
+                    <div style="padding:14px; border-radius:12px; background:#fff; border:1px solid #e6e5e2; font-size:14px; line-height:1.6; color:#403e39;">
+                      <div style="display:flex; justify-content:space-between; gap:12px;"><span style="color:#57544e;">Qabul qiluvchi</span><span style="text-align:right;">{{ f.name }}, {{ f.phone }}</span></div>
+                      <div style="display:flex; justify-content:space-between; gap:12px;"><span style="color:#57544e;">Manzil</span><span style="text-align:right;">{{ addrShort }}</span></div>
+                      <div style="display:flex; justify-content:space-between; gap:12px;"><span style="color:#57544e;">Yetkazish</span><span style="text-align:right;">{{ slotLabel }}</span></div>
+                    </div>
+                  </section>
+                </sc-if>
+                <sc-if value="{{ notM }}" hint-placeholder-val="{{ false }}"><div style="margin-top:22px; display:flex; gap:10px;"><sc-if value="{{ canBack }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ back }}" style="height:52px; padding:0 20px; border:1px solid #e6e5e2; border-radius:8px; background:#fff; color:#292825; font:600 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 2px 0 0 #e6e5e2; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px); box-shadow:0 0 0 0 #e6e5e2;">Orqaga</button></sc-if><button type="button" onClick="{{ next }}" style="flex:1; height:52px; border:0; border-radius:8px; background:#c2410c; color:#fff; font:700 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 4px 0 0 #9a3412; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px) scale(0.985); box-shadow:0 2px 0 0 #9a3412;">{{ nextLabel }}</button></div></sc-if>
+              </div>
+              <aside style="position:{{ sumPos }}; top:{{ sumTop }}; padding:18px; border-radius:12px; background:#fff; border:1px solid #e6e5e2; box-shadow:0 1px 2px 0 rgb(24 23 22 / 0.04), 0 4px 16px -6px rgb(24 23 22 / 0.10);">
+                <h2 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 10px; font-size:16px; font-weight:700;">{{ itemsLabel }}</h2>
+                <sc-for list="{{ lines }}" as="l" hint-placeholder-count="2"><div style="display:flex; gap:10px; align-items:center; padding:8px 0;"><span style="position:relative; width:48px; height:48px; flex-shrink:0; border-radius:8px; background:repeating-linear-gradient(135deg, #f1f1ef 0 5px, #e6e5e2 5px 10px);"><span style="position:absolute; right:-6px; top:-6px; min-width:20px; height:20px; padding:0 5px; border-radius:999px; background:#181716; color:#fff; font-size:12px; font-weight:700; line-height:20px; text-align:center;">{{ l.qty }}</span></span><span style="flex:1; min-width:0; font-size:14px; line-height:1.35; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">{{ l.name }}</span><span style="font-size:14px; font-weight:600; white-space:nowrap;">{{ l.sum }}</span></div></sc-for>
+                <div style="margin-top:8px; padding-top:10px; border-top:1px solid #f1f1ef; display:flex; flex-direction:column; gap:6px; font-size:14px; color:#403e39;">
+                  <div style="display:flex; justify-content:space-between;"><span>Mahsulotlar</span><span>{{ subText }}</span></div>
+                  <div style="display:flex; justify-content:space-between; gap:10px;"><span>Yetkazib berish</span><span data-ph="quoteDelivery(settings, subtotal, city).fee" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[quoteDelivery(settings, subtotal, city).fee]</span></div>
+                  <div style="margin-top:6px; display:flex; justify-content:space-between; align-items:baseline; color:#181716;"><span style="font-weight:600;">Jami <span style="font-size:12px; font-weight:500; color:#57544e;">yetkazishsiz</span></span><span style="font-size:20px; font-weight:700; letter-spacing:-0.02em;">{{ totalText }}</span></div>
+                </div>
+              </aside>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ done }}" hint-placeholder-val="{{ false }}">
+            <section style="position:relative; max-width:560px; margin:0 auto; padding:24px 0 8px; text-align:center;">
+              <h1 style="font-family:'Onest', Inter, system-ui, sans-serif; position:relative; margin:0 0 4px; font-size:{{ doneH }}; letter-spacing:-0.025em; font-weight:700; animation:os-up 400ms cubic-bezier(0.22,1,0.36,1) both;">Buyurtma qabul qilindi</h1>
+              <p style="position:relative; margin:0 0 8px; font-size:16px; line-height:1.55; color:#57544e;">{{ doneText }}</p>
+              <dc-import name="OSChek" data="{{ chek }}" bp="{{ bp }}" demo="{{ true }}" hint-size="360px,560px"></dc-import>
+              <div style="position:relative; margin:18px auto 0; padding:16px; border-radius:12px; background:#fff; border:1px solid #e6e5e2; text-align:left; font-size:14px; line-height:1.7;">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;"><span style="color:#57544e;">Buyurtma</span><span data-ph="ORDER: order_number" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[ORDER: order_number]</span></div>
+                <div style="display:flex; justify-content:space-between; gap:12px;"><span style="color:#57544e;">Yetkazish</span><span style="text-align:right;">{{ slotLabel }}</span></div>
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;"><span style="color:#57544e;">Jami</span><span data-ph="orders.total_amount" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[orders.total_amount]</span></div>
+              </div>
+              <sc-if value="{{ isOnline }}" hint-placeholder-val="{{ false }}"><p style="position:relative; margin:12px 0 0; padding:12px 14px; border-radius:12px; background:#eff6ff; color:#1d4ed8; font-size:14px; line-height:1.5; text-align:left;">Onlayn toʻlov hozircha tasdiqlanmoqda. Toʻlov holati oʻzgarganda buyurtmangiz holati ham yangilanadi.</p></sc-if>
+              <div style="position:relative; margin-top:18px; display:flex; flex-direction:{{ doneDir }}; gap:10px; animation:os-up 400ms cubic-bezier(0.22,1,0.36,1) 480ms both;">
+                <a href="https://t.me/" style="flex:1; height:52px; display:flex; align-items:center; justify-content:center; gap:8px; border:0; border-radius:8px; background:#181716; color:#fff; font:600 16px Inter, system-ui, sans-serif; cursor:pointer; transition:transform 140ms cubic-bezier(0.22,1,0.36,1);" style-active="transform:translateY(2px) scale(0.985);"><span style="display:flex; color:#38bdf8;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"></path><path d="M22 2 11 13"></path></svg></span>Telegram botda kuzatish</a>
+                <a href="10 Kabinet.dc.html" style="flex:1; height:52px; display:flex; align-items:center; justify-content:center; border:1px solid #e6e5e2; border-radius:8px; background:#fff; color:#292825; font:600 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 2px 0 0 #e6e5e2; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px); box-shadow:0 0 0 0 #e6e5e2;">Buyurtmalarim</a>
+              </div>
+            </section>
+          </sc-if>
+        </main>
+        
+      </div>
+
+      
+      <sc-if value="{{ hasQuick }}" hint-placeholder-val="{{ false }}"><dc-import name="OSQuick" p="{{ quickP }}" on-close="{{ closeQuick }}" hint-size="100%,100%"></dc-import></sc-if>
+      <sc-if value="{{ mBar }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; left:0; right:0; bottom:0; z-index:30; display:flex; align-items:center; gap:10px; padding:10px 16px 16px; background:rgb(255 255 255 / .97); border-top:1px solid #e6e5e2;">
+          <sc-if value="{{ canBack }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ back }}" aria-label="Orqaga" style="width:52px; height:52px; flex-shrink:0; display:flex; align-items:center; justify-content:center; border:1px solid #e6e5e2; border-radius:8px; background:#fff; color:#292825; font:600 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 2px 0 0 #e6e5e2; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px); box-shadow:0 0 0 0 #e6e5e2;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg></button></sc-if>
+          <button type="button" onClick="{{ next }}" style="flex:1; height:52px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; border:0; border-radius:8px; background:#c2410c; color:#fff; font:700 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 4px 0 0 #9a3412; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px) scale(0.985); box-shadow:0 2px 0 0 #9a3412;"><span>{{ nextLabel }}</span><span style="font-weight:600; opacity:.92;">{{ totalText }}</span></button>
+        </div>
+      </sc-if>
+      <div data-fly="" style="position:absolute; inset:0; z-index:95; pointer-events:none;"></div>
+      <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; left:16px; right:16px; top:14px; z-index:96; display:flex; justify-content:center; pointer-events:none;"><span style="max-width:100%; padding:10px 14px; border-radius:12px; background:#181716; color:#fff; font-size:14px; font-weight:500; box-shadow:0 8px 40px -12px rgb(24 23 22 / 0.28); animation:os-toast 220ms cubic-bezier(0.22,1,0.36,1) both; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ toast }}</span></div>
+      </sc-if>
+    </div>
+  </div>
+
+  <section style="width:100%; max-width:1320px; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px; font-size:14px; line-height:1.55; color:#403e39;">
+    <div style="padding:16px; border-radius:12px; background:#fff; border:1px solid #d3d1cd;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Ishlatilgan tokenlar</h3><p style="margin:0;"><b>Rang:</b> brand-700 (joriy bosqich, radio nuqtasi, CTA), brand-600 (tanlangan chegara), brand-50, emerald-600/700 (bajarilgan bosqich, tasdiq, bepul yetkazish), red-600/700 (xato), badgeTone.info = blue-50 / blue-700 (onlayn toʻlov eslatmasi).<br><b>Radius:</b> rounded-card (variantlar, xulosa), rounded-control (input), rounded-full (bosqich doirasi).</p></div>
+    <div style="padding:16px; border-radius:12px; background:#fff7ed; border:1px solid #fed7aa;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Koddan olingan</h3><p style="margin:0;">Toʻlov: CheckoutPage.PAYMENT_OPTIONS (Naqd pul / Click / Payme). Muddatlar: “Toshkent boʻylab odatda 1 kun ichida, boshqa hududlarga 2–3 kun”. Narx: quoteDelivery(settings, subtotal, form.city). Tasdiq: orders.order_number (OS-YYMMDD-NNNN), total_amount. Onlayn toʻlov eslatmasi — CheckoutPage 320-qator matni. Vaqt oraligʻi tanlovi yoʻq — kodda yoʻq, qoʻshilmadi.</p></div>
+    <div style="padding:16px; border-radius:12px; background:#fff; border:1px solid #d3d1cd;"><h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:0 0 8px; font-size:14px; font-weight:700; color:#181716;">Harakat</h3><p style="margin:0;">Bosqich doirasi “tanga” kabi aylanadi: rotateY 0→180°, 460ms, overshoot (0.34,1.3,0.64,1), orqa tomonida check. Chiziq scaleX 400ms toʻladi. Bosqich almashishi 260ms. Xato: maydon 280ms chayqaladi (translateX ±4px). Tasdiq (STORY): 3D check 600ms + 16 kub 2.4–3.6s tushadi, matnlar 60ms qadam bilan.</p></div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { step: 1, done: false, region: 'tsh', slot: 0, pay: 0, tried: false, f: { name: '', phone: '', city: '', addr: '', note: '' } };
+  componentDidMount() {
+    if (!window.OS || !OS.kit) { this.waitT = setTimeout(() => this.componentDidMount(), 30); return; }
+    this.k = OS.kit(this); this.k.mount();
+  }
+  componentWillUnmount() { clearTimeout(this.waitT); this.k && this.k.unmount(); }
+  fallData = Array.from({ length: 16 }, (_, i) => { const s = 10 + (i * 7) % 9; return { left: (3 + ((i * 29) % 94)) + '%', size: s + 'px', radius: (s * 1.5 / 7).toFixed(1) + 'px', bg: i % 3 ? '#f97316' : '#fdba74', rot: ((i % 2 ? 1 : -1) * (40 + i * 11)) + 'deg', dur: (2.4 + (i % 5) * 0.3) + 's', delay: ((i * 0.05) % 0.6).toFixed(2) + 's' }; });
+  errors() { const f = this.state.f, e = {}; if (!f.name.trim()) e.name = 'Ismni kiriting'; if (f.phone.replace(/\D/g, '').length < 12) e.phone = '+998 va 9 ta raqam'; if (this.state.region === 'reg' && !f.city.trim()) e.city = 'Shaharni kiriting'; if (f.addr.trim().length < 5) e.addr = 'Koʻcha va uyni yozing'; return e; }
+  renderVals() {
+    if (!this.k) return { sizeTabs: [], steps: [], regions: [], slots: [], pays: [], lines: [], fall: [], f: {}, on: {}, err: {}, st1: true, notDone: true, bp: 'm' };
+    const v = this.k.vals(), S = this.state, cart = OS.store.get().cart, m = v.isM;
+    const E = S.tried ? this.errors() : {}, err = {};
+    ['name', 'phone', 'city', 'addr', 'note'].forEach((k) => { err[k] = !!E[k]; err[k + 'Msg'] = E[k] || ''; err[k + 'Bd'] = E[k] ? '#dc2626' : '#d3d1cd'; err[k + 'Aria'] = E[k] ? 'true' : 'false'; err[k + 'Anim'] = E[k] ? 'os-shake 280ms cubic-bezier(0.22,1,0.36,1)' : 'none'; });
+    const on = {}; ['name', 'phone', 'city', 'addr', 'note'].forEach((k) => { on[k] = (e) => { const val = e.target.value; this.setState((s) => ({ f: { ...s.f, [k]: val } })); }; });
+    let sub = 0; const lines = Object.keys(cart).filter((id) => OS.byId(id)).map((id) => { const p = OS.byId(id); sub += p.price * cart[id]; return { name: p.name, qty: cart[id], sum: OS.fmt(p.price * cart[id]) }; });
+    const n = Object.values(cart).reduce((a, b) => a + b, 0);
+    const tsh = S.region === 'tsh';
+    const SL = tsh ? [['Toshkent shahri — odatda 1 ish kuni ichida', 'Kuryer yetkazishdan oldin qoʻngʻiroq qiladi']] : [['Viloyatlar — 2–3 ish kuni ichida', 'Kuryer yetkazishdan oldin qoʻngʻiroq qiladi']];
+    const slot = Math.min(S.slot, SL.length - 1);
+    const PAY = [['Naqd pul', 'Kuryerga yetkazib berishda toʻlaysiz'], ['Click', 'Click orqali onlayn toʻlov'], ['Payme', 'Payme orqali onlayn toʻlov']]; // CheckoutPage.PAYMENT_OPTIONS
+    const labels = ['Manzil', 'Yetkazish', 'Toʻlov'];
+    const go = (t) => { if (t < S.step) this.setState({ step: t }); };
+    const next = () => {
+      if (S.step === 1) { const e = this.errors(); if (Object.keys(e).length) { this.setState({ tried: true }); return; } this.setState({ step: 2, tried: false }); }
+      else if (S.step === 2) this.setState({ step: 3 }); else this.setState({ done: true });
+      const sc = this.frame.current && this.frame.current.querySelector('[data-scroll]'); sc && sc.scrollTo({ top: 0 });
+    };
+    const f = S.f;
+    return {
+      ...v, hdrVariant: m ? 'back' : 'main', bottomPad: m && !S.done ? '96px' : '0px', f, on, err,
+      notDone: !S.done, done: S.done, st1: S.step === 1, st2: S.step === 2, st3: S.step === 3, canBack: S.step > 1, back: () => this.setState({ step: S.step - 1 }), next,
+      nextLabel: S.step === 3 ? 'Buyurtmani tasdiqlash' : 'Davom etish', mBar: m && !S.done,
+      layout: v.isD ? 'minmax(0,1fr) 360px' : v.isT ? 'minmax(0,1fr) 300px' : 'minmax(0,1fr)', twoCol: m ? 'minmax(0,1fr)' : 'repeat(2, minmax(0,1fr))', sumPos: m ? 'relative' : 'sticky', sumTop: m ? 'auto' : (v.isD ? '124px' : '72px'),
+      steps: labels.map((label, i) => { const k = i + 1, dn = S.step > k, cur = S.step === k; return { n: k, label, hasLine: k < 3, fill: S.step > k ? 1 : 0, rot: dn ? '180deg' : '0deg', fOp: dn ? 0 : 1, bOp: dn ? 1 : 0, current: cur ? 'step' : undefined, aria: k + '-bosqich: ' + label + (dn ? ', bajarildi' : ''), bg: cur ? '#c2410c' : '#fff', fg: cur ? '#fff' : '#57544e', sh: cur ? '0 4px 14px -4px rgb(234 97 0 / 0.9)' : 'inset 0 0 0 1.5px #d3d1cd', w: cur ? 700 : 500, lc: cur ? '#181716' : '#57544e', cursor: k < S.step ? 'pointer' : 'default', go: () => go(k) }; }),
+      regions: [['tsh', 'Toshkent'], ['reg', 'Viloyatlar']].map(([k, label]) => ({ label, aria: S.region === k ? 'true' : 'false', pick: () => this.setState({ region: k, slot: 0 }), bd: S.region === k ? '#ea6100' : '#e6e5e2', bg: S.region === k ? '#fff7ed' : '#fff', fg: S.region === k ? '#9a3412' : '#292825' })),
+      isRegion: !tsh,
+      slots: SL.map(([title, sub2], i) => ({ title, sub: sub2, aria: i === slot ? 'true' : 'false', pick: () => this.setState({ slot: i }), bd: i === slot ? '#ea6100' : '#e6e5e2', bg: i === slot ? '#fff7ed' : '#fff', ring: i === slot ? '#c2410c' : '#a3a09a', dot: i === slot ? 1 : 0 })),
+      pays: PAY.map(([title, sub2], i) => ({ title, sub: sub2, aria: i === S.pay ? 'true' : 'false', pick: () => this.setState({ pay: i }), bd: i === S.pay ? '#ea6100' : '#e6e5e2', bg: i === S.pay ? '#fff7ed' : '#fff', ring: i === S.pay ? '#c2410c' : '#a3a09a', dot: i === S.pay ? 1 : 0 })),
+      addrLine: (tsh ? 'Toshkent' : (f.city || 'Viloyat')) + ', ' + f.addr, addrShort: (tsh ? 'Toshkent' : f.city) + ', ' + f.addr, slotLabel: SL[slot][0],
+      lines, itemsLabel: n + ' ta mahsulot', subText: OS.fmt(sub), totalText: OS.fmt(sub), isTsh: tsh, isOnline: S.pay > 0,
+      fall: this.fallData, chek: { number: '[order_number]', date: '[formatOrderDate(created_at)]', total: '[orders.total_amount]', payment: PAY[S.pay][0], status: 'Yangi', items: Object.keys(cart).filter((id) => OS.byId(id)).map((id) => ({ name: OS.byId(id).name, qty: cart[id] })) }, doneH: m ? '28px' : '28px', doneDir: m ? 'column' : 'row',
+      doneText: 'Chekni tortib yirtib oling. Holat oʻzgarishi Telegram botga ham keladi.',
+    };
+  }
+}
+</script>
+</body>
+</html>

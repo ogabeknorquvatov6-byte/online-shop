@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="position:sticky; top:0; z-index:45; font-family:Inter, system-ui, sans-serif; color:#181716;">
+  <sc-if value="{{ isD }}" hint-placeholder-val="{{ false }}">
+    <div style="background:#181716; color:#e6e5e2; font-size:12px;">
+      <div style="max-width:1280px; margin:0 auto; padding:0 32px; height:36px; display:flex; align-items:center; justify-content:space-between; gap:24px;">
+        <div style="display:flex; align-items:center; gap:24px;">
+          <span style="display:flex; align-items:center; gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>Toshkent boʻylab 1 kunda yetkazib berish</span>
+          <span style="display:flex; align-items:center; gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>14 kun ichida qaytarish</span>
+          <span style="display:flex; align-items:center; gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>Rasmiy kafolat</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:20px;">
+          <a href="14 Malumot sahifalari.dc.html" style="color:#e6e5e2;">Yetkazib berish</a>
+          <a href="14 Malumot sahifalari.dc.html" style="color:#e6e5e2;">Biz haqimizda</a>
+          <span data-ph="SETTINGS: phone" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[SETTINGS: phone]</span>
+        </div>
+      </div>
+    </div>
+    <div style="background:rgb(255 255 255 / .97); border-bottom:1px solid #e6e5e2;">
+      <div style="max-width:1280px; margin:0 auto; padding:0 32px; height:72px; display:flex; align-items:center; gap:16px;">
+        <a href="03 Bosh sahifa.dc.html" aria-label="OpenShop — bosh sahifa" style="display:flex; align-items:center; gap:10px; color:#181716; flex-shrink:0;">
+          <span style="position:relative; width:34px; height:34px; border-radius:9px; background:#ea6100;">
+            <span style="position:absolute; left:7px; top:7px; width:9px; height:9px; border-radius:2px; background:#fff;"></span>
+            <span style="position:absolute; right:7px; top:7px; width:9px; height:9px; border-radius:2px; background:#fff;"></span>
+            <span style="position:absolute; left:7px; bottom:7px; width:9px; height:9px; border-radius:2px; background:#fff;"></span>
+            <span style="position:absolute; right:7px; bottom:7px; width:9px; height:9px; border-radius:2px; background:#fff;"></span>
+          </span>
+          <span style="font-size:20px; font-weight:700; letter-spacing:-0.02em;">Open<span style="color:#c2410c;">Shop</span></span>
+        </a>
+        <button type="button" onClick="{{ toggleMega }}" aria-expanded="{{ megaAria }}" style="margin-left:12px; height:44px; padding:0 18px 0 14px; display:flex; align-items:center; gap:10px; border:0; border-radius:8px; background:#c2410c; color:#fff; font:700 16px Inter, system-ui, sans-serif; cursor:pointer; box-shadow:0 3px 0 0 #9a3412; transition:transform 140ms cubic-bezier(0.22,1,0.36,1), box-shadow 140ms;" style-active="transform:translateY(2px); box-shadow:0 1px 0 0 #9a3412;">
+          <span data-cubes="" style="position:relative; width:20px; height:20px; perspective:220px;">
+            <span data-cube="" style="position:absolute; left:6.5px; top:6.5px; width:7px; height:7px; border-radius:1.5px; background:#fff; transform:translate(-4.5px,-4.5px);"></span>
+            <span data-cube="" style="position:absolute; left:6.5px; top:6.5px; width:7px; height:7px; border-radius:1.5px; background:#fff; transform:translate(4.5px,-4.5px);"></span>
+            <span data-cube="" style="position:absolute; left:6.5px; top:6.5px; width:7px; height:7px; border-radius:1.5px; background:#fff; transform:translate(-4.5px,4.5px);"></span>
+            <span data-cube="" style="position:absolute; left:6.5px; top:6.5px; width:7px; height:7px; border-radius:1.5px; background:#fff; transform:translate(4.5px,4.5px);"></span>
+          </span>Katalog
+        </button>
+        <a href="05 Qidiruv.dc.html" style="flex:1; min-width:0; height:44px; display:flex; align-items:center; gap:10px; padding:0 6px 0 16px; border-radius:8px; background:#f1f1ef; border:1px solid #e6e5e2; color:#78756e; font-size:14px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          <span style="flex:1;">Telefon, noutbuk, quloqchin…</span>
+          <span style="height:34px; padding:0 16px; display:flex; align-items:center; border-radius:6px; background:#181716; color:#fff; font-weight:600; font-size:14px;">Qidirish</span>
+        </a>
+        <div style="display:flex; align-items:center; gap:4px;">
+          <a href="09 Sevimlilar.dc.html" style="position:relative; min-width:64px; height:52px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; border-radius:8px; color:#403e39; font-size:12px; font-weight:500;" style-hover="background:#f1f1ef;">
+            <span data-target="fav" style="position:relative; display:flex;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg><sc-if value="{{ hasFav }}" hint-placeholder-val="{{ false }}"><span style="position:absolute; right:-9px; top:-5px; min-width:17px; height:17px; padding:0 4px; border-radius:999px; background:#c2410c; color:#fff; font-size:12px; font-weight:700; line-height:17px; text-align:center; box-shadow:0 0 0 2px #fff;">{{ favCount }}</span></sc-if></span>Sevimlilar
+          </a>
+          <a href="07 Savat.dc.html" onClick="{{ openDrawer }}" style="position:relative; min-width:64px; height:52px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; border-radius:8px; color:#403e39; font-size:12px; font-weight:500;" style-hover="background:#f1f1ef;">
+            <span data-target="cart" style="position:relative; display:flex;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg><sc-if value="{{ hasCart }}" hint-placeholder-val="{{ false }}"><span style="position:absolute; right:-9px; top:-5px; min-width:17px; height:17px; padding:0 4px; border-radius:999px; background:#c2410c; color:#fff; font-size:12px; font-weight:700; line-height:17px; text-align:center; box-shadow:0 0 0 2px #fff; overflow:hidden;"><span data-roll-count="" style="display:block;">{{ cartCount }}</span></span></sc-if></span>Savat
+          </a>
+          <a href="{{ profileHref }}" style="min-width:64px; height:52px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; border-radius:8px; color:#403e39; font-size:12px; font-weight:500;" style-hover="background:#f1f1ef;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>{{ profileLabel }}
+          </a>
+        </div>
+      </div>
+    </div>
+    <sc-if value="{{ mega }}" hint-placeholder-val="{{ false }}">
+      <div onClick="{{ closeMega }}" style="position:fixed; inset:108px 0 0 0; background:rgb(24 23 22 / .35); animation:os-fade 220ms both;"></div>
+      <div style="position:absolute; left:0; right:0; top:100%; background:#fff; border-bottom:1px solid #e6e5e2; box-shadow:0 8px 40px -12px rgb(24 23 22 / 0.28); animation:os-swap 220ms cubic-bezier(0.22,1,0.36,1) both;">
+        <div style="max-width:1280px; margin:0 auto; padding:24px 32px 28px; display:grid; grid-template-columns:260px minmax(0,1fr) 260px; gap:32px;">
+          <div style="display:flex; flex-direction:column; gap:2px;">
+            <sc-for list="{{ cats }}" as="c" hint-placeholder-count="6">
+              <button type="button" onMouseEnter="{{ c.pick }}" onClick="{{ c.pick }}" style="height:44px; display:flex; align-items:center; justify-content:space-between; padding:0 12px; border:0; border-radius:8px; background:{{ c.bg }}; color:{{ c.fg }}; font:{{ c.weight }} 14px Inter, system-ui, sans-serif; cursor:pointer; text-align:left; transition:background 150ms;">{{ c.name }}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg></button>
+            </sc-for>
+          </div>
+          <div>
+            <h3 style="font-family:'Onest', Inter, system-ui, sans-serif; margin:4px 0 14px; font-size:20px; font-weight:700; letter-spacing:-0.02em;">{{ activeCat }}</h3>
+            <div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:4px 24px;">
+              <sc-for list="{{ subs }}" as="s" hint-placeholder-count="6"><a href="04 Katalog.dc.html" style="min-height:40px; display:flex; align-items:center; font-size:14px; color:#403e39;" style-hover="color:#c2410c;">{{ s }}</a></sc-for>
+            </div>
+            <a href="04 Katalog.dc.html" style="margin-top:16px; display:inline-flex; align-items:center; gap:6px; font-size:14px; font-weight:600; color:#c2410c;">{{ activeCatAll }}</a>
+          </div>
+          <a href="03 Bosh sahifa.dc.html" style="position:relative; isolation:isolate; overflow:hidden; border-radius:12px; background:#181716; padding:18px; min-height:220px; display:flex; flex-direction:column; justify-content:flex-end; color:#fff;">
+            <span style="position:absolute; inset:0; z-index:-1; background:repeating-linear-gradient(135deg, #292825 0 8px, #403e39 8px 16px);"></span>
+            <span style="position:absolute; left:14px; top:14px; font-family:ui-monospace, Menlo, monospace; font-size:12px; color:#d3d1cd;">aksiya banneri</span>
+            <span style="font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#fdba74;">Aksiya</span>
+            <span style="margin-top:6px; font-size:20px; font-weight:700; line-height:1.25;">Kuzgi texnika haftaligi</span><span style="margin-top:4px;"><span data-ph="PROMO: title" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[PROMO: title]</span></span>
+            <span style="margin-top:6px;"><span data-ph="PROMO: subtitle" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[PROMO: subtitle]</span></span>
+          </a>
+        </div>
+      </div>
+    </sc-if>
+  </sc-if>
+
+  <sc-if value="{{ isMT }}" hint-placeholder-val="{{ true }}">
+    <sc-if value="{{ isMain }}" hint-placeholder-val="{{ true }}">
+      <header style="background:rgb(255 255 255 / .95); border-bottom:1px solid rgb(230 229 226 / .7); padding:0 {{ pad }};">
+        <div style="display:flex; align-items:center; gap:8px; height:56px; padding-top:4px;">
+          <button type="button" onClick="{{ openPanel }}" aria-label="Menyuni ochish" style="margin-left:-6px; width:44px; height:44px; flex-shrink:0; display:flex; align-items:center; justify-content:center; border:0; background:transparent; color:#403e39; border-radius:8px; cursor:pointer; transition:transform 150ms cubic-bezier(0.22,1,0.36,1);" style-active="transform:scale(0.9);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button>
+          <sc-if value="{{ isT }}" hint-placeholder-val="{{ false }}">
+            <a href="03 Bosh sahifa.dc.html" style="display:flex; align-items:center; gap:8px; margin-right:8px; color:#181716;"><span style="position:relative; width:28px; height:28px; border-radius:7px; background:#ea6100;"><span style="position:absolute; left:6px; top:6px; width:7px; height:7px; border-radius:1.5px; background:#fff;"></span><span style="position:absolute; right:6px; top:6px; width:7px; height:7px; border-radius:1.5px; background:#fff;"></span><span style="position:absolute; left:6px; bottom:6px; width:7px; height:7px; border-radius:1.5px; background:#fff;"></span><span style="position:absolute; right:6px; bottom:6px; width:7px; height:7px; border-radius:1.5px; background:#fff;"></span></span><span style="font-size:20px; font-weight:700; letter-spacing:-0.02em;">Open<span style="color:#c2410c;">Shop</span></span></a>
+          </sc-if>
+          <a href="05 Qidiruv.dc.html" style="flex:1; min-width:0; height:44px; display:flex; align-items:center; gap:8px; padding:0 14px; border-radius:8px; background:#f1f1ef; color:#78756e; font-size:14px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>Mahsulot qidirish</a>
+          <button type="button" aria-label="Manzil: Toshkent" style="width:44px; height:44px; flex-shrink:0; display:flex; align-items:center; justify-content:center; border:0; background:transparent; color:#403e39; border-radius:8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg></button>
+        </div>
+      </header>
+    </sc-if>
+    <sc-if value="{{ isBack }}" hint-placeholder-val="{{ false }}">
+      <header style="display:flex; align-items:center; gap:4px; height:56px; padding:4px 8px 0; background:rgb(255 255 255 / .95); border-bottom:1px solid rgb(230 229 226 / .7);">
+        <a href="{{ backHref }}" aria-label="Orqaga" style="width:44px; height:44px; flex-shrink:0; display:flex; align-items:center; justify-content:center; color:#292825; border-radius:8px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg></a>
+        <span style="flex:1; min-width:0; text-align:center; font-size:16px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ title }}</span>
+        <a href="05 Qidiruv.dc.html" aria-label="Qidirish" style="width:44px; height:44px; flex-shrink:0; display:flex; align-items:center; justify-content:center; color:#292825; border-radius:8px;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg></a>
+      </header>
+    </sc-if>
+
+    <sc-if value="{{ panel }}" hint-placeholder-val="{{ false }}">
+      <div style="position:fixed; inset:0; z-index:80;">
+        <div onClick="{{ closePanel }}" style="position:absolute; inset:0; background:rgb(24 23 22 / .45); animation:os-fade 220ms both;"></div>
+        <aside aria-label="Katalog" style="position:absolute; left:0; top:0; bottom:0; width:{{ panelW }}; max-width:88%; display:flex; flex-direction:column; background:#fff; box-shadow:0 8px 40px -12px rgb(24 23 22 / 0.28); animation:os-drawer-l 300ms cubic-bezier(0.22,1,0.36,1) both;">
+          <div style="display:flex; align-items:center; justify-content:space-between; height:60px; padding:0 8px 0 16px; border-bottom:1px solid #f1f1ef;">
+            <span style="display:flex; align-items:center; gap:8px;"><span style="position:relative; width:28px; height:28px; border-radius:7px; background:#ea6100;"><span style="position:absolute; left:6px; top:6px; width:7px; height:7px; border-radius:1.5px; background:#fff;"></span><span style="position:absolute; right:6px; top:6px; width:7px; height:7px; border-radius:1.5px; background:#fff;"></span><span style="position:absolute; left:6px; bottom:6px; width:7px; height:7px; border-radius:1.5px; background:#fff;"></span><span style="position:absolute; right:6px; bottom:6px; width:7px; height:7px; border-radius:1.5px; background:#fff;"></span></span><span style="font-size:20px; font-weight:700; letter-spacing:-0.02em;">Open<span style="color:#c2410c;">Shop</span></span></span>
+            <button type="button" onClick="{{ closePanel }}" aria-label="Yopish" style="width:44px; height:44px; display:flex; align-items:center; justify-content:center; border:0; background:transparent; color:#403e39; border-radius:8px; cursor:pointer;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+          </div>
+          <div style="flex:1; overflow-y:auto; padding:8px 8px 16px;">
+            <p style="margin:8px 8px 4px; font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#78756e;">Katalog</p>
+            <sc-for list="{{ cats }}" as="c" hint-placeholder-count="6">
+              <div>
+                <button type="button" onClick="{{ c.toggle }}" style="width:100%; min-height:48px; display:flex; align-items:center; gap:12px; padding:0 8px; border:0; border-radius:8px; background:transparent; color:#181716; font:600 16px Inter, system-ui, sans-serif; cursor:pointer; text-align:left;">
+                  <span style="width:36px; height:36px; flex-shrink:0; border-radius:999px; background:repeating-linear-gradient(135deg, #f1f1ef 0 4px, #e6e5e2 4px 8px);"></span>
+                  <span style="flex:1;">{{ c.name }}</span>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#78756e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate({{ c.rot }}); transition:transform 220ms cubic-bezier(0.22,1,0.36,1);"><path d="m6 9 6 6 6-6"></path></svg>
+                </button>
+                <sc-if value="{{ c.open }}" hint-placeholder-val="{{ false }}">
+                  <div style="padding:0 0 8px 56px; display:flex; flex-direction:column; animation:os-swap 220ms cubic-bezier(0.22,1,0.36,1) both;">
+                    <sc-for list="{{ c.subs }}" as="s" hint-placeholder-count="4"><a href="04 Katalog.dc.html" style="min-height:40px; display:flex; align-items:center; font-size:14px; color:#403e39;">{{ s }}</a></sc-for>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+            <div style="margin:12px 8px; height:1px; background:#f1f1ef;"></div>
+            <a href="14 Malumot sahifalari.dc.html" style="min-height:44px; display:flex; align-items:center; padding:0 8px; font-size:16px; color:#292825;">Yetkazib berish</a>
+            <a href="14 Malumot sahifalari.dc.html" style="min-height:44px; display:flex; align-items:center; padding:0 8px; font-size:16px; color:#292825;">Biz haqimizda</a>
+            <a href="10 Kabinet.dc.html" style="min-height:44px; display:flex; align-items:center; padding:0 8px; font-size:16px; color:#292825;">Buyurtmalarim</a>
+          </div>
+          <div style="padding:12px 16px 20px; border-top:1px solid #f1f1ef; font-size:14px; color:#57544e;">Savollar boʻyicha: <span data-ph="SETTINGS: phone" style="display:inline-block; font-family:ui-monospace, Menlo, monospace; font-size:.82em; line-height:1.45; background:#fef3c7; color:#92400e; border:1px dashed #d97706; border-radius:4px; padding:0 5px; white-space:nowrap;">[SETTINGS: phone]</span></div>
+        </aside>
+      </div>
+    </sc-if>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:120},&quot;bp&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;m&quot;,&quot;t&quot;,&quot;d&quot;],&quot;default&quot;:&quot;d&quot;,&quot;tsType&quot;:&quot;'m'|'t'|'d'&quot;},&quot;variant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;main&quot;,&quot;back&quot;],&quot;default&quot;:&quot;main&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;title&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;backHref&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;},&quot;cartCount&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;tsType&quot;:&quot;number&quot;},&quot;favCount&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;tsType&quot;:&quot;number&quot;},&quot;loggedIn&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;onCart&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;}}">
+class Component extends DCLogic {
+  state = { mega: false, cat: 0, panel: false, open: null };
+  componentDidMount() { this.onEv = () => this.setState({ panel: true }); this.onMega = () => this.setState({ mega: true }); window.addEventListener('os:panel', this.onEv); window.addEventListener('os:mega', this.onMega); }
+  componentWillUnmount() { window.removeEventListener('os:panel', this.onEv); window.removeEventListener('os:mega', this.onMega); }
+  renderVals() {
+    const p = this.props, S = this.state, bp = p.bp || 'm', tree = (window.OS && OS.tree) || [];
+    const cat = tree[S.cat] || { name: '', subs: [] };
+    return {
+      isD: bp === 'd', isMT: bp !== 'd', isT: bp === 't', isMain: (p.variant || 'main') === 'main', isBack: p.variant === 'back',
+      pad: bp === 't' ? '24px' : '16px', panelW: bp === 't' ? '380px' : '340px',
+      title: p.title || '', backHref: p.backHref || '03 Bosh sahifa.dc.html',
+      cartCount: p.cartCount || 0, favCount: p.favCount || 0, hasCart: (p.cartCount || 0) > 0, hasFav: (p.favCount || 0) > 0,
+      profileHref: p.loggedIn === false ? '11 Kirish.dc.html' : '10 Kabinet.dc.html', profileLabel: p.loggedIn === false ? 'Kirish' : 'Kabinet',
+      mega: S.mega, megaAria: S.mega ? 'true' : 'false',
+      toggleMega: (e) => { window.OS && OS.burst(e.currentTarget.querySelector('[data-cubes]')); this.setState({ mega: !S.mega }); },
+      closeMega: () => this.setState({ mega: false }),
+      openDrawer: p.onCart ? (e) => { e.preventDefault(); p.onCart(); } : undefined,
+      activeCat: cat.name, activeCatAll: 'Barcha ' + cat.name.toLowerCase() + ' →', subs: cat.subs,
+      panel: S.panel, openPanel: () => this.setState({ panel: true }), closePanel: () => this.setState({ panel: false }),
+      cats: tree.map((c, i) => ({
+        name: c.name, subs: c.subs, pick: () => this.setState({ cat: i }),
+        bg: i === S.cat ? '#fff7ed' : 'transparent', fg: i === S.cat ? '#c2410c' : '#292825', weight: i === S.cat ? 600 : 500,
+        open: S.open === i, rot: S.open === i ? '180deg' : '0deg', toggle: () => this.setState({ open: S.open === i ? null : i }),
+      })),
+    };
+  }
+}
+</script>
+</body>
+</html>

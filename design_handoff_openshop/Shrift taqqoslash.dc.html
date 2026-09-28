@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&family=Onest:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#f8f8f7;font-family:Inter,system-ui,sans-serif;color:#181716;-webkit-font-smoothing:antialiased}a{color:#c2410c;text-decoration:none}a:hover{color:#9a3412}*{box-sizing:border-box}</style>
+</helmet>
+<div style="max-width:1280px; margin:0 auto; padding:32px 24px 56px;">
+  <h1 style="margin:0; font-size:28px; font-weight:700; letter-spacing:-0.02em;">Sarlavha shrifti: Inter, Manrope yoki Onest</h1>
+  <p style="margin:8px 0 0; max-width:760px; font-size:16px; line-height:1.55; color:#403e39;">Matn va narxlar hamma variantda Inter. Faqat sarlavhalar almashadi. Glif tekshiruvi brauzerda jonli bajariladi: shrift belgini o‘zi chizadimi yoki zaxira shriftga o‘tadimi.</p>
+
+  <div style="margin-top:24px; display:grid; grid-template-columns:repeat(auto-fit, minmax(360px, 1fr)); gap:16px;">
+    <sc-for list="{{ opts }}" as="o" hint-placeholder-count="3">
+      <section style="display:flex; flex-direction:column; gap:16px; padding:20px; border-radius:16px; background:#fff; border:2px solid {{ o.bd }};">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+          <span style="font-size:14px; font-weight:700;">{{ o.name }}</span>
+          <sc-if value="{{ o.picked }}" hint-placeholder-val="{{ false }}"><span style="height:28px; padding:0 10px; display:inline-flex; align-items:center; border-radius:999px; background:#c2410c; color:#fff; font-size:12px; font-weight:700;">Tanlandi</span></sc-if>
+        </div>
+        <div style="position:relative; overflow:hidden; border-radius:12px; background:#181716; padding:24px 20px;">
+          <p style="margin:0; font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#fdba74;">OpenShop</p>
+          <h2 style="margin:10px 0 0; font-family:{{ o.stack }}; font-size:40px; line-height:1.05; letter-spacing:{{ o.ls }}; font-weight:700; color:#fff;">Yangi texnika. Halol narx. <span style="color:#fdba74;">Toshkentda — ertagayoq.</span></h2>
+        </div>
+        <div>
+          <h3 style="margin:0; font-family:{{ o.stack }}; font-size:28px; line-height:1.15; letter-spacing:{{ o.ls }}; font-weight:700;">Oʻzbekiston boʻylab yetkazib berish</h3>
+          <p style="margin:6px 0 0; font-size:16px; line-height:1.55; color:#403e39;">Savatga qoʻshish, maʼlumot, gʻildirakli chamadon — Inter matn.</p>
+        </div>
+        <div>
+          <h3 style="margin:0; font-family:{{ o.stack }}; font-size:20px; line-height:1.25; letter-spacing:{{ o.ls2 }}; font-weight:700;">Mahsulotlar · Товары · Доставка по Ташкенту</h3>
+          <div style="margin-top:10px; display:flex; align-items:baseline; gap:10px;"><span style="font-size:28px; font-weight:700; letter-spacing:-0.02em; font-variant-numeric:tabular-nums;">13 990 000 soʻm</span><span style="font-size:14px; color:#78756e; text-decoration:line-through; font-variant-numeric:tabular-nums;">15 490 000</span></div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px; padding-top:12px; border-top:1px solid #f1f1ef;">
+          <sc-for list="{{ o.checks }}" as="c" hint-placeholder-count="5">
+            <div style="display:flex; align-items:center; gap:10px; font-size:14px;">
+              <span style="width:22px; height:22px; flex-shrink:0; border-radius:999px; background:{{ c.bg }}; color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;">{{ c.mark }}</span>
+              <span style="font-family:{{ o.stack }}; font-size:20px; font-weight:700; min-width:92px;">{{ c.sample }}</span>
+              <span style="color:#57544e;">{{ c.label }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+    </sc-for>
+  </div>
+
+  <section style="margin-top:24px; padding:20px; border-radius:16px; background:#fff; border:1px solid #e6e5e2; font-size:16px; line-height:1.6; color:#403e39;">
+    <h2 style="margin:0 0 8px; font-size:20px; font-weight:700; color:#181716;">Qaror</h2>
+    <p style="margin:0;">{{ verdict }}</p>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { res: {} };
+  OPTS = [
+    { key: 'Inter', name: 'A · Inter (hozirgi)', ls: '-0.03em', ls2: '-0.01em' },
+    { key: 'Manrope', name: 'B · Manrope', ls: '-0.035em', ls2: '-0.015em' },
+    { key: 'Onest', name: 'C · Onest', ls: '-0.03em', ls2: '-0.01em' },
+  ];
+  CH = [['ʻ', 'U+02BB oʻ, gʻ'], ['ʼ', 'U+02BC tutuq (maʼlumot)'], ['Ўў Ққ Ғғ Ҳҳ', 'Oʻzbek kirill'], ['Жж Щщ Ыы', 'Rus kirill'], ['0123456789', 'Raqamlar']];
+  componentDidMount() {
+    const run = () => {
+      const cv = document.createElement('canvas').getContext('2d'), res = {};
+      this.OPTS.forEach((o) => {
+        res[o.key] = this.CH.map(([g]) => {
+          cv.font = '700 40px "__none__", monospace'; const a = cv.measureText(g).width;
+          cv.font = '700 40px "' + o.key + '", monospace'; const b = cv.measureText(g).width;
+          return Math.abs(a - b) > 0.5;
+        });
+      });
+      this.setState({ res });
+    };
+    const fams = ['Inter', 'Manrope', 'Onest'];
+    Promise.all(fams.map((f) => document.fonts.load('700 40px "' + f + '"', 'ʻʼЎўҚқҒғҲҳЖжЩщЫы0123456789'))).then(run, run);
+  }
+  renderVals() {
+    const R = this.state.res, done = Object.keys(R).length > 0, pick = 'Onest';
+    return {
+      opts: this.OPTS.map((o) => ({
+        ...o, stack: "'" + o.key + "', Inter, system-ui, sans-serif", picked: o.key === pick, bd: o.key === pick ? '#ea6100' : '#e6e5e2',
+        checks: this.CH.map(([sample, label], i) => { const ok = done ? R[o.key][i] : null; return { sample, label, mark: ok == null ? '…' : ok ? '✓' : '✕', bg: ok == null ? '#a3a09a' : ok ? '#047857' : '#b91c1c' }; }),
+      })),
+      verdict: 'Onest tanlandi. Harf shakli Manropega qaraganda ochiqroq va “iliqroq”, keng harflari 40px sarlavhada qimmatbaho his beradi. Oʻzbek kirill (Ўў, Ққ, Ғғ, Ҳҳ), rus kirill va ʻ / ʼ belgilarining hammasini oʻzi chizadi (5/5 ✓). Manrope ʻ va ʼ ni chizmaydi (✕) — “Oʻzbekiston”, “maʼlumot” soʻzlarida belgi boshqa shriftdan olinadi va qalinligi bir xil boʻlmay qoladi, shuning uchun Manrope chetlashtirildi. Inter yolg‘iz ishlatilsa ierarxiya faqat qalinlik bilan quriladi va yetarlicha ajralmaydi. Qoida: Onest faqat h1–h3 va hero/aksiya sarlavhalarida, 600–700 qalinlikda. Matn, tugma, narx va yorliqlar — Inter.',
+    };
+  }
+}
+</script>
+</body>
+</html>

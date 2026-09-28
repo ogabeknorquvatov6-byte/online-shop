@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+*.local
+
+# Environment — hech qachon repozitoriyga tushmasin.
+# Bu loyihada faqat public anon key ishlatiladi, lekin fayl odati saqlanishi
+# kerak: kelajakda service_role kaliti yoki to'lov provayderi maxfiy kaliti
+# qo'shilsa, u avtomatik himoyalangan bo'ladi.
+.env
+.env.*
+!.env.example
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+*.log
+
+# Editors / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.njsproj
+*.sln
+*.sw?
+
+# Katalog importi — vaqtinchalik va yirik ma'lumot fayllari.
+# `out/` ichida minglab rasm bo'lishi mumkin, repozitoriyga tushmasin.
+out/
+.catalog-src/
+category_map.suggested.json
+
+.vercel
+.env*
