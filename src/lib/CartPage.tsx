@@ -41,12 +41,12 @@ export function CartPage() {
         <h1 className="text-display-sm">Savat</h1>
         <div className="mt-6">
           <EmptyState
-            title="Savatingiz bo‘sh"
-            message="Katalogdan yoqqan mahsulotlarni tanlang — ular shu yerda to‘planadi."
+            title="Savatingiz boʻsh"
+            message="Katalogdan yoqqan mahsulotlarni tanlang — ular shu yerda toʻplanadi."
             icon={<ShoppingCart className="h-6 w-6" />}
             action={
               <Link to="/catalog" className={button('primary', 'md')}>
-                Katalogga o‘tish
+                Katalogga oʻtish
               </Link>
             }
           />
@@ -147,7 +147,7 @@ export function CartPage() {
                             <button
                               onClick={() => updateQuantity(key, item.quantity + 1)}
                               disabled={item.quantity >= max}
-                              aria-label="Ko‘paytirish"
+                              aria-label="Koʻpaytirish"
                               className={cx('flex h-9 w-9 items-center justify-center rounded-r-control text-ink-600 transition-transform hover:bg-ink-50 active:scale-90 disabled:text-ink-300 disabled:hover:bg-transparent sm:h-10 sm:w-10', focusRing)}
                             >
                               <Plus className="h-3.5 w-3.5" />
@@ -160,14 +160,14 @@ export function CartPage() {
                         </div>
                         {item.quantity >= max && (
                           <p className="mt-1.5 text-[11px] text-amber-600">
-                            Omborda {item.product.stock} donadan ko‘p qolmagan.
+                            Omborda {item.product.stock} donadan koʻp qolmagan.
                           </p>
                         )}
                       </div>
 
                       <button
                         onClick={() => removeItem(key)}
-                        aria-label={`${item.product.name} — savatdan o‘chirish`}
+                        aria-label={`${item.product.name} — savatdan oʻchirish`}
                         className={cx('-mr-1 -mt-1 flex h-9 w-9 shrink-0 items-center justify-center self-start rounded-control text-ink-400 transition-colors hover:bg-red-50 hover:text-red-600', focusRing)}
                       >
                         <Trash2 className="h-4 w-4" />
@@ -193,7 +193,7 @@ export function CartPage() {
 
             {delivery.remainingForFree > 0 && (
               <p className="mt-3 rounded-control bg-orange-50 px-3 py-2.5 text-xs leading-relaxed text-orange-800">
-                Yana <span className="font-semibold">{formatPrice(delivery.remainingForFree)}</span> qo‘shsangiz,
+                Yana <span className="font-semibold">{formatPrice(delivery.remainingForFree)}</span> qoʻshsangiz,
                 yetkazib berish bepul.
               </p>
             )}
@@ -229,8 +229,8 @@ export function CartPage() {
             </button>
 
             <ul className="mt-5 space-y-2 border-t border-ink-100 pt-4 text-xs text-ink-500">
-              <li className="flex items-center gap-2"><Truck className="h-4 w-4 shrink-0 text-ink-400" /> Toshkent bo‘ylab 1 kun ichida</li>
-              <li className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 shrink-0 text-ink-400" /> Mahsulotni ko‘rib, keyin to‘laysiz</li>
+              <li className="flex items-center gap-2"><Truck className="h-4 w-4 shrink-0 text-ink-400" /> Toshkent boʻylab 1 kun ichida</li>
+              <li className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 shrink-0 text-ink-400" /> Mahsulotni koʻrib, keyin toʻlaysiz</li>
             </ul>
           </div>
         </aside>

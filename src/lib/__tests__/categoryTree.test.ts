@@ -231,7 +231,7 @@ describe('categoryLevels', () => {
     expect(isLeaf).toBe(false);
   });
 
-  it('uchinchi daraja tanlansa — uchta tanlovchi bo‘ladi', () => {
+  it('uchinchi daraja tanlansa — uchta tanlovchi boʻladi', () => {
     const { levels, trail } = categoryLevels(nested(), 'id-Telefon');
     expect(levels).toHaveLength(3);
     expect(levels[2].map((n) => n.name)).toEqual(['Flagman', 'Byudjet']);
@@ -239,7 +239,7 @@ describe('categoryLevels', () => {
   });
 
   /* Barg tanlanganda ORTIQCHA bo'sh tanlovchi chiqmasligi kerak. */
-  it('barg tanlansa — ortiqcha bo‘sh tanlovchi qo‘shilmaydi', () => {
+  it('barg tanlansa — ortiqcha boʻsh tanlovchi qoʻshilmaydi', () => {
     const { levels, isLeaf, trail } = categoryLevels(nested(), 'id-Flagman');
     expect(levels).toHaveLength(3);
     expect(isLeaf).toBe(true);
@@ -260,7 +260,7 @@ describe('categoryLevels', () => {
    * "biriktirilmagan" deb o'ylab saqlaydi va eski bog'lanish
    * ko'rinmas holda saqlanib qolaveradi.
    */
-  it('daraxtda yo‘q id — `orphaned` bayrog‘ini ko‘taradi', () => {
+  it('daraxtda yoʻq id — `orphaned` bayrogʻini koʻtaradi', () => {
     const { orphaned, trail, levels } = categoryLevels(nested(), 'id-Ochirilgan');
     expect(orphaned).toBe(true);
     expect(trail).toEqual([]);
@@ -268,7 +268,7 @@ describe('categoryLevels', () => {
     expect(levels).toHaveLength(1);
   });
 
-  it('bo‘sh id yetim hisoblanmaydi', () => {
+  it('boʻsh id yetim hisoblanmaydi', () => {
     expect(categoryLevels(nested(), '').orphaned).toBe(false);
   });
 });

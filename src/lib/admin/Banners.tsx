@@ -41,17 +41,17 @@ export function AdminBanners() {
     setBusy(false);
     setConfirmDelete(null);
     if (err) {
-      notify(`O‘chirib bo‘lmadi: ${err.message}`, 'error');
+      notify(`Oʻchirib boʻlmadi: ${err.message}`, 'error');
       return;
     }
-    notify('Banner o‘chirildi', 'success');
+    notify('Banner oʻchirildi', 'success');
     load();
   };
 
   const toggleActive = async (b: Banner) => {
     const { error: err } = await supabase.from('banners').update({ is_active: !b.is_active }).eq('id', b.id);
     if (err) {
-      notify('Holatni o‘zgartirib bo‘lmadi', 'error');
+      notify('Holatni oʻzgartirib boʻlmadi', 'error');
       return;
     }
     load();
@@ -60,10 +60,10 @@ export function AdminBanners() {
   return (
     <AdminSection
       title="Bosh sahifa bannerlari"
-      description="Bosh sahifadagi slayder. Faqat faol bannerlar ko‘rsatiladi."
+      description="Bosh sahifadagi slayder. Faqat faol bannerlar koʻrsatiladi."
       actions={
         <button onClick={() => { setEditing(null); setShowForm(true); }} className={button('primary', 'md')}>
-          <Plus className="h-4 w-4" /> Banner qo‘shish
+          <Plus className="h-4 w-4" /> Banner qoʻshish
         </button>
       }
     >
@@ -73,11 +73,11 @@ export function AdminBanners() {
         <AdminError onRetry={load} />
       ) : banners.length === 0 ? (
         <AdminEmpty
-          title="Banner yo‘q"
-          message="Banner qo‘shilmasa, bosh sahifada standart sarlavha bloki ko‘rsatiladi."
+          title="Banner yoʻq"
+          message="Banner qoʻshilmasa, bosh sahifada standart sarlavha bloki koʻrsatiladi."
           action={
             <button onClick={() => { setEditing(null); setShowForm(true); }} className={button('primary', 'md')}>
-              <Plus className="h-4 w-4" /> Banner qo‘shish
+              <Plus className="h-4 w-4" /> Banner qoʻshish
             </button>
           }
         />
@@ -120,7 +120,7 @@ export function AdminBanners() {
                 </button>
                 <button
                   onClick={() => setConfirmDelete(b)}
-                  aria-label={`${b.title} — o‘chirish`}
+                  aria-label={`${b.title} — oʻchirish`}
                   className={cx('flex h-10 w-10 items-center justify-center rounded-control text-ink-400 hover:bg-red-50 hover:text-red-600', focusRing)}
                 >
                   <Trash2 className="h-4 w-4" />
@@ -137,8 +137,8 @@ export function AdminBanners() {
 
       {confirmDelete && (
         <ConfirmModal
-          title="Bannerni o‘chirish"
-          message={`«${confirmDelete.title}» banneri o‘chiriladi.`}
+          title="Bannerni oʻchirish"
+          message={`«${confirmDelete.title}» banneri oʻchiriladi.`}
           busy={busy}
           onConfirm={() => handleDelete(confirmDelete)}
           onCancel={() => setConfirmDelete(null)}
@@ -162,7 +162,7 @@ function BannerForm({
     title: banner?.title || '',
     subtitle: banner?.subtitle || '',
     image_url: banner?.image_url || '',
-    button_text: banner?.button_text || 'Katalogni ko‘rish',
+    button_text: banner?.button_text || 'Katalogni koʻrish',
     button_link: banner?.button_link || '/catalog',
     is_active: banner?.is_active ?? true,
     sort_order: banner?.sort_order?.toString() ?? '0',
@@ -198,10 +198,10 @@ function BannerForm({
     setSaving(false);
 
     if (error) {
-      notify(`Saqlab bo‘lmadi: ${error.message}`, 'error');
+      notify(`Saqlab boʻlmadi: ${error.message}`, 'error');
       return;
     }
-    notify(banner ? 'Banner yangilandi' : 'Banner qo‘shildi', 'success');
+    notify(banner ? 'Banner yangilandi' : 'Banner qoʻshildi', 'success');
     onSaved();
   };
 
@@ -210,7 +210,7 @@ function BannerForm({
       <form onSubmit={handleSave} noValidate className="space-y-4">
         <FormField label="Sarlavha" required value={form.title} error={errors.title}
           onChange={(v) => setForm({ ...form, title: v })} />
-        <FormField label="Qo‘shimcha matn" value={form.subtitle} onChange={(v) => setForm({ ...form, subtitle: v })} textarea />
+        <FormField label="Qoʻshimcha matn" value={form.subtitle} onChange={(v) => setForm({ ...form, subtitle: v })} textarea />
         <ImageUrlField label="Rasm URL" value={form.image_url} onChange={(v) => setForm({ ...form, image_url: v })}
           hint="Keng format tavsiya etiladi (masalan 1600×700). Matn rasm ustiga tushadi." />
         <div className="grid gap-4 sm:grid-cols-2">
@@ -220,7 +220,7 @@ function BannerForm({
           <FormField label="Tartib raqami" type="number" value={form.sort_order}
             onChange={(v) => setForm({ ...form, sort_order: v })} />
         </div>
-        <FormToggle checked={form.is_active} onChange={(v) => setForm({ ...form, is_active: v })} label="Bosh sahifada ko‘rsatilsin" />
+        <FormToggle checked={form.is_active} onChange={(v) => setForm({ ...form, is_active: v })} label="Bosh sahifada koʻrsatilsin" />
         <FormActions saving={saving} onCancel={onClose} />
       </form>
     </AdminModal>

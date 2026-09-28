@@ -9,7 +9,7 @@ import { button, cx, shell } from './design';
 export function FavoritesPage() {
   const { favorites, count, loading, error, retry } = useFavorites();
 
-  useSeo({ title: 'Sevimlilar', description: 'Siz saqlab qo‘ygan mahsulotlar.', noindex: true });
+  useSeo({ title: 'Sevimlilar', description: 'Siz saqlab qoʻygan mahsulotlar.', noindex: true });
 
   return (
     <div className={cx(shell, 'py-5 lg:py-8')}>
@@ -27,16 +27,16 @@ export function FavoritesPage() {
         {loading && count > 0 ? (
           <ProductGridSkeleton count={Math.min(count, 10)} />
         ) : error ? (
-          <ErrorState message="Sevimlilarni yuklab bo‘lmadi" onRetry={retry} />
+          <ErrorState message="Sevimlilarni yuklab boʻlmadi" onRetry={retry} />
         ) : favorites.length === 0 ? (
           <>
             <EmptyState
-              title="Sevimlilar ro‘yxati bo‘sh"
+              title="Sevimlilar roʻyxati boʻsh"
               message="Mahsulot kartasidagi yurakcha tugmasini bosing — u shu yerda saqlanadi."
               icon={<Heart className="h-6 w-6" />}
               action={
                 <Link to="/catalog" className={button('primary', 'md')}>
-                  Katalogga o‘tish
+                  Katalogga oʻtish
                 </Link>
               }
             />

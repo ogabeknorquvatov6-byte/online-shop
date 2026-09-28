@@ -136,7 +136,7 @@ export function DesktopSearch() {
             className={cx(popSurface, 'absolute left-0 right-0 top-full z-40 mt-2 overflow-hidden p-2')}
           >
             <p className="px-2 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-ink-400">
-              So‘nggi qidiruvlar
+              Soʻnggi qidiruvlar
             </p>
             {recent.slice(0, 6).map((term) => (
               <button
@@ -185,7 +185,7 @@ export function DesktopSearch() {
                   focusRing
                 )}
               >
-                «{value.trim()}» bo‘yicha barcha natijalar
+                «{value.trim()}» boʻyicha barcha natijalar
               </button>
             )}
           </motion.div>

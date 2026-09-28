@@ -100,9 +100,9 @@ export function SearchResultsBody({
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-50 text-red-500">
           <WifiOff className="h-5 w-5" />
         </div>
-        <p className="mt-1 text-sm font-medium text-ink-800">Qidiruvni bajarib bo‘lmadi</p>
+        <p className="mt-1 text-sm font-medium text-ink-800">Qidiruvni bajarib boʻlmadi</p>
         <p className="max-w-xs text-xs leading-relaxed text-ink-500">
-          Internet aloqasini tekshiring va qayta urinib ko‘ring.
+          Internet aloqasini tekshiring va qayta urinib koʻring.
         </p>
         {onRetry && (
           <button type="button" onClick={onRetry} className={cx('mt-2 text-xs font-semibold text-orange-700 hover:underline', focusRing)}>
@@ -126,7 +126,7 @@ export function SearchResultsBody({
         </div>
         <p className="mt-1 text-sm font-medium text-ink-800">Hech narsa topilmadi</p>
         <p className="max-w-xs text-xs leading-relaxed text-ink-500">
-          Qidiruv so‘zini qisqartirib yoki boshqacha yozib ko‘ring.
+          Qidiruv soʻzini qisqartirib yoki boshqacha yozib koʻring.
         </p>
       </motion.div>
     );

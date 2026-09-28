@@ -195,7 +195,7 @@ export function HeroShowcase({ banners }: { banners: Banner[] }) {
         ref={stageRef}
         tabIndex={multiple ? 0 : -1}
         role={multiple ? 'group' : undefined}
-        aria-label={multiple ? 'Slaydlar — chap/o‘ng strelkalar bilan almashtiring' : undefined}
+        aria-label={multiple ? 'Slaydlar — chap/oʻng strelkalar bilan almashtiring' : undefined}
         onKeyDown={onKeyDown}
         className={cx(
           /*

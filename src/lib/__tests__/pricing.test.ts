@@ -38,18 +38,18 @@ describe('hasSellablePrice', () => {
 });
 
 describe('formatPrice', () => {
-  it('so‘m bilan formatlaydi', () => {
-    expect(formatPrice(1_250_000)).toContain('so‘m');
+  it('soʻm bilan formatlaydi', () => {
+    expect(formatPrice(1_250_000)).toContain('soʻm');
     expect(formatPrice(1_250_000).replace(/\s/g, ' ')).toMatch(/1 250 000/);
   });
 
-  it('narxi yo‘q mahsulotni "bepul" deb ko‘rsatmaydi', () => {
+  it('narxi yoʻq mahsulotni "bepul" deb koʻrsatmaydi', () => {
     // "0 so'm" mijozni chalg'itadi — u mahsulotni bepul deb tushunadi.
     expect(formatPrice(0)).toBe('Narxi kelishiladi');
     expect(formatPrice(-100)).toBe('Narxi kelishiladi');
   });
 
-  it('noma’lum qiymatda bo‘sh satr qaytaradi', () => {
+  it('nomaʼlum qiymatda boʻsh satr qaytaradi', () => {
     expect(formatPrice(null)).toBe('');
     expect(formatPrice(undefined)).toBe('');
     expect(formatPrice(Number.NaN)).toBe('');
@@ -66,7 +66,7 @@ describe('discountPercent', () => {
     expect(discountPercent(75_000, 100_000)).toBe(25);
   });
 
-  it('eski narx katta bo‘lmasa chegirma yo‘q', () => {
+  it('eski narx katta boʻlmasa chegirma yoʻq', () => {
     expect(discountPercent(100_000, 100_000)).toBeNull();
     expect(discountPercent(120_000, 100_000)).toBeNull();
     expect(discountPercent(100_000, null)).toBeNull();
@@ -79,7 +79,7 @@ describe('discountPercent', () => {
     expect(discountPercent(-10, 100_000)).toBeNull();
   });
 
-  it('foizni 1..99 oralig‘iga cheklaydi', () => {
+  it('foizni 1..99 oraligʻiga cheklaydi', () => {
     expect(discountPercent(1, 1_000_000)).toBe(99);
     // 0.4% — yaxlitlanganda 0 bo'ladi, ya'ni "chegirma bor" deyish yolg'on.
     expect(discountPercent(99_600, 100_000)).toBeNull();
@@ -99,25 +99,25 @@ function makeRow(overrides: Partial<ProductRow> = {}): ProductRow {
 }
 
 describe('adaptProduct — narx tanlash', () => {
-  it('chegirmasiz mahsulotda eski narx bo‘lmaydi', () => {
+  it('chegirmasiz mahsulotda eski narx boʻlmaydi', () => {
     const p = adaptProduct(makeRow());
     expect(p.price).toBe(100_000);
     expect(p.old_price).toBeNull();
   });
 
-  it('discount_price ni qo‘llaydi', () => {
+  it('discount_price ni qoʻllaydi', () => {
     const p = adaptProduct(makeRow({ discount_price: 80_000 }));
     expect(p.price).toBe(80_000);
     expect(p.old_price).toBe(100_000);
   });
 
-  it('aksiya foizini qo‘llaydi', () => {
+  it('aksiya foizini qoʻllaydi', () => {
     const p = adaptProduct(makeRow(), 30);
     expect(p.price).toBe(70_000);
     expect(p.old_price).toBe(100_000);
   });
 
-  it('ikkita chegirma bo‘lsa mijoz uchun ARZONROG‘I tanlanadi', () => {
+  it('ikkita chegirma boʻlsa mijoz uchun ARZONROGʻI tanlanadi', () => {
     // 20% aksiya = 80 000, qat'iy chegirma narxi = 75 000 → 75 000.
     const cheaperFixed = adaptProduct(makeRow({ discount_price: 75_000 }), 20);
     expect(cheaperFixed.price).toBe(75_000);
@@ -127,12 +127,12 @@ describe('adaptProduct — narx tanlash', () => {
     expect(cheaperPromo.price).toBe(60_000);
   });
 
-  it('bo‘sh yoki manfiy discount_price e’tiborga olinmaydi', () => {
+  it('boʻsh yoki manfiy discount_price eʼtiborga olinmaydi', () => {
     expect(adaptProduct(makeRow({ discount_price: 0 })).price).toBe(100_000);
     expect(adaptProduct(makeRow({ discount_price: -5 })).price).toBe(100_000);
   });
 
-  it('asosiy rasm har doim birinchi bo‘ladi', () => {
+  it('asosiy rasm har doim birinchi boʻladi', () => {
     // Katalog kartochkasi, savat va buyurtma tarixi ro'yxatning [0]
     // elementini oladi — tartib buzilsa mijoz boshqa rasmni ko'radi.
     const p = adaptProduct(
@@ -146,7 +146,7 @@ describe('adaptProduct — narx tanlash', () => {
     expect(p.product_images?.[0].image_url).toBe('/a.jpg');
   });
 
-  it('is_primary yo‘q bo‘lsa sort_order bo‘yicha tartiblanadi', () => {
+  it('is_primary yoʻq boʻlsa sort_order boʻyicha tartiblanadi', () => {
     const p = adaptProduct(
       makeRow({
         product_images: [
@@ -183,7 +183,7 @@ describe('cartItemKey', () => {
 });
 
 describe('maxQuantityFor', () => {
-  it('mahsulot qoldig‘i bilan cheklaydi', () => {
+  it('mahsulot qoldigʻi bilan cheklaydi', () => {
     expect(maxQuantityFor(makeProduct({ stock: 3 }))).toBe(3);
   });
 
@@ -193,7 +193,7 @@ describe('maxQuantityFor', () => {
     expect(maxQuantityFor(makeProduct({ stock: 9999 }))).toBe(MAX_QTY_PER_ITEM);
   });
 
-  it('variantning o‘z ombori ustun', () => {
+  it('variantning oʻz ombori ustun', () => {
     const product = makeProduct({
       stock: 100,
       product_variants: [
@@ -203,7 +203,7 @@ describe('maxQuantityFor', () => {
     expect(maxQuantityFor(product, 'v1')).toBe(2);
   });
 
-  it('variant ombori NULL bo‘lsa mahsulot qoldig‘i olinadi', () => {
+  it('variant ombori NULL boʻlsa mahsulot qoldigʻi olinadi', () => {
     const product = makeProduct({
       stock: 7,
       product_variants: [
@@ -221,7 +221,7 @@ describe('maxQuantityFor', () => {
 });
 
 describe('unitPrice', () => {
-  it('variant narx farqini qo‘shadi', () => {
+  it('variant narx farqini qoʻshadi', () => {
     const product = makeProduct({
       price: 100_000,
       product_variants: [
@@ -241,7 +241,7 @@ describe('unitPrice', () => {
     expect(unitPrice({ product, variantId: 'v1' })).toBe(0);
   });
 
-  it('noma’lum variant ID narxni o‘zgartirmaydi', () => {
+  it('nomaʼlum variant ID narxni oʻzgartirmaydi', () => {
     expect(unitPrice({ product: makeProduct(), variantId: 'yoq' })).toBe(100_000);
   });
 });
@@ -281,18 +281,18 @@ describe('quoteDelivery', () => {
     expect(quoteDelivery(settings, 100_000, 'Samarqand').fee).toBe(45_000);
   });
 
-  it('chegaradan oshsa bepul bo‘ladi', () => {
+  it('chegaradan oshsa bepul boʻladi', () => {
     const quote = quoteDelivery(settings, 1_000_000, 'Samarqand');
     expect(quote.isFree).toBe(true);
     expect(quote.fee).toBe(0);
     expect(quote.remainingForFree).toBe(0);
   });
 
-  it('bepulgacha qolgan summani to‘g‘ri hisoblaydi', () => {
+  it('bepulgacha qolgan summani toʻgʻri hisoblaydi', () => {
     expect(quoteDelivery(settings, 600_000, 'Toshkent').remainingForFree).toBe(400_000);
   });
 
-  it('chegara 0 bo‘lsa bepul yetkazish aksiyasi yo‘q', () => {
+  it('chegara 0 boʻlsa bepul yetkazish aksiyasi yoʻq', () => {
     const noFree = { ...settings, free_delivery_threshold: 0 };
     const quote = quoteDelivery(noFree, 10_000_000, 'Toshkent');
     expect(quote.isFree).toBe(false);
@@ -300,14 +300,14 @@ describe('quoteDelivery', () => {
     expect(quote.remainingForFree).toBe(0);
   });
 
-  it('sozlamalar yuklanmagan bo‘lsa zaxira tarif ishlatiladi', () => {
+  it('sozlamalar yuklanmagan boʻlsa zaxira tarif ishlatiladi', () => {
     // Checkout sozlamalar kelishini kutmaydi — narx doim ko'rsatilishi kerak.
     const quote = quoteDelivery(null, 0, 'Toshkent');
     expect(quote.fee).toBe(30_000);
     expect(quote.freeThreshold).toBe(500_000);
   });
 
-  it('shahar ko‘rsatilmasa Toshkent tarifi olinadi', () => {
+  it('shahar koʻrsatilmasa Toshkent tarifi olinadi', () => {
     expect(quoteDelivery(settings, 0).fee).toBe(25_000);
   });
 });

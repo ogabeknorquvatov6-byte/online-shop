@@ -253,7 +253,7 @@ function ActivePanel({
           <span className="flex h-12 w-12 items-center justify-center rounded-full bg-ink-50">
             <LayoutGrid className="h-5 w-5 text-ink-300" />
           </span>
-          <p className="text-sm text-ink-500">Bu kategoriyada hozircha mahsulot yo‘q</p>
+          <p className="text-sm text-ink-500">Bu kategoriyada hozircha mahsulot yoʻq</p>
         </div>
       )}
     </motion.div>
@@ -316,7 +316,7 @@ function AllCatalogLink({ onNavigate }: { onNavigate: () => void }) {
         focusRing
       )}
     >
-      <LayoutGrid className="h-4 w-4" /> Butun katalogni ko‘rish
+      <LayoutGrid className="h-4 w-4" /> Butun katalogni koʻrish
     </Link>
   );
 }

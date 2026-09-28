@@ -12,7 +12,7 @@ import { countBrands } from '../categoryBrands';
  */
 
 describe('countBrands', () => {
-  it("bo'sh ro'yxatdan bo'sh natija", () => {
+  it("boʻsh roʻyxatdan boʻsh natija", () => {
     expect(countBrands([])).toEqual([]);
   });
 
@@ -36,23 +36,23 @@ describe('countBrands', () => {
     expect(out[0].count).toBe(3);
   });
 
-  it("atrofdagi bo'shliq alohida brend yaratmaydi", () => {
+  it("atrofdagi boʻshliq alohida brend yaratmaydi", () => {
     const out = countBrands(['  Apple  ', 'Apple']);
     expect(out).toHaveLength(1);
     expect(out[0].count).toBe(2);
   });
 
-  it("bo'sh va faqat bo'shliqdan iborat qiymatlar tashlab yuboriladi", () => {
+  it("boʻsh va faqat boʻshliqdan iborat qiymatlar tashlab yuboriladi", () => {
     expect(countBrands(['', '   ', 'JBL'])).toEqual([{ name: 'JBL', count: 1 }]);
   });
 
   /* Ko'p mahsulotli brend yuqorida — foydalanuvchi izlaydigan narsa. */
-  it('son bo‘yicha kamayish tartibida saralaydi', () => {
+  it('son boʻyicha kamayish tartibida saralaydi', () => {
     const out = countBrands(['Honor', 'Apple', 'Apple', 'Apple', 'Xiaomi', 'Xiaomi']);
     expect(out.map((b) => b.name)).toEqual(['Apple', 'Xiaomi', 'Honor']);
   });
 
-  it('son teng bo‘lsa alifbo tartibi qo‘llanadi', () => {
+  it('son teng boʻlsa alifbo tartibi qoʻllanadi', () => {
     const out = countBrands(['Xiaomi', 'Apple', 'Honor']);
     expect(out.map((b) => b.name)).toEqual(['Apple', 'Honor', 'Xiaomi']);
   });
@@ -61,7 +61,7 @@ describe('countBrands', () => {
    * Sonlar yig'indisi kiruvchi ro'yxat uzunligiga TENG bo'lishi kerak:
    * ya'ni birorta mahsulot yo'qolmaydi va ikki marta hisoblanmaydi.
    */
-  it('sonlar yig‘indisi mahsulotlar sonini saqlaydi', () => {
+  it('sonlar yigʻindisi mahsulotlar sonini saqlaydi', () => {
     const raw = ['Apple', 'apple', 'Xiaomi', 'Honor', 'honor', 'Honor'];
     const out = countBrands(raw);
     expect(out.reduce((s, b) => s + b.count, 0)).toBe(raw.length);

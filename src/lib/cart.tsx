@@ -119,7 +119,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       });
 
       const parts: string[] = [];
-      if (removed) parts.push(`${removed} ta mahsulot sotuvda yo'q`);
+      if (removed) parts.push(`${removed} ta mahsulot sotuvda yoʻq`);
       if (priceChanged) parts.push('narxlar yangilandi');
       if (clamped) parts.push('miqdor omborga moslashtirildi');
       if (parts.length) setNotice(`Savat yangilandi: ${parts.join(', ')}.`);

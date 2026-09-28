@@ -53,17 +53,17 @@ export function AdminPromotions() {
     setBusy(false);
     setConfirmDelete(null);
     if (err) {
-      notify(`O‘chirib bo‘lmadi: ${err.message}`, 'error');
+      notify(`Oʻchirib boʻlmadi: ${err.message}`, 'error');
       return;
     }
-    notify('Aksiya o‘chirildi', 'success');
+    notify('Aksiya oʻchirildi', 'success');
     load();
   };
 
   const toggleActive = async (p: Promotion) => {
     const { error: err } = await supabase.from('promotions').update({ is_active: !p.is_active }).eq('id', p.id);
     if (err) {
-      notify('Holatni o‘zgartirib bo‘lmadi', 'error');
+      notify('Holatni oʻzgartirib boʻlmadi', 'error');
       return;
     }
     load();
@@ -77,7 +77,7 @@ export function AdminPromotions() {
       description="Tanlangan mahsulotlarga foizli chegirma. Narx mijozga avtomatik qayta hisoblanadi."
       actions={
         <button onClick={() => { setEditing(null); setShowForm(true); }} className={button('primary', 'md')}>
-          <Plus className="h-4 w-4" /> Aksiya qo‘shish
+          <Plus className="h-4 w-4" /> Aksiya qoʻshish
         </button>
       }
     >
@@ -87,11 +87,11 @@ export function AdminPromotions() {
         <AdminError onRetry={load} />
       ) : promos.length === 0 ? (
         <AdminEmpty
-          title="Aksiya yo‘q"
-          message="Aksiya yaratsangiz, u bosh sahifada va «Aksiyalar» bo‘limida ko‘rinadi."
+          title="Aksiya yoʻq"
+          message="Aksiya yaratsangiz, u bosh sahifada va «Aksiyalar» boʻlimida koʻrinadi."
           action={
             <button onClick={() => { setEditing(null); setShowForm(true); }} className={button('primary', 'md')}>
-              <Plus className="h-4 w-4" /> Aksiya qo‘shish
+              <Plus className="h-4 w-4" /> Aksiya qoʻshish
             </button>
           }
         />
@@ -122,7 +122,7 @@ export function AdminPromotions() {
               <div className="flex shrink-0 items-center gap-1.5">
                 <button
                   onClick={() => toggleActive(p)}
-                  aria-label={`${p.title} — ${p.is_active ? 'to‘xtatish' : 'yoqish'}`}
+                  aria-label={`${p.title} — ${p.is_active ? 'toʻxtatish' : 'yoqish'}`}
                   className={cx(
                     'rounded-full px-2.5 py-1 text-xs font-medium transition-colors',
                     focusRing,
@@ -140,7 +140,7 @@ export function AdminPromotions() {
                 </button>
                 <button
                   onClick={() => setConfirmDelete(p)}
-                  aria-label={`${p.title} — o‘chirish`}
+                  aria-label={`${p.title} — oʻchirish`}
                   className={cx('flex h-10 w-10 items-center justify-center rounded-control text-ink-400 hover:bg-red-50 hover:text-red-600', focusRing)}
                 >
                   <Trash2 className="h-4 w-4" />
@@ -157,8 +157,8 @@ export function AdminPromotions() {
 
       {confirmDelete && (
         <ConfirmModal
-          title="Aksiyani o‘chirish"
-          message={`«${confirmDelete.title}» o‘chiriladi va unga bog‘langan chegirmalar bekor bo‘ladi.`}
+          title="Aksiyani oʻchirish"
+          message={`«${confirmDelete.title}» oʻchiriladi va unga bogʻlangan chegirmalar bekor boʻladi.`}
           busy={busy}
           onConfirm={() => handleDelete(confirmDelete)}
           onCancel={() => setConfirmDelete(null)}
@@ -287,10 +287,10 @@ function PromotionForm({
     const discount = Number(form.discount);
     // Bazadagi CHECK: discount_percent 1..99 oralig'ida bo'lishi shart.
     if (!Number.isInteger(discount) || discount < 1 || discount > 99) {
-      next.discount = 'Chegirma 1 dan 99 gacha butun son bo‘lsin';
+      next.discount = 'Chegirma 1 dan 99 gacha butun son boʻlsin';
     }
     if (form.start_date && form.end_date && new Date(form.end_date) < new Date(form.start_date)) {
-      next.end_date = 'Tugash sanasi boshlanishdan keyin bo‘lsin';
+      next.end_date = 'Tugash sanasi boshlanishdan keyin boʻlsin';
     }
     if (selected.length === 0) next.products = 'Kamida bitta mahsulot tanlang';
     setErrors(next);
@@ -320,14 +320,14 @@ function PromotionForm({
 
     if (err || !promoId) {
       setSaving(false);
-      notify(`Saqlab bo‘lmadi: ${err ?? 'noma’lum xato'}`, 'error');
+      notify(`Saqlab boʻlmadi: ${err ?? 'nomaʼlum xato'}`, 'error');
       return;
     }
 
     const del = await supabase.from('promotion_products').delete().eq('promotion_id', promoId);
     if (del.error) {
       setSaving(false);
-      notify(`Mahsulotlar ro‘yxatini yangilab bo‘lmadi: ${del.error.message}`, 'error');
+      notify(`Mahsulotlar roʻyxatini yangilab boʻlmadi: ${del.error.message}`, 'error');
       return;
     }
     const ins = await supabase
@@ -335,7 +335,7 @@ function PromotionForm({
       .insert(selected.map((pid) => ({ promotion_id: promoId, product_id: pid })));
     setSaving(false);
     if (ins.error) {
-      notify(`Mahsulotlarni bog‘lab bo‘lmadi: ${ins.error.message}`, 'error');
+      notify(`Mahsulotlarni bogʻlab boʻlmadi: ${ins.error.message}`, 'error');
       return;
     }
 
@@ -354,9 +354,9 @@ function PromotionForm({
           <FormField label="Chegirma (%)" required type="number" min={1} value={form.discount}
             error={errors.discount} onChange={(v) => setForm({ ...form, discount: v })} />
           <FormField label="Boshlanish sanasi" type="date" value={form.start_date}
-            onChange={(v) => setForm({ ...form, start_date: v })} hint="Bo‘sh = darhol" />
+            onChange={(v) => setForm({ ...form, start_date: v })} hint="Boʻsh = darhol" />
           <FormField label="Tugash sanasi" type="date" value={form.end_date} error={errors.end_date}
-            onChange={(v) => setForm({ ...form, end_date: v })} hint="Bo‘sh = muddatsiz" />
+            onChange={(v) => setForm({ ...form, end_date: v })} hint="Boʻsh = muddatsiz" />
         </div>
 
         <div>
@@ -384,11 +384,11 @@ function PromotionForm({
               <p className="px-2 py-6 text-center text-xs text-ink-400">Yuklanmoqda…</p>
             ) : pickerError ? (
               <p role="alert" className="px-2 py-6 text-center text-xs text-red-600">
-                Mahsulotlarni yuklab bo‘lmadi. Qidiruvni o‘zgartirib qayta urinib ko‘ring.
+                Mahsulotlarni yuklab boʻlmadi. Qidiruvni oʻzgartirib qayta urinib koʻring.
               </p>
             ) : visible.length === 0 ? (
               <p className="px-2 py-6 text-center text-xs text-ink-400">
-                {query.trim() ? 'Mos mahsulot topilmadi' : 'Faol mahsulot yo‘q'}
+                {query.trim() ? 'Mos mahsulot topilmadi' : 'Faol mahsulot yoʻq'}
               </p>
             ) : (
               visible.map((p) => (

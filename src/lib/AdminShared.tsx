@@ -97,7 +97,7 @@ export function AdminEmpty({ title, message, action }: { title: string; message?
   );
 }
 
-export function AdminError({ message = 'Ma’lumotlarni yuklab bo‘lmadi', onRetry }: { message?: string; onRetry: () => void }) {
+export function AdminError({ message = 'Maʼlumotlarni yuklab boʻlmadi', onRetry }: { message?: string; onRetry: () => void }) {
   return (
     <div role="alert" className={cx(card, 'flex flex-col items-center justify-center px-6 py-10 text-center')}>
       <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-50 text-red-500">
@@ -134,7 +134,7 @@ export function AdminModal({
 }
 
 export function ConfirmModal({
-  title, message, confirmLabel = 'O‘chirish', busy, onConfirm, onCancel,
+  title, message, confirmLabel = 'Oʻchirish', busy, onConfirm, onCancel,
 }: {
   title: string;
   message: string;
@@ -276,7 +276,7 @@ export function ImageUrlField({
             onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0.25'; }}
             onLoad={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '1'; }}
           />
-          <p className="text-xs text-ink-400">Oldindan ko‘rish. Rasm chiqmasa, havolani tekshiring.</p>
+          <p className="text-xs text-ink-400">Oldindan koʻrish. Rasm chiqmasa, havolani tekshiring.</p>
         </div>
       )}
     </div>

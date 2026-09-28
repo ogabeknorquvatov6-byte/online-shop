@@ -77,17 +77,42 @@
     overflow-x: clip;
   }
 
-  /* Headings carry the display tracking; body copy stays neutral. */
+  /* Headings carry the display tracking; body copy stays neutral.
+
+     `font-display` (Onest) SHU YERDA, har bir sarlavhada emas: shunda
+     yangi sarlavha yozgan odam shriftni tanlashi ham, unutishi ham
+     kerak emas — u avtomatik to'g'ri chiqadi. Matn, tugma va narx
+     Inter'da qoladi (`body` dagi `font-sans`).
+
+     `tracking-tight` bu yerda TO'QNASHMAYDI: bu qoida `@layer base`
+     ichida, `text-display-*` esa utility qatlamida — Tailwind
+     qatlamlar tartibida utility har doim keyin keladi va o'z
+     `letter-spacing` ini olib boradi. Ya'ni token berilgan sarlavhada
+     tokenning tracking'i, berilmaganida esa shu zaxira ishlaydi. */
   h1,
   h2,
   h3 {
-    @apply tracking-tight text-ink-900;
+    @apply font-display tracking-tight text-ink-900;
     text-wrap: balance;
   }
 
   p {
     text-wrap: pretty;
   }
+
+  /* ── RAQAMLAR ───────────────────────────────────────────────────
+     `tabular-nums` ATAYLAB GLOBAL EMAS.
+
+     `body { font-variant-numeric: tabular-nums }` birinchi qarashda
+     qulay, lekin u butun matndagi raqamlarni ham teng kenglikka
+     o'tkazadi — "14 kun ichida qaytarish" kabi oddiy jumlada raqam
+     atrofida sun'iy bo'shliq paydo bo'ladi va matn "kvitansiya"ga
+     o'xshab qoladi.
+
+     Teng kenglik faqat raqam O'ZGARADIGAN yoki ustunda
+     TEKISLANADIGAN joyda kerak: narx, savat soni, taymer, jami,
+     natija soni, reyting. Ular `tabular-nums` sinfini o'zlari
+     oladi (utility pastda, `@layer utilities` da). */
 
   /* A single, consistent keyboard focus indicator for the whole app.
      Individual components can override it, but they can no longer remove it

@@ -132,7 +132,7 @@ export function SearchPage() {
               value={value}
               onChange={(e) => setValue(e.target.value)}
               placeholder="Mahsulot, kategoriya yoki brend"
-              aria-label="Qidiruv so‘zi"
+              aria-label="Qidiruv soʻzi"
               className={inputClass(false, 'h-12 bg-ink-50 pl-11 pr-11 text-base focus:bg-white')}
             />
             {value && (
@@ -174,7 +174,7 @@ export function SearchPage() {
                   focusRing
                 )}
               >
-                «{value.trim()}» bo‘yicha barcha natijalar
+                «{value.trim()}» boʻyicha barcha natijalar
               </button>
             )}
           </div>
@@ -185,7 +185,7 @@ export function SearchPage() {
               <section className="mb-7">
                 <div className="mb-2.5 flex items-center justify-between">
                   <h2 className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-ink-400">
-                    <Clock className="h-3.5 w-3.5" /> So‘nggi qidiruvlar
+                    <Clock className="h-3.5 w-3.5" /> Soʻnggi qidiruvlar
                   </h2>
                   <button
                     type="button"
@@ -209,7 +209,7 @@ export function SearchPage() {
                       <button
                         type="button"
                         onClick={() => setRecent(removeRecentSearch(term))}
-                        aria-label={`«${term}» ni ro‘yxatdan olib tashlash`}
+                        aria-label={`«${term}» ni roʻyxatdan olib tashlash`}
                         className={cx('flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-ink-300 hover:bg-ink-100 hover:text-ink-600', focusRing)}
                       >
                         <X className="h-3.5 w-3.5" />
@@ -224,7 +224,7 @@ export function SearchPage() {
             {categories.length > 0 && (
               <section className="mb-7">
                 <h2 className="mb-2.5 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-ink-400">
-                  <LayoutGrid className="h-3.5 w-3.5" /> Bo‘limlar
+                  <LayoutGrid className="h-3.5 w-3.5" /> Boʻlimlar
                 </h2>
                 <div className="flex flex-wrap gap-2">
                   {categories.slice(0, 10).map((c) => (
@@ -272,13 +272,13 @@ export function SearchPage() {
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-ink-400">Brendlar hali qo‘shilmagan.</p>
+                <p className="text-sm text-ink-400">Brendlar hali qoʻshilmagan.</p>
               )}
             </section>
 
             <RecommendationCarousel
               title="Ommabop mahsulotlar"
-              subtitle="Boshqa xaridorlar ko‘p tanlagan mahsulotlar"
+              subtitle="Boshqa xaridorlar koʻp tanlagan mahsulotlar"
             />
           </div>
         )}

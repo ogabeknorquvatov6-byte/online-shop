@@ -17,7 +17,7 @@ export type UploadResult = { url: string; path: string };
 
 export function validateImageFile(file: File): string | null {
   if (!ALLOWED.includes(file.type)) {
-    return `«${file.name}» — qo‘llab-quvvatlanmaydigan format. JPG, PNG, WebP yoki AVIF yuklang.`;
+    return `«${file.name}» — qoʻllab-quvvatlanmaydigan format. JPG, PNG, WebP yoki AVIF yuklang.`;
   }
   if (file.size > MAX_SIZE) {
     return `«${file.name}» juda katta (${(file.size / 1024 / 1024).toFixed(1)} MB). Chegara — 5 MB.`;
@@ -69,7 +69,7 @@ async function loadBitmap(file: File): Promise<ImageBitmap | HTMLImageElement> {
     return await new Promise<HTMLImageElement>((resolve, reject) => {
       const img = new Image();
       img.onload = () => resolve(img);
-      img.onerror = () => reject(new Error('Rasmni o‘qib bo‘lmadi'));
+      img.onerror = () => reject(new Error('Rasmni oʻqib boʻlmadi'));
       img.src = url;
     });
   } finally {

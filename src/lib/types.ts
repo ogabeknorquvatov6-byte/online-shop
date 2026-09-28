@@ -244,7 +244,7 @@ export function formatPrice(value: number | null | undefined): string {
   // Narxi kiritilmagan mahsulot uchun "0 so'm" deb yozish mijozni chalg'itadi
   // (bepul deb tushunilishi mumkin) — buning o'rniga aniq matn beramiz.
   if (value <= 0) return 'Narxi kelishiladi';
-  return NUMBER_FORMAT.format(Math.round(value)) + ' so‘m';
+  return NUMBER_FORMAT.format(Math.round(value)) + ' soʻm';
 }
 
 /**

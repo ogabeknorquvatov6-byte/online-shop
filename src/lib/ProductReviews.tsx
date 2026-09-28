@@ -229,7 +229,7 @@ export function ProductReviews({
 
     setSaving(false);
     if (error) {
-      notify('Sharhni saqlab bo‘lmadi. Qayta urinib ko‘ring.', 'error');
+      notify('Sharhni saqlab boʻlmadi. Qayta urinib koʻring.', 'error');
       return;
     }
     notify(mine ? 'Sharhingiz yangilandi' : 'Sharhingiz uchun rahmat!', 'success');
@@ -246,7 +246,7 @@ export function ProductReviews({
     setConfirmOpen(false);
 
     if (error) {
-      notify('Sharhni o‘chirib bo‘lmadi. Qayta urinib ko‘ring.', 'error');
+      notify('Sharhni oʻchirib boʻlmadi. Qayta urinib koʻring.', 'error');
       return;
     }
     /*
@@ -260,7 +260,7 @@ export function ProductReviews({
     setRating(0);
     setBody('');
     setTouched(false);
-    notify('Sharhingiz o‘chirildi', 'info');
+    notify('Sharhingiz oʻchirildi', 'info');
     await load();
   };
 
@@ -273,7 +273,7 @@ export function ProductReviews({
      */
     return (
       <ErrorState
-        message="Sharhlarni yuklab bo‘lmadi"
+        message="Sharhlarni yuklab boʻlmadi"
         onRetry={() => void load()}
         headingLevel="h3"
         showHomeLink={false}
@@ -302,8 +302,8 @@ export function ProductReviews({
     <div className="space-y-6">
       {reviews.length === 0 ? (
         <EmptyState
-          title="Hali sharhlar yo‘q"
-          message="Birinchi bo‘lib fikr bildiring!"
+          title="Hali sharhlar yoʻq"
+          message="Birinchi boʻlib fikr bildiring!"
           icon={<MessageSquare className="h-6 w-6" />}
           headingLevel="h3"
         />
@@ -344,7 +344,7 @@ export function ProductReviews({
               onClick={() => setExpanded(true)}
               className={cx(button('outline', 'md'), 'w-full sm:w-auto')}
             >
-              Yana {hidden} ta sharhni ko‘rsatish
+              Yana {hidden} ta sharhni koʻrsatish
             </button>
           )}
         </>
@@ -439,11 +439,11 @@ export function ProductReviews({
                   type="button"
                   onClick={() => setConfirmOpen(true)}
                   disabled={saving || deleting}
-                  aria-label="Sharhimni o‘chirish"
+                  aria-label="Sharhimni oʻchirish"
                   className={button('ghost', 'md', 'hover:bg-red-50 hover:text-red-600')}
                 >
                   <Trash2 className="h-4 w-4" />
-                  O‘chirish
+                  Oʻchirish
                 </AnimatedButton>
               )}
             </div>
@@ -459,9 +459,9 @@ export function ProductReviews({
       */}
       <AnimatePresence>
         {confirmOpen && (
-          <ResponsiveModal title="Sharhni o‘chirish" onClose={() => setConfirmOpen(false)}>
+          <ResponsiveModal title="Sharhni oʻchirish" onClose={() => setConfirmOpen(false)}>
             <p className="text-sm leading-relaxed text-ink-600">
-              Sharhingiz butunlay o‘chiriladi va uni tiklab bo‘lmaydi. Davom etasizmi?
+              Sharhingiz butunlay oʻchiriladi va uni tiklab boʻlmaydi. Davom etasizmi?
             </p>
             <div className="mt-5 flex gap-2">
               <button
@@ -469,7 +469,7 @@ export function ProductReviews({
                 disabled={deleting}
                 className={button('danger', 'md')}
               >
-                {deleting ? 'O‘chirilmoqda…' : 'O‘chirish'}
+                {deleting ? 'Oʻchirilmoqda…' : 'Oʻchirish'}
               </button>
               <button onClick={() => setConfirmOpen(false)} className={button('outline', 'md')}>
                 Bekor qilish

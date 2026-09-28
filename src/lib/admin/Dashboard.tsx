@@ -123,7 +123,7 @@ export function AdminDashboard() {
       </div>
 
       <AdminSection
-        title="So‘nggi buyurtmalar"
+        title="Soʻnggi buyurtmalar"
         actions={
           <Link to="/admin/orders" className={cx('flex items-center gap-1 rounded-sm text-sm font-medium text-orange-700 hover:text-orange-800', focusRing)}>
             Barchasi <ArrowRight className="h-4 w-4" />
@@ -131,7 +131,7 @@ export function AdminDashboard() {
         }
       >
         {recent.length === 0 ? (
-          <AdminEmpty title="Hali buyurtma yo‘q" message="Birinchi buyurtma kelganda u shu yerda ko‘rinadi." />
+          <AdminEmpty title="Hali buyurtma yoʻq" message="Birinchi buyurtma kelganda u shu yerda koʻrinadi." />
         ) : (
           <ul className={cx(card, 'divide-y divide-ink-100')}>
             {recent.map((o) => (

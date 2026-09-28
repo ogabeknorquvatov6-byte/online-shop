@@ -34,7 +34,7 @@ import { Img } from './Img';
 const VARIANT_LABELS: Record<string, string> = {
   color: 'Rang',
   storage: 'Xotira',
-  size: 'O‘lcham',
+  size: 'Oʻlcham',
   memory: 'Xotira',
 };
 
@@ -259,7 +259,7 @@ export function ProductPage({ slug }: { slug: string }) {
   if (loadError) {
     return (
       <div className={cx(shell, 'py-14')}>
-        <ErrorState message="Mahsulotni yuklab bo‘lmadi" onRetry={load} />
+        <ErrorState message="Mahsulotni yuklab boʻlmadi" onRetry={load} />
       </div>
     );
   }
@@ -276,7 +276,7 @@ export function ProductPage({ slug }: { slug: string }) {
         </div>
         <h1 className="mt-4 text-xl font-bold text-ink-900">Mahsulot topilmadi</h1>
         <p className="mx-auto mt-1.5 max-w-sm text-sm text-ink-500">
-          Bu mahsulot sotuvdan olingan yoki havola noto‘g‘ri bo‘lishi mumkin.
+          Bu mahsulot sotuvdan olingan yoki havola notoʻgʻri boʻlishi mumkin.
         </p>
         <div className="mt-6 flex flex-col justify-center gap-2 sm:flex-row">
           <Link to="/catalog" className={button('primary', 'md')}>
@@ -335,7 +335,7 @@ export function ProductPage({ slug }: { slug: string }) {
     if (!inStock || !ensureVariantChosen()) return;
     addItem(product, qty, variantLabel || undefined, pricingVariant?.id);
     setAdded(true);
-    notify(`${product.name} savatga qo‘shildi`, 'success');
+    notify(`${product.name} savatga qoʻshildi`, 'success');
     setTimeout(() => setAdded(false), 1600);
   };
 
@@ -364,7 +364,7 @@ export function ProductPage({ slug }: { slug: string }) {
       await navigator.clipboard?.writeText(url);
       notify('Havola nusxalandi', 'success');
     } catch {
-      notify('Havolani nusxalab bo‘lmadi', 'error');
+      notify('Havolani nusxalab boʻlmadi', 'error');
     }
   };
 
@@ -382,7 +382,7 @@ export function ProductPage({ slug }: { slug: string }) {
           <button
             onClick={() => toggle(product.id)}
             aria-pressed={fav}
-            aria-label={fav ? 'Sevimlilardan olib tashlash' : 'Sevimlilarga qo‘shish'}
+            aria-label={fav ? 'Sevimlilardan olib tashlash' : 'Sevimlilarga qoʻshish'}
             className={cx('flex h-10 w-10 items-center justify-center rounded-control text-ink-700', focusRing)}
           >
             <Heart className={cx('h-5 w-5', fav && 'fill-orange-600 text-orange-600')} />
@@ -390,7 +390,7 @@ export function ProductPage({ slug }: { slug: string }) {
         </div>
       </div>
 
-      <nav aria-label="Yo‘nalish" className="hidden flex-wrap items-center gap-1.5 text-sm text-ink-500 md:flex">
+      <nav aria-label="Yoʻnalish" className="hidden flex-wrap items-center gap-1.5 text-sm text-ink-500 md:flex">
         <Link to="/" className={cx('rounded-sm hover:text-orange-700', focusRing)}>Bosh sahifa</Link>
         <ChevronRight className="h-3.5 w-3.5 text-ink-300" />
         <Link to="/catalog" className={cx('rounded-sm hover:text-orange-700', focusRing)}>Katalog</Link>
@@ -483,7 +483,7 @@ export function ProductPage({ slug }: { slug: string }) {
               )}
             </div>
             {discount != null && oldPrice != null && (
-              <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-orange-600 px-2.5 py-1 text-xs font-semibold text-white">
+              <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-orange-700 px-2.5 py-1 text-xs font-semibold text-white">
                 −{discount}% · {formatPrice(oldPrice - price)} tejaysiz
               </p>
             )}
@@ -496,13 +496,13 @@ export function ProductPage({ slug }: { slug: string }) {
             )}
           >
             {!purchasable ? (
-              <>Narxi aniqlanmagan — operator bilan bog‘laning</>
+              <>Narxi aniqlanmagan — operator bilan bogʻlaning</>
             ) : stock === 'in' ? (
               <><Check className="h-4 w-4" /> Sotuvda bor</>
             ) : stock === 'low' ? (
               <>Shoshiling — atigi {availableStock} dona qoldi</>
             ) : (
-              <>Vaqtincha sotuvda yo‘q</>
+              <>Vaqtincha sotuvda yoʻq</>
             )}
           </p>
 
@@ -544,7 +544,7 @@ export function ProductPage({ slug }: { slug: string }) {
                 sink="flat"
                 onClick={() => setQty((q) => Math.min(maxQty, q + 1))}
                 disabled={qty >= maxQty || !inStock}
-                aria-label="Ko‘paytirish"
+                aria-label="Koʻpaytirish"
                 className={cx('flex h-12 w-12 items-center justify-center rounded-r-control text-ink-600 transition-colors hover:bg-ink-50 disabled:text-ink-300 disabled:hover:bg-transparent', focusRing)}
               >
                 <Plus className="h-4 w-4" />
@@ -561,13 +561,13 @@ export function ProductPage({ slug }: { slug: string }) {
                 added ? button('success', 'lg') : button('primary', 'lg')
               )}
             >
-              {added ? (<><CheckCircle2 className="h-4.5 w-4.5" /> Savatga qo‘shildi</>) : (<><ShoppingCart className="h-4.5 w-4.5" /> Savatga qo‘shish</>)}
+              {added ? (<><CheckCircle2 className="h-4.5 w-4.5" /> Savatga qoʻshildi</>) : (<><ShoppingCart className="h-4.5 w-4.5" /> Savatga qoʻshish</>)}
             </AnimatedButton>
 
             <button
               onClick={() => toggle(product.id)}
               aria-pressed={fav}
-              aria-label={fav ? 'Sevimlilardan olib tashlash' : 'Sevimlilarga qo‘shish'}
+              aria-label={fav ? 'Sevimlilardan olib tashlash' : 'Sevimlilarga qoʻshish'}
               className={cx(
                 'hidden h-12 w-12 items-center justify-center rounded-control border transition-colors md:flex',
                 focusRing,
@@ -589,9 +589,9 @@ export function ProductPage({ slug }: { slug: string }) {
               <div className="min-w-0 text-sm">
                 <p className="font-semibold text-ink-900">Yetkazib berish</p>
                 <p className="mt-0.5 text-ink-500">
-                  Toshkent bo‘ylab 1 kun ichida
+                  Toshkent boʻylab 1 kun ichida
                   {settings?.delivery_fee_tashkent ? ` — ${formatPrice(settings.delivery_fee_tashkent)}` : ''}
-                  . Respublika bo‘ylab 2–3 kun.
+                  . Respublika boʻylab 2–3 kun.
                 </p>
                 {delivery.freeThreshold > 0 && (
                   <p className="mt-1 text-xs text-emerald-600">
@@ -611,7 +611,7 @@ export function ProductPage({ slug }: { slug: string }) {
               <RotateCcw className="mt-0.5 h-4.5 w-4.5 shrink-0 text-orange-600" />
               <div className="text-sm">
                 <p className="font-semibold text-ink-900">14 kun ichida qaytarish</p>
-                <p className="mt-0.5 text-ink-500">Mahsulot sizga to‘g‘ri kelmasa — qaytarasiz</p>
+                <p className="mt-0.5 text-ink-500">Mahsulot sizga toʻgʻri kelmasa — qaytarasiz</p>
               </div>
             </div>
           </div>
@@ -620,14 +620,14 @@ export function ProductPage({ slug }: { slug: string }) {
             onClick={handleShare}
             className={cx('mt-4 hidden items-center gap-2 rounded-sm text-sm font-medium text-ink-500 hover:text-orange-700 md:inline-flex', focusRing)}
           >
-            <Share2 className="h-4 w-4" /> Do‘stlarga ulashish
+            <Share2 className="h-4 w-4" /> Doʻstlarga ulashish
           </button>
         </div>
       </div>
 
       {/* ── Tavsif / Xususiyatlar ────────────────────────────── */}
       <section className="mt-8 lg:mt-12">
-        <div className="flex gap-1 border-b border-ink-200" role="tablist" aria-label="Mahsulot ma’lumotlari">
+        <div className="flex gap-1 border-b border-ink-200" role="tablist" aria-label="Mahsulot maʼlumotlari">
           {([
             ['desc', 'Tavsif'],
             ['specs', 'Xususiyatlar'],
@@ -669,7 +669,7 @@ export function ProductPage({ slug }: { slug: string }) {
             (product.description?.trim() ? (
               <p className="whitespace-pre-line">{product.description}</p>
             ) : (
-              <p className="text-ink-400">Bu mahsulot uchun batafsil tavsif hali qo‘shilmagan.</p>
+              <p className="text-ink-400">Bu mahsulot uchun batafsil tavsif hali qoʻshilmagan.</p>
             ))}
 
           {tab === 'specs' && (
@@ -677,7 +677,7 @@ export function ProductPage({ slug }: { slug: string }) {
               <SpecRow label="Brend" value={product.brand} />
               <SpecRow label="Kategoriya" value={product.category?.name} />
               <SpecRow label="Artikul (SKU)" value={product.sku} />
-              <SpecRow label="Omborda" value={product.stock > 0 ? `${product.stock} dona` : 'Yo‘q'} />
+              <SpecRow label="Omborda" value={product.stock > 0 ? `${product.stock} dona` : 'Yoʻq'} />
               {variantGroups.map((g) => (
                 <SpecRow key={g.type} label={g.label} value={g.values.map((v) => v.value).join(', ')} />
               ))}
@@ -702,16 +702,16 @@ export function ProductPage({ slug }: { slug: string }) {
             id="related-heading"
             eyebrow="Sizga yoqishi mumkin"
             eyebrowIcon={Sparkles}
-            title="O‘xshash mahsulotlar"
+            title="Oʻxshash mahsulotlar"
             actionHref={product.category ? `/category/${product.category.slug}` : '/catalog'}
-            actionLabel="Barchasini ko‘rish"
+            actionLabel="Barchasini koʻrish"
           />
           <div className="mt-5">
             <ProductCarousel
               products={related}
               seeAllHref={product.category ? `/category/${product.category.slug}` : '/catalog'}
-              seeAllLabel="Butun kategoriyani ko‘rish"
-              ariaLabel="O‘xshash mahsulotlar"
+              seeAllLabel="Butun kategoriyani koʻrish"
+              ariaLabel="Oʻxshash mahsulotlar"
             />
           </div>
         </section>
@@ -758,7 +758,7 @@ export function ProductPage({ slug }: { slug: string }) {
                 disabled={!inStock}
                 className={cx('shrink-0', added ? button('success', 'lg') : button('primary', 'lg'))}
               >
-                {added ? (<><CheckCircle2 className="h-4 w-4" /> Qo‘shildi</>) : (<><ShoppingCart className="h-4 w-4" /> Savatga</>)}
+                {added ? (<><CheckCircle2 className="h-4 w-4" /> Qoʻshildi</>) : (<><ShoppingCart className="h-4 w-4" /> Savatga</>)}
               </AnimatedButton>
             </div>
           </motion.div>

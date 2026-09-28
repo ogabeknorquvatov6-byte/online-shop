@@ -16,7 +16,7 @@ import { DesktopSearch, MobileSearchTrigger } from './SearchBox';
 import { CatalogMegaMenu } from './CatalogMegaMenu';
 import { LocationButton } from './LocationButton';
 import { SECTION, requestSection, scrollToSection, type SectionId } from './sections';
-import { cx, focusRing, shell } from './design';
+import { countBadge, cx, focusRing, shell } from './design';
 import { popVariants, DURATION, EASE } from './motion';
 
 /** Bosh sahifadagi bo'limlarga silliq scroll qiladigan menyu bandlari. */
@@ -122,7 +122,7 @@ export function Header({ onCartClick }: { onCartClick?: () => void }) {
         href="#main"
         className="sr-only z-[100] focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:rounded-control focus:bg-ink-900 focus:px-4 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-white"
       >
-        Asosiy mazmunga o‘tish
+        Asosiy mazmunga oʻtish
       </a>
 
       {/* Yupqa ishonch qatori — faqat desktop */}
@@ -130,7 +130,7 @@ export function Header({ onCartClick }: { onCartClick?: () => void }) {
         <div className={cx(shell, 'flex h-9 items-center justify-between text-xs text-ink-500')}>
           <div className="flex items-center gap-5">
             <span className="flex items-center gap-1.5">
-              <Truck className="h-3.5 w-3.5 text-orange-600" /> Toshkent bo‘ylab 1 kunda yetkazib beramiz
+              <Truck className="h-3.5 w-3.5 text-orange-600" /> Toshkent boʻylab 1 kunda yetkazib beramiz
             </span>
             <span className="hidden xl:inline">14 kun ichida qaytarish kafolati</span>
           </div>
@@ -239,10 +239,7 @@ export function Header({ onCartClick }: { onCartClick?: () => void }) {
               >
                 <Heart className={cx('h-5 w-5', favCount > 0 && 'fill-orange-600 text-orange-600')} />
                 {favCount > 0 && (
-                  <AnimatedBadge
-                    value={favCount}
-                    className="absolute right-1 top-1 h-4 min-w-4 items-center justify-center rounded-full bg-orange-600 px-1 text-[10px] font-bold text-white"
-                  />
+                  <AnimatedBadge value={favCount} className={cx(countBadge.overlay, 'right-0.5 top-0.5')} />
                 )}
               </Link>
               <Link
@@ -261,10 +258,7 @@ export function Header({ onCartClick }: { onCartClick?: () => void }) {
               >
                 <ShoppingCart className="h-5 w-5" />
                 {count > 0 && (
-                  <AnimatedBadge
-                    value={count}
-                    className="absolute right-1 top-1 h-4 min-w-4 items-center justify-center rounded-full bg-orange-600 px-1 text-[10px] font-bold text-white"
-                  />
+                  <AnimatedBadge value={count} className={cx(countBadge.overlay, 'right-0.5 top-0.5')} />
                 )}
               </AnimatedIconButton>
             </nav>
@@ -305,7 +299,7 @@ export function Header({ onCartClick }: { onCartClick?: () => void }) {
                 className={cx(
                   'flex h-9 items-center gap-2 rounded-control px-4 text-sm font-semibold transition-colors',
                   focusRing,
-                  onCatalog || catalogOpen ? 'bg-orange-50 text-orange-700' : 'bg-orange-600 text-white hover:bg-orange-700'
+                  onCatalog || catalogOpen ? 'bg-orange-50 text-orange-700' : 'bg-orange-700 text-white hover:bg-orange-800'
                 )}
               >
                 <LayoutGrid className="h-4 w-4" />
@@ -406,7 +400,7 @@ export function Header({ onCartClick }: { onCartClick?: () => void }) {
                   <span className="block truncate text-sm font-semibold text-ink-900">
                     {user
                       ? [profile?.first_name, profile?.last_name].filter(Boolean).join(' ') || 'Mening profilim'
-                      : 'Kirish yoki ro‘yxatdan o‘tish'}
+                      : 'Kirish yoki roʻyxatdan oʻtish'}
                   </span>
                   <span className="block truncate text-xs text-ink-500">
                     {user ? profile?.phone || user.email : 'Buyurtmalarni kuzatib boring'}
@@ -508,9 +502,7 @@ function MenuLink({
       <Icon className="h-4.5 w-4.5 shrink-0 text-ink-400" />
       <span className="flex-1">{label}</span>
       {badge ? (
-        <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-orange-600 px-1.5 text-[11px] font-bold text-white">
-          {badge > 99 ? '99+' : badge}
-        </span>
+        <span className={countBadge.inline}>{badge > 99 ? '99+' : badge}</span>
       ) : (
         <ChevronRight className="h-4 w-4 text-ink-300" />
       )}

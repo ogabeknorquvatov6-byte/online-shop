@@ -34,13 +34,13 @@ function deleteWarning(target: Category, ordered: CategoryNode[]): string {
   // Faqat BEVOSITA bolalar: chuqurroqdagilar o'z otasi bilan birga
   // ko'chadi, ya'ni ularning bog'lanishi buzilmaydi.
   const kids = node?.children.length ?? 0;
-  const base = `«${target.name}» o‘chiriladi. Undagi mahsulotlar o‘chmaydi, lekin kategoriyasiz qoladi.`;
+  const base = `«${target.name}» oʻchiriladi. Undagi mahsulotlar oʻchmaydi, lekin kategoriyasiz qoladi.`;
   if (kids === 0) return base;
   return (
-    `${base}\n\nDIQQAT: ichidagi ${kids} ta bo‘lim ham o‘chmaydi — ular ` +
+    `${base}\n\nDIQQAT: ichidagi ${kids} ta boʻlim ham oʻchmaydi — ular ` +
     `yuqori darajaga chiqib ketadi va katalog menyusida alohida ` +
-    `kategoriya bo‘lib ko‘rinadi. Buni orqaga qaytarish uchun har birini ` +
-    `qo‘lda qayta biriktirish kerak bo‘ladi.`
+    `kategoriya boʻlib koʻrinadi. Buni orqaga qaytarish uchun har birini ` +
+    `qoʻlda qayta biriktirish kerak boʻladi.`
   );
 }
 
@@ -114,17 +114,17 @@ export function AdminCategories() {
     setBusy(false);
     setConfirmDelete(null);
     if (err) {
-      notify(`O‘chirib bo‘lmadi: ${err.message}`, 'error');
+      notify(`Oʻchirib boʻlmadi: ${err.message}`, 'error');
       return;
     }
-    notify('Kategoriya o‘chirildi', 'success');
+    notify('Kategoriya oʻchirildi', 'success');
     afterMutation();
   };
 
   const toggleActive = async (c: Category) => {
     const { error: err } = await supabase.from('categories').update({ is_active: !c.is_active }).eq('id', c.id);
     if (err) {
-      notify('Holatni o‘zgartirib bo‘lmadi', 'error');
+      notify('Holatni oʻzgartirib boʻlmadi', 'error');
       return;
     }
     afterMutation();
@@ -133,10 +133,10 @@ export function AdminCategories() {
   return (
     <AdminSection
       title="Kategoriyalar"
-      description="Katalog tuzilmasi. Tartib raqami kichik bo‘lganlari oldinroq ko‘rinadi."
+      description="Katalog tuzilmasi. Tartib raqami kichik boʻlganlari oldinroq koʻrinadi."
       actions={
         <button onClick={() => openCreate(null)} className={button('primary', 'md')}>
-          <Plus className="h-4 w-4" /> Kategoriya qo‘shish
+          <Plus className="h-4 w-4" /> Kategoriya qoʻshish
         </button>
       }
     >
@@ -146,11 +146,11 @@ export function AdminCategories() {
         <AdminError onRetry={load} />
       ) : categories.length === 0 ? (
         <AdminEmpty
-          title="Kategoriya yo‘q"
+          title="Kategoriya yoʻq"
           message="Mahsulotlarni guruhlash uchun kamida bitta kategoriya yarating."
           action={
             <button onClick={() => openCreate(null)} className={button('primary', 'md')}>
-              <Plus className="h-4 w-4" /> Kategoriya qo‘shish
+              <Plus className="h-4 w-4" /> Kategoriya qoʻshish
             </button>
           }
         />
@@ -186,7 +186,7 @@ export function AdminCategories() {
                 </p>
                 <p className="truncate text-xs text-ink-400">
                   /{c.slug}
-                  {c.children.length > 0 && ` · ${c.children.length} ta ichki bo‘lim`}
+                  {c.children.length > 0 && ` · ${c.children.length} ta ichki boʻlim`}
                 </p>
               </div>
               <button
@@ -207,8 +207,8 @@ export function AdminCategories() {
               */}
               <button
                 onClick={() => openCreate(c)}
-                aria-label={`${c.name} ichiga bo‘lim qo‘shish`}
-                title="Ichiga bo‘lim qo‘shish"
+                aria-label={`${c.name} ichiga boʻlim qoʻshish`}
+                title="Ichiga boʻlim qoʻshish"
                 className={cx('flex h-10 w-10 shrink-0 items-center justify-center rounded-control text-ink-500 hover:bg-orange-50 hover:text-orange-700', focusRing)}
               >
                 <FolderPlus className="h-4 w-4" />
@@ -222,7 +222,7 @@ export function AdminCategories() {
               </button>
               <button
                 onClick={() => setConfirmDelete(c)}
-                aria-label={`${c.name} — o‘chirish`}
+                aria-label={`${c.name} — oʻchirish`}
                 className={cx('flex h-10 w-10 shrink-0 items-center justify-center rounded-control text-ink-400 hover:bg-red-50 hover:text-red-600', focusRing)}
               >
                 <Trash2 className="h-4 w-4" />
@@ -244,7 +244,7 @@ export function AdminCategories() {
 
       {confirmDelete && (
         <ConfirmModal
-          title="Kategoriyani o‘chirish"
+          title="Kategoriyani oʻchirish"
           message={deleteWarning(confirmDelete, orderedTree)}
           busy={busy}
           onConfirm={() => handleDelete(confirmDelete)}
@@ -342,12 +342,12 @@ function CategoryForm({
       notify(
         error.message.includes('duplicate key')
           ? 'Bu slug band. Boshqa havola kiriting.'
-          : `Saqlab bo‘lmadi: ${error.message}`,
+          : `Saqlab boʻlmadi: ${error.message}`,
         'error'
       );
       return;
     }
-    notify(category ? 'Kategoriya yangilandi' : 'Kategoriya qo‘shildi', 'success');
+    notify(category ? 'Kategoriya yangilandi' : 'Kategoriya qoʻshildi', 'success');
     onSaved();
   };
 
@@ -357,7 +357,7 @@ function CategoryForm({
         category
           ? 'Kategoriyani tahrirlash'
           : parentFor
-            ? `«${parentFor.name}» ichida yangi bo‘lim`
+            ? `«${parentFor.name}» ichida yangi boʻlim`
             : 'Yangi kategoriya'
       }
       onClose={onClose}
@@ -372,8 +372,8 @@ function CategoryForm({
           <p className="flex items-center gap-2 rounded-control bg-orange-50 px-3 py-2 text-xs text-orange-800">
             <FolderPlus className="h-3.5 w-3.5 shrink-0" />
             <span>
-              Bu bo‘lim <strong className="font-semibold">{parentFor.name}</strong> ichiga
-              qo‘shiladi. Rasm, tavsif va tartibi alohida bo‘ladi.
+              Bu boʻlim <strong className="font-semibold">{parentFor.name}</strong> ichiga
+              qoʻshiladi. Rasm, tavsif va tartibi alohida boʻladi.
             </span>
           </p>
         )}
@@ -410,14 +410,14 @@ function CategoryForm({
             ))}
           </select>
           <span className="mt-1.5 block text-xs text-ink-400">
-            Bo‘sh qoldirilsa — asosiy menyuda yuqori daraja sifatida chiqadi.
+            Boʻsh qoldirilsa — asosiy menyuda yuqori daraja sifatida chiqadi.
           </span>
         </label>
 
         <ImageUrlField label="Rasm URL" value={form.image_url} onChange={(v) => setForm({ ...form, image_url: v })} />
         <FormField label="Tartib raqami" type="number" value={form.sort_order} error={errors.sort_order}
-          onChange={(v) => setForm({ ...form, sort_order: v })} hint="Kichik raqam oldinroq ko‘rinadi" />
-        <FormToggle checked={form.is_active} onChange={(v) => setForm({ ...form, is_active: v })} label="Saytda ko‘rsatilsin" />
+          onChange={(v) => setForm({ ...form, sort_order: v })} hint="Kichik raqam oldinroq koʻrinadi" />
+        <FormToggle checked={form.is_active} onChange={(v) => setForm({ ...form, is_active: v })} label="Saytda koʻrsatilsin" />
         <FormActions saving={saving} onCancel={onClose} />
       </form>
     </AdminModal>

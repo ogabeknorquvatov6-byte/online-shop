@@ -137,7 +137,7 @@ export function HomePage() {
 
   useSeo({
     description:
-      "OpenShop — telefonlar, noutbuklar, audio va maishiy texnika. Rasmiy kafolat, O‘zbekiston bo‘ylab tez yetkazib berish va qulay narxlar.",
+      "OpenShop — telefonlar, noutbuklar, audio va maishiy texnika. Rasmiy kafolat, Oʻzbekiston boʻylab tez yetkazib berish va qulay narxlar.",
     canonicalPath: '/',
   });
 
@@ -235,7 +235,7 @@ export function HomePage() {
   if (loadError) {
     return (
       <div className={cx(shell, 'py-10')}>
-        <ErrorState message="Bosh sahifani yuklab bo‘lmadi" onRetry={load} />
+        <ErrorState message="Bosh sahifani yuklab boʻlmadi" onRetry={load} />
       </div>
     );
   }
@@ -259,7 +259,7 @@ export function HomePage() {
         uchun: mazmun yordamchi texnologiyalar uchun bor, ko'z uchun yo'q.
       */}
       <h1 className="sr-only">
-        {storeName} — O‘zbekistondagi online-do‘kon: telefonlar, noutbuklar, audio va maishiy texnika
+        {storeName} — Oʻzbekistondagi online-doʻkon: telefonlar, noutbuklar, audio va maishiy texnika
       </h1>
 
       {/* ── Hero: FAQAT rasm ─────────────────────────────────────── */}
@@ -382,10 +382,10 @@ export function HomePage() {
           <section aria-labelledby="trending-heading">
             <SectionHeader
               id="trending-heading"
-              eyebrow="Ko‘p ko‘rilgan"
+              eyebrow="Koʻp koʻrilgan"
               eyebrowIcon={Flame}
               title="Hozir trendda"
-              subtitle="Xaridorlar hozir eng ko‘p ochayotgan mahsulotlar"
+              subtitle="Xaridorlar hozir eng koʻp ochayotgan mahsulotlar"
               actionHref="/catalog"
               actionLabel="Butun katalog"
             />
@@ -415,7 +415,7 @@ export function HomePage() {
                 <ProductCarousel
                   products={trending.slice(1)}
                   seeAllHref="/catalog"
-                  seeAllLabel="Butun katalogni ko‘rish"
+                  seeAllLabel="Butun katalogni koʻrish"
                   ariaLabel="Hozir trenddagi boshqa mahsulotlar"
                 />
               </div>
@@ -427,10 +427,10 @@ export function HomePage() {
       {/* ── Xit mahsulotlar ──────────────────────────────────────── */}
       <LoadMoreSection
         id={SECTION.bestsellers}
-        eyebrow="Eng ko‘p sotilgan"
+        eyebrow="Eng koʻp sotilgan"
         eyebrowIcon={TrendingUp}
         title="Xit mahsulotlar"
-        subtitle="Xaridorlar eng ko‘p tanlaydigan mahsulotlar"
+        subtitle="Xaridorlar eng koʻp tanlaydigan mahsulotlar"
         state={bestsellers}
         seeAllHref="/bestsellers"
         highlighted={highlighted === SECTION.bestsellers}
@@ -441,8 +441,8 @@ export function HomePage() {
         id={SECTION.fresh}
         eyebrow="Yangi kelganlar"
         eyebrowIcon={Sparkles}
-        title="Yangi qo‘shilganlar"
-        subtitle="Katalogga so‘nggi qo‘shilgan mahsulotlar"
+        title="Yangi qoʻshilganlar"
+        subtitle="Katalogga soʻnggi qoʻshilgan mahsulotlar"
         state={fresh}
         seeAllHref="/new"
         highlighted={highlighted === SECTION.fresh}
@@ -510,7 +510,7 @@ function FallbackHero({ storeName }: { storeName: string }) {
           {...line(0.12)}
           className="mt-3 max-w-sm text-sm leading-relaxed text-white/65 sm:max-w-md sm:text-base lg:max-w-xl lg:text-lg"
         >
-          Rasmiy kafolat, halol narx va O‘zbekiston bo‘ylab tez yetkazib berish.
+          Rasmiy kafolat, halol narx va Oʻzbekiston boʻylab tez yetkazib berish.
         </motion.p>
 
         <motion.div {...line(0.18)} className="mt-6 flex flex-wrap gap-3 sm:mt-8">
@@ -518,7 +518,7 @@ function FallbackHero({ storeName }: { storeName: string }) {
             to="/catalog"
             className={cx(button('primary', 'lg'), 'shadow-[0_8px_24px_-8px_rgba(234,97,0,0.9)]')}
           >
-            Katalogni ko‘rish <ArrowRight className="h-4 w-4" />
+            Katalogni koʻrish <ArrowRight className="h-4 w-4" />
           </Link>
           <Link
             to="/promotions"
@@ -607,13 +607,13 @@ function PromoSection({
         <ProductCarousel
           products={products}
           seeAllHref="/promotions"
-          seeAllLabel="Barcha aksiyalarni ko‘rish"
+          seeAllLabel="Barcha aksiyalarni koʻrish"
           ariaLabel="Aksiyadagi mahsulotlar"
         />
       </div>
 
       <Link to="/promotions" className={cx(button('primary', 'md'), 'mt-4 w-full sm:hidden')}>
-        Barchasini ko‘rish <ArrowRight className="h-4 w-4" />
+        Barchasini koʻrish <ArrowRight className="h-4 w-4" />
       </Link>
     </section>
   );
@@ -654,7 +654,7 @@ function LoadMoreSection({
           title={title}
           subtitle={subtitle}
           actionHref={seeAllHref}
-          actionLabel="Barchasini ko‘rish"
+          actionLabel="Barchasini koʻrish"
         />
 
         <div className="mt-5">
@@ -688,7 +688,7 @@ function LoadMoreSection({
                         <Loader2 className="h-4 w-4 animate-spin" /> Yuklanmoqda…
                       </>
                     ) : (
-                      'Yana ko‘rish'
+                      'Yana koʻrish'
                     )}
                   </button>
                 </div>

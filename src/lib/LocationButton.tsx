@@ -35,7 +35,7 @@ const CITIES = [
   'Samarqand',
   'Buxoro',
   'Andijon',
-  'Farg‘ona',
+  'Fargʻona',
   'Namangan',
   'Qarshi',
   'Nukus',
@@ -90,7 +90,7 @@ export function LocationButton() {
         onClick={() => setOpen(true)}
         aria-haspopup="dialog"
         aria-expanded={open}
-        aria-label={city ? `Yetkazib berish manzili: ${city}. O‘zgartirish` : 'Yetkazib berish manzilini tanlash'}
+        aria-label={city ? `Yetkazib berish manzili: ${city}. Oʻzgartirish` : 'Yetkazib berish manzilini tanlash'}
         className={cx(
           /*
            * `min-w-11` SHART, `h-11` yetarli emas.

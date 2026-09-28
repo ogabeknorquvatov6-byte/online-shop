@@ -57,6 +57,58 @@ export function escapeLike(value: string): string {
   return value.replace(/[\\%_]/g, (ch) => `\\${ch}`);
 }
 
+/*
+ * ── APOSTROF: BITTA TOVUSH, YETTI XIL BELGI ─────────────────────────
+ *
+ * O'zbek matnida `oʻ` va `gʻ` uchun to'g'ri belgi — ʻ (U+02BB), tutuq
+ * belgisi uchun ʼ (U+02BC). Lekin KLAVIATURADA ularning ikkalasi ham
+ * yo'q: mijoz `'` (U+0027) yozadi, Word `’` (U+2019) ga aylantiradi,
+ * eski ma'lumotlarda `‘` (U+2018) uchraydi, ba'zan ` yoki ´ ham.
+ *
+ * Natijada qidiruv jimgina ishlamaydi: bazadagi nom "Qoʻshimcha
+ * batareya", mijoz "qo'shimcha" deb yozadi va `ilike` MOS KELMAYDI —
+ * do'kon mahsuloti bor, lekin uni topib bo'lmaydi. Bu eng yomon
+ * turdagi xato: hech qanday xato xabari yo'q, shunchaki "topilmadi".
+ */
+const APOSTROPHE_CLASS = /['‘’ʻʼ`´′]/g;
+
+/** Kanonik belgi — JS tomonidagi solishtirishlar uchun. */
+const CANONICAL = 'ʼ';
+
+/**
+ * Barcha apostrof variantlarini bittaga keltiradi.
+ *
+ * UZUNLIK O'ZGARMAYDI — har bir belgi bitta belgiga almashadi. Bu
+ * `splitHighlight` uchun SHART: u normallashtirilgan matnda indeks
+ * topib, ASL matndan bo'lak qirqadi. Uzunlik farq qilsa ajratib
+ * ko'rsatish bir-ikki harfga surilib ketardi.
+ */
+export function normalizeApostrophes(value: string): string {
+  return value.replace(APOSTROPHE_CLASS, CANONICAL);
+}
+
+/**
+ * `ilike` uchun naqsh: `%…%`, apostroflar `_` bilan almashtirilgan.
+ *
+ * NEGA `_`, normalizatsiya emas? Chunki solishtirish JS'da emas,
+ * POSTGRES'da bajariladi va bazadagi ustun qiymatini mijoz tomonidan
+ * normallashtirib bo'lmaydi. `_` esa LIKE'ning "aynan bitta istalgan
+ * belgi" jokeri — `qo_shimcha` naqshi `qoʻshimcha`, `qo'shimcha` va
+ * `qo’shimcha` ning uchalasiga ham mos keladi.
+ *
+ * Tartib MUHIM: avval `escapeLike` (u `_` ni `\_` ga qochiradi va shu
+ * bilan mijoz yozgan haqiqiy `_` joker bo'lib ketmaydi), keyin
+ * apostroflarni `_` ga aylantiramiz — ular qochirilmaydi, ya'ni joker
+ * bo'lib qoladi. Teskari tartibda o'z jokerimizni o'zimiz o'chirардик.
+ *
+ * Yon ta'siri: `qo_shimcha` nazariy jihatdan `qoxshimcha` ga ham mos
+ * keladi. Bu qabul qilinadi — bu qidiruv taklifi, xavfsizlik chegarasi
+ * emas, va bunday so'z amalda uchramaydi.
+ */
+export function likePattern(value: string): string {
+  return `%${escapeLike(value).replace(APOSTROPHE_CLASS, '_')}%`;
+}
+
 /**
  * `.or('name.ilike.%q%,sku.ilike.%q%')` ichida ishlatish uchun xavfsiz matn.
  *
@@ -123,7 +175,7 @@ export function useLiveSearch(rawQuery: string, debounceMs = 260) {
 
     const thisRequestId = ++requestIdRef.current;
     const timer = setTimeout(async () => {
-      const like = `%${escapeLike(query)}%`;
+      const like = likePattern(query);
       try {
         const [{ data: cats }, { data: brandRows }, { data: prods }] = await Promise.all([
           supabase
@@ -207,10 +259,21 @@ export function useLiveSearch(rawQuery: string, debounceMs = 260) {
 
 /** Qidirilgan so'zga mos qismni ajratib ko'rsatish uchun matnni bo'laklarga bo'ladi. */
 export function splitHighlight(text: string, query: string): { text: string; match: boolean }[] {
-  if (!query.trim()) return [{ text, match: false }];
-  const idx = text.toLowerCase().indexOf(query.trim().toLowerCase());
+  const needle = query.trim();
+  if (!needle) return [{ text, match: false }];
+  /*
+   * Solishtirish NORMALLASHTIRILGAN matnda, bo'laklar esa ASL matndan
+   * qirqiladi. Aks holda mijoz "qo'shimcha" deb yozganda bazadagi
+   * "qoʻshimcha" topilardi (naqsh `_` bilan), lekin ajratib ko'rsatish
+   * ishlamasdi — natija ro'yxatida qalin qism umuman chiqmasdi.
+   *
+   * `normalizeApostrophes` uzunlikni saqlaydi, shuning uchun bu yerda
+   * topilgan indeks asl matnda ham to'g'ri joyni ko'rsatadi.
+   */
+  const haystack = normalizeApostrophes(text).toLowerCase();
+  const idx = haystack.indexOf(normalizeApostrophes(needle).toLowerCase());
   if (idx === -1) return [{ text, match: false }];
-  const end = idx + query.trim().length;
+  const end = idx + needle.length;
   const parts: { text: string; match: boolean }[] = [];
   if (idx > 0) parts.push({ text: text.slice(0, idx), match: false });
   parts.push({ text: text.slice(idx, end), match: true });

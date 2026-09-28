@@ -103,8 +103,8 @@ export function OrdersTab({
     if (error) {
       notify(
         error.message?.includes('ORDER_NOT_CANCELLABLE')
-          ? 'Bu buyurtma allaqachon ishga olingan — bekor qilish uchun operator bilan bog‘laning.'
-          : 'Buyurtmani bekor qilib bo‘lmadi.',
+          ? 'Bu buyurtma allaqachon ishga olingan — bekor qilish uchun operator bilan bogʻlaning.'
+          : 'Buyurtmani bekor qilib boʻlmadi.',
         'error'
       );
       return;
@@ -167,8 +167,8 @@ export function OrdersTab({
   if (orders.length === 0) {
     return (
       <EmptyState
-        title="Buyurtmalar hali yo‘q"
-        message="Mahsulot tanlab, birinchi buyurtmangizni bering — u shu yerda ko‘rinadi."
+        title="Buyurtmalar hali yoʻq"
+        message="Mahsulot tanlab, birinchi buyurtmangizni bering — u shu yerda koʻrinadi."
         icon={<Package className="h-6 w-6" />}
         action={
           <Link to="/catalog" className={button('primary', 'md')}>
@@ -191,7 +191,7 @@ export function OrdersTab({
             className={cx(
               'h-11 shrink-0 whitespace-nowrap rounded-full px-4 text-sm font-medium transition-colors',
               focusRing,
-              filter === t.key ? 'bg-orange-600 text-white' : 'bg-ink-100 text-ink-600 hover:bg-ink-200'
+              filter === t.key ? 'bg-orange-700 text-white' : 'bg-ink-100 text-ink-600 hover:bg-ink-200'
             )}
           >
             {t.label}
@@ -201,7 +201,7 @@ export function OrdersTab({
 
       {filtered.length === 0 ? (
         <div className="mt-4">
-          <EmptyState title="Bu bo‘limda buyurtma yo‘q" icon={<Package className="h-6 w-6" />} />
+          <EmptyState title="Bu boʻlimda buyurtma yoʻq" icon={<Package className="h-6 w-6" />} />
         </div>
       ) : (
         <ul className="mt-4 space-y-3">
@@ -244,14 +244,14 @@ function CancelModal({
         <ResponsiveModal title="Buyurtmani bekor qilish" onClose={onClose}>
           <p className="text-sm text-ink-600">
             № {order.order_number} buyurtmani bekor qilmoqchimisiz? Bu amalni orqaga qaytarib
-            bo‘lmaydi.
+            boʻlmaydi.
           </p>
           <div className="mt-5 flex gap-2">
             <button onClick={() => onConfirm(order)} disabled={busy} className={button('danger', 'md')}>
               {busy ? 'Bekor qilinmoqda…' : 'Ha, bekor qilinsin'}
             </button>
             <button onClick={onClose} className={button('outline', 'md')}>
-              Yo‘q
+              Yoʻq
             </button>
           </div>
         </ResponsiveModal>

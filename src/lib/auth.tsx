@@ -22,12 +22,12 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 // Supabase'ning inglizcha xato xabarlarini o'zbekchaga o'giramiz.
 const AUTH_ERRORS: Record<string, string> = {
-  'Invalid login credentials': 'Login yoki parol noto‘g‘ri.',
+  'Invalid login credentials': 'Login yoki parol notoʻgʻri.',
   'Email not confirmed': 'Hisob hali tasdiqlanmagan.',
-  'Password should be at least 6 characters': 'Parol kamida 6 ta belgidan iborat bo‘lsin.',
+  'Password should be at least 6 characters': 'Parol kamida 6 ta belgidan iborat boʻlsin.',
   'For security purposes, you can only request this after 60 seconds':
-    'Xavfsizlik uchun 60 soniyadan keyin qayta urinib ko‘ring.',
-  'Too many requests': 'Juda ko‘p urinish. Birozdan so‘ng qayta urinib ko‘ring.',
+    'Xavfsizlik uchun 60 soniyadan keyin qayta urinib koʻring.',
+  'Too many requests': 'Juda koʻp urinish. Birozdan soʻng qayta urinib koʻring.',
 };
 
 function mapError(message: string): string {
@@ -38,7 +38,7 @@ function mapError(message: string): string {
   return message;
 }
 
-const BLOCKED_MESSAGE = 'Hisobingiz bloklangan. Administrator bilan bog‘laning.';
+const BLOCKED_MESSAGE = 'Hisobingiz bloklangan. Administrator bilan bogʻlaning.';
 
 // `profiles` jadvali: id, display_name, phone, role, is_active
 // + moslashuv migratsiyasidan: first_name, last_name, avatar_url
@@ -117,7 +117,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (!insertError || insertError.code === '23505') {
         ({ data } = await supabase.from('profiles').select(PROFILE_SELECT).eq('id', uid).maybeSingle());
       } else {
-        console.error('Profilni yaratib bo‘lmadi', insertError);
+        console.error('Profilni yaratib boʻlmadi', insertError);
       }
     }
 

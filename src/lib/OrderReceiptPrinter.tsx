@@ -627,7 +627,7 @@ function PrinterStage({
             )}
           >
             {/* Ostona oshgach matn o'zgaradi — qo'l qachon bo'shatishni biladi. */}
-            {ready ? 'Qo‘yib yuboring — uziladi' : 'Chekni pastga torting'}
+            {ready ? 'Qoʻyib yuboring — uziladi' : 'Chekni pastga torting'}
           </motion.p>
         )}
       </div>
@@ -911,7 +911,7 @@ function DetachedReceipt({
 
       <button type="button" onClick={flip} className={cx(PILL, focusRing, 'mt-5')}>
         <RotateCcw className="h-3.5 w-3.5" />
-        {flipped ? 'Old tomonini ko‘rish' : 'Orqa tomonini ko‘rish'}
+        {flipped ? 'Old tomonini koʻrish' : 'Orqa tomonini koʻrish'}
       </button>
     </div>
   );
@@ -937,7 +937,7 @@ function ReceiptBack({ data }: { data: ReceiptData }) {
       <p className="font-mono text-[11px] font-bold tracking-[0.3em] text-ink-600">OPENSHOP</p>
       <p className="font-mono text-[9px] tracking-[0.35em] text-ink-300">* * * * * * *</p>
       <p className="max-w-[13rem] text-[11px] leading-relaxed text-ink-500">
-        Xaridingiz uchun rahmat. Buyurtma holatini «Buyurtmalarim» bo‘limida kuzatib borishingiz
+        Xaridingiz uchun rahmat. Buyurtma holatini «Buyurtmalarim» boʻlimida kuzatib borishingiz
         mumkin.
       </p>
       <p className="font-mono text-[10px] tabular-nums text-ink-400">#{data.number}</p>

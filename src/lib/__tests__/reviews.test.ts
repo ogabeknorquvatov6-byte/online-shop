@@ -28,7 +28,7 @@ function makeReview(rating: number, overrides: Partial<ProductReview> = {}): Pro
 }
 
 describe('socialProof', () => {
-  it('10 tadan kam sotuvda HECH NARSA ko‘rsatmaydi', () => {
+  it('10 tadan kam sotuvda HECH NARSA koʻrsatmaydi', () => {
     // "3 marta sotib olingan" ijtimoiy isbot bermaydi — u aksincha,
     // mahsulot sotilmayotganini e'lon qiladi.
     expect(socialProof(0)).toBeNull();
@@ -36,11 +36,11 @@ describe('socialProof', () => {
     expect(socialProof(9)).toBeNull();
   });
 
-  it('aynan 10 tadan boshlab ko‘rsatiladi', () => {
+  it('aynan 10 tadan boshlab koʻrsatiladi', () => {
     expect(socialProof(10)).toBe('10 marta sotib olingan');
   });
 
-  it('katta sonda ming ajratuvchi qo‘yiladi', () => {
+  it('katta sonda ming ajratuvchi qoʻyiladi', () => {
     // Ajratuvchi belgisi muhitga bog'liq (NBSP), shuning uchun uni
     // qat'iy yozmasdan `formatCount` bilan solishtiramiz.
     expect(socialProof(1234)).toBe(`${formatCount(1234)} marta sotib olingan`);
@@ -56,11 +56,11 @@ describe('socialProof', () => {
 });
 
 describe('summarizeReviews', () => {
-  it('sharh yo‘q bo‘lsa nol qaytaradi', () => {
+  it('sharh yoʻq boʻlsa nol qaytaradi', () => {
     expect(summarizeReviews([])).toEqual({ rating: 0, count: 0 });
   });
 
-  it('o‘rtachani BIR kasr xonagacha yaxlitlaydi', () => {
+  it('oʻrtachani BIR kasr xonagacha yaxlitlaydi', () => {
     /*
      * `products.rating` ustuni `numeric(2,1)` — bazadagi trigger ham
      * aynan shunday yaxlitlaydi. Agar bu yerda boshqacha yaxlitlansa,
@@ -75,12 +75,12 @@ describe('summarizeReviews', () => {
     expect(summarizeReviews([makeReview(2), makeReview(3), makeReview(3)])).toEqual({ rating: 2.7, count: 3 });
   });
 
-  it('bitta sharhda o‘sha bahoning o‘zi chiqadi', () => {
+  it('bitta sharhda oʻsha bahoning oʻzi chiqadi', () => {
     expect(summarizeReviews([makeReview(1)])).toEqual({ rating: 1, count: 1 });
     expect(summarizeReviews([makeReview(5)])).toEqual({ rating: 5, count: 1 });
   });
 
-  it('sanoq ko‘rinayotgan sharhlar soniga teng', () => {
+  it('sanoq koʻrinayotgan sharhlar soniga teng', () => {
     const list = [makeReview(5), makeReview(5), makeReview(5), makeReview(5)];
     expect(summarizeReviews(list).count).toBe(list.length);
   });

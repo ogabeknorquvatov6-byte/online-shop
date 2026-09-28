@@ -28,7 +28,7 @@ import { button, card, cx, focusRing, input, shell, skeleton } from './design';
 type Tab = 'profile' | 'orders' | 'favorites' | 'addresses' | 'settings';
 
 const MENU: { key: Tab; label: string; icon: typeof User }[] = [
-  { key: 'profile', label: 'Profil ma’lumotlari', icon: User },
+  { key: 'profile', label: 'Profil maʼlumotlari', icon: User },
   { key: 'orders', label: 'Buyurtmalarim', icon: Package },
   { key: 'favorites', label: 'Sevimlilar', icon: Heart },
   { key: 'addresses', label: 'Manzillarim', icon: MapPin },
@@ -164,7 +164,7 @@ export function AccountPage({ tab = 'profile', orderId }: { tab?: Tab; orderId?:
                 <p className="truncate text-xs text-ink-500">{profile?.phone || user.email}</p>
               </div>
             </div>
-            <nav className="flex flex-col p-2" aria-label="Kabinet bo‘limlari">
+            <nav className="flex flex-col p-2" aria-label="Kabinet boʻlimlari">
               {MENU.map((item) => (
                 <Link
                   key={item.key}
@@ -209,7 +209,7 @@ export function AccountPage({ tab = 'profile', orderId }: { tab?: Tab; orderId?:
               <p className="truncate text-sm text-white/70">{profile?.phone || user.email}</p>
             </div>
           </div>
-          <nav className={cx(card, 'mt-3 divide-y divide-ink-100 overflow-hidden')} aria-label="Kabinet bo‘limlari">
+          <nav className={cx(card, 'mt-3 divide-y divide-ink-100 overflow-hidden')} aria-label="Kabinet boʻlimlari">
             {MENU.map((item) => (
               <Link
                 key={item.key}
@@ -291,7 +291,7 @@ function ProfileTab({ profile, userId, onSave }: { profile: Profile | null; user
     e.preventDefault();
     const next: Record<string, string> = {};
     if (!form.first_name.trim()) next.first_name = 'Ismni kiriting';
-    if (form.phone.trim() && normalizePhone(form.phone).length < 9) next.phone = 'Telefon raqam noto‘g‘ri';
+    if (form.phone.trim() && normalizePhone(form.phone).length < 9) next.phone = 'Telefon raqam notoʻgʻri';
     setErrors(next);
     if (Object.keys(next).length) return;
 
@@ -305,9 +305,9 @@ function ProfileTab({ profile, userId, onSave }: { profile: Profile | null; user
       })
       .eq('id', userId);
     if (error) {
-      notify('Saqlab bo‘lmadi. Qaytadan urinib ko‘ring.', 'error');
+      notify('Saqlab boʻlmadi. Qaytadan urinib koʻring.', 'error');
     } else {
-      notify('Profil ma’lumotlari saqlandi', 'success');
+      notify('Profil maʼlumotlari saqlandi', 'success');
       await onSave();
     }
     setSaving(false);
@@ -315,8 +315,8 @@ function ProfileTab({ profile, userId, onSave }: { profile: Profile | null; user
 
   return (
     <section className={cx(card, 'p-5 sm:p-6')}>
-      <h2 className="text-base font-semibold text-ink-900">Profil ma’lumotlari</h2>
-      <p className="mt-1 text-sm text-ink-500">Bu ma’lumotlar buyurtma rasmiylashtirishda avtomatik to‘ldiriladi.</p>
+      <h2 className="text-base font-semibold text-ink-900">Profil maʼlumotlari</h2>
+      <p className="mt-1 text-sm text-ink-500">Bu maʼlumotlar buyurtma rasmiylashtirishda avtomatik toʻldiriladi.</p>
       <form onSubmit={handleSave} noValidate className="mt-5 space-y-4">
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Ism" required value={form.first_name} onChange={(v) => setForm({ ...form, first_name: v })} error={errors.first_name} autoComplete="given-name" />
@@ -337,10 +337,10 @@ function FavoritesTab({ favorites }: { favorites: Favorite[] }) {
   if (favorites.length === 0) {
     return (
       <EmptyState
-        title="Sevimlilar ro‘yxati bo‘sh"
+        title="Sevimlilar roʻyxati boʻsh"
         message="Yoqqan mahsulotlarni yurakcha tugmasi bilan saqlang."
         icon={<Star className="h-6 w-6" />}
-        action={<Link to="/catalog" className={button('primary', 'md')}>Katalogga o‘tish</Link>}
+        action={<Link to="/catalog" className={button('primary', 'md')}>Katalogga oʻtish</Link>}
       />
     );
   }
@@ -373,9 +373,9 @@ function AddressesTab({
     e.preventDefault();
     const next: Record<string, string> = {};
     if (!form.recipient_name.trim()) next.recipient_name = 'Qabul qiluvchi ismini kiriting';
-    if (form.phone.trim() && normalizePhone(form.phone).length < 9) next.phone = 'Telefon raqam noto‘g‘ri';
+    if (form.phone.trim() && normalizePhone(form.phone).length < 9) next.phone = 'Telefon raqam notoʻgʻri';
     if (!form.city.trim()) next.city = 'Shaharni kiriting';
-    if (!form.street.trim()) next.street = 'Ko‘cha va uy raqamini kiriting';
+    if (!form.street.trim()) next.street = 'Koʻcha va uy raqamini kiriting';
     setErrors(next);
     if (Object.keys(next).length) return;
 
@@ -400,10 +400,10 @@ function AddressesTab({
 
     if (error) {
       // Endi haqiqiy sabab ko'rsatiladi — "Xatolik" degan foydasiz xabar emas.
-      notify(`Manzilni saqlab bo‘lmadi: ${error.message}`, 'error');
+      notify(`Manzilni saqlab boʻlmadi: ${error.message}`, 'error');
       return;
     }
-    notify('Manzil qo‘shildi', 'success');
+    notify('Manzil qoʻshildi', 'success');
     setForm(EMPTY_ADDRESS);
     setShowForm(false);
     onChange();
@@ -413,10 +413,10 @@ function AddressesTab({
     const { error } = await supabase.from('addresses').delete().eq('id', address.id);
     setConfirmDelete(null);
     if (error) {
-      notify('Manzilni o‘chirib bo‘lmadi', 'error');
+      notify('Manzilni oʻchirib boʻlmadi', 'error');
       return;
     }
-    notify('Manzil o‘chirildi', 'success');
+    notify('Manzil oʻchirildi', 'success');
     onChange();
   };
 
@@ -426,7 +426,7 @@ function AddressesTab({
       .update({ is_default: true })
       .eq('id', address.id);
     if (error) {
-      notify('Asosiy manzilni o‘zgartirib bo‘lmadi', 'error');
+      notify('Asosiy manzilni oʻzgartirib boʻlmadi', 'error');
       return;
     }
     // Bitta foydalanuvchida faqat bitta asosiy manzil bo'lsin.
@@ -442,7 +442,7 @@ function AddressesTab({
           <p className="mt-0.5 text-sm text-ink-500">Tez-tez ishlatiladigan yetkazib berish manzillari</p>
         </div>
         <button onClick={() => setShowForm((s) => !s)} className={button(showForm ? 'outline' : 'primary', 'md')}>
-          {showForm ? 'Bekor qilish' : (<><Plus className="h-4 w-4" /> Manzil qo‘shish</>)}
+          {showForm ? 'Bekor qilish' : (<><Plus className="h-4 w-4" /> Manzil qoʻshish</>)}
         </button>
       </div>
 
@@ -454,7 +454,7 @@ function AddressesTab({
             <Field label="Telefon" type="tel" inputMode="tel" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} error={errors.phone} placeholder="+998 90 123 45 67" autoComplete="tel" />
             <Field label="Shahar / viloyat" required value={form.city} onChange={(v) => setForm({ ...form, city: v })} error={errors.city} autoComplete="address-level2" />
             <Field label="Tuman" value={form.district} onChange={(v) => setForm({ ...form, district: v })} />
-            <Field label="Ko‘cha, uy" required value={form.street} onChange={(v) => setForm({ ...form, street: v })} error={errors.street} autoComplete="street-address" />
+            <Field label="Koʻcha, uy" required value={form.street} onChange={(v) => setForm({ ...form, street: v })} error={errors.street} autoComplete="street-address" />
           </div>
           <button type="submit" disabled={saving} className={cx(button('secondary', 'md'), 'mt-4')}>
             {saving ? 'Saqlanmoqda…' : 'Manzilni saqlash'}
@@ -467,8 +467,8 @@ function AddressesTab({
           Array.from({ length: 2 }).map((_, i) => <div key={i} className={cx('h-24 rounded-card', skeleton)} />)
         ) : addresses.length === 0 ? (
           <EmptyState
-            title="Saqlangan manzil yo‘q"
-            message="Manzil qo‘shsangiz, buyurtma rasmiylashtirish tezroq bo‘ladi."
+            title="Saqlangan manzil yoʻq"
+            message="Manzil qoʻshsangiz, buyurtma rasmiylashtirish tezroq boʻladi."
             icon={<MapPin className="h-6 w-6" />}
           />
         ) : (
@@ -500,7 +500,7 @@ function AddressesTab({
               </div>
               <button
                 onClick={() => setConfirmDelete(a)}
-                aria-label={`${a.label || 'Manzil'} — o‘chirish`}
+                aria-label={`${a.label || 'Manzil'} — oʻchirish`}
                 className={cx('flex h-10 w-10 shrink-0 items-center justify-center rounded-control text-ink-400 hover:bg-red-50 hover:text-red-600', focusRing)}
               >
                 <Trash2 className="h-4 w-4" />
@@ -512,12 +512,12 @@ function AddressesTab({
 
       <AnimatePresence>
         {confirmDelete && (
-          <ResponsiveModal title="Manzilni o‘chirish" onClose={() => setConfirmDelete(null)}>
+          <ResponsiveModal title="Manzilni oʻchirish" onClose={() => setConfirmDelete(null)}>
             <p className="text-sm text-ink-600">
-              «{confirmDelete.label || 'Manzil'}» manzilini o‘chirmoqchimisiz?
+              «{confirmDelete.label || 'Manzil'}» manzilini oʻchirmoqchimisiz?
             </p>
             <div className="mt-5 flex gap-2">
-              <button onClick={() => handleDelete(confirmDelete)} className={button('danger', 'md')}>O‘chirish</button>
+              <button onClick={() => handleDelete(confirmDelete)} className={button('danger', 'md')}>Oʻchirish</button>
               <button onClick={() => setConfirmDelete(null)} className={button('outline', 'md')}>Bekor qilish</button>
             </div>
           </ResponsiveModal>
@@ -538,7 +538,7 @@ function SecurityTab() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const next: Record<string, string> = {};
-    if (password.length < 6) next.password = 'Parol kamida 6 ta belgidan iborat bo‘lsin';
+    if (password.length < 6) next.password = 'Parol kamida 6 ta belgidan iborat boʻlsin';
     if (password !== confirm) next.confirm = 'Parollar mos kelmadi';
     setErrors(next);
     if (Object.keys(next).length) return;
@@ -547,7 +547,7 @@ function SecurityTab() {
     const { error } = await supabase.auth.updateUser({ password });
     setSaving(false);
     if (error) {
-      notify(error.message || 'Parolni yangilab bo‘lmadi', 'error');
+      notify(error.message || 'Parolni yangilab boʻlmadi', 'error');
       return;
     }
     setPassword('');
@@ -562,7 +562,7 @@ function SecurityTab() {
      */
     <section className={cx(card, 'p-5 sm:p-6')}>
       <h2 className="flex items-center gap-2 text-base font-semibold text-ink-900">
-        <KeyRound className="h-4 w-4 text-orange-600" /> Parolni o‘zgartirish
+        <KeyRound className="h-4 w-4 text-orange-600" /> Parolni oʻzgartirish
       </h2>
       <p className="mt-1 text-sm text-ink-500">Yangi parolni kiriting va tasdiqlang.</p>
       <form onSubmit={submit} noValidate className="mt-5 max-w-md space-y-4">

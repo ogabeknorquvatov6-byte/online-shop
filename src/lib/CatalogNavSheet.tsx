@@ -311,7 +311,7 @@ export function CatalogNavSheet({ open, onClose }: { open: boolean; onClose: () 
 
                         {!brandsLoading && brands.length === 0 && (
                           <li className="px-4 py-10 text-center text-sm text-ink-500">
-                            Bu bo‘limda brend ko‘rsatilmagan mahsulotlar bor.
+                            Bu boʻlimda brend koʻrsatilmagan mahsulotlar bor.
                           </li>
                         )}
                       </>
@@ -343,7 +343,7 @@ export function CatalogNavSheet({ open, onClose }: { open: boolean; onClose: () 
                               onClick={() => enter(node)}
                               aria-label={
                                 node.children.length > 0
-                                  ? `${node.name} — ichki bo‘limlar`
+                                  ? `${node.name} — ichki boʻlimlar`
                                   : `${node.name} — brendlar`
                               }
                               className={cx('flex w-full min-h-[3rem] items-center gap-3 px-4 py-3 text-left active:bg-ink-50', focusRing)}
@@ -357,7 +357,7 @@ export function CatalogNavSheet({ open, onClose }: { open: boolean; onClose: () 
 
                         {list.length === 0 && !current && (
                           <li className="px-4 py-10 text-center text-sm text-ink-500">
-                            Kategoriyalar hali qo‘shilmagan.
+                            Kategoriyalar hali qoʻshilmagan.
                           </li>
                         )}
                       </>
@@ -377,7 +377,7 @@ export function CatalogNavSheet({ open, onClose }: { open: boolean; onClose: () 
                 onClick={close}
                 className={cx('flex min-h-[2.75rem] items-center justify-center gap-2 rounded-control bg-ink-900 px-4 text-sm font-semibold text-white', focusRing)}
               >
-                <LayoutGrid className="h-4 w-4" /> Butun katalogni ko‘rish
+                <LayoutGrid className="h-4 w-4" /> Butun katalogni koʻrish
               </Link>
             </div>
           </AnimatedDrawer>
@@ -428,7 +428,7 @@ function SearchResults({
           <SearchX className="h-6 w-6" />
         </span>
         <p className="mt-3 text-sm font-medium text-ink-900">Hech narsa topilmadi</p>
-        <p className="mt-1 text-sm text-ink-500">Boshqa nom bilan urinib ko‘ring.</p>
+        <p className="mt-1 text-sm text-ink-500">Boshqa nom bilan urinib koʻring.</p>
       </div>
     );
   }

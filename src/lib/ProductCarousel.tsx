@@ -30,7 +30,7 @@ export function ProductCarousel({
   products,
   loading,
   seeAllHref,
-  seeAllLabel = 'Barchasini ko‘rish',
+  seeAllLabel = 'Barchasini koʻrish',
   skeletonCount = 6,
   ariaLabel,
 }: {

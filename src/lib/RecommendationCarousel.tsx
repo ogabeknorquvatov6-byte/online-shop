@@ -56,7 +56,7 @@ function useRecommendedProducts(excludeIds: string[] = []) {
 
 export function RecommendationCarousel({
   title = 'Tavsiya etamiz',
-  subtitle = 'Xaridorlar eng ko‘p tanlaydigan mahsulotlar',
+  subtitle = 'Xaridorlar eng koʻp tanlaydigan mahsulotlar',
   excludeIds,
 }: {
   title?: string;

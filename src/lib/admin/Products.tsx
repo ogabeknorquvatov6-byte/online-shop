@@ -127,10 +127,10 @@ export function AdminProducts() {
     setConfirmDelete(null);
     if (err) {
       // Buyurtmalarda ishlatilgan mahsulotni o'chirishda FK cheklovi bo'lishi mumkin.
-      notify(`O‘chirib bo‘lmadi: ${err.message}`, 'error');
+      notify(`Oʻchirib boʻlmadi: ${err.message}`, 'error');
       return;
     }
-    notify('Mahsulot o‘chirildi', 'success');
+    notify('Mahsulot oʻchirildi', 'success');
     load();
   };
 
@@ -149,16 +149,16 @@ export function AdminProducts() {
           <AdminSelect
             value={statusFilter}
             onChange={setStatusFilter}
-            label="Holat bo‘yicha filtr"
+            label="Holat boʻyicha filtr"
             options={[
               { value: 'all', label: 'Barchasi' },
               { value: 'active', label: 'Faol' },
               { value: 'inactive', label: 'Nofaol' },
-              { value: 'out', label: 'Omborda yo‘q' },
+              { value: 'out', label: 'Omborda yoʻq' },
             ]}
           />
           <button onClick={() => { setEditing(null); setShowForm(true); }} className={button('primary', 'md')}>
-            <Plus className="h-4 w-4" /> Qo‘shish
+            <Plus className="h-4 w-4" /> Qoʻshish
           </button>
         </>
       }
@@ -169,12 +169,12 @@ export function AdminProducts() {
         <AdminError onRetry={load} />
       ) : filtered.length === 0 ? (
         <AdminEmpty
-          title={hasFilter ? 'Mos mahsulot topilmadi' : 'Hali mahsulot qo‘shilmagan'}
-          message={hasFilter ? 'Qidiruv yoki filtrni o‘zgartiring.' : 'Birinchi mahsulotni qo‘shing.'}
+          title={hasFilter ? 'Mos mahsulot topilmadi' : 'Hali mahsulot qoʻshilmagan'}
+          message={hasFilter ? 'Qidiruv yoki filtrni oʻzgartiring.' : 'Birinchi mahsulotni qoʻshing.'}
           action={
             !hasFilter ? (
               <button onClick={() => { setEditing(null); setShowForm(true); }} className={button('primary', 'md')}>
-                <Plus className="h-4 w-4" /> Mahsulot qo‘shish
+                <Plus className="h-4 w-4" /> Mahsulot qoʻshish
               </button>
             ) : undefined
           }
@@ -271,8 +271,8 @@ export function AdminProducts() {
 
       {confirmDelete && (
         <ConfirmModal
-          title="Mahsulotni o‘chirish"
-          message={`«${confirmDelete.name}» butunlay o‘chiriladi. Buyurtmalar tarixidagi yozuvlar saqlanib qoladi, lekin mahsulot katalogdan yo‘qoladi.`}
+          title="Mahsulotni oʻchirish"
+          message={`«${confirmDelete.name}» butunlay oʻchiriladi. Buyurtmalar tarixidagi yozuvlar saqlanib qoladi, lekin mahsulot katalogdan yoʻqoladi.`}
           busy={deleting}
           onConfirm={() => handleDelete(confirmDelete)}
           onCancel={() => setConfirmDelete(null)}
@@ -346,7 +346,7 @@ function RowActions({
       </button>
       <button
         onClick={onDelete}
-        aria-label={`${name} — o‘chirish`}
+        aria-label={`${name} — oʻchirish`}
         className={cx('flex h-10 w-10 items-center justify-center rounded-control text-ink-400 transition-colors hover:bg-red-50 hover:text-red-600', focusRing)}
       >
         <Trash2 className="h-4 w-4" />
@@ -401,13 +401,13 @@ function ProductForm({
     const next: Record<string, string> = {};
     if (!form.name.trim()) next.name = 'Nomini kiriting';
     const price = Number(form.price);
-    if (!form.price || !Number.isFinite(price) || price < 0) next.price = 'To‘g‘ri narx kiriting';
+    if (!form.price || !Number.isFinite(price) || price < 0) next.price = 'Toʻgʻri narx kiriting';
     const oldPrice = form.old_price ? Number(form.old_price) : null;
     if (oldPrice != null && (!Number.isFinite(oldPrice) || oldPrice <= price)) {
-      next.old_price = 'Eski narx joriy narxdan katta bo‘lishi kerak';
+      next.old_price = 'Eski narx joriy narxdan katta boʻlishi kerak';
     }
     const stock = Number(form.stock);
-    if (!Number.isInteger(stock) || stock < 0) next.stock = 'Ombor soni manfiy bo‘lmasin';
+    if (!Number.isInteger(stock) || stock < 0) next.stock = 'Ombor soni manfiy boʻlmasin';
     setErrors(next);
     if (Object.keys(next).length) return;
 
@@ -459,7 +459,7 @@ function ProductForm({
       notify(
         saveError?.includes('duplicate key')
           ? 'Bunday slug yoki SKU allaqachon mavjud. Boshqa qiymat kiriting.'
-          : `Saqlab bo‘lmadi: ${saveError ?? 'noma’lum xato'}`,
+          : `Saqlab boʻlmadi: ${saveError ?? 'nomaʼlum xato'}`,
         'error'
       );
       return;
@@ -467,7 +467,7 @@ function ProductForm({
 
     setSaving(false);
     setSavedId(productId);
-    notify(product ? 'Mahsulot yangilandi' : 'Mahsulot qo‘shildi — endi rasm va variant qo‘shishingiz mumkin', 'success');
+    notify(product ? 'Mahsulot yangilandi' : 'Mahsulot qoʻshildi — endi rasm va variant qoʻshishingiz mumkin', 'success');
     onSaved(productId);
     if (!product) setTab('media');
   };
@@ -482,7 +482,7 @@ function ProductForm({
     <AdminModal title={product ? 'Mahsulotni tahrirlash' : 'Yangi mahsulot'} onClose={onClose} wide>
       <div
         role="tablist"
-        aria-label="Mahsulot bo‘limlari"
+        aria-label="Mahsulot boʻlimlari"
         className="-mt-1 mb-4 flex gap-1 border-b border-ink-200"
       >
         {TABS.map((t) => {
@@ -513,15 +513,15 @@ function ProductForm({
           <FormField label="Nomi" required value={form.name} error={errors.name}
             onChange={(v) => setForm({ ...form, name: v, slug: product ? form.slug : slugify(v) })} />
           <FormField label="Havola (slug)" value={form.slug} onChange={(v) => setForm({ ...form, slug: v })}
-            hint="Mahsulot manzili: /product/<slug>. Bo‘sh qoldirsangiz nomdan hosil qilinadi." />
+            hint="Mahsulot manzili: /product/<slug>. Boʻsh qoldirsangiz nomdan hosil qilinadi." />
           <FormField label="Tavsif" value={form.description} onChange={(v) => setForm({ ...form, description: v })} textarea
             hint="Mahsulot sahifasida va qidiruv tavsifida ishlatiladi" />
 
           <div className="grid gap-4 sm:grid-cols-2">
-            <FormField label="Joriy narx (so‘m)" required type="number" min={0} value={form.price}
+            <FormField label="Joriy narx (soʻm)" required type="number" min={0} value={form.price}
               error={errors.price} onChange={(v) => setForm({ ...form, price: v })} />
-            <FormField label="Eski narx (so‘m)" type="number" min={0} value={form.old_price}
-              error={errors.old_price} hint="Chegirma ko‘rsatish uchun. Joriy narxdan katta bo‘lsin."
+            <FormField label="Eski narx (soʻm)" type="number" min={0} value={form.old_price}
+              error={errors.old_price} hint="Chegirma koʻrsatish uchun. Joriy narxdan katta boʻlsin."
               onChange={(v) => setForm({ ...form, old_price: v })} />
             {/*
               Erkin matn o'rniga boshqariladigan tanlov: mavjud brendlar
@@ -534,7 +534,7 @@ function ProductForm({
               brands={knownBrands}
             />
             <FormField label="SKU (artikul)" value={form.sku} onChange={(v) => setForm({ ...form, sku: v })}
-              hint="Bo‘sh qoldirilsa avtomatik yaratiladi" />
+              hint="Boʻsh qoldirilsa avtomatik yaratiladi" />
             <div className="sm:col-span-2">
               {/*
                 KETMA-KET TANLASH. Ilgari bu bitta uzun ochiluvchi
@@ -554,7 +554,7 @@ function ProductForm({
           </div>
 
           <FormToggle checked={form.active} onChange={(v) => setForm({ ...form, active: v })}
-            label="Saytda ko‘rsatilsin (faol)" />
+            label="Saytda koʻrsatilsin (faol)" />
 
           <FormActions saving={saving} onCancel={onClose} saveLabel={savedId ? 'Saqlash' : 'Saqlash va davom etish'} />
         </form>

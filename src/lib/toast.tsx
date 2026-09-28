@@ -57,7 +57,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 
   // Global offline/online holati — butun ilova uchun bitta listener.
   useEffect(() => {
-    const onOffline = () => notify('Internet ulanishi yo‘q', 'error');
+    const onOffline = () => notify('Internet ulanishi yoʻq', 'error');
     const onOnline = () => notify('Internet ulanishi tiklandi', 'success');
     window.addEventListener('offline', onOffline);
     window.addEventListener('online', onOnline);

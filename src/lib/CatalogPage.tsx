@@ -8,18 +8,18 @@ import { SlidersHorizontal, X, SearchX, ChevronRight, ChevronLeft, Check, Star }
 import { PRODUCT_SELECT, adaptProducts, fetchPromoDiscountMap } from './adapters';
 import { useCategories } from './catalogData';
 import { buildCategoryTree, expandWithDescendants, pathToNode } from './categoryTree';
-import { escapeLike } from './search';
+import { likePattern } from './search';
 import { useSeo, useBreadcrumbJsonLd } from './seo';
 import { AnimatedDrawer } from './AnimatedPrimitives';
 import { AnimatePresence, motion } from 'motion/react';
-import { button, checkboxBase, chip, cx, focusRing, selectBase, shell } from './design';
+import { button, checkboxBase, chip, countBadge, cx, focusRing, selectBase, shell } from './design';
 
 const PRICE_SLIDER_MAX = 50_000_000;
 const PRICE_STEP = 50_000;
 const PAGE_SIZE = 20;
 
 const SORT_OPTIONS = [
-  { value: 'popular', label: 'Ommabopligi bo‘yicha' },
+  { value: 'popular', label: 'Ommabopligi boʻyicha' },
   { value: 'price_asc', label: 'Avval arzonlari' },
   { value: 'price_desc', label: 'Avval qimmatlari' },
   { value: 'new', label: 'Avval yangilari' },
@@ -127,7 +127,7 @@ export function CatalogPage({ categoryId }: { categoryId?: string }) {
   );
 
   const activeCategory = categoryId ? categories.find((c) => c.id === categoryId) : null;
-  const pageTitle = activeCategory?.name || (searchQuery ? `«${searchQuery}» bo‘yicha natijalar` : 'Barcha mahsulotlar');
+  const pageTitle = activeCategory?.name || (searchQuery ? `«${searchQuery}» boʻyicha natijalar` : 'Barcha mahsulotlar');
 
   useSeo({
     title: pageTitle,
@@ -204,7 +204,9 @@ export function CatalogPage({ categoryId }: { categoryId?: string }) {
       try {
         let q = supabase.from('products').select(PRODUCT_SELECT, { count: 'exact' }).eq('is_active', true);
         // `%` va `_` — LIKE joker belgilari, foydalanuvchi matnidan ekranlanadi.
-        if (searchQuery) q = q.ilike('name', `%${escapeLike(searchQuery)}%`);
+        // `likePattern` — apostrof variantlari `_` jokeriga aylanadi,
+        // ya'ni "qo'shimcha" so'rovi "qoʻshimcha" nomini ham topadi.
+        if (searchQuery) q = q.ilike('name', likePattern(searchQuery));
         /*
          * Kategoriya filtri PASTKI DARAXT bo'yicha.
          *
@@ -377,7 +379,7 @@ export function CatalogPage({ categoryId }: { categoryId?: string }) {
           className="pointer-events-none absolute -top-16 right-0 h-48 w-48 rounded-full bg-orange-600/25 blur-3xl sm:h-64 sm:w-64"
         />
 
-        <nav aria-label="Yo‘nalish" className="relative flex flex-wrap items-center gap-1.5 text-sm text-white/50">
+        <nav aria-label="Yoʻnalish" className="relative flex flex-wrap items-center gap-1.5 text-sm text-white/50">
           <Link to="/" className={cx('rounded-sm transition-colors hover:text-orange-300', focusRing)}>
             Bosh sahifa
           </Link>
@@ -466,9 +468,7 @@ export function CatalogPage({ categoryId }: { categoryId?: string }) {
               <SlidersHorizontal className="h-4 w-4" />
               Filtr
               {activeFilterCount > 0 && (
-                <span className="ml-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-orange-600 px-1 text-[11px] font-bold text-white">
-                  {activeFilterCount}
-                </span>
+                <span className={cx(countBadge.inline, 'ml-0.5')}>{activeFilterCount}</span>
               )}
             </button>
 
@@ -544,15 +544,15 @@ export function CatalogPage({ categoryId }: { categoryId?: string }) {
                   title="Mahsulot topilmadi"
                   message={
                     searchQuery
-                      ? `«${searchQuery}» bo‘yicha hech narsa topilmadi. Boshqa so‘z bilan urinib ko‘ring.`
-                      : 'Tanlangan filtrlarga mos mahsulot yo‘q. Filtrlarni kengaytirib ko‘ring.'
+                      ? `«${searchQuery}» boʻyicha hech narsa topilmadi. Boshqa soʻz bilan urinib koʻring.`
+                      : 'Tanlangan filtrlarga mos mahsulot yoʻq. Filtrlarni kengaytirib koʻring.'
                   }
                   icon={<SearchX className="h-6 w-6" />}
                   action={
                     activeFilterCount > 0 ? (
                       <button onClick={resetFilters} className={button('outline', 'md')}>Filtrlarni tozalash</button>
                     ) : (
-                      <Link to="/catalog" className={button('primary', 'md')}>Butun katalogni ko‘rish</Link>
+                      <Link to="/catalog" className={button('primary', 'md')}>Butun katalogni koʻrish</Link>
                     )
                   }
                 />
@@ -637,7 +637,7 @@ export function CatalogPage({ categoryId }: { categoryId?: string }) {
                     Tozalash
                   </button>
                   <button onClick={() => setFiltersOpen(false)} className={cx(button('primary', 'lg'), 'flex-[1.4]')}>
-                    {loading ? 'Qo‘llash' : `${total} ta mahsulotni ko‘rish`}
+                    {loading ? 'Qoʻllash' : `${total} ta mahsulotni koʻrish`}
                   </button>
                 </div>
               </div>
@@ -729,7 +729,7 @@ function FilterPanel({
       )}
 
       <section>
-        <h3 className="mb-3 text-sm font-semibold text-ink-900">Narx oralig‘i</h3>
+        <h3 className="mb-3 text-sm font-semibold text-ink-900">Narx oraligʻi</h3>
         <PriceRangeSlider min={priceMin} max={priceMax} onChange={onPrice} />
       </section>
 
@@ -868,7 +868,9 @@ function Pagination({
             className={cx(
               'h-10 min-w-10 rounded-control px-3 text-sm font-medium transition-colors',
               focusRing,
-              page === p ? 'bg-orange-600 text-white' : 'border border-ink-200 text-ink-600 hover:border-ink-300 hover:bg-ink-50'
+              // Oq raqam ostida `orange-700` — sabab `design.ts`
+              // dagi `buttonVariant.primary` izohida.
+              page === p ? 'bg-orange-700 text-white' : 'border border-ink-200 text-ink-600 hover:border-ink-300 hover:bg-ink-50'
             )}
           >
             {p}

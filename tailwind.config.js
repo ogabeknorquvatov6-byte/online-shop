@@ -107,6 +107,20 @@ export default {
           700: '#403e39',
           800: '#292825',
           900: '#181716',
+          /*
+           * `950` — `ink-900` DAN QORAROQ YUZA, yangi rang emas.
+           *
+           * Faqat bitta joy uchun: "Hozir trendda" studiya tasmasi va
+           * aksiya "sahna" bloki. Ular sahifadagi boshqa to'q bloklar
+           * (hero, footer — `ink-900`) bilan YONMA-YON turadi va bir xil
+           * rangda bo'lsa ular bitta uzun qora maydonga qo'shilib
+           * ketardi. 10 birlik farq chegarani ko'rsatadi, lekin yangi
+           * ohang kiritmaydi.
+           *
+           * `gray-950` allaqachon shu qiymatda — bu ikkinchi haqiqat
+           * manbai emas, o'sha rampaning `ink` nomidagi ko'rinishi.
+           */
+          950: '#0e0e0d',
         },
       },
       borderRadius: {
@@ -115,6 +129,16 @@ export default {
         control: '0.5rem',
         card: '0.75rem',
         surface: '1rem',
+        /*
+         * `tile` — bo'sh/xato holat belgisining plitkasi (72px).
+         *
+         * Nega `card` (12) yoki `surface` (16) emas? Chunki bu plitka
+         * KVADRAT va ikkalasida ham burchak radiusi kvadratning
+         * o'lchamiga nisbatan juda kichik ko'rinadi — plitka "kesilgan
+         * qog'oz" bo'lib qoladi. 18px shu o'lchamdagi kvadratni
+         * yumshatadi, lekin doiraga ham aylantirmaydi.
+         */
+        tile: '1.125rem',
       },
       boxShadow: {
         // Exactly two elevations, plus a focus ring token.
@@ -150,15 +174,73 @@ export default {
          * bitta joyda turadi.
          */
         brand: '0 4px 14px -4px rgb(234 97 0 / 0.9)',
+        /*
+         * ── `press` — TUGMANING QALINLIGI ─────────────────────────
+         *
+         * Bu ELEVATSIYA EMAS va yuqoridagi "ikkita elevatsiya"
+         * qoidasini buzmaydi. `card`/`overlay` yumshoq, tarqoq
+         * soyalar: element sahifadan KO'TARILGAN. Bu esa qattiq,
+         * siljimagan chiziq — tugmaning o'z YON TOMONI, ya'ni u
+         * yassi emas, qalinligi bor degan ma'no.
+         *
+         * Shuning uchun `:active` da u qisqaradi (`0 2px`) va tugma
+         * `translateY(2px)` bilan pastga tushadi: jismoniy jism
+         * yuzaga botganda uning yon tomoni ko'zdan yashiringanidek.
+         * `PRESS.depth` (motion.ts) aynan shu 2px.
+         *
+         * Uchta qiymat — bitta tushuncha, uch xil yuzada:
+         *   press      to'ldirilgan CTA (48–52px), orange-800 yon tomon
+         *   press-sm   ixcham to'ldirilgan tugma (44px)
+         *   press-ink  oq/konturli tugma (kartochkadagi "Savatga"),
+         *              yon tomoni neytral — brend rangi bu yerda
+         *              yolg'on urg'u berardi
+         */
+        press: '0 4px 0 0 #9a3412',
+        'press-sm': '0 3px 0 0 #9a3412',
+        'press-ink': '0 2px 0 0 #e6e5e2',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+        /*
+         * Onest — FAQAT h1–h3, hero va aksiya sarlavhalari uchun.
+         *
+         * Ikkinchi shrift qo'shishning yagona sababi bor: Inter
+         * katta o'lchamda neytral, Onest esa bir oz tikroq va
+         * ixchamroq — shuning uchun 28–40px sarlavha "katta matn"
+         * emas, SARLAVHA bo'lib ko'rinadi.
+         *
+         * Manrope ATAYLAB chetlashtirildi: u ʻ (U+02BB) va ʼ (U+02BC)
+         * gliflarini chizmaydi va o'zbek matnida ular bo'sh to'rtburchak
+         * bo'lib qolardi. Onest ikkalasini ham, o'zbek kirillini ham
+         * (Ўў Ққ Ғғ Ҳҳ) qamraydi — brauzerda tekshirilgan.
+         *
+         * Zaxira Inter: Onest yuklanmasa sarlavha shakli o'zgaradi,
+         * lekin o'lcham va vazn saqlanadi, ya'ni layout sakramaydi.
+         */
+        display: ['Onest', 'Inter', 'system-ui', 'sans-serif'],
       },
       fontSize: {
-        // Display sizes for section headings / hero, with baked-in tracking.
-        'display-sm': ['1.5rem', { lineHeight: '1.2', letterSpacing: '-0.02em', fontWeight: '700' }],
-        'display-md': ['2rem', { lineHeight: '1.15', letterSpacing: '-0.025em', fontWeight: '700' }],
-        'display-lg': ['2.75rem', { lineHeight: '1.08', letterSpacing: '-0.03em', fontWeight: '700' }],
+        /*
+         * ── OLTI POG'ONALI SHKALA ─────────────────────────────────
+         *
+         * 12 · 14 · 16 · 20 · 28 · 40. Boshqa o'lcham yo'q.
+         *
+         * Birinchi to'rttasi Tailwind'ning standart `xs/sm/base/xl`
+         * qiymatlari bilan AYNAN bir xil, shuning uchun ular qayta
+         * e'lon qilinmaydi. Faqat 28 va 40 yetishmaydi — pastdagi
+         * uchta `display-*` tokeni shu bo'shliqni to'ldiradi.
+         *
+         * Ierarxiya O'LCHAM bilan emas, QALINLIK bilan beriladi:
+         * 400 matn · 500 yorliq · 600 tugma/ta'kid · 700 sarlavha/narx.
+         * Shuning uchun oltita qadam butun ilovaga yetadi.
+         *
+         * `display-md` ILGARI 32px, `display-lg` 44px edi — ular
+         * shkalada yo'q qiymatlar edi va sahifada 24/32/44 uchligi
+         * 12/14/16/20 to'rtligi bilan bir ritmda turmasdi.
+         */
+        'display-sm': ['1.25rem', { lineHeight: '1.25', letterSpacing: '-0.02em', fontWeight: '700' }],
+        'display-md': ['1.75rem', { lineHeight: '1.2', letterSpacing: '-0.025em', fontWeight: '700' }],
+        'display-lg': ['2.5rem', { lineHeight: '1.05', letterSpacing: '-0.03em', fontWeight: '700' }],
       },
       maxWidth: {
         shell: '1440px',

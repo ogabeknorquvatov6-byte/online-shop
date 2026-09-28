@@ -177,7 +177,7 @@ export function OrderDetail({
             </>
           )}
           <div className="flex justify-between">
-            <dt className="text-ink-500">To‘lov usuli</dt>
+            <dt className="text-ink-500">Toʻlov usuli</dt>
             <dd className="text-ink-900">{order.payment_method}</dd>
           </div>
           <div className="flex justify-between text-base">
@@ -203,7 +203,7 @@ export function OrderDetail({
           aria-expanded={showText}
           className={cx(button('outline', 'sm'), 'mt-4')}
         >
-          {showText ? 'Chek matnini yopish' : 'Chek ma’lumotlarini ko‘rish'}
+          {showText ? 'Chek matnini yopish' : 'Chek maʼlumotlarini koʻrish'}
         </button>
 
         {showText && (
@@ -239,7 +239,7 @@ function receiptText(order: Order): string {
     rows,
     '',
     `Jami: ${formatPrice(Number(order.total))}`,
-    `To‘lov: ${order.payment_method}`,
+    `Toʻlov: ${order.payment_method}`,
     `Holat: ${ORDER_STATUS_LABELS[order.status] || order.status}`,
   ].join('\n');
 }

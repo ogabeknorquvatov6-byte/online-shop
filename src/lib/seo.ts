@@ -17,7 +17,7 @@ import { useEffect } from 'react';
 
 const SITE_NAME = 'OpenShop';
 const DEFAULT_DESCRIPTION =
-  "OpenShop — O'zbekistondagi ishonchli online-do'kon. Telefonlar, noutbuklar, audio va aksessuarlar. Tez yetkazib berish, rasmiy kafolat.";
+  "OpenShop — Oʻzbekistondagi ishonchli online-doʻkon. Telefonlar, noutbuklar, audio va aksessuarlar. Tez yetkazib berish, rasmiy kafolat.";
 
 /**
  * Produksiya domeni. Berilmasa joriy domen ishlatiladi.
@@ -88,7 +88,7 @@ export function useSeo({
   useEffect(() => {
     if (pending) return;
 
-    const fullTitle = title ? `${title} — ${SITE_NAME}` : `${SITE_NAME} — Online-do'kon`;
+    const fullTitle = title ? `${title} — ${SITE_NAME}` : `${SITE_NAME} — Online-doʻkon`;
     const desc = description?.trim() || DEFAULT_DESCRIPTION;
     const url = canonicalUrl(canonicalPath ?? window.location.pathname);
 

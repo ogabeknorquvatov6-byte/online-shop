@@ -154,7 +154,7 @@ export function BrandField({
                 )}
               >
                 <Plus className="h-3.5 w-3.5" />
-                «{value.trim()}» brendini qo‘shish
+                «{value.trim()}» brendini qoʻshish
               </button>
             </li>
           )}

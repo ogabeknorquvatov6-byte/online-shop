@@ -26,20 +26,20 @@ describe('pageRange', () => {
     expect(pageRange(2.7, 25)).toEqual({ from: 25, to: 49 });
   });
 
-  it('standart o‘lcham bilan ishlaydi', () => {
+  it('standart oʻlcham bilan ishlaydi', () => {
     expect(pageRange(1)).toEqual({ from: 0, to: ADMIN_PAGE_SIZE - 1 });
   });
 });
 
 describe('pageCount', () => {
-  it('to‘liq bo‘lmagan oxirgi sahifani hisobga oladi', () => {
+  it('toʻliq boʻlmagan oxirgi sahifani hisobga oladi', () => {
     expect(pageCount(1, 25)).toBe(1);
     expect(pageCount(25, 25)).toBe(1);
     expect(pageCount(26, 25)).toBe(2);
     expect(pageCount(137, 25)).toBe(6);
   });
 
-  it('bo‘sh ro‘yxatda ham 1 sahifa', () => {
+  it('boʻsh roʻyxatda ham 1 sahifa', () => {
     // 0 qaytarsa "1 / 0" degan bema'ni matn chiqardi.
     expect(pageCount(0, 25)).toBe(1);
     expect(pageCount(-5, 25)).toBe(1);
@@ -48,21 +48,21 @@ describe('pageCount', () => {
 });
 
 describe('pageSummary', () => {
-  it('joriy oraliqni ko‘rsatadi', () => {
+  it('joriy oraliqni koʻrsatadi', () => {
     expect(pageSummary(1, 137, 25, 25)).toBe('1–25 / 137');
     expect(pageSummary(2, 137, 25, 25)).toBe('26–50 / 137');
   });
 
-  it('oxirgi to‘liq bo‘lmagan sahifada haqiqiy sonni ko‘rsatadi', () => {
+  it('oxirgi toʻliq boʻlmagan sahifada haqiqiy sonni koʻrsatadi', () => {
     expect(pageSummary(6, 137, 12, 25)).toBe('126–137 / 137');
   });
 
-  it('bo‘sh ro‘yxatda oraliq ko‘rsatmaydi', () => {
+  it('boʻsh roʻyxatda oraliq koʻrsatmaydi', () => {
     expect(pageSummary(1, 0, 0, 25)).toBe('0');
   });
 });
 
-describe('sanitizeOrFilterTerm — PostgREST filtr in’yeksiyasi', () => {
+describe('sanitizeOrFilterTerm — PostgREST filtr inʼyeksiyasi', () => {
   /*
    * `.or('name.ilike.%TERM%,sku.ilike.%TERM%')` da vergul shartlarni
    * AJRATADI, qavslar esa GURUHLAYDI. Foydalanuvchi kiritgan matnga
@@ -83,8 +83,8 @@ describe('sanitizeOrFilterTerm — PostgREST filtr in’yeksiyasi', () => {
     expect(sanitizeOrFilterTerm('a.ilike.b')).not.toContain('.');
   });
 
-  it('qo‘shtirnoqlarni olib tashlaydi', () => {
-    expect(sanitizeOrFilterTerm(`a"b'c`)).not.toMatch(/["']/);
+  it('qoʻshtirnoqlarni olib tashlaydi', () => {
+    expect(sanitizeOrFilterTerm(`a"bʼc`)).not.toMatch(/["']/);
   });
 
   it('haqiqiy hujum satrini zararsizlantiradi', () => {
@@ -106,7 +106,7 @@ describe('sanitizeOrFilterTerm — PostgREST filtr in’yeksiyasi', () => {
     expect(sanitizeOrFilterTerm('  Samsung  ')).toBe('Samsung');
   });
 
-  it('faqat belgilardan iborat so‘rov bo‘sh bo‘ladi', () => {
+  it('faqat belgilardan iborat soʻrov boʻsh boʻladi', () => {
     // Bo'sh natija — chaqiruvchi filtrni umuman qo'llamaydi.
     expect(sanitizeOrFilterTerm(',,,')).toBe('');
     expect(sanitizeOrFilterTerm('()')).toBe('');

@@ -144,7 +144,7 @@ export function ImageGallery({
         <button
           type="button"
           onClick={() => setLightbox(true)}
-          aria-label="Rasmni to‘liq ekranda ochish"
+          aria-label="Rasmni toʻliq ekranda ochish"
           className={cx(
             // Sensorli qurilmalarda 44px — bu tugma rasm ustida turadi va
             // noto'g'ri bosilsa foydalanuvchi kutilmagan joyga tushib qoladi.
@@ -219,7 +219,7 @@ export function ImageGallery({
               key={img.id}
               type="button"
               onClick={() => setIndex(i, i > index ? 1 : -1)}
-              aria-label={`${i + 1}-rasmni ko‘rsatish`}
+              aria-label={`${i + 1}-rasmni koʻrsatish`}
               aria-current={i === index}
               className={cx(
                 'h-16 w-16 shrink-0 overflow-hidden rounded-control border-2 transition-colors',

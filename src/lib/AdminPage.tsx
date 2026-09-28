@@ -75,8 +75,8 @@ export function AdminLayout({ tab }: { tab: AdminTab }) {
         </div>
         <h1 className="mt-4 text-lg font-bold text-ink-900">Kirish taqiqlangan</h1>
         <p className="mt-1.5 max-w-sm text-sm text-ink-500">
-          Bu bo‘lim faqat administratorlar uchun. Agar bu xato deb hisoblasangiz,
-          do‘kon egasiga murojaat qiling.
+          Bu boʻlim faqat administratorlar uchun. Agar bu xato deb hisoblasangiz,
+          doʻkon egasiga murojaat qiling.
         </p>
         <Link to="/" className={cx(button('primary', 'md'), 'mt-6')}>Bosh sahifaga qaytish</Link>
       </div>
@@ -162,7 +162,7 @@ export function AdminLayout({ tab }: { tab: AdminTab }) {
             className={cx('flex items-center gap-1.5 rounded-control px-2.5 py-1.5 text-sm text-ink-500 hover:bg-ink-100 hover:text-ink-900', focusRing)}
           >
             <ExternalLink className="h-4 w-4" />
-            <span className="hidden sm:inline">Saytga o‘tish</span>
+            <span className="hidden sm:inline">Saytga oʻtish</span>
           </Link>
         </header>
 

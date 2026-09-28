@@ -5,7 +5,7 @@ import { useFavorites } from './favorites';
 import { useAuth } from './auth';
 import { motion, useReducedMotion } from 'motion/react';
 import { AnimatedBadge } from './AnimatedNumber';
-import { cx, focusRingInset } from './design';
+import { countBadge, cx, focusRingInset } from './design';
 import { springs } from './motion';
 import { CatalogCubes } from './CatalogCubes';
 import { CatalogNavSheet } from './CatalogNavSheet';
@@ -87,10 +87,7 @@ function NavIcon({ item, reduce }: { item: NavItem; reduce: boolean | null }) {
       )}
 
       {item.badge ? (
-        <AnimatedBadge
-          value={item.badge}
-          className="absolute -right-2 -top-1 z-10 h-4 min-w-4 items-center justify-center rounded-full bg-orange-600 px-1 text-[10px] font-bold text-white ring-2 ring-white"
-        />
+        <AnimatedBadge value={item.badge} className={cx(countBadge.overlay, '-right-2.5 -top-1.5')} />
       ) : null}
     </motion.span>
   );

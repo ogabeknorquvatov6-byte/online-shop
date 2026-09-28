@@ -51,7 +51,7 @@ export function CategoryPicker({
     [tree, value]
   );
 
-  const labelFor = (i: number) => (i === 0 ? 'Asosiy kategoriya' : i === 1 ? 'Bo‘lim' : `${i + 1}-daraja`);
+  const labelFor = (i: number) => (i === 0 ? 'Asosiy kategoriya' : i === 1 ? 'Boʻlim' : `${i + 1}-daraja`);
 
   return (
     <div className="space-y-3">
@@ -59,7 +59,7 @@ export function CategoryPicker({
         <div className="flex items-start gap-2 rounded-control border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
           <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
           <span className="flex-1">
-            Mahsulot ro‘yxatda yo‘q kategoriyaga biriktirilgan (nofaol yoki o‘chirilgan). Quyidan
+            Mahsulot roʻyxatda yoʻq kategoriyaga biriktirilgan (nofaol yoki oʻchirilgan). Quyidan
             yangisini tanlang yoki{' '}
             <button
               type="button"

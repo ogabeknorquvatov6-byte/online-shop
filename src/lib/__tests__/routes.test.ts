@@ -74,7 +74,7 @@ describe('matchRoute', () => {
     expect(matchRoute('/login')).toEqual({ name: 'login' });
   });
 
-  it('hisob bo‘limlari faqat ma’lum tab nomlarini qabul qiladi', () => {
+  it('hisob boʻlimlari faqat maʼlum tab nomlarini qabul qiladi', () => {
     expect(matchRoute('/account')).toEqual({ name: 'account', tab: 'profile' });
     expect(matchRoute('/account/orders')).toEqual({ name: 'account', tab: 'orders' });
     // Noma'lum tab — jim turib "profil"ga tushirish emas, ochiq 404.
@@ -107,7 +107,7 @@ describe('matchRoute', () => {
     expect(matchRoute('/account/orders')).not.toHaveProperty('orderId');
   });
 
-  it('admin bo‘limlari', () => {
+  it('admin boʻlimlari', () => {
     expect(matchRoute('/admin')).toEqual({ name: 'admin', tab: 'dashboard' });
     expect(matchRoute('/admin/products')).toEqual({ name: 'admin', tab: 'products' });
     expect(matchRoute('/admin/hack')).toEqual({ name: 'notFound' });
@@ -119,7 +119,7 @@ describe('matchRoute', () => {
     expect(matchRoute('/nonexistent')).toEqual({ name: 'notFound' });
   });
 
-  it('ortiqcha bo‘lakli manzil 404 beradi', () => {
+  it('ortiqcha boʻlakli manzil 404 beradi', () => {
     // `/catalog/anything` avval ham `/catalog` deb qabul qilinardi:
     // istalgan axlat manzil haqiqiy sahifa bo'lib ko'rinar, natijada
     // qidiruv tizimi cheksiz dublikat indekslashi mumkin edi.
@@ -127,7 +127,7 @@ describe('matchRoute', () => {
     expect(matchRoute('/cart/extra')).toEqual({ name: 'notFound' });
   });
 
-  it('normalizatsiya marshrut tanlashda ham qo‘llanadi', () => {
+  it('normalizatsiya marshrut tanlashda ham qoʻllanadi', () => {
     expect(matchRoute('/catalog/')).toEqual({ name: 'catalog' });
     expect(matchRoute('/product/abc/')).toEqual({ name: 'product', slug: 'abc' });
   });
@@ -142,7 +142,7 @@ describe('isPrivateRoute', () => {
     expect(isPrivateRoute({ name: 'login' })).toBe(true);
   });
 
-  it('do‘kon sahifalari indekslanadi', () => {
+  it('doʻkon sahifalari indekslanadi', () => {
     expect(isPrivateRoute({ name: 'home' })).toBe(false);
     expect(isPrivateRoute({ name: 'catalog' })).toBe(false);
     expect(isPrivateRoute({ name: 'product', slug: 'x' })).toBe(false);
@@ -156,7 +156,7 @@ describe('INDEXABLE_STATIC_PATHS', () => {
     for (const path of INDEXABLE_STATIC_PATHS) {
       const route = matchRoute(path);
       expect(route.name, `sitemap manzili buzuq: ${path}`).not.toBe('notFound');
-      expect(isPrivateRoute(route), `yopiq sahifa sitemap'da: ${path}`).toBe(false);
+      expect(isPrivateRoute(route), `yopiq sahifa sitemapʼda: ${path}`).toBe(false);
     }
   });
 });

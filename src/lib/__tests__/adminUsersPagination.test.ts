@@ -30,8 +30,8 @@ function stripSqlComments(sql: string): string {
 }
 const SQL = stripSqlComments(MIGRATION);
 
-describe('migratsiya: ro‘yxat endi chegarasiz emas', () => {
-  it('`limit` va `offset` qo‘llanadi', () => {
+describe('migratsiya: roʻyxat endi chegarasiz emas', () => {
+  it('`limit` va `offset` qoʻllanadi', () => {
     expect(SQL).toMatch(/limit\s+v_limit\s+offset\s+v_offset/i);
   });
 
@@ -53,7 +53,7 @@ describe('migratsiya: ro‘yxat endi chegarasiz emas', () => {
     expect(SQL).toMatch(/count\s*\(\s*\*\s*\)\s*over\s*\(\s*\)\s+as\s+total_count/i);
   });
 
-  it('barqaror tartib — sahifalar orasida yozuv yo‘qolmasin', () => {
+  it('barqaror tartib — sahifalar orasida yozuv yoʻqolmasin', () => {
     // Faqat `created_at` bo'yicha tartiblash bir xil vaqtli yozuvlarni
     // sahifalar orasida takrorlab yoki yo'qotib yuborardi.
     expect(SQL).toMatch(/order\s+by\s+m\.created_at\s+desc\s*,\s*m\.id/i);
@@ -94,14 +94,14 @@ describe('migratsiya: xavfsizlik kengaytirilmagan', () => {
 });
 
 describe('migratsiya: deploy xavfsizligi', () => {
-  it('eski (argumentsiz) imzo O‘CHIRILMAYDI', () => {
+  it('eski (argumentsiz) imzo OʻCHIRILMAYDI', () => {
     // Keshdagi eski bundle `rpc('admin_list_users')` ni argumentsiz
     // chaqiradi. Eskisini o'chirsak, ular uchun bo'lim PGRST202 bilan
     // butunlay ishlamay qolardi.
     expect(SQL).not.toMatch(/drop\s+function[^;]*admin_list_users/i);
   });
 
-  it('yangi parametrlarda `default` YO‘Q (42725 noaniqligining oldini oladi)', () => {
+  it('yangi parametrlarda `default` YOʻQ (42725 noaniqligining oldini oladi)', () => {
     /*
      * `default` bo'lsa, ARGUMENTSIZ chaqiruv ikkala overload'ga ham mos
      * kelib, Postgres "function is not unique" xatosini qaytarardi.
@@ -127,7 +127,7 @@ describe('migratsiya: deploy xavfsizligi', () => {
   });
 });
 
-describe('frontend: to‘liq ro‘yxat xotirada deb hisoblanmaydi', () => {
+describe('frontend: toʻliq roʻyxat xotirada deb hisoblanmaydi', () => {
   it('RPC sahifalash parametrlari bilan chaqiriladi', () => {
     expect(USERS_TSX).toMatch(/p_limit:\s*ADMIN_PAGE_SIZE/);
     expect(USERS_TSX).toMatch(/p_offset:\s*from/);
@@ -135,7 +135,7 @@ describe('frontend: to‘liq ro‘yxat xotirada deb hisoblanmaydi', () => {
     expect(USERS_TSX).toMatch(/p_filter:\s*roleFilter/);
   });
 
-  it('mijoz tomonida qayta filtrlash YO‘Q', () => {
+  it('mijoz tomonida qayta filtrlash YOʻQ', () => {
     /*
      * Brauzerda faqat bitta sahifa bor. Uni yana filtrlash boshqa
      * sahifalardagi mos foydalanuvchilarni JIMGINA yashirardi.
@@ -144,12 +144,12 @@ describe('frontend: to‘liq ro‘yxat xotirada deb hisoblanmaydi', () => {
     expect(USERS_TSX).not.toMatch(/\bfiltered\b/);
   });
 
-  it('sahifalagich va oraliq ko‘rsatkichi bor', () => {
+  it('sahifalagich va oraliq koʻrsatkichi bor', () => {
     expect(USERS_TSX).toMatch(/<AdminPager/);
     expect(USERS_TSX).toMatch(/pageSummary\(page,\s*total,\s*users\.length\)/);
   });
 
-  it('qidiruv/filtr o‘zgarganda sahifa 1 ga qaytadi', () => {
+  it('qidiruv/filtr oʻzgarganda sahifa 1 ga qaytadi', () => {
     expect(USERS_TSX).toMatch(/setPage\(1\)/);
     expect(USERS_TSX).toMatch(/\[debouncedSearch,\s*roleFilter\]/);
   });

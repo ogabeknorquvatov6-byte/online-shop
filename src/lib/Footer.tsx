@@ -5,7 +5,7 @@ import { cx, focusRing, shell } from './design';
 
 const COLUMNS = [
   {
-    title: 'Do‘kon',
+    title: 'Doʻkon',
     links: [
       { label: 'Katalog', path: '/catalog' },
       { label: 'Aksiyalar', path: '/promotions' },
@@ -27,14 +27,14 @@ const COLUMNS = [
     links: [
       { label: 'Yetkazib berish', path: '/delivery' },
       { label: 'Qaytarish siyosati', path: '/returns' },
-      { label: 'Ko‘p so‘raladigan savollar', path: '/faq' },
+      { label: 'Koʻp soʻraladigan savollar', path: '/faq' },
       { label: 'Aloqa', path: '/contact' },
     ],
   },
 ];
 
 const GUARANTEES = [
-  { icon: Truck, text: 'Toshkent bo‘ylab 1 kunda' },
+  { icon: Truck, text: 'Toshkent boʻylab 1 kunda' },
   { icon: ShieldCheck, text: 'Rasmiy kafolat' },
   { icon: RotateCcw, text: '14 kun ichida qaytarish' },
 ];
@@ -75,7 +75,7 @@ export function Footer() {
             </Link>
             <p className="mt-3 max-w-sm text-sm leading-relaxed text-ink-500">
               Texnika va kundalik hayot uchun kerakli mahsulotlar. Rasmiy kafolat, halol narx va
-              butun O‘zbekiston bo‘ylab yetkazib berish.
+              butun Oʻzbekiston boʻylab yetkazib berish.
             </p>
 
             <div className="mt-5 space-y-2.5 text-sm">
@@ -156,7 +156,7 @@ export function Footer() {
 
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-ink-100 pt-6 text-xs text-ink-400 sm:flex-row">
           <p>© {new Date().getFullYear()} {storeName}. Barcha huquqlar himoyalangan.</p>
-          <p>To‘lov: naqd pul, Click, Payme</p>
+          <p>Toʻlov: naqd pul, Click, Payme</p>
         </div>
       </div>
     </footer>

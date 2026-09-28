@@ -60,7 +60,7 @@ describe('Edge Function webhook xavfsizligi', () => {
         expect(usesSecret, `${name} hech qanday webhook sirini tekshirmaydi`).toBe(true);
       });
 
-      it('FAIL-OPEN naqshi yo‘q', () => {
+      it('FAIL-OPEN naqshi yoʻq', () => {
         /*
          * Taqiqlangan naqsh: sir MAVJUD bo'lgandagina tekshirish.
          *   if (WEBHOOK_SECRET) { ... }
@@ -71,14 +71,14 @@ describe('Edge Function webhook xavfsizligi', () => {
         expect(failOpen, `${name} da fail-open sir tekshiruvi bor`).toBe(false);
       });
 
-      it('sir yo‘q bo‘lsa so‘rovni RAD ETADI', () => {
+      it('sir yoʻq boʻlsa soʻrovni RAD ETADI', () => {
         // `if (!SECRET) return ...` — konfiguratsiya xatosi.
         const failClosed = /if\s*\(\s*!\s*[A-Z_]*WEBHOOK_SECRET\s*\)/.test(code);
-        expect(failClosed, `${name} sir yo‘qligini tekshirmaydi`).toBe(true);
+        expect(failClosed, `${name} sir yoʻqligini tekshirmaydi`).toBe(true);
       });
 
       it('mos kelmagan sirda 403 qaytaradi', () => {
-        expect(/status:\s*403/.test(code), `${name} da 403 javobi yo‘q`).toBe(true);
+        expect(/status:\s*403/.test(code), `${name} da 403 javobi yoʻq`).toBe(true);
       });
 
       it('doimiy vaqtli taqqoslash ishlatadi', () => {
@@ -88,7 +88,7 @@ describe('Edge Function webhook xavfsizligi', () => {
   }
 });
 
-describe('Sirlar log‘ga tushmaydi', () => {
+describe('Sirlar logʻga tushmaydi', () => {
   for (const { name, code } of FUNCTIONS) {
     it(`${name} sir qiymatini chop etmaydi`, () => {
       /*

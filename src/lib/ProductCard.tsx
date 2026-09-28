@@ -91,7 +91,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
     addItem(product);
     setAdded(true);
     fly('cart', mediaRef.current, image);
-    notify(`${product.name} savatga qo'shildi`, 'success');
+    notify(`${product.name} savatga qoʻshildi`, 'success');
     setTimeout(() => setAdded(false), 1400);
   };
 
@@ -104,7 +104,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
     }
     // Holat animatsiyadan MUSTAQIL — u darhol o'zgaradi.
     toggle(product.id);
-    notify(fav ? 'Sevimlilardan olib tashlandi' : 'Sevimlilarga qo‘shildi', 'info');
+    notify(fav ? 'Sevimlilardan olib tashlandi' : 'Sevimlilarga qoʻshildi', 'info');
   };
 
   return (
@@ -178,7 +178,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
             alt={product.name}
             priority={priority}
             sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-            fallbackLabel="Rasm yo‘q"
+            fallbackLabel="Rasm yoʻq"
             className="aspect-square"
             imgClassName={cx(
               'object-cover transition-transform duration-300 ease-standard',
@@ -241,7 +241,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
 
           {!inStock && (
             <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-ink-900/70 py-1.5 text-center text-[11px] font-semibold text-white backdrop-blur-[2px]">
-              {purchasable ? 'Sotuvda yo‘q' : 'Narxi aniqlanmagan'}
+              {purchasable ? 'Sotuvda yoʻq' : 'Narxi aniqlanmagan'}
             </div>
           )}
 
@@ -252,7 +252,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
             whileTap={reduce ? undefined : { scale: 0.85 }}
             transition={{ duration: DURATION.micro, ease: EASE.standard }}
             aria-pressed={fav}
-            aria-label={fav ? `${product.name} — sevimlilardan olib tashlash` : `${product.name} — sevimlilarga qo‘shish`}
+            aria-label={fav ? `${product.name} — sevimlilardan olib tashlash` : `${product.name} — sevimlilarga qoʻshish`}
             className={cx(
               /*
                * TEGINISH MAYDONI 44px, KO'RINADIGAN DOIRA esa 32px.
@@ -331,7 +331,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
             type="button"
             onClick={() => setQuickOpen(true)}
             aria-haspopup="dialog"
-            aria-label={`${product.name} — tezkor ko‘rish`}
+            aria-label={`${product.name} — tezkor koʻrish`}
             className={cx(
               'absolute inset-x-2 bottom-2 z-10 hidden h-9 items-center justify-center gap-1.5 rounded-control',
               'bg-white/95 text-xs font-semibold text-ink-800 shadow-card backdrop-blur-sm',
@@ -342,7 +342,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
               focusRing
             )}
           >
-            <Eye className="h-3.5 w-3.5" /> Tezkor ko‘rish
+            <Eye className="h-3.5 w-3.5" /> Tezkor koʻrish
           </button>
         </div>
 
@@ -446,7 +446,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
               type="button"
               onClick={handleAdd}
               disabled={!inStock}
-              aria-label={`${product.name} — savatga qo‘shish`}
+              aria-label={`${product.name} — savatga qoʻshish`}
               className={cx(
                 // z-10 shart: stretched link kartaning ustini qoplaydi.
                 'relative z-10 mt-2.5 w-full',
@@ -594,7 +594,7 @@ export function SpotlightCard({ product, priority }: { product: Product; priorit
         alt={product.name}
         priority={priority}
         sizes="(min-width: 1280px) 33vw, (min-width: 820px) 40vw, 92vw"
-        fallbackLabel="Rasm yo‘q"
+        fallbackLabel="Rasm yoʻq"
         className="absolute inset-0 -z-10 h-full w-full"
         imgClassName={cx(
           'h-full w-full object-cover transition-transform duration-500 ease-standard',
@@ -679,10 +679,10 @@ export function SpotlightCard({ product, priority }: { product: Product; priorit
           onClick={() => {
             if (!inStock) return;
             addItem(product);
-            notify(`${product.name} savatga qo'shildi`, 'success');
+            notify(`${product.name} savatga qoʻshildi`, 'success');
           }}
           disabled={!inStock}
-          aria-label={`${product.name} — savatga qo‘shish`}
+          aria-label={`${product.name} — savatga qoʻshish`}
           // `z-10` — stretched link ustida turishi uchun. (`relative` ni
           // `AnimatedButton` ning o'zi qo'shadi.)
           className={cx('z-10 mt-4', button('primary', 'md'))}
@@ -724,7 +724,7 @@ function QuickViewBody({ product, onClose }: { product: Product; onClose: () => 
     addItem(product);
     setAdded(true);
     fly('cart', qvMediaRef.current, image);
-    notify(`${product.name} savatga qo'shildi`, 'success');
+    notify(`${product.name} savatga qoʻshildi`, 'success');
     setTimeout(() => setAdded(false), 1400);
   };
 
@@ -735,7 +735,7 @@ function QuickViewBody({ product, onClose }: { product: Product; onClose: () => 
           src={image}
           alt={product.name}
           sizes="(min-width: 640px) 20rem, 90vw"
-          fallbackLabel="Rasm yo‘q"
+          fallbackLabel="Rasm yoʻq"
           className="aspect-square"
           imgClassName="object-cover"
         />
@@ -786,7 +786,7 @@ function QuickViewBody({ product, onClose }: { product: Product; onClose: () => 
             )}
           </div>
           {discount != null && product.old_price != null && (
-            <p className="mt-2 inline-flex items-center rounded-full bg-orange-600 px-2.5 py-1 text-[11px] font-semibold text-white">
+            <p className="mt-2 inline-flex items-center rounded-full bg-orange-700 px-2.5 py-1 text-[11px] font-semibold text-white">
               −{discount}% · {formatPrice(product.old_price - product.price)} tejaysiz
             </p>
           )}
@@ -805,7 +805,7 @@ function QuickViewBody({ product, onClose }: { product: Product; onClose: () => 
           ) : stock === 'low' ? (
             <>Kam qoldi — {product.stock} dona</>
           ) : (
-            <>Sotuvda yo‘q</>
+            <>Sotuvda yoʻq</>
           )}
         </p>
 
@@ -835,12 +835,12 @@ function QuickViewBody({ product, onClose }: { product: Product; onClose: () => 
               onClick={() => {
                 if (!fav) fly('fav', qvFavRef.current);
                 toggle(product.id);
-                notify(fav ? 'Sevimlilardan olib tashlandi' : 'Sevimlilarga qo‘shildi', 'info');
+                notify(fav ? 'Sevimlilardan olib tashlandi' : 'Sevimlilarga qoʻshildi', 'info');
               }}
               whileTap={reduce ? undefined : { scale: 0.9 }}
               transition={{ duration: DURATION.micro, ease: EASE.standard }}
               aria-pressed={fav}
-              aria-label={fav ? 'Sevimlilardan olib tashlash' : 'Sevimlilarga qo‘shish'}
+              aria-label={fav ? 'Sevimlilardan olib tashlash' : 'Sevimlilarga qoʻshish'}
               className={cx(
                 'flex h-12 w-12 shrink-0 items-center justify-center rounded-control border transition-colors',
                 fav ? 'border-orange-300 bg-orange-50 text-orange-600' : 'border-ink-200 text-ink-500 hover:border-ink-300',
@@ -856,7 +856,7 @@ function QuickViewBody({ product, onClose }: { product: Product; onClose: () => 
             onClick={onClose}
             className={cx(button('outline', 'lg'), 'w-full')}
           >
-            To‘liq sahifani ochish
+            Toʻliq sahifani ochish
           </Link>
         </div>
       </div>
@@ -1034,7 +1034,7 @@ export function EmptyState({
 
 /** Tarmoq/Supabase xatosi uchun qayta urinish imkoni bilan holat. */
 export function ErrorState({
-  message = "Ma'lumotlarni yuklab bo‘lmadi",
+  message = "Maʼlumotlarni yuklab boʻlmadi",
   onRetry,
   headingLevel: Heading = 'h2',
   showHomeLink = true,
@@ -1071,7 +1071,7 @@ export function ErrorState({
         o'z Wi-Fi'sini qayta yoqishga yo'llardi.
       */}
       <p className="mt-1 max-w-sm text-sm text-ink-500">
-        Ulanishni tekshiring yoki birozdan so‘ng qayta urinib ko‘ring.
+        Ulanishni tekshiring yoki birozdan soʻng qayta urinib koʻring.
       </p>
       <div className="mt-5 flex flex-col gap-2 sm:flex-row">
         <button onClick={onRetry} className={button('primary', 'md')}>

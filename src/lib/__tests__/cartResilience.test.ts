@@ -20,7 +20,7 @@ const product = (over: Partial<Product> = {}): Product => ({
 const line = (over: Partial<CartItem> = {}): CartItem => ({ product: product(), quantity: 1, ...over });
 
 describe('sanitizeStoredCart — shakl', () => {
-  it('massiv bo‘lmagan qiymatda bo‘sh savat', () => {
+  it('massiv boʻlmagan qiymatda boʻsh savat', () => {
     expect(sanitizeStoredCart(null)).toEqual([]);
     expect(sanitizeStoredCart(undefined)).toEqual([]);
     expect(sanitizeStoredCart('[]')).toEqual([]);
@@ -28,7 +28,7 @@ describe('sanitizeStoredCart — shakl', () => {
     expect(sanitizeStoredCart(42)).toEqual([]);
   });
 
-  it('to‘g‘ri pozitsiyani saqlaydi', () => {
+  it('toʻgʻri pozitsiyani saqlaydi', () => {
     const result = sanitizeStoredCart([line()]);
     expect(result).toHaveLength(1);
     expect(result[0].quantity).toBe(1);
@@ -39,7 +39,7 @@ describe('sanitizeStoredCart — shakl', () => {
     expect(sanitizeStoredCart([null, 'x', 5, [], line()])).toHaveLength(1);
   });
 
-  it('mahsulotsiz yoki id‘siz yozuvni tashlaydi', () => {
+  it('mahsulotsiz yoki idʼsiz yozuvni tashlaydi', () => {
     expect(sanitizeStoredCart([{ quantity: 1 }])).toEqual([]);
     expect(sanitizeStoredCart([{ product: {}, quantity: 1 }])).toEqual([]);
     expect(sanitizeStoredCart([{ product: { id: '' }, quantity: 1 }])).toEqual([]);
@@ -70,28 +70,28 @@ describe('sanitizeStoredCart — miqdor', () => {
     expect(result[0].quantity).toBe(MAX_QTY_PER_ITEM);
   });
 
-  it('miqdor son bo‘lmasa tashlaydi', () => {
+  it('miqdor son boʻlmasa tashlaydi', () => {
     expect(sanitizeStoredCart([{ product: product(), quantity: '3' }])).toEqual([]);
   });
 });
 
 describe('sanitizeStoredCart — narx va qoldiq', () => {
-  it('narx son bo‘lmasa pozitsiyani tashlaydi', () => {
+  it('narx son boʻlmasa pozitsiyani tashlaydi', () => {
     // Aks holda oraliq summa `NaN` bo'lib, savatda "NaN so'm" chiqardi.
     expect(sanitizeStoredCart([line({ product: product({ price: 'abc' as unknown as number }) })])).toEqual([]);
     expect(sanitizeStoredCart([line({ product: product({ price: Number.NaN }) })])).toEqual([]);
     expect(sanitizeStoredCart([line({ product: product({ price: -10 }) })])).toEqual([]);
   });
 
-  it('buzuq qoldiqni 0 ga keltiradi (pozitsiyani o‘chirmaydi)', () => {
-    const result = sanitizeStoredCart([line({ product: product({ stock: 'ko‘p' as unknown as number }) })]);
+  it('buzuq qoldiqni 0 ga keltiradi (pozitsiyani oʻchirmaydi)', () => {
+    const result = sanitizeStoredCart([line({ product: product({ stock: 'koʻp' as unknown as number }) })]);
     expect(result).toHaveLength(1);
     expect(result[0].product.stock).toBe(0);
   });
 
-  it('massiv bo‘lishi kerak bo‘lgan maydonlarni to‘g‘rilaydi', () => {
+  it('massiv boʻlishi kerak boʻlgan maydonlarni toʻgʻrilaydi', () => {
     const result = sanitizeStoredCart([
-      line({ product: product({ product_variants: 'yo‘q' as unknown as [] }) }),
+      line({ product: product({ product_variants: 'yoʻq' as unknown as [] }) }),
     ]);
     expect(Array.isArray(result[0].product.product_variants)).toBe(true);
   });
@@ -110,12 +110,12 @@ describe('sanitizeStoredCart — chegaralar', () => {
     expect(sanitizeStoredCart(dup)).toHaveLength(1);
   });
 
-  it('turli variantlar alohida pozitsiya bo‘lib qoladi', () => {
+  it('turli variantlar alohida pozitsiya boʻlib qoladi', () => {
     const two = [line({ variantId: 'v1' }), line({ variantId: 'v2' })];
     expect(sanitizeStoredCart(two)).toHaveLength(2);
   });
 
-  it('variant maydonlari satr bo‘lmasa e’tiborsiz qoldiriladi', () => {
+  it('variant maydonlari satr boʻlmasa eʼtiborsiz qoldiriladi', () => {
     const result = sanitizeStoredCart([
       { product: product(), quantity: 1, variant: 123, variantId: {} },
     ]);
@@ -127,7 +127,7 @@ describe('sanitizeStoredCart — chegaralar', () => {
 /* ── Checkout idempotentligi ─────────────────────────────────────── */
 
 describe('newCheckoutRequestId', () => {
-  it('to‘g‘ri shakldagi UUID v4 qaytaradi', () => {
+  it('toʻgʻri shakldagi UUID v4 qaytaradi', () => {
     const id = newCheckoutRequestId();
     expect(id).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/);
   });
@@ -139,7 +139,7 @@ describe('newCheckoutRequestId', () => {
 });
 
 describe('cartSignature', () => {
-  it('bir xil savat uchun bir xil imzo (tartibdan qat’i nazar)', () => {
+  it('bir xil savat uchun bir xil imzo (tartibdan qatʼi nazar)', () => {
     // Foydalanuvchi mahsulotni o'chirib qayta qo'shsa, tarkib o'sha
     // bo'lsa idempotentlik kaliti BEKORGA yangilanmasligi kerak.
     const a = [line({ product: product({ id: 'a' }) }), line({ product: product({ id: 'b' }) })];
@@ -147,15 +147,15 @@ describe('cartSignature', () => {
     expect(cartSignature(a)).toBe(cartSignature(b));
   });
 
-  it('miqdor o‘zgarsa imzo o‘zgaradi', () => {
+  it('miqdor oʻzgarsa imzo oʻzgaradi', () => {
     expect(cartSignature([line({ quantity: 1 })])).not.toBe(cartSignature([line({ quantity: 2 })]));
   });
 
-  it('variant o‘zgarsa imzo o‘zgaradi', () => {
+  it('variant oʻzgarsa imzo oʻzgaradi', () => {
     expect(cartSignature([line({ variantId: 'v1' })])).not.toBe(cartSignature([line({ variantId: 'v2' })]));
   });
 
-  it('bo‘sh savat barqaror imzo beradi', () => {
+  it('boʻsh savat barqaror imzo beradi', () => {
     expect(cartSignature([])).toBe('');
   });
 

@@ -43,7 +43,7 @@ export function ProductMediaManager({ productId }: { productId: string }) {
       .eq('product_id', productId)
       .order('sort_order')
       .then(({ data, error }) => {
-        if (error) notify(`Rasmlarni yuklab bo‘lmadi: ${error.message}`, 'error');
+        if (error) notify(`Rasmlarni yuklab boʻlmadi: ${error.message}`, 'error');
         else setImages((data ?? []) as Row[]);
         setLoading(false);
       });
@@ -66,7 +66,7 @@ export function ProductMediaManager({ productId }: { productId: string }) {
     }));
     const { error } = await supabase.from('product_images').insert(rows);
     if (error) {
-      notify(`Rasmni saqlab bo‘lmadi: ${error.message}`, 'error');
+      notify(`Rasmni saqlab boʻlmadi: ${error.message}`, 'error');
       return;
     }
     load();
@@ -89,7 +89,7 @@ export function ProductMediaManager({ productId }: { productId: string }) {
         const { url } = await uploadImage(file, `products/${productId}`);
         urls.push(url);
       } catch (e) {
-        notify(e instanceof Error ? e.message : 'Faylni yuklab bo‘lmadi', 'error');
+        notify(e instanceof Error ? e.message : 'Faylni yuklab boʻlmadi', 'error');
       }
       setUploading({ done: i + 1, total: list.length });
     }
@@ -119,7 +119,7 @@ export function ProductMediaManager({ productId }: { productId: string }) {
     const { error } = await supabase.from('product_images').update({ is_primary: true }).eq('id', row.id);
     setBusy(false);
     if (error) {
-      notify(`O‘zgartirib bo‘lmadi: ${error.message}`, 'error');
+      notify(`Oʻzgartirib boʻlmadi: ${error.message}`, 'error');
       return;
     }
     load();
@@ -137,7 +137,7 @@ export function ProductMediaManager({ productId }: { productId: string }) {
     ]);
     setBusy(false);
     if (r1.error || r2.error) {
-      notify('Tartibni o‘zgartirib bo‘lmadi', 'error');
+      notify('Tartibni oʻzgartirib boʻlmadi', 'error');
       return;
     }
     load();
@@ -148,13 +148,13 @@ export function ProductMediaManager({ productId }: { productId: string }) {
     const { error } = await supabase.from('product_images').delete().eq('id', row.id);
     if (error) {
       setBusy(false);
-      notify(`O‘chirib bo‘lmadi: ${error.message}`, 'error');
+      notify(`Oʻchirib boʻlmadi: ${error.message}`, 'error');
       return;
     }
     // Fayl bizning bucket'imizda bo'lsa uni ham tozalaymiz (bo'lmasa e'tiborsiz).
     await deleteImageByUrl(row.image_url);
     setBusy(false);
-    notify('Rasm o‘chirildi', 'success');
+    notify('Rasm oʻchirildi', 'success');
     load();
   };
 
@@ -236,7 +236,7 @@ export function ProductMediaManager({ productId }: { productId: string }) {
           />
         </div>
         <button type="button" onClick={addByUrl} disabled={busy || !urlValue.trim()} className={button('outline', 'md')}>
-          Qo‘shish
+          Qoʻshish
         </button>
       </div>
 
@@ -244,8 +244,8 @@ export function ProductMediaManager({ productId }: { productId: string }) {
       {images.length === 0 ? (
         <div className="flex flex-col items-center gap-2 rounded-card border border-dashed border-ink-200 py-10 text-center">
           <ImageOff className="h-6 w-6 text-ink-300" />
-          <p className="text-sm text-ink-500">Hali rasm qo‘shilmagan</p>
-          <p className="text-xs text-ink-400">Kamida bitta rasm bo‘lmasa, mahsulot katalogda bo‘sh ko‘rinadi.</p>
+          <p className="text-sm text-ink-500">Hali rasm qoʻshilmagan</p>
+          <p className="text-xs text-ink-400">Kamida bitta rasm boʻlmasa, mahsulot katalogda boʻsh koʻrinadi.</p>
         </div>
       ) : (
         <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -282,7 +282,7 @@ export function ProductMediaManager({ productId }: { productId: string }) {
                     icon={ArrowLeft}
                   />
                   <IconAction
-                    label="O‘ngga surish"
+                    label="Oʻngga surish"
                     onClick={() => move(index, 1)}
                     disabled={busy || index === images.length - 1}
                     icon={ArrowRight}
@@ -298,7 +298,7 @@ export function ProductMediaManager({ productId }: { productId: string }) {
                     />
                   )}
                   <IconAction
-                    label="O‘chirish"
+                    label="Oʻchirish"
                     onClick={() => remove(img)}
                     disabled={busy}
                     icon={Trash2}
@@ -312,7 +312,7 @@ export function ProductMediaManager({ productId }: { productId: string }) {
       )}
 
       <p className="text-xs text-ink-500">
-        Asosiy rasm katalog kartochkasida, savatda va buyurtmalar tarixida ko‘rsatiladi.
+        Asosiy rasm katalog kartochkasida, savatda va buyurtmalar tarixida koʻrsatiladi.
         Qolganlari mahsulot sahifasidagi galereyaga tushadi.
       </p>
     </div>

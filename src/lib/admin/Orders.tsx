@@ -92,13 +92,13 @@ export function AdminOrders() {
     if (err) {
       notify(
         err.message?.includes('OUT_OF_STOCK')
-          ? 'Omborda yetarli mahsulot yo‘q — bu buyurtmani qayta faollashtirib bo‘lmaydi.'
-          : `Statusni o‘zgartirib bo‘lmadi: ${err.message}`,
+          ? 'Omborda yetarli mahsulot yoʻq — bu buyurtmani qayta faollashtirib boʻlmaydi.'
+          : `Statusni oʻzgartirib boʻlmadi: ${err.message}`,
         'error'
       );
       return;
     }
-    notify(`Status «${ORDER_STATUS_LABELS[status] ?? status}» ga o‘zgartirildi`, 'success');
+    notify(`Status «${ORDER_STATUS_LABELS[status] ?? status}» ga oʻzgartirildi`, 'success');
     setOrders((prev) => prev.map((o) => (o.id === id ? { ...o, status } : o)));
     setDetail((d) => (d && d.id === id ? { ...d, status } : d));
   };
@@ -119,7 +119,7 @@ export function AdminOrders() {
           <AdminSelect
             value={statusFilter}
             onChange={setStatusFilter}
-            label="Status bo‘yicha filtr"
+            label="Status boʻyicha filtr"
             options={[
               { value: 'all', label: 'Barcha statuslar' },
               ...Object.keys(ORDER_STATUS_LABELS).map((k) => ({ value: k, label: ORDER_STATUS_LABELS[k] })),
@@ -134,11 +134,11 @@ export function AdminOrders() {
         <AdminError onRetry={load} />
       ) : orders.length === 0 ? (
         <AdminEmpty
-          title={debouncedSearch || statusFilter !== 'all' ? 'Mos buyurtma topilmadi' : 'Hali buyurtma yo‘q'}
+          title={debouncedSearch || statusFilter !== 'all' ? 'Mos buyurtma topilmadi' : 'Hali buyurtma yoʻq'}
           message={
             debouncedSearch || statusFilter !== 'all'
-              ? 'Qidiruv yoki filtrni o‘zgartiring.'
-              : 'Birinchi buyurtma kelganda u shu yerda ko‘rinadi.'
+              ? 'Qidiruv yoki filtrni oʻzgartiring.'
+              : 'Birinchi buyurtma kelganda u shu yerda koʻrinadi.'
           }
         />
       ) : (
@@ -151,7 +151,7 @@ export function AdminOrders() {
                   <th className={th}>Mijoz</th>
                   <th className={th}>Sana</th>
                   <th className={th}>Summa</th>
-                  <th className={th}>To‘lov</th>
+                  <th className={th}>Toʻlov</th>
                   <th className={th}>Status</th>
                   <th className={cx(th, 'text-right')}>Amal</th>
                 </tr>
@@ -223,7 +223,7 @@ export function AdminOrders() {
                   </a>
                 )}
               </Info>
-              <Info icon={CreditCard} label="To‘lov">
+              <Info icon={CreditCard} label="Toʻlov">
                 {detail.payment_method || '—'}
               </Info>
               <Info icon={MapPin} label="Manzil">
@@ -279,7 +279,7 @@ export function AdminOrders() {
 
             <div className="border-t border-ink-100 pt-4">
               <label htmlFor="admin-order-status" className="mb-1.5 block text-xs font-medium text-ink-600">
-                Statusni o‘zgartirish
+                Statusni oʻzgartirish
               </label>
               <select
                 id="admin-order-status"

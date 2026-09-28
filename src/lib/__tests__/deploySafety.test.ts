@@ -36,7 +36,7 @@ function stripSqlComments(sql: string): string {
 const SQL = stripSqlComments(MIGRATION);
 
 describe('migratsiya: eski RPC imzolari saqlanadi', () => {
-  it('eski `create_order` imzosi O‘CHIRILMAYDI', () => {
+  it('eski `create_order` imzosi OʻCHIRILMAYDI', () => {
     /*
      * `drop function ... create_order(text, …, text)` eski, keshdagi
      * frontend uchun buyurtma berishni butunlay o'chirib qo'yardi.
@@ -46,7 +46,7 @@ describe('migratsiya: eski RPC imzolari saqlanadi', () => {
     expect(SQL).not.toMatch(/drop\s+function[^;]*create_order_as\s*\(/i);
   });
 
-  it('eski 10 argumentli `create_order` moslik qobig‘i sifatida qayta yaratiladi', () => {
+  it('eski 10 argumentli `create_order` moslik qobigʻi sifatida qayta yaratiladi', () => {
     const shim = SQL.match(
       /create\s+or\s+replace\s+function\s+public\.create_order\s*\(([^)]*)\)/gi
     );
@@ -56,13 +56,13 @@ describe('migratsiya: eski RPC imzolari saqlanadi', () => {
 
     const withKey = shim!.filter((s) => s.includes('p_checkout_request_id'));
     const withoutKey = shim!.filter((s) => !s.includes('p_checkout_request_id'));
-    expect(withKey.length, 'kalitli overload yo‘q').toBeGreaterThanOrEqual(1);
-    expect(withoutKey.length, 'kalitsiz (eski) overload yo‘q').toBeGreaterThanOrEqual(1);
+    expect(withKey.length, 'kalitli overload yoʻq').toBeGreaterThanOrEqual(1);
+    expect(withoutKey.length, 'kalitsiz (eski) overload yoʻq').toBeGreaterThanOrEqual(1);
   });
 });
 
-describe('migratsiya: overload noaniqligi bo‘lmasligi kerak', () => {
-  it('`p_checkout_request_id` DEFAULT qiymatsiz e’lon qilinadi', () => {
+describe('migratsiya: overload noaniqligi boʻlmasligi kerak', () => {
+  it('`p_checkout_request_id` DEFAULT qiymatsiz eʼlon qilinadi', () => {
     /*
      * Bu eng nozik joy. Agar parametr `uuid default null` bo'lsa, 10 ta
      * nomli argument bilan kelgan chaqiruv IKKALA overload'ga ham mos
@@ -171,7 +171,7 @@ describe('frontend: eski bazada ham buyurtma ishlaydi', () => {
     expect(CHECKOUT).toMatch(/supportsIdempotencyKey/);
   });
 
-  it('zaxira yo‘l kalitsiz argumentlar bilan chaqiradi', () => {
+  it('zaxira yoʻl kalitsiz argumentlar bilan chaqiradi', () => {
     // Qayta urinish AYNAN kalitsiz bo'lishi kerak, aks holda u ham
     // xuddi shu xato bilan tugaydi.
     expect(CHECKOUT).toMatch(/supabase\.rpc\('create_order',\s*baseArgs\)/);
@@ -184,7 +184,7 @@ describe('isMissingFunctionError', () => {
     expect(isMissingFunctionError({ code: '42883' })).toBe(true);
   });
 
-  it('xabar matni bo‘yicha ham taniydi', () => {
+  it('xabar matni boʻyicha ham taniydi', () => {
     expect(
       isMissingFunctionError({
         message: 'Could not find the function public.create_order(...) in the schema cache',
@@ -193,7 +193,7 @@ describe('isMissingFunctionError', () => {
     expect(isMissingFunctionError({ message: 'function public.create_order(...) does not exist' })).toBe(true);
   });
 
-  it('ISH MANTIG‘I xatolarini zaxira yo‘lga chiqarmaydi', () => {
+  it('ISH MANTIGʻI xatolarini zaxira yoʻlga chiqarmaydi', () => {
     /*
      * Eng muhim salbiy holat. `OUT_OF_STOCK` ni "funksiya yo'q" deb
      * o'qisak, ilova kalitsiz QAYTA yuborardi — ya'ni idempotentlikni
@@ -213,7 +213,7 @@ describe('newCheckoutRequestId', () => {
     expect(id).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/);
   });
 
-  it('har safar boshqacha bo‘ladi', () => {
+  it('har safar boshqacha boʻladi', () => {
     const ids = new Set(Array.from({ length: 200 }, newCheckoutRequestId));
     expect(ids.size).toBe(200);
   });
@@ -230,7 +230,7 @@ function product(id: string): Product {
 }
 
 describe('cartSignature', () => {
-  it('tartibga bog‘liq emas', () => {
+  it('tartibga bogʻliq emas', () => {
     const a: CartItem[] = [
       { product: product('p1'), quantity: 1 },
       { product: product('p2'), quantity: 2 },
@@ -244,19 +244,19 @@ describe('cartSignature', () => {
     expect(cartSignature(a)).toBe(cartSignature(b));
   });
 
-  it('miqdor o‘zgarsa boshqa imzo beradi', () => {
+  it('miqdor oʻzgarsa boshqa imzo beradi', () => {
     const one: CartItem[] = [{ product: product('p1'), quantity: 1 }];
     const two: CartItem[] = [{ product: product('p1'), quantity: 2 }];
     expect(cartSignature(one)).not.toBe(cartSignature(two));
   });
 
-  it('variant o‘zgarsa boshqa imzo beradi', () => {
+  it('variant oʻzgarsa boshqa imzo beradi', () => {
     const black: CartItem[] = [{ product: product('p1'), quantity: 1, variantId: 'v-black' }];
     const white: CartItem[] = [{ product: product('p1'), quantity: 1, variantId: 'v-white' }];
     expect(cartSignature(black)).not.toBe(cartSignature(white));
   });
 
-  it('bo‘sh savat bo‘sh imzo beradi', () => {
+  it('boʻsh savat boʻsh imzo beradi', () => {
     expect(cartSignature([])).toBe('');
   });
 });

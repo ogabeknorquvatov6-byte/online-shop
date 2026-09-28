@@ -46,13 +46,13 @@ export class ErrorBoundary extends Component<Props, State> {
             <AlertTriangle className="h-8 w-8" />
           </div>
           <div>
-            <h1 className="text-lg font-bold text-gray-900">Nimadir noto'g'ri ketdi</h1>
-            <p className="mt-1 text-sm text-gray-500">Sahifani qayta yuklab ko'ring yoki bosh sahifaga qayting.</p>
+            <h1 className="text-lg font-bold text-gray-900">Nimadir notoʻgʻri ketdi</h1>
+            <p className="mt-1 text-sm text-gray-500">Sahifani qayta yuklab koʻring yoki bosh sahifaga qayting.</p>
           </div>
           <div className="flex gap-3">
             <button
               onClick={this.handleReset}
-              className="flex items-center gap-1.5 rounded-lg bg-orange-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-orange-700"
+              className="flex items-center gap-1.5 rounded-lg bg-orange-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-orange-800"
             >
               <RefreshCw className="h-4 w-4" /> Bosh sahifaga qaytish
             </button>

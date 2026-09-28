@@ -23,7 +23,7 @@ import { Img } from '../Img';
 const TYPES = [
   { value: 'color', label: 'Rang' },
   { value: 'storage', label: 'Xotira' },
-  { value: 'size', label: 'O‘lcham' },
+  { value: 'size', label: 'Oʻlcham' },
   { value: 'other', label: 'Boshqa' },
 ];
 
@@ -56,7 +56,7 @@ export function ProductVariantsManager({ productId, basePrice }: { productId: st
       .order('type')
       .order('sort_order')
       .then(({ data, error }) => {
-        if (error) notify(`Variantlarni yuklab bo‘lmadi: ${error.message}`, 'error');
+        if (error) notify(`Variantlarni yuklab boʻlmadi: ${error.message}`, 'error');
         else setVariants((data ?? []) as ProductVariant[]);
         setLoading(false);
       });
@@ -69,7 +69,7 @@ export function ProductVariantsManager({ productId, basePrice }: { productId: st
     const next: Record<string, string> = {};
     if (!form.value.trim()) next.value = 'Qiymatni kiriting (masalan «Qora»)';
     if (form.stock.trim() && (!Number.isInteger(Number(form.stock)) || Number(form.stock) < 0)) {
-      next.stock = 'Butun, manfiy bo‘lmagan son';
+      next.stock = 'Butun, manfiy boʻlmagan son';
     }
     if (!Number.isFinite(Number(form.price_adjustment))) next.price_adjustment = 'Son kiriting';
     setErrors(next);
@@ -95,13 +95,13 @@ export function ProductVariantsManager({ productId, basePrice }: { productId: st
       notify(
         error.message.includes('duplicate key') || error.message.includes('product_variants_unique_value')
           ? 'Bu turdagi shunday qiymat allaqachon mavjud.'
-          : `Saqlab bo‘lmadi: ${error.message}`,
+          : `Saqlab boʻlmadi: ${error.message}`,
         'error'
       );
       return;
     }
     setForm({ ...EMPTY, type: form.type });
-    notify('Variant qo‘shildi', 'success');
+    notify('Variant qoʻshildi', 'success');
     load();
   };
 
@@ -110,7 +110,7 @@ export function ProductVariantsManager({ productId, basePrice }: { productId: st
     const { error } = await supabase.from('product_variants').update(values).eq('id', id);
     setBusy(false);
     if (error) {
-      notify(`O‘zgartirib bo‘lmadi: ${error.message}`, 'error');
+      notify(`Oʻzgartirib boʻlmadi: ${error.message}`, 'error');
       return;
     }
     load();
@@ -121,10 +121,10 @@ export function ProductVariantsManager({ productId, basePrice }: { productId: st
     const { error } = await supabase.from('product_variants').delete().eq('id', v.id);
     setBusy(false);
     if (error) {
-      notify(`O‘chirib bo‘lmadi: ${error.message}`, 'error');
+      notify(`Oʻchirib boʻlmadi: ${error.message}`, 'error');
       return;
     }
-    notify('Variant o‘chirildi', 'success');
+    notify('Variant oʻchirildi', 'success');
     load();
   };
 
@@ -134,7 +134,7 @@ export function ProductVariantsManager({ productId, basePrice }: { productId: st
       const { url } = await uploadImage(file, `variants/${productId}`);
       setForm((f) => ({ ...f, image_url: url }));
     } catch (err) {
-      notify(err instanceof Error ? err.message : 'Rasmni yuklab bo‘lmadi', 'error');
+      notify(err instanceof Error ? err.message : 'Rasmni yuklab boʻlmadi', 'error');
     } finally {
       setUploading(false);
     }
@@ -158,7 +158,7 @@ export function ProductVariantsManager({ productId, basePrice }: { productId: st
       {/* Mavjud variantlar */}
       {variants.length === 0 ? (
         <p className="rounded-card border border-dashed border-ink-200 py-8 text-center text-sm text-ink-500">
-          Variant qo‘shilmagan. Mahsulot bitta ko‘rinishda sotiladi.
+          Variant qoʻshilmagan. Mahsulot bitta koʻrinishda sotiladi.
         </p>
       ) : (
         <div className="space-y-4">
@@ -213,7 +213,7 @@ export function ProductVariantsManager({ productId, basePrice }: { productId: st
                       type="button"
                       onClick={() => remove(v)}
                       disabled={busy}
-                      aria-label={`${v.label || v.value} — o‘chirish`}
+                      aria-label={`${v.label || v.value} — oʻchirish`}
                       className={cx('flex h-9 w-9 shrink-0 items-center justify-center rounded-control text-ink-400 hover:bg-red-50 hover:text-red-600', focusRing)}
                     >
                       <Trash2 className="h-4 w-4" />
@@ -253,10 +253,10 @@ export function ProductVariantsManager({ productId, basePrice }: { productId: st
           />
 
           <Field
-            label="Ko‘rsatiladigan nom"
+            label="Koʻrsatiladigan nom"
             value={form.label}
             onChange={(v) => setForm({ ...form, label: v })}
-            hint="Bo‘sh qoldirilsa qiymat ishlatiladi"
+            hint="Boʻsh qoldirilsa qiymat ishlatiladi"
           />
 
           {form.type === 'color' && (
@@ -287,11 +287,11 @@ export function ProductVariantsManager({ productId, basePrice }: { productId: st
             value={form.stock}
             error={errors.stock}
             onChange={(v) => setForm({ ...form, stock: v })}
-            hint="Bo‘sh = mahsulotning umumiy qoldig‘i"
+            hint="Boʻsh = mahsulotning umumiy qoldigʻi"
           />
 
           <Field
-            label="Narx farqi (so‘m)"
+            label="Narx farqi (soʻm)"
             type="number"
             value={form.price_adjustment}
             error={errors.price_adjustment}
@@ -299,7 +299,7 @@ export function ProductVariantsManager({ productId, basePrice }: { productId: st
             hint={
               basePrice > 0 && Number(form.price_adjustment)
                 ? `Yakuniy narx: ${formatPrice(Math.max(0, basePrice + Number(form.price_adjustment)))}`
-                : 'Manfiy ham bo‘lishi mumkin'
+                : 'Manfiy ham boʻlishi mumkin'
             }
           />
         </div>
@@ -341,12 +341,12 @@ export function ProductVariantsManager({ productId, basePrice }: { productId: st
             </button>
           </div>
           <p className="mt-1.5 text-xs text-ink-400">
-            Rasm qo‘shilsa, mijoz shu variantni tanlaganda galereya avtomatik o‘sha rasmga o‘tadi.
+            Rasm qoʻshilsa, mijoz shu variantni tanlaganda galereya avtomatik oʻsha rasmga oʻtadi.
           </p>
         </div>
 
         <button type="submit" disabled={busy} className={cx(button('secondary', 'md'), 'mt-4')}>
-          <Plus className="h-4 w-4" /> Variantni qo‘shish
+          <Plus className="h-4 w-4" /> Variantni qoʻshish
         </button>
       </form>
     </div>

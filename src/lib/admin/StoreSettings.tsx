@@ -38,16 +38,16 @@ export function AdminSettings() {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     const next: Record<string, string> = {};
-    if (!form.store_name.trim()) next.store_name = 'Do‘kon nomini kiriting';
+    if (!form.store_name.trim()) next.store_name = 'Doʻkon nomini kiriting';
     for (const key of ['delivery_fee_tashkent', 'delivery_fee_republic', 'free_delivery_threshold'] as const) {
       const n = Number(form[key]);
-      if (!Number.isFinite(n) || n < 0) next[key] = 'Manfiy bo‘lmagan son kiriting';
+      if (!Number.isFinite(n) || n < 0) next[key] = 'Manfiy boʻlmagan son kiriting';
     }
     for (const key of ['instagram_url', 'telegram_url', 'facebook_url', 'youtube_url'] as const) {
       const v = form[key].trim();
       if (v && !/^https?:\/\//i.test(v)) next[key] = 'Havola http:// yoki https:// bilan boshlansin';
     }
-    if (form.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) next.email = 'Email noto‘g‘ri';
+    if (form.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) next.email = 'Email notoʻgʻri';
     setErrors(next);
     if (Object.keys(next).length) return;
 
@@ -73,7 +73,7 @@ export function AdminSettings() {
     // Ilgari bu javob e'tiborsiz qoldirilardi va admin RLS tufayli hech narsa
     // saqlanmagan bo'lsa ham "Sozlamalar saqlandi" degan xabarni ko'rardi.
     if (err) {
-      notify(`Saqlab bo‘lmadi: ${err.message}`, 'error');
+      notify(`Saqlab boʻlmadi: ${err.message}`, 'error');
       return;
     }
     notify('Sozlamalar saqlandi', 'success');
@@ -81,17 +81,17 @@ export function AdminSettings() {
   };
 
   if (loading) return <AdminLoading rows={3} />;
-  if (error || !settings) return <AdminError message="Sozlamalarni yuklab bo‘lmadi" onRetry={refresh} />;
+  if (error || !settings) return <AdminError message="Sozlamalarni yuklab boʻlmadi" onRetry={refresh} />;
 
   const threshold = Number(form.free_delivery_threshold) || 0;
 
   return (
-    <AdminSection title="Do‘kon sozlamalari" description="Bu qiymatlar saytda va buyurtma hisob-kitobida ishlatiladi.">
+    <AdminSection title="Doʻkon sozlamalari" description="Bu qiymatlar saytda va buyurtma hisob-kitobida ishlatiladi.">
       <form onSubmit={handleSave} noValidate className="max-w-3xl space-y-5">
-        <Panel icon={Store} title="Asosiy ma’lumotlar">
+        <Panel icon={Store} title="Asosiy maʼlumotlar">
           <div className="grid gap-4 sm:grid-cols-2">
-            <FormField label="Do‘kon nomi" required value={form.store_name} error={errors.store_name}
-              onChange={(v) => setForm({ ...form, store_name: v })} hint="Header, footer va sahifa sarlavhasida ko‘rinadi" />
+            <FormField label="Doʻkon nomi" required value={form.store_name} error={errors.store_name}
+              onChange={(v) => setForm({ ...form, store_name: v })} hint="Header, footer va sahifa sarlavhasida koʻrinadi" />
             <FormField label="Telefon" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })}
               placeholder="+998 71 200 00 00" />
             <FormField label="Email" type="email" value={form.email} error={errors.email}
@@ -102,19 +102,19 @@ export function AdminSettings() {
 
         <Panel icon={Truck} title="Yetkazib berish">
           <div className="grid gap-4 sm:grid-cols-3">
-            <FormField label="Toshkent (so‘m)" type="number" min={0} value={form.delivery_fee_tashkent}
+            <FormField label="Toshkent (soʻm)" type="number" min={0} value={form.delivery_fee_tashkent}
               error={errors.delivery_fee_tashkent} onChange={(v) => setForm({ ...form, delivery_fee_tashkent: v })} />
-            <FormField label="Viloyatlar (so‘m)" type="number" min={0} value={form.delivery_fee_republic}
+            <FormField label="Viloyatlar (soʻm)" type="number" min={0} value={form.delivery_fee_republic}
               error={errors.delivery_fee_republic} onChange={(v) => setForm({ ...form, delivery_fee_republic: v })} />
             <FormField label="Bepul yetkazish chegarasi" type="number" min={0} value={form.free_delivery_threshold}
               error={errors.free_delivery_threshold} onChange={(v) => setForm({ ...form, free_delivery_threshold: v })}
-              hint="0 = aksiya yo‘q" />
+              hint="0 = aksiya yoʻq" />
           </div>
           <p className="mt-3 flex items-start gap-2 rounded-control bg-ink-50 px-3.5 py-2.5 text-xs leading-relaxed text-ink-600">
             <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-orange-600" />
             {threshold > 0
-              ? `Hozir: ${formatPrice(threshold)} dan yuqori buyurtmalarda yetkazib berish bepul. Bu narx savat, checkout va buyurtma summasida bir xil qo‘llanadi — hisob-kitob serverda bajariladi.`
-              : 'Bepul yetkazib berish aksiyasi o‘chirilgan. Narx savat, checkout va buyurtma summasida bir xil qo‘llanadi.'}
+              ? `Hozir: ${formatPrice(threshold)} dan yuqori buyurtmalarda yetkazib berish bepul. Bu narx savat, checkout va buyurtma summasida bir xil qoʻllanadi — hisob-kitob serverda bajariladi.`
+              : 'Bepul yetkazib berish aksiyasi oʻchirilgan. Narx savat, checkout va buyurtma summasida bir xil qoʻllanadi.'}
           </p>
         </Panel>
 
@@ -129,7 +129,7 @@ export function AdminSettings() {
             <FormField label="YouTube" value={form.youtube_url} error={errors.youtube_url}
               onChange={(v) => setForm({ ...form, youtube_url: v })} placeholder="https://youtube.com/…" />
           </div>
-          <p className="mt-2 text-xs text-ink-400">Bo‘sh qoldirilgan tarmoq footerda umuman ko‘rsatilmaydi.</p>
+          <p className="mt-2 text-xs text-ink-400">Boʻsh qoldirilgan tarmoq footerda umuman koʻrsatilmaydi.</p>
         </Panel>
 
         <button type="submit" disabled={saving} className={button('primary', 'lg')}>

@@ -277,7 +277,7 @@ function ProductListPage({
             title={emptyTitle}
             message={emptyMessage}
             icon={<SearchX className="h-6 w-6" />}
-            action={<Link to="/catalog" className="text-sm font-semibold text-orange-700 hover:underline">Butun katalogni ko‘rish</Link>}
+            action={<Link to="/catalog" className="text-sm font-semibold text-orange-700 hover:underline">Butun katalogni koʻrish</Link>}
           />
         ) : (
           <ProductGrid products={products} className={productGridClass} priorityCount={2} />
@@ -353,9 +353,9 @@ function PromotionsPage() {
       title="Aksiya va chegirmalar"
       subtitle="Cheklangan muddatdagi maxsus narxlar"
       icon={Sparkles}
-      seoDescription="OpenShop'dagi joriy aksiyalar va chegirmali mahsulotlar."
-      emptyTitle="Hozircha faol aksiya yo‘q"
-      emptyMessage="Yangi aksiyalar tez orada. Katalogdagi boshqa takliflarni ko‘ring."
+      seoDescription="OpenShopʼdagi joriy aksiyalar va chegirmali mahsulotlar."
+      emptyTitle="Hozircha faol aksiya yoʻq"
+      emptyMessage="Yangi aksiyalar tez orada. Katalogdagi boshqa takliflarni koʻring."
       fetcher={fetchPromotionProducts}
     />
   );
@@ -365,11 +365,11 @@ function NewProductsPage() {
   return (
     <ProductListPage
       title="Yangi mahsulotlar"
-      subtitle="Katalogga so‘nggi qo‘shilganlar"
+      subtitle="Katalogga soʻnggi qoʻshilganlar"
       icon={PackageSearch}
-      seoDescription="OpenShop katalogiga yaqinda qo‘shilgan yangi mahsulotlar."
-      emptyTitle="Yangi mahsulot yo‘q"
-      emptyMessage="Katalogda hozircha yangi qo‘shilgan mahsulot ko‘rinmadi."
+      seoDescription="OpenShop katalogiga yaqinda qoʻshilgan yangi mahsulotlar."
+      emptyTitle="Yangi mahsulot yoʻq"
+      emptyMessage="Katalogda hozircha yangi qoʻshilgan mahsulot koʻrinmadi."
       fetcher={fetchNew}
     />
   );
@@ -379,11 +379,11 @@ function BestsellersPage() {
   return (
     <ProductListPage
       title="Xit sotuvlar"
-      subtitle="Xaridorlar eng ko‘p tanlaydigan mahsulotlar"
+      subtitle="Xaridorlar eng koʻp tanlaydigan mahsulotlar"
       icon={TrendingUp}
-      seoDescription="OpenShop'da eng ko‘p sotilgan mahsulotlar reytingi."
-      emptyTitle="Ma’lumot yetarli emas"
-      emptyMessage="Sotuvlar to‘planganda bu bo‘lim avtomatik to‘ladi."
+      seoDescription="OpenShopʼda eng koʻp sotilgan mahsulotlar reytingi."
+      emptyTitle="Maʼlumot yetarli emas"
+      emptyMessage="Sotuvlar toʻplanganda bu boʻlim avtomatik toʻladi."
       fetcher={fetchBestsellers}
     />
   );
@@ -420,9 +420,9 @@ function StaticPage({ path }: { path: StaticPagePath }) {
 
         <div className="mt-10 rounded-card border border-ink-200 bg-white p-5">
           <p className="text-sm font-semibold text-ink-900">Savolingiz qoldimi?</p>
-          <p className="mt-1 text-sm text-ink-500">Operatorlarimiz har kuni 09:00–21:00 oralig‘ida javob beradi.</p>
+          <p className="mt-1 text-sm text-ink-500">Operatorlarimiz har kuni 09:00–21:00 oraligʻida javob beradi.</p>
           <Link to="/contact" className="mt-3 inline-flex text-sm font-semibold text-orange-700 hover:underline">
-            Biz bilan bog‘lanish →
+            Biz bilan bogʻlanish →
           </Link>
         </div>
       </div>
@@ -500,10 +500,10 @@ function NotFound() {
             Xato 404
           </p>
           <h1 className="mt-2.5 text-display-sm text-white sm:text-display-md lg:text-display-lg">
-            Bu sahifa yo‘qolib qoldi
+            Bu sahifa yoʻqolib qoldi
           </h1>
           <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-white/60 sm:text-base">
-            Havola eskirgan bo‘lishi yoki sahifa ko‘chirilgan bo‘lishi mumkin.
+            Havola eskirgan boʻlishi yoki sahifa koʻchirilgan boʻlishi mumkin.
             Keling, sizni kerakli joyga qaytaramiz.
           </p>
 
@@ -521,7 +521,7 @@ function NotFound() {
                 'border-white/25 bg-white/10 text-white hover:border-white/40 hover:bg-white/15'
               )}
             >
-              Katalogni ko‘rish
+              Katalogni koʻrish
             </Link>
           </div>
         </motion.div>

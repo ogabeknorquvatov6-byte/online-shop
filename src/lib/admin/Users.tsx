@@ -117,7 +117,7 @@ export function AdminUsers() {
     const { data, error: err } = await supabase.rpc('repair_missing_profiles');
     setRepairing(false);
     if (err) {
-      notify(`Tiklab bo‘lmadi: ${err.message}`, 'error');
+      notify(`Tiklab boʻlmadi: ${err.message}`, 'error');
       return;
     }
     const created = ((data ?? []) as { created: boolean }[]).filter((r) => r.created).length;
@@ -146,7 +146,7 @@ export function AdminUsers() {
     setBusy(false);
     setPending(null);
     if (err) {
-      notify(`Amalni bajarib bo‘lmadi: ${err.message}`, 'error');
+      notify(`Amalni bajarib boʻlmadi: ${err.message}`, 'error');
       return;
     }
     notify('Foydalanuvchi yangilandi', 'success');
@@ -173,12 +173,12 @@ export function AdminUsers() {
     },
     unblock: {
       title: 'Blokni yechish',
-      message: (n) => `${n} yana tizimga kirishi va buyurtma berishi mumkin bo‘ladi.`,
+      message: (n) => `${n} yana tizimga kirishi va buyurtma berishi mumkin boʻladi.`,
       label: 'Blokni yechish',
     },
     promote: {
       title: 'Admin huquqini berish',
-      message: (n) => `${n} admin paneliga to‘liq kirish huquqiga ega bo‘ladi: mahsulot, buyurtma va sozlamalarni o‘zgartira oladi.`,
+      message: (n) => `${n} admin paneliga toʻliq kirish huquqiga ega boʻladi: mahsulot, buyurtma va sozlamalarni oʻzgartira oladi.`,
       label: 'Admin qilish',
     },
     demote: {
@@ -191,14 +191,14 @@ export function AdminUsers() {
   return (
     <AdminSection
       title="Foydalanuvchilar"
-      description={loading ? undefined : `${pageSummary(page, total, users.length)} ta ro‘yxatdan o‘tgan foydalanuvchi`}
+      description={loading ? undefined : `${pageSummary(page, total, users.length)} ta roʻyxatdan oʻtgan foydalanuvchi`}
       actions={
         <>
           <AdminSearch value={search} onChange={setSearch} label="Foydalanuvchi qidirish" placeholder="Ism yoki telefon" />
           <AdminSelect
             value={roleFilter}
             onChange={setRoleFilter}
-            label="Rol bo‘yicha filtr"
+            label="Rol boʻyicha filtr"
             options={[
               { value: 'all', label: 'Barchasi' },
               { value: 'customer', label: 'Mijozlar' },
@@ -219,9 +219,9 @@ export function AdminUsers() {
         <div className="mb-4 flex flex-wrap items-center gap-3 rounded-card border border-amber-200 bg-amber-50 p-4">
           <AlertTriangle className="h-5 w-5 shrink-0 text-amber-600" />
           <p className="min-w-0 flex-1 text-sm text-amber-900">
-            <strong>{orphanCount} ta hisobda profil yo‘q.</strong>{' '}
-            Ular ro‘yxatdan o‘tgan, lekin profil qatori yaratilmagan — buyurtma bera olmaydi va
-            ma’lumotlari ko‘rinmaydi.
+            <strong>{orphanCount} ta hisobda profil yoʻq.</strong>{' '}
+            Ular roʻyxatdan oʻtgan, lekin profil qatori yaratilmagan — buyurtma bera olmaydi va
+            maʼlumotlari koʻrinmaydi.
           </p>
           <button onClick={repairProfiles} disabled={repairing} className={button('primary', 'md')}>
             {repairing ? 'Tiklanmoqda…' : 'Profillarni tiklash'}
@@ -235,11 +235,11 @@ export function AdminUsers() {
         <AdminError onRetry={load} />
       ) : users.length === 0 ? (
         <AdminEmpty
-          title={debouncedSearch || roleFilter !== 'all' ? 'Foydalanuvchi topilmadi' : 'Hali foydalanuvchi yo‘q'}
+          title={debouncedSearch || roleFilter !== 'all' ? 'Foydalanuvchi topilmadi' : 'Hali foydalanuvchi yoʻq'}
           message={
             debouncedSearch || roleFilter !== 'all'
-              ? 'Qidiruv yoki filtrni o‘zgartiring.'
-              : 'Birinchi ro‘yxatdan o‘tgan foydalanuvchi shu yerda ko‘rinadi.'
+              ? 'Qidiruv yoki filtrni oʻzgartiring.'
+              : 'Birinchi roʻyxatdan oʻtgan foydalanuvchi shu yerda koʻrinadi.'
           }
         />
       ) : (
@@ -252,7 +252,7 @@ export function AdminUsers() {
                   <th className={th}>Telefon</th>
                   <th className={th}>Rol</th>
                   <th className={th}>Holat</th>
-                  <th className={th}>Ro‘yxatdan o‘tgan</th>
+                  <th className={th}>Roʻyxatdan oʻtgan</th>
                   <th className={cx(th, 'text-right')}>Amallar</th>
                 </tr>
               </thead>
@@ -352,10 +352,10 @@ function RoleBadge({ role }: { role: 'customer' | 'admin' }) {
 function NoProfileBadge() {
   return (
     <span
-      title="Bu hisobda profil qatori yo‘q. Yuqoridagi «Profillarni tiklash» tugmasini bosing."
+      title="Bu hisobda profil qatori yoʻq. Yuqoridagi «Profillarni tiklash» tugmasini bosing."
       className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-0.5 text-[11px] font-medium text-amber-800"
     >
-      <UserX className="h-3 w-3" /> Profil yo‘q
+      <UserX className="h-3 w-3" /> Profil yoʻq
     </span>
   );
 }

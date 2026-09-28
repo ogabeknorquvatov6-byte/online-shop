@@ -58,10 +58,10 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-ink-100 text-ink-400">
                   <ShoppingCart className="h-7 w-7" />
                 </div>
-                <p className="mt-4 text-base font-semibold text-ink-900">Savatingiz bo‘sh</p>
-                <p className="mt-1 text-sm text-ink-500">Yoqqan mahsulotlarni savatga qo‘shing.</p>
+                <p className="mt-4 text-base font-semibold text-ink-900">Savatingiz boʻsh</p>
+                <p className="mt-1 text-sm text-ink-500">Yoqqan mahsulotlarni savatga qoʻshing.</p>
                 <Link to="/catalog" onClick={onClose} className={cx(button('primary', 'md'), 'mt-5')}>
-                  Katalogga o‘tish
+                  Katalogga oʻtish
                 </Link>
               </motion.div>
             ) : (
@@ -111,7 +111,7 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
                                 <button
                                   onClick={() => removeItem(key)}
                                   className={cx('-mr-1 -mt-0.5 flex h-8 w-8 items-center justify-center rounded-control text-ink-400 hover:bg-red-50 hover:text-red-600', focusRing)}
-                                  aria-label={`${item.product.name} — savatdan o‘chirish`}
+                                  aria-label={`${item.product.name} — savatdan oʻchirish`}
                                 >
                                   <Trash2 className="h-4 w-4" />
                                 </button>
@@ -130,7 +130,7 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
                                     onClick={() => updateQuantity(key, item.quantity + 1)}
                                     disabled={item.quantity >= max}
                                     className={cx('flex h-8 w-8 items-center justify-center rounded-r-control text-ink-600 hover:bg-ink-50 active:scale-90 disabled:text-ink-300 disabled:hover:bg-transparent', focusRing)}
-                                    aria-label="Ko‘paytirish"
+                                    aria-label="Koʻpaytirish"
                                   >
                                     <Plus className="h-3.5 w-3.5" />
                                   </button>
@@ -150,8 +150,8 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
                 >
                   {delivery.remainingForFree > 0 && (
                     <p className="mb-3 rounded-control bg-orange-50 px-3 py-2 text-xs text-orange-800">
-                      Yana <span className="font-semibold">{formatPrice(delivery.remainingForFree)}</span> qo‘shsangiz,
-                      yetkazib berish bepul bo‘ladi.
+                      Yana <span className="font-semibold">{formatPrice(delivery.remainingForFree)}</span> qoʻshsangiz,
+                      yetkazib berish bepul boʻladi.
                     </p>
                   )}
                   <dl className="space-y-1.5 text-sm">

@@ -35,21 +35,21 @@ let supportsIdempotencyKey = true;
 type PaymentMethod = 'Naqd pul' | 'Click' | 'Payme';
 
 const PAYMENT_OPTIONS: { value: PaymentMethod; label: string; desc: string; icon: typeof Banknote }[] = [
-  { value: 'Naqd pul', label: 'Naqd pul', desc: 'Kuryerga yetkazib berishda to‘laysiz', icon: Banknote },
-  { value: 'Click', label: 'Click', desc: 'Click orqali onlayn to‘lov', icon: Smartphone },
-  { value: 'Payme', label: 'Payme', desc: 'Payme orqali onlayn to‘lov', icon: Wallet },
+  { value: 'Naqd pul', label: 'Naqd pul', desc: 'Kuryerga yetkazib berishda toʻlaysiz', icon: Banknote },
+  { value: 'Click', label: 'Click', desc: 'Click orqali onlayn toʻlov', icon: Smartphone },
+  { value: 'Payme', label: 'Payme', desc: 'Payme orqali onlayn toʻlov', icon: Wallet },
 ];
 
 // `create_order` RPC postgres xatolarini shu kodlar bilan qaytaradi.
 const ERROR_MESSAGES: Record<string, string> = {
   AUTH_REQUIRED: 'Buyurtma berish uchun avval tizimga kiring.',
-  ACCOUNT_BLOCKED: 'Hisobingiz bloklangan. Administratsiya bilan bog‘laning.',
-  OUT_OF_STOCK: 'Afsuski, ba’zi mahsulotlar tugab qoldi. Savatni tekshiring.',
-  TOO_MANY_ORDERS: 'Juda ko‘p buyurtma yubordingiz. Bir necha daqiqadan so‘ng urinib ko‘ring.',
-  INVALID_DETAILS: 'Ism, telefon yoki manzil to‘liq kiritilmadi.',
-  EMPTY_CART: 'Savatingiz bo‘sh.',
-  INVALID_QUANTITY: 'Mahsulot miqdori noto‘g‘ri.',
-  INVALID_PAYMENT_METHOD: 'To‘lov usuli noto‘g‘ri.',
+  ACCOUNT_BLOCKED: 'Hisobingiz bloklangan. Administratsiya bilan bogʻlaning.',
+  OUT_OF_STOCK: 'Afsuski, baʼzi mahsulotlar tugab qoldi. Savatni tekshiring.',
+  TOO_MANY_ORDERS: 'Juda koʻp buyurtma yubordingiz. Bir necha daqiqadan soʻng urinib koʻring.',
+  INVALID_DETAILS: 'Ism, telefon yoki manzil toʻliq kiritilmadi.',
+  EMPTY_CART: 'Savatingiz boʻsh.',
+  INVALID_QUANTITY: 'Mahsulot miqdori notoʻgʻri.',
+  INVALID_PAYMENT_METHOD: 'Toʻlov usuli notoʻgʻri.',
   // Tanlangan variant (rang/xotira) o'chirilgan yoki nofaol qilingan —
   // savatda esa hamon turibdi.
   INVALID_VARIANT: 'Tanlangan variant endi mavjud emas. Mahsulotni qaytadan tanlang.',
@@ -69,10 +69,10 @@ type FieldKey = keyof FormState;
 function validate(form: FormState): Partial<Record<FieldKey, string>> {
   const errors: Partial<Record<FieldKey, string>> = {};
   if (form.name.trim().length < 2) errors.name = 'Ism va familiyangizni kiriting';
-  if (normalizePhone(form.phone).length < 9) errors.phone = 'To‘g‘ri telefon raqam kiriting';
+  if (normalizePhone(form.phone).length < 9) errors.phone = 'Toʻgʻri telefon raqam kiriting';
   if (form.city.trim().length < 2) errors.city = 'Shaharni kiriting';
-  if (form.address.trim().length < 5) errors.address = 'To‘liq manzilni kiriting (ko‘cha, uy)';
-  if (form.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) errors.email = 'Email noto‘g‘ri';
+  if (form.address.trim().length < 5) errors.address = 'Toʻliq manzilni kiriting (koʻcha, uy)';
+  if (form.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) errors.email = 'Email notoʻgʻri';
   return errors;
 }
 
@@ -102,7 +102,7 @@ export function CheckoutPage() {
     name: '', phone: '', email: '', city: 'Toshkent', address: '', note: '',
   });
 
-  useSeo({ title: 'Buyurtmani rasmiylashtirish', description: 'Yetkazib berish manzili va to‘lov usulini tanlang.', noindex: true });
+  useSeo({ title: 'Buyurtmani rasmiylashtirish', description: 'Yetkazib berish manzili va toʻlov usulini tanlang.', noindex: true });
 
   // Profil ma'lumotlari bilan avtomatik to'ldirish — mijoz bir xil narsani
   // har safar qayta yozmasligi kerak.
@@ -150,7 +150,7 @@ export function CheckoutPage() {
     }
     touchAll();
     if (Object.keys(errors).length > 0) {
-      notify('Iltimos, majburiy maydonlarni to‘g‘ri to‘ldiring.', 'error');
+      notify('Iltimos, majburiy maydonlarni toʻgʻri toʻldiring.', 'error');
       setStep(1);
       return;
     }
@@ -213,15 +213,15 @@ export function CheckoutPage() {
     if (error && supportsIdempotencyKey && isMissingFunctionError(error)) {
       supportsIdempotencyKey = false;
       console.warn(
-        'create_order: baza `p_checkout_request_id` ni qo‘llamaydi — ' +
-          'migratsiya hali qo‘llanmagan. Kalitsiz qayta urinilmoqda.'
+        'create_order: baza `p_checkout_request_id` ni qoʻllamaydi — ' +
+          'migratsiya hali qoʻllanmagan. Kalitsiz qayta urinilmoqda.'
       );
       ({ data: orderId, error } = await supabase.rpc('create_order', baseArgs));
     }
 
     if (error || !orderId) {
       const code = Object.keys(ERROR_MESSAGES).find((key) => error?.message?.includes(key));
-      notify(code ? ERROR_MESSAGES[code] : 'Buyurtmani yaratib bo‘lmadi. Qaytadan urinib ko‘ring.', 'error');
+      notify(code ? ERROR_MESSAGES[code] : 'Buyurtmani yaratib boʻlmadi. Qaytadan urinib koʻring.', 'error');
       setSubmitting(false);
       return;
     }
@@ -317,8 +317,8 @@ export function CheckoutPage() {
 
           {done.payment !== 'Naqd pul' && (
             <p className="mt-4 rounded-control bg-orange-50 px-4 py-3 text-xs leading-relaxed text-orange-800">
-              Onlayn to‘lov hozircha tasdiqlanmoqda. To‘lov holati o‘zgarganda buyurtmangiz
-              avtomatik yangilanadi — uni «Buyurtmalarim» bo‘limida kuzatib boring.
+              Onlayn toʻlov hozircha tasdiqlanmoqda. Toʻlov holati oʻzgarganda buyurtmangiz
+              avtomatik yangilanadi — uni «Buyurtmalarim» boʻlimida kuzatib boring.
             </p>
           )}
         </div>
@@ -334,12 +334,12 @@ export function CheckoutPage() {
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-ink-100 text-ink-400">
             <Package className="h-6 w-6" />
           </div>
-          <h1 className="mt-4 text-lg font-bold text-ink-900">Savatingiz bo‘sh</h1>
+          <h1 className="mt-4 text-lg font-bold text-ink-900">Savatingiz boʻsh</h1>
           <p className="mt-1.5 text-sm text-ink-500">
             Buyurtma rasmiylashtirish uchun avval mahsulot tanlang.
           </p>
           <Link to="/catalog" className={cx(button('primary', 'md'), 'mt-5')}>
-            Katalogga o‘tish
+            Katalogga oʻtish
           </Link>
         </div>
       </div>
@@ -367,7 +367,7 @@ export function CheckoutPage() {
     const steps: { n: 1 | 2 | 3; label: string }[] = [
       { n: 1, label: 'Manzil' },
       { n: 2, label: 'Yetkazish' },
-      { n: 3, label: 'To‘lov' },
+      { n: 3, label: 'Toʻlov' },
     ];
 
     return (
@@ -430,8 +430,8 @@ export function CheckoutPage() {
               <Field label="Ism va familiya" required value={form.name} onChange={setField('name')} onBlur={() => setTouched((t) => ({ ...t, name: true }))} error={fieldError('name')} autoComplete="name" />
               <Field label="Telefon" required value={form.phone} onChange={setField('phone')} onBlur={() => setTouched((t) => ({ ...t, phone: true }))} error={fieldError('phone')} placeholder="+998 90 123 45 67" type="tel" inputMode="tel" autoComplete="tel" />
               <Field label="Shahar / viloyat" required value={form.city} onChange={setField('city')} onBlur={() => setTouched((t) => ({ ...t, city: true }))} error={fieldError('city')} autoComplete="address-level2" />
-              <Field label="Manzil" required value={form.address} onChange={setField('address')} onBlur={() => setTouched((t) => ({ ...t, address: true }))} error={fieldError('address')} placeholder="Ko‘cha, uy, kvartira" autoComplete="street-address" />
-              <Field label="Email" hint="Ixtiyoriy — buyurtma tasdig‘ini yuboramiz" value={form.email} onChange={setField('email')} onBlur={() => setTouched((t) => ({ ...t, email: true }))} error={fieldError('email')} type="email" inputMode="email" autoComplete="email" />
+              <Field label="Manzil" required value={form.address} onChange={setField('address')} onBlur={() => setTouched((t) => ({ ...t, address: true }))} error={fieldError('address')} placeholder="Koʻcha, uy, kvartira" autoComplete="street-address" />
+              <Field label="Email" hint="Ixtiyoriy — buyurtma tasdigʻini yuboramiz" value={form.email} onChange={setField('email')} onBlur={() => setTouched((t) => ({ ...t, email: true }))} error={fieldError('email')} type="email" inputMode="email" autoComplete="email" />
               <NoteField id="checkout-note-m" value={form.note} onChange={setField('note')} />
 
               <button
@@ -439,7 +439,7 @@ export function CheckoutPage() {
                 onClick={() => {
                   if (addressValid) return setStep(2);
                   touchAll();
-                  notify('Majburiy maydonlarni to‘g‘ri to‘ldiring.', 'error');
+                  notify('Majburiy maydonlarni toʻgʻri toʻldiring.', 'error');
                 }}
                 className={cx(button('primary', 'lg'), 'w-full')}
               >
@@ -469,7 +469,7 @@ export function CheckoutPage() {
                 </span>
               </div>
               <p className="text-xs leading-relaxed text-ink-500">
-                Toshkent bo‘ylab odatda 1 kun ichida, boshqa hududlarga 2–3 kun ichida yetkaziladi.
+                Toshkent boʻylab odatda 1 kun ichida, boshqa hududlarga 2–3 kun ichida yetkaziladi.
                 {delivery.freeThreshold > 0 && ` ${formatPrice(delivery.freeThreshold)} dan yuqori buyurtmalarda yetkazib berish bepul.`}
               </p>
               <button type="button" onClick={() => setStep(3)} className={cx(button('primary', 'lg'), 'w-full')}>
@@ -487,7 +487,7 @@ export function CheckoutPage() {
               transition={{ duration: DURATION.ui, ease: EASE.standard }}
               className="space-y-4 px-4 pt-4"
             >
-              <SectionTitle icon={Wallet}>To‘lov usulini tanlang</SectionTitle>
+              <SectionTitle icon={Wallet}>Toʻlov usulini tanlang</SectionTitle>
               <PaymentPicker value={paymentMethod} onChange={setPaymentMethod} />
               {summary}
               <SubmitButton label="Buyurtmani tasdiqlash" submitting={submitting} onClick={() => handleSubmit()} />
@@ -503,17 +503,17 @@ export function CheckoutPage() {
   return (
     <div className={cx(shell, 'py-5 lg:py-8')}>
       <h1 className="text-display-sm">Buyurtmani rasmiylashtirish</h1>
-      <p className="mt-1 text-sm text-ink-500">Ma’lumotlarni to‘ldiring — buyurtmangiz bir daqiqada tayyor.</p>
+      <p className="mt-1 text-sm text-ink-500">Maʼlumotlarni toʻldiring — buyurtmangiz bir daqiqada tayyor.</p>
 
       <form onSubmit={handleSubmit} noValidate className="mt-6 grid min-w-0 gap-6 lg:grid-cols-3 lg:gap-8">
         <div className="min-w-0 space-y-5 lg:col-span-2">
           <section className={cx(card, 'p-5 sm:p-6')}>
-            <SectionTitle icon={MapPin} step={1} done={contactDone}>Kontakt ma’lumotlari</SectionTitle>
+            <SectionTitle icon={MapPin} step={1} done={contactDone}>Kontakt maʼlumotlari</SectionTitle>
             <div className="mt-4 grid gap-4 sm:grid-cols-2">
               <Field label="Ism va familiya" required value={form.name} onChange={setField('name')} onBlur={() => setTouched((t) => ({ ...t, name: true }))} error={fieldError('name')} autoComplete="name" />
               <Field label="Telefon" required value={form.phone} onChange={setField('phone')} onBlur={() => setTouched((t) => ({ ...t, phone: true }))} error={fieldError('phone')} placeholder="+998 90 123 45 67" type="tel" inputMode="tel" autoComplete="tel" />
               <div className="sm:col-span-2">
-                <Field label="Email" hint="Ixtiyoriy — buyurtma tasdig‘ini yuboramiz" value={form.email} onChange={setField('email')} onBlur={() => setTouched((t) => ({ ...t, email: true }))} error={fieldError('email')} type="email" inputMode="email" autoComplete="email" />
+                <Field label="Email" hint="Ixtiyoriy — buyurtma tasdigʻini yuboramiz" value={form.email} onChange={setField('email')} onBlur={() => setTouched((t) => ({ ...t, email: true }))} error={fieldError('email')} type="email" inputMode="email" autoComplete="email" />
               </div>
             </div>
           </section>
@@ -523,7 +523,7 @@ export function CheckoutPage() {
             <div className="mt-4 grid gap-4 sm:grid-cols-2">
               <Field label="Shahar / viloyat" required value={form.city} onChange={setField('city')} onBlur={() => setTouched((t) => ({ ...t, city: true }))} error={fieldError('city')} autoComplete="address-level2" />
               <div className="sm:col-span-2">
-                <Field label="Manzil" required value={form.address} onChange={setField('address')} onBlur={() => setTouched((t) => ({ ...t, address: true }))} error={fieldError('address')} placeholder="Ko‘cha, uy, kvartira" autoComplete="street-address" />
+                <Field label="Manzil" required value={form.address} onChange={setField('address')} onBlur={() => setTouched((t) => ({ ...t, address: true }))} error={fieldError('address')} placeholder="Koʻcha, uy, kvartira" autoComplete="street-address" />
               </div>
               <div className="sm:col-span-2">
                 <NoteField id="checkout-note" value={form.note} onChange={setField('note')} />
@@ -535,14 +535,14 @@ export function CheckoutPage() {
                 ? 'Ushbu buyurtma uchun yetkazib berish bepul.'
                 : `Yetkazib berish: ${formatPrice(delivery.fee)}${
                     delivery.remainingForFree > 0
-                      ? ` — yana ${formatPrice(delivery.remainingForFree)} qo‘shsangiz bepul bo‘ladi`
+                      ? ` — yana ${formatPrice(delivery.remainingForFree)} qoʻshsangiz bepul boʻladi`
                       : ''
                   }`}
             </p>
           </section>
 
           <section className={cx(card, 'p-5 sm:p-6')}>
-            <SectionTitle icon={Wallet} step={3}>To‘lov usuli</SectionTitle>
+            <SectionTitle icon={Wallet} step={3}>Toʻlov usuli</SectionTitle>
             <div className="mt-4">
               <PaymentPicker value={paymentMethod} onChange={setPaymentMethod} />
             </div>
@@ -893,7 +893,7 @@ function TrustNote() {
   return (
     <p className="mt-3 flex items-start gap-2 px-1 text-[11px] leading-relaxed text-ink-500">
       <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" />
-      Ma’lumotlaringiz faqat buyurtmani yetkazib berish uchun ishlatiladi va uchinchi shaxslarga
+      Maʼlumotlaringiz faqat buyurtmani yetkazib berish uchun ishlatiladi va uchinchi shaxslarga
       berilmaydi.
     </p>
   );
@@ -907,7 +907,7 @@ function PaymentPicker({
 }) {
   return (
     <fieldset className="space-y-2.5">
-      <legend className="sr-only">To‘lov usuli</legend>
+      <legend className="sr-only">Toʻlov usuli</legend>
       {PAYMENT_OPTIONS.map((opt) => {
         const active = value === opt.value;
         return (
@@ -960,7 +960,7 @@ function NoteField({ id, value, onChange }: { id: string; value: string; onChang
         onChange={(e) => onChange(e.target.value)}
         rows={3}
         maxLength={500}
-        placeholder="Masalan: 2-podyezd, 4-qavat. Kelishdan oldin qo‘ng‘iroq qiling."
+        placeholder="Masalan: 2-podyezd, 4-qavat. Kelishdan oldin qoʻngʻiroq qiling."
         className={textarea()}
       />
     </div>

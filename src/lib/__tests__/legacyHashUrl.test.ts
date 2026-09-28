@@ -28,7 +28,7 @@ afterEach(() => {
 });
 
 describe('migrateLegacyHashUrl', () => {
-  it('oddiy hash marshrutni toza manzilga o‘giradi', () => {
+  it('oddiy hash marshrutni toza manzilga oʻgiradi', () => {
     const replaceState = stubLocation('https://shop.uz/#/catalog');
     migrateLegacyHashUrl();
     expect(replaceState).toHaveBeenCalledWith(null, '', '/catalog');
@@ -40,13 +40,13 @@ describe('migrateLegacyHashUrl', () => {
     expect(replaceState).toHaveBeenCalledWith(null, '', '/product/iphone-15');
   });
 
-  it('hash ichidagi so‘rov parametrlarini ko‘chiradi', () => {
+  it('hash ichidagi soʻrov parametrlarini koʻchiradi', () => {
     const replaceState = stubLocation('https://shop.uz/#/catalog?brand=Apple');
     migrateLegacyHashUrl();
     expect(replaceState).toHaveBeenCalledWith(null, '', '/catalog?brand=Apple');
   });
 
-  it('OAuth qaytishidagi `?code=` ni yo‘qotmaydi', () => {
+  it('OAuth qaytishidagi `?code=` ni yoʻqotmaydi', () => {
     // Supabase PKCE oqimi `?code=...` bilan qaytadi. Agar shu paytda
     // manzilda eski hash ham bo'lsa, ikkalasi ham saqlanishi SHART —
     // aks holda foydalanuvchi tizimga kira olmaydi.
@@ -55,13 +55,13 @@ describe('migrateLegacyHashUrl', () => {
     expect(replaceState).toHaveBeenCalledWith(null, '', '/account?code=abc123');
   });
 
-  it('`#/` ildizini `/` ga o‘giradi', () => {
+  it('`#/` ildizini `/` ga oʻgiradi', () => {
     const replaceState = stubLocation('https://shop.uz/#/');
     migrateLegacyHashUrl();
     expect(replaceState).toHaveBeenCalledWith(null, '', '/');
   });
 
-  it('hash yo‘q bo‘lsa hech narsa qilmaydi', () => {
+  it('hash yoʻq boʻlsa hech narsa qilmaydi', () => {
     const replaceState = stubLocation('https://shop.uz/catalog');
     migrateLegacyHashUrl();
     expect(replaceState).not.toHaveBeenCalled();
@@ -74,7 +74,7 @@ describe('migrateLegacyHashUrl', () => {
     expect(replaceState).not.toHaveBeenCalled();
   });
 
-  it('haqiqiy yo‘lda turgan hashni marshrut deb hisoblamaydi', () => {
+  it('haqiqiy yoʻlda turgan hashni marshrut deb hisoblamaydi', () => {
     // Foydalanuvchi allaqachon `/catalog` da bo'lsa, `#/cart` uni
     // boshqa sahifaga uloqtirmasligi kerak.
     const replaceState = stubLocation('https://shop.uz/catalog#/cart');

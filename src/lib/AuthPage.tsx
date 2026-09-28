@@ -147,7 +147,7 @@ export function AuthPage() {
                 <Package className="h-4.5 w-4.5 shrink-0 text-orange-500" /> Buyurtma holati real vaqtda
               </li>
               <li className="flex items-center gap-2.5">
-                <Truck className="h-4.5 w-4.5 shrink-0 text-orange-500" /> Toshkent bo‘ylab 1 kunda yetkazib berish
+                <Truck className="h-4.5 w-4.5 shrink-0 text-orange-500" /> Toshkent boʻylab 1 kunda yetkazib berish
               </li>
               <li className="flex items-center gap-2.5">
                 <ShieldCheck className="h-4.5 w-4.5 shrink-0 text-orange-500" /> Rasmiy kafolat va 14 kunlik qaytarish
@@ -240,7 +240,7 @@ export function AuthPage() {
                   <button
                     type="button"
                     onClick={() => setShowPassword((s) => !s)}
-                    aria-label={showPassword ? 'Parolni yashirish' : 'Parolni ko‘rsatish'}
+                    aria-label={showPassword ? 'Parolni yashirish' : 'Parolni koʻrsatish'}
                     className={cx('absolute right-0 top-0 flex h-11 w-11 items-center justify-center rounded-control text-ink-400 hover:text-ink-700', focusRing)}
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -296,10 +296,10 @@ export function AuthPage() {
                 </span>
                 <div className="min-w-0">
                   <h2 id="register-heading" className="text-sm font-semibold text-ink-900">
-                    Hisobingiz yo‘qmi?
+                    Hisobingiz yoʻqmi?
                   </h2>
                   <p className="mt-1 text-xs leading-relaxed text-ink-500">
-                    Ro‘yxatdan o‘tish Telegram bot orqali — bir daqiqada. Bot sizga login va
+                    Roʻyxatdan oʻtish Telegram bot orqali — bir daqiqada. Bot sizga login va
                     parol beradi, shu bilan saytga kirasiz.
                   </p>
                 </div>
@@ -327,7 +327,7 @@ export function AuthPage() {
                   )}
                 >
                   <Send className="h-4 w-4" />
-                  Telegram bot orqali ro‘yxatdan o‘tish
+                  Telegram bot orqali roʻyxatdan oʻtish
                   <ArrowRight className="h-4 w-4" />
                 </a>
                 <p className="mt-2 text-center text-[11px] text-ink-400">@{BOT_USERNAME}</p>

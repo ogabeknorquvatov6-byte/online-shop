@@ -67,8 +67,28 @@ export const buttonSize = {
 } as const;
 
 export const buttonVariant = {
+  /*
+   * ── OQ MATN OSTIDA DOIM `orange-700` ──────────────────────────
+   *
+   * Ilgari bu yerda `bg-orange-600` (#EA6100) turardi. Oq matn bilan
+   * uning kontrasti — 3.4:1 (hisoblandi, WCAG formulasi bo'yicha).
+   * Kichik matn uchun AA 4.5:1 talab qiladi, ya'ni ilovaning ENG
+   * MUHIM tugmasidagi yozuv standartdan o'tmasdi. Quyoshli kunda
+   * telefon ekranida bu nazariy muammo emas.
+   *
+   * `orange-700` (#c2410c) bilan kontrast 5.2:1 — AA dan o'tadi va
+   * AAA (7:1) ga ham yaqinlashadi.
+   *
+   * `orange-600` YO'Q BO'LIB KETMAYDI: u matnsiz yuzalarda qoladi —
+   * logo, to'ldirilgan yurakcha, navigatsiya nuri, tanlangan chegara,
+   * aurora nuri. Ya'ni brend rangi ekranda o'sha-o'sha, faqat ustida
+   * O'QILADIGAN NARSA bo'lganda bir pog'ona to'qlashadi.
+   *
+   * Bu tuzatish ATAYLAB IKKI JOYDA: shu yerda va `discountBadge()` da.
+   * Uchinchi joy yo'q — qolgan hamma narsa shu ikkisini chaqiradi.
+   */
   primary:
-    'bg-orange-600 text-white hover:bg-orange-700 active:bg-orange-800 disabled:bg-ink-200 disabled:text-ink-400',
+    'bg-orange-700 text-white hover:bg-orange-800 active:bg-orange-900 disabled:bg-ink-200 disabled:text-ink-400',
   secondary:
     'bg-ink-900 text-white hover:bg-ink-800 active:bg-black disabled:bg-ink-200 disabled:text-ink-400',
   outline:
@@ -101,7 +121,16 @@ export const buttonVariant = {
    * (Ayni tabiatdagi to'qnashuv `buttonSize.card` izohida ham
    * tasvirlangan — u yerda `h-9` va `h-11` shu tarzda urishgandi.)
    */
-  success: 'bg-emerald-600 text-white hover:bg-emerald-600 active:bg-emerald-700 disabled:bg-ink-200',
+  /*
+   * Fon `emerald-700`, `emerald-600` EMAS — AYNI sabab `primary` da.
+   * O'lchandi: oq matn `emerald-600` (#059669) ustida 3.8:1, ya'ni u
+   * ham AA dan o'tmasdi; `emerald-700` (#047857) bilan 5.5:1.
+   *
+   * Brif kontrast qoidasini to'q sariq uchun yozgan, lekin nuqson
+   * bir xil: tasdiq tugmasi — foydalanuvchi bosgandan keyin
+   * O'QIYDIGAN yagona narsa.
+   */
+  success: 'bg-emerald-700 text-white hover:bg-emerald-700 active:bg-emerald-800 disabled:bg-ink-200',
 } as const;
 
 export function button(
@@ -205,6 +234,44 @@ export const badgeTone = {
   info: 'bg-blue-50 text-blue-700',
 } as const;
 
+/* ── Sanoq nishonchasi ───────────────────────────────────────────────────
+ * "Savatda 3 ta", "Sevimlilar 5", "Filtr (2)" — bitta ma'no, ilovada
+ * BESH joyda: header savat, header sevimlilar, pastki navigatsiya, mobil
+ * menyu qatori va katalogdagi filtr tugmasi.
+ *
+ * Beshtasi ham qo'lda yozilgan edi va uchta narsada ajralib ketgandi:
+ * o'lcham (16 yoki 20px), matn (10 yoki 11px) va eng muhimi — foni
+ * `orange-600` bo'lib, ustidagi oq raqam 3.4:1 kontrast berardi. Ya'ni
+ * savatdagi mahsulot soni — foydalanuvchi eng ko'p qaraydigan raqam —
+ * AA dan o'tmasdi.
+ *
+ * Endi bitta joyda: fon `orange-700` (5.2:1) va matn 12px — tipografiya
+ * shkalasining eng kichik qadami. 10px shkalada umuman yo'q edi.
+ *
+ * `tabular-nums` SHART: 1 → 2 → 3 almashganda nishoncha kengligi
+ * sakramasligi kerak, aks holda yonidagi ikonka har qo'shishda joyidan
+ * qimirlab turardi.
+ *
+ * O'lcham 18px — 12px matn uchun minimal qulay balandlik. Nishoncha
+ * bosilmaydi (u har doim bosiladigan ikonka yoki qator ICHIDA turadi),
+ * shuning uchun 44px qoidasi bu yerga tegishli emas.
+ */
+const countBadgeBase =
+  'flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-orange-700 ' +
+  'px-1 text-xs font-bold leading-none text-white tabular-nums';
+
+export const countBadge = {
+  /**
+   * Ikonka ustida "osilgan" nishoncha (header savat/sevimlilar, pastki nav).
+   * Oq halqa — nishoncha ikonka chizig'iga qo'shilib ketmasligi uchun.
+   * Joylashuvi (`right`/`top`) chaqiruv joyida qoladi: uchala ikonkada
+   * u har xil, chunki ikonka o'lchamlari ham har xil.
+   */
+  overlay: cx(countBadgeBase, 'absolute z-10 ring-2 ring-white'),
+  /** Matn yonida, qator ichida (mobil menyu, filtr tugmasi). */
+  inline: cx(countBadgeBase, 'shrink-0 px-1.5'),
+} as const;
+
 /* ── Chegirma nishoni ────────────────────────────────────────────────────
  * `−N%` uchta joyda chiziladi: kartochka grid'ida, Spotlight'da va
  * mahsulot sahifasidagi galereyada. Uchalasi ham bir xil MA'LUMOT, lekin
@@ -231,7 +298,12 @@ export function discountBadge(
   extra?: string
 ): string {
   return cx(
-    'inline-flex items-center rounded-md bg-orange-600 font-bold text-white shadow-brand',
+    // Fon `orange-700`, `orange-600` EMAS — sabab `buttonVariant.primary`
+    // izohida: ustida oq matn bor, demak 4.5:1 talabi amal qiladi.
+    // `shadow-brand` esa `orange-600` nuri bo'lib qoladi: u matn ostida
+    // emas, nishon ATROFIDA va kontrastga ta'sir qilmaydi — ya'ni
+    // nishonning "muhrlangan" ko'rinishi saqlanadi.
+    'inline-flex items-center rounded-md bg-orange-700 font-bold text-white shadow-brand',
     discountBadgeSize[size],
     extra
   );
