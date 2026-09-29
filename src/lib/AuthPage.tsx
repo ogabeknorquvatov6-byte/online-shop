@@ -322,19 +322,31 @@ export function AuthPage() {
                   target="_blank"
                   rel="noreferrer noopener"
                   className={cx(
-                    'flex h-12 w-full items-center justify-center gap-2 rounded-control bg-sky-500 text-sm font-semibold text-white transition-colors hover:bg-sky-600',
+                    /*
+                      ── KOʻK FAQAT IKONKADA ────────────────────────────
+                      Fon `sky-500` + oq matn = 2.77:1 (oʻlchandi) — AA
+                      4.5:1 talab qiladi. Bu esa roʻyxatdan oʻtishning
+                      YAGONA yoʻli, yaʼni sahifadagi eng muhim tugma.
+
+                      Endi fon `ink-900` (oq matn bilan 17.9:1) va
+                      Telegram koʻki ikonkada qoladi — brend tanilishi
+                      saqlanadi, matn esa oʻqiladi. Ikonka MAʼLUMOT
+                      tashimaydi (matn yonida), shuning uchun unga
+                      matn kontrasti qoidasi tegishli emas.
+                    */
+                    'flex h-12 w-full items-center justify-center gap-2 rounded-control bg-ink-900 text-sm font-semibold text-white transition-colors hover:bg-ink-800',
                     focusRing
                   )}
                 >
-                  <Send className="h-4 w-4" />
+                  <Send className="h-4 w-4 text-sky-400" />
                   Telegram bot orqali roʻyxatdan oʻtish
                   <ArrowRight className="h-4 w-4" />
                 </a>
-                <p className="mt-2 text-center text-[11px] text-ink-400">@{BOT_USERNAME}</p>
+                <p className="mt-2 text-center text-xs text-ink-600">@{BOT_USERNAME}</p>
               </div>
             </section>
 
-            <p className="mt-5 text-center text-[11px] leading-relaxed text-ink-400">
+            <p className="mt-5 text-center text-xs leading-relaxed text-ink-600">
               Davom etish orqali siz{' '}
               <Link to="/returns" className={cx('rounded-sm underline hover:text-ink-600', focusRing)}>
                 xizmat shartlari

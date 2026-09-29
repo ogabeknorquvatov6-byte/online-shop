@@ -124,8 +124,17 @@ function NavLabel({ item }: { item: NavItem }) {
   return (
     <span
       className={cx(
-        'text-[10px] font-medium leading-none',
-        item.active ? 'text-orange-600' : 'text-ink-400',
+        /*
+          12px — shkaladagi eng kichik qadam (ilgari 10px, shkalada
+          yoʻq qiymat).
+
+          Rang ham oʻzgardi: `ink-400` oq fonda 2.6:1 berardi va bu
+          ilovadagi eng koʻp koʻriladigan besh yozuv edi. `ink-600`
+          bilan 7.5:1. Faol holat `orange-700` — `orange-600` oq
+          fonda 3.4:1, yaʼni u ham oʻtmasdi.
+        */
+        'text-xs font-medium leading-none',
+        item.active ? 'text-orange-700' : 'text-ink-600',
         '[@media(max-height:500px)_and_(orientation:landscape)]:hidden'
       )}
     >

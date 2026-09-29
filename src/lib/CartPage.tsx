@@ -61,7 +61,7 @@ export function CartPage() {
   return (
     <div className={cx(shell, 'py-5 lg:py-8')}>
       <h1 className="text-display-sm">Savat</h1>
-      <p className="mt-1 text-sm text-ink-500">{count} ta mahsulot</p>
+      <p className="mt-1 text-sm text-ink-600">{count} ta mahsulot</p>
 
       {/*
         `min-w-0` MAJBURIY: grid elementining sukut bo'yicha `min-width: auto`
@@ -112,7 +112,7 @@ export function CartPage() {
 
                       <div className="flex min-w-0 flex-1 flex-col">
                         {item.product.brand && (
-                          <p className="text-[11px] font-medium uppercase tracking-wide text-ink-400">{item.product.brand}</p>
+                          <p className="text-xs font-medium uppercase tracking-[0.04em] text-ink-600">{item.product.brand}</p>
                         )}
                         <Link
                           to={`/product/${item.product.slug}`}
@@ -120,9 +120,9 @@ export function CartPage() {
                         >
                           {item.product.name}
                         </Link>
-                        {item.variant && <p className="mt-0.5 text-xs text-ink-500">{item.variant}</p>}
+                        {item.variant && <p className="mt-0.5 text-xs text-ink-600">{item.variant}</p>}
 
-                        <p className="mt-1 text-xs text-ink-400">
+                        <p className="mt-1 text-xs tabular-nums text-ink-600">
                           {formatPrice(price)} × {item.quantity}
                         </p>
 
@@ -154,12 +154,12 @@ export function CartPage() {
                             </button>
                           </div>
 
-                          <p className="ml-auto whitespace-nowrap text-right text-[15px] font-bold tabular-nums text-ink-900 sm:text-base">
+                          <p className="ml-auto whitespace-nowrap text-right text-base font-bold tabular-nums text-ink-900">
                             <AnimatedNumber value={formatPrice(price * item.quantity)} />
                           </p>
                         </div>
                         {item.quantity >= max && (
-                          <p className="mt-1.5 text-[11px] text-amber-600">
+                          <p className="mt-1.5 text-xs text-amber-700">
                             Omborda {item.product.stock} donadan koʻp qolmagan.
                           </p>
                         )}
@@ -200,16 +200,16 @@ export function CartPage() {
 
             <dl className="mt-4 space-y-2.5 text-sm">
               <div className="flex justify-between">
-                <dt className="text-ink-500">Mahsulotlar soni</dt>
+                <dt className="text-ink-600">Mahsulotlar soni</dt>
                 <dd className="font-medium tabular-nums"><AnimatedNumber value={count} /> dona</dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-ink-500">Mahsulotlar jami</dt>
+                <dt className="text-ink-600">Mahsulotlar jami</dt>
                 <dd className="font-medium tabular-nums"><AnimatedNumber value={formatPrice(subtotal)} /></dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-ink-500">Yetkazib berish</dt>
-                <dd className={cx('font-medium tabular-nums', delivery.fee === 0 && 'text-emerald-600')}>
+                <dt className="text-ink-600">Yetkazib berish</dt>
+                <dd className={cx('font-medium tabular-nums', delivery.fee === 0 && 'text-emerald-700')}>
                   {delivery.fee === 0 ? 'Bepul' : formatPrice(delivery.fee)}
                 </dd>
               </div>
@@ -228,7 +228,7 @@ export function CartPage() {
               Buyurtmani rasmiylashtirish <ArrowRight className="h-4 w-4" />
             </button>
 
-            <ul className="mt-5 space-y-2 border-t border-ink-100 pt-4 text-xs text-ink-500">
+            <ul className="mt-5 space-y-2 border-t border-ink-100 pt-4 text-xs text-ink-600">
               <li className="flex items-center gap-2"><Truck className="h-4 w-4 shrink-0 text-ink-400" /> Toshkent boʻylab 1 kun ichida</li>
               <li className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 shrink-0 text-ink-400" /> Mahsulotni koʻrib, keyin toʻlaysiz</li>
             </ul>
@@ -246,8 +246,8 @@ export function CartPage() {
       >
         <div className="mx-auto flex max-w-shell items-center gap-3">
           <div className="min-w-0 flex-1">
-            <p className="text-[11px] text-ink-500">Jami ({count} dona)</p>
-            <p className="truncate text-lg font-bold tabular-nums text-ink-900">
+            <p className="text-xs text-ink-600">Jami ({count} dona)</p>
+            <p className="truncate text-xl font-bold tabular-nums text-ink-900">
               <AnimatedNumber value={formatPrice(total)} />
             </p>
           </div>

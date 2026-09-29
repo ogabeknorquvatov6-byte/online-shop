@@ -211,7 +211,10 @@ export function MobileSearchTrigger({ tabIndex }: { tabIndex?: number }) {
       tabIndex={tabIndex}
       onClick={() => navigate('/search')}
       className={cx(
-        'flex h-11 w-full items-center gap-2.5 rounded-control border border-ink-200 bg-ink-50 px-3.5 text-left text-sm text-ink-400 transition-colors active:bg-ink-100',
+        // `ink-500` — haqiqiy inputning `placeholder:text-ink-500` i bilan
+        // bir xil. Bu tugma input KOʻRINISHIDA, demak uning matni ham
+        // placeholder qoidasiga boʻysunadi (oʻlchandi: ink-400 2.45:1).
+        'flex h-11 w-full items-center gap-2.5 rounded-control border border-ink-200 bg-ink-50 px-3.5 text-left text-sm text-ink-600 transition-colors active:bg-ink-100',
         focusRing
       )}
     >

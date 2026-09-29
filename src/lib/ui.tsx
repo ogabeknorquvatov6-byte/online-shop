@@ -447,7 +447,7 @@ export function Header({ onCartClick }: { onCartClick?: () => void }) {
 
               {categories.length > 0 && (
                 <div className="border-t border-ink-100 p-2">
-                  <p className="px-3 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-wide text-ink-400">
+                  <p className="px-3 pb-1 pt-2 text-xs font-semibold uppercase tracking-wide text-ink-600">
                     Kategoriyalar
                   </p>
                   {categories.map((c) => (

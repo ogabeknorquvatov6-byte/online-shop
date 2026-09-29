@@ -159,7 +159,7 @@ export function iconButton(size: 'sm' | 'md' = 'md', extra?: string): string {
  * One height (44px) so labels, inputs and buttons align in any grid.
  */
 export const inputBase =
-  'h-11 w-full rounded-control border bg-white px-3.5 text-sm text-ink-900 placeholder:text-ink-500 ' +
+  'h-11 w-full rounded-control border bg-white px-3.5 text-sm text-ink-900 placeholder:text-ink-600 ' +
   'transition-colors duration-150 outline-none focus:ring-2 focus:ring-offset-0 disabled:bg-ink-50 disabled:text-ink-400';
 
 export const inputIdle = 'border-ink-200 focus:border-orange-500 focus:ring-orange-500/20';
@@ -171,7 +171,7 @@ export function input(invalid?: boolean, extra?: string): string {
 
 export function textarea(invalid?: boolean, extra?: string): string {
   return cx(
-    'w-full resize-none rounded-control border bg-white px-3.5 py-3 text-sm text-ink-900 placeholder:text-ink-500',
+    'w-full resize-none rounded-control border bg-white px-3.5 py-3 text-sm text-ink-900 placeholder:text-ink-600',
     'transition-colors duration-150 outline-none focus:ring-2 disabled:bg-ink-50',
     invalid ? inputInvalid : inputIdle,
     extra

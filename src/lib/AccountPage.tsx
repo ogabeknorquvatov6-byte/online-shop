@@ -595,7 +595,7 @@ function Field({
     <div>
       <label htmlFor={id} className="mb-1.5 block text-xs font-medium text-ink-600">
         {label}
-        {required && <span className="text-red-500" aria-hidden="true"> *</span>}
+        {required && <span className="text-red-600" aria-hidden="true"> *</span>}
       </label>
       <input
         id={id}

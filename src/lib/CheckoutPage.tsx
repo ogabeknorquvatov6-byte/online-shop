@@ -402,7 +402,7 @@ export function CheckoutPage() {
                   className={cx(
                     'flex items-center gap-1.5 rounded-sm text-xs font-semibold transition-colors',
                     focusRing,
-                    step === s.n ? 'text-orange-700' : step > s.n ? 'text-ink-600' : 'text-ink-300'
+                    step === s.n ? 'text-orange-700' : step > s.n ? 'text-ink-600' : 'text-ink-500'
                   )}
                 >
                   <StepBead n={s.n} done={step > s.n} size="sm" />
@@ -635,14 +635,14 @@ function StepBead({ n, done, size = 'md' }: { n: number; done?: boolean; size?: 
           style={{ backfaceVisibility: 'hidden' }}
           className={cx(
             'absolute inset-0 flex items-center justify-center rounded-full bg-orange-50 font-bold text-orange-700',
-            size === 'sm' ? 'text-[11px]' : 'text-xs'
+            'text-xs'
           )}
         >
           {n}
         </span>
         <span
           style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
-          className="absolute inset-0 flex items-center justify-center rounded-full bg-emerald-600 text-white"
+          className="absolute inset-0 flex items-center justify-center rounded-full bg-emerald-700 text-white"
         >
           <Check className={size === 'sm' ? 'h-3 w-3' : 'h-3.5 w-3.5'} strokeWidth={3} />
         </span>
@@ -825,15 +825,15 @@ function OrderSummary({
   return (
     <div className={cx(card, 'p-5')}>
       <h2 className="text-base font-semibold text-ink-900">
-        Buyurtma xulosasi <span className="font-normal text-ink-400">({count} dona)</span>
+        Buyurtma xulosasi <span className="font-normal tabular-nums text-ink-600">({count} dona)</span>
       </h2>
       <ul className="mt-4 max-h-56 space-y-2 overflow-y-auto pr-1 text-sm">
         {items.map((item) => (
           <li key={item.key} className="flex items-start justify-between gap-3">
             <span className="line-clamp-2 text-ink-600">
               {item.name}
-              {item.variant && <span className="text-ink-400"> · {item.variant}</span>}
-              <span className="text-ink-400"> × {item.quantity}</span>
+              {item.variant && <span className="text-ink-600"> · {item.variant}</span>}
+              <span className="tabular-nums text-ink-600"> × {item.quantity}</span>
             </span>
             <span className="shrink-0 font-medium tabular-nums">{formatPrice(item.lineTotal)}</span>
           </li>
@@ -891,7 +891,7 @@ function SubmitButton({
 
 function TrustNote() {
   return (
-    <p className="mt-3 flex items-start gap-2 px-1 text-[11px] leading-relaxed text-ink-500">
+    <p className="mt-3 flex items-start gap-2 px-1 text-xs leading-relaxed text-ink-600">
       <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" />
       Maʼlumotlaringiz faqat buyurtmani yetkazib berish uchun ishlatiladi va uchinchi shaxslarga
       berilmaydi.
@@ -952,7 +952,7 @@ function NoteField({ id, value, onChange }: { id: string; value: string; onChang
   return (
     <div>
       <label htmlFor={id} className="mb-1.5 block text-xs font-medium text-ink-600">
-        Kuryer uchun izoh <span className="text-ink-400">(ixtiyoriy)</span>
+        Kuryer uchun izoh <span className="text-ink-600">(ixtiyoriy)</span>
       </label>
       <textarea
         id={id}
@@ -988,7 +988,7 @@ function Field({
     <div>
       <label htmlFor={id} className="mb-1.5 block text-xs font-medium text-ink-600">
         {label}
-        {required && <span className="text-red-500" aria-hidden="true"> *</span>}
+        {required && <span className="text-red-600" aria-hidden="true"> *</span>}
       </label>
       <input
         id={id}
@@ -1008,7 +1008,7 @@ function Field({
       {error ? (
         <p id={`${id}-error`} role="alert" className="mt-1.5 text-xs font-medium text-red-600">{error}</p>
       ) : hint ? (
-        <p id={`${id}-hint`} className="mt-1.5 text-xs text-ink-400">{hint}</p>
+        <p id={`${id}-hint`} className="mt-1.5 text-xs text-ink-600">{hint}</p>
       ) : null}
     </div>
   );

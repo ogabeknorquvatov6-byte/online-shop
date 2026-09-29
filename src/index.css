@@ -22,20 +22,35 @@
     /* Height of the sticky <Header>. Sticky page elements (catalog filter
        rail, cart summary, checkout summary) offset from this so they never
        slide underneath the header — previously each one hard-coded `top-32`,
-       which was wrong on every breakpoint except one. */
-    --header-h: 6.5rem;
+       which was wrong on every breakpoint except one.
+
+       ── QIYMATLAR BRAUZERDA OʻLCHANDI ────────────────────────────────
+       Chegaralar ilgari 768/1024 da edi, header esa `tab` (820px) da
+       ikki qatorga oʻtadi. Yaʼni chegaralar headerning OʻZ maketiga mos
+       emasdi va natijada (oʻlchandi):
+
+         415px  header 57px,  oʻzgaruvchi 104px → anchor scroll 47px
+                pastga tushardi (sahifa tepasida sababsiz tirqish)
+         820px  header 103px, oʻzgaruvchi 72px  → yopishqoq elementlar
+                header OSTIGA 31px kirib ketardi (katalog filtr ustuni,
+                savat va checkout xulosasi qisman koʻrinmasdi)
+         1280px header 111px, oʻzgaruvchi 112px → toʻgʻri edi
+
+       Shuning uchun chegaralar endi `tab` (820) va `lg` (1024) — aynan
+       header maketi oʻzgaradigan nuqtalar. */
+    --header-h: 3.5625rem; /* 57px — bitta qator + 1px chegara */
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 820px) {
     :root {
-      --header-h: 4.5rem;
+      --header-h: 6.4375rem; /* 103px — ishonch tasmasi + asosiy qator */
     }
   }
 
   @media (min-width: 1024px) {
     /* Desktop header has a second row for the category nav. */
     :root {
-      --header-h: 7rem;
+      --header-h: 6.9375rem; /* 111px */
     }
   }
 
