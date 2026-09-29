@@ -21,7 +21,7 @@ import { AuroraBackground } from './AuroraBackground';
 import { MOTION } from './motion';
 import { useSeo, useSiteJsonLd } from './seo';
 import { SECTION, consumeSection, scrollToSection, type SectionId } from './sections';
-import { button, card, cx, focusRing, shell, skeleton } from './design';
+import { button, card, cx, focusRing, glassBand, shell, skeleton } from './design';
 import { Img } from './Img';
 import { HeroShowcase } from './HeroShowcase';
 import { PromoStage } from './PromoStage';
@@ -359,17 +359,13 @@ export function HomePage() {
       {trending.length > 0 && (
         <AnimatedSection className="mt-6 md:mt-9">
           {/*
-            Fon `ink-950` — `ink-900` dan atigi 10 birlik toʻqroq.
-            Sahifadagi boshqa toʻq bloklar (hero, aksiya, footer)
-            `ink-900` da; teng boʻlsa ular bitta uzun qora maydonga
-            qoʻshilib ketardi. Farq chegarani koʻrsatadi, yangi ohang
-            kiritmaydi.
+            Aksiya bloki bilan AYNI yuza (`glassBand`) — ikkalasi ham
+            chetdan-chetga ochiq shisha tasma. Ular sahifada ketma-ket
+            turadi, shuning uchun farq MAZMUNDA boʻlishi kerak, yuzada
+            emas.
           */}
-          <section
-            aria-labelledby="trending-heading"
-            className="relative isolate overflow-hidden bg-ink-950"
-          >
-            <AuroraBackground />
+          <section aria-labelledby="trending-heading" className={glassBand}>
+            <AuroraBackground tone="light" />
             <div className={cx(shell, 'py-8 md:py-12')}>
               <SectionHeader
                 id="trending-heading"
@@ -379,7 +375,6 @@ export function HomePage() {
                 subtitle="Xaridorlar hozir eng koʻp ochayotgan mahsulotlar"
                 actionHref="/catalog"
                 actionLabel="Butun katalog"
-                tone="onDark"
               />
               {/*
                 EDITORIAL KOMPOZITSIYA — ataylab boshqa boʻlimlarga

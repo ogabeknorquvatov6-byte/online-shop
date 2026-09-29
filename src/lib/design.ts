@@ -220,7 +220,63 @@ export const glassTone = {
   neutral: 'border-ink-200/80 bg-ink-50/60',
   /** Chegirma bor — panel brend rangiga boʻyaladi. */
   brand: 'border-orange-200/90 bg-orange-50/55',
+  /*
+   * ── TOʻQ SHISHA — VA NEGA BU YERDA `backdrop-blur` BOR ──────────
+   *
+   * Yuqoridagi qoida ("blur ataylab yoʻq") BEKOR QILINMAYDI, u
+   * shartli edi: blur orqasida blurlanadigan narsa boʻlmasa
+   * bekorga ishlaydi. Oq sahifada shunday.
+   *
+   * Toʻq bloklarda esa orqada HAQIQATAN kontent bor: aurora
+   * dogʻlari va aylanuvchi 3D kublar (`PromoCubes`). Ular panel
+   * ostidan oʻtadi, blur ularni yumshatadi va panel chinakam
+   * shisha boʻlakdek koʻrinadi — rang ostidagi harakat sezilib
+   * turadi, lekin matnni buzmaydi.
+   *
+   * Yaʼni shart oʻsha-oʻsha: blur FAQAT orqasida koʻrinadigan
+   * narsa boʻlganda. Oq yuzalarda hamon yoʻq.
+   *
+   * NARXI NAZORATDA: `blur-md` (12px) — `blur-xl` emas. Oʻrta
+   * darajali Android uchun har bir `backdrop-filter` qatlami
+   * alohida kompozitsiya oʻtishini talab qiladi, shuning uchun bu
+   * ohang faqat SANOQLI panelga qoʻyiladi (taymer, ishonch
+   * plitkasi), butun tasmaga emas.
+   */
+  dark: 'border-white/15 bg-white/[0.07] backdrop-blur-md',
+  /*
+   * OCHIQ SHISHA — ochiq tasmalar ustidagi panel uchun.
+   *
+   * Orqasida aurora va kublar bor, shuning uchun blur bu yerda ham
+   * haqiqiy ish qiladi (yuqoridagi `dark` bilan ayni sabab). Fon
+   * `white/70`: butunlay oq boʻlsa panel tasmadan ajralmasdi, juda
+   * shaffof boʻlsa ostidagi kub matnni buzardi.
+   */
+  light: 'border-white/70 bg-white/70 backdrop-blur-md',
 } as const;
+
+/* ── Shisha tasma ────────────────────────────────────────────────────────
+ * Bosh sahifadagi chetdan-chetga boʻlimlar (aksiya, "Hozir trendda").
+ *
+ * ── NEGA OQ, TOʻQ EMAS ───────────────────────────────────────────────
+ *
+ * Bu bloklar avval `ink-950` edi. Toʻq tasma eʼtiborni yaxshi tortadi,
+ * lekin sahifada ikkita katta qora maydon paydo boʻlardi va ular
+ * orasidagi oq kontent "tirqish"dek koʻrinardi — ritm blokdan emas,
+ * qorayishdan kelib chiqardi.
+ *
+ * Ochiq shisha tasma boshqacha ishlaydi: u sahifadan AJRALADI, lekin
+ * uni ikkiga BOʻLMAYDI. Ajralish uchta narsadan keladi va uchalasi ham
+ * nozik:
+ *   1. iliq gradient (brend rangining eng ochiq pogʻonasi)
+ *   2. tepa va past qirradagi ingichka chiziq
+ *   3. ostidan oʻtadigan aurora va kublar
+ *
+ * Matn endi toʻq (`ink-900`), yaʼni kontrast oq fonda hisoblanadi —
+ * bu ilovaning qolgan qismidagi bilan bir xil qoida.
+ */
+export const glassBand =
+  'relative isolate overflow-hidden border-y border-ink-200/70 ' +
+  'bg-gradient-to-b from-orange-50/70 via-white to-ink-50';
 
 export function glassPanel(tone: keyof typeof glassTone = 'neutral', extra?: string): string {
   return cx('rounded-card border shadow-glass', glassTone[tone], extra);

@@ -491,7 +491,10 @@ export function ProductCard({ product, priority }: { product: Product; priority?
                 'relative flex h-8 w-8 items-center justify-center rounded-full transition-colors duration-200',
                 fav
                   ? 'bg-orange-600 text-white shadow-sm'
-                  : 'bg-white/85 text-ink-500 shadow-[0_1px_3px_rgba(23,20,17,0.18)] backdrop-blur-sm group-hover:text-orange-600'
+                  // 90% + blursiz: 85% da blur rasmni bir oz yumshatardi, lekin
+                  // har kartochkada bitta qatlam turardi. Shaffofmaslikni
+                  // bir pogʻona oshirish ayni natijani tekinga beradi.
+                  : 'bg-white/90 text-ink-500 shadow-[0_1px_3px_rgba(23,20,17,0.18)] group-hover:text-orange-600'
               )}
             >
               <Heart className={cx('h-4 w-4', fav && 'fill-current')} />
@@ -537,7 +540,11 @@ export function ProductCard({ product, priority }: { product: Product; priority?
             aria-label={`${product.name} — tezkor koʻrish`}
             className={cx(
               'absolute inset-x-2 bottom-2 z-10 hidden h-9 items-center justify-center gap-1.5 rounded-control',
-              'bg-white/95 text-xs font-semibold text-ink-800 shadow-card backdrop-blur-sm',
+              // `backdrop-blur` OLIB TASHLANDI: fon 95% shaffofmas, yaʼni
+              // orqadan atigi 5% oʻtadi va blur koʻzga umuman
+              // koʻrinmaydi. Narxi esa haqiqiy — har bir kartochkada
+              // alohida kompozitsiya qatlami (katalogda 40 ta).
+              'bg-white/95 text-xs font-semibold text-ink-800 shadow-card',
               'transition-[opacity,transform] duration-200 ease-standard hover:bg-white',
               'xl:flex xl:translate-y-1 xl:opacity-0',
               'xl:group-hover:translate-y-0 xl:group-hover:opacity-100',
@@ -794,6 +801,10 @@ export function SpotlightCard({
       ref={mediaRef}
       className={cx(
         'group relative isolate flex h-full min-h-[20rem] flex-col justify-end overflow-hidden rounded-surface bg-ink-900',
+        // Shisha qirra — karta toʻq tasma ustida "kesilgan boʻlak"dek
+        // koʻrinadi. Blur YOʻQ: karta rasm bilan toʻlgan, orqasida
+        // koʻrinadigan narsa qolmaydi.
+        'shadow-glass ring-1 ring-inset ring-white/10',
         'transition-shadow duration-300 ease-standard hover:shadow-overlay'
       )}
     >

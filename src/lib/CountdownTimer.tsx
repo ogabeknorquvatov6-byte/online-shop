@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { cx } from './design';
+import { cx, glassTone } from './design';
 import { AnimatedNumber } from './AnimatedNumber';
 
 type Remaining = { d: number; h: number; m: number; s: number };
@@ -98,15 +98,25 @@ export function CountdownTimer({
    */
   const num = 'text-display-md lg:text-display-lg leading-none tabular-nums';
   const lbl = cx('text-sm font-medium', onDark ? 'text-ink-300' : 'text-ink-600');
-  const sep = cx('leading-none', onDark ? 'text-white/40' : 'text-ink-300');
+  // Ochiq fonda `ink-300` 1.43:1 berardi — ajratgich koʻrinmay qolgandi.
+  // `ink-600` shisha panel ustida 6.9:1; u hamon raqamlardan ancha
+  // ochiq koʻrinadi, chunki raqamlar 28px va qalin, ajratgich esa 16px.
+  const sep = cx('leading-none', onDark ? 'text-white/40' : 'text-ink-600');
 
   return (
     <div
       className={cx(
-        'inline-flex flex-wrap items-baseline gap-x-3 gap-y-1.5 rounded-card px-4 py-3.5',
+        'inline-flex flex-wrap items-baseline gap-x-3 gap-y-1.5 rounded-card border px-4 py-3.5',
+        /*
+          Toʻq fonda taymer — shisha boʻlak: ostidan aylanuvchi kublar
+          va aurora dogʻlari oʻtadi, blur ularni yumshatadi.
+          `shadow-glass` qirrani koʻrsatadi (tepada oq yorugʻlik,
+          pastda ingichka qorongʻulik).
+        */
+        'shadow-glass',
         onDark
-          ? 'border border-white/10 bg-white/5 text-white'
-          : 'border border-ink-200 bg-ink-50 text-ink-900',
+          ? cx(glassTone.dark, 'text-white')
+          : cx(glassTone.light, 'text-ink-900'),
         className
       )}
       role="timer"
