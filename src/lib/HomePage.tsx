@@ -4,9 +4,10 @@ import { Link } from './router';
 import type { Banner, Category, Product, Promotion } from './types';
 import { ProductCard, ProductGrid, ProductGridSkeleton, ErrorState, SpotlightCard, productGridClass } from './ProductCard';
 import { ProductCarousel } from './ProductCarousel';
-import { CountdownTimer } from './CountdownTimer';
 import { SectionHeader } from './SectionHeader';
-import { LayoutGrid, ArrowRight, Flame, Sparkles, TrendingUp, Loader2 } from 'lucide-react';
+import {
+  ArrowRight, Flame, Sparkles, TrendingUp, Loader2, Truck, RotateCcw, ShieldCheck,
+} from 'lucide-react';
 import {
   PRODUCT_SELECT, adaptProducts, adaptBanner, adaptPromotion, fetchPromoDiscountMap,
   BANNER_SELECT, PROMOTION_SELECT,
@@ -23,6 +24,7 @@ import { SECTION, consumeSection, scrollToSection, type SectionId } from './sect
 import { button, card, cx, focusRing, shell, skeleton } from './design';
 import { Img } from './Img';
 import { HeroShowcase } from './HeroShowcase';
+import { PromoStage } from './PromoStage';
 
 const PAGE_FIRST = 12;
 const PAGE_STEP = 8;
@@ -240,11 +242,38 @@ export function HomePage() {
     );
   }
 
-  const showPromo = !!activePromo && promoProducts.length > 0 && !promoExpired;
+  /*
+   * `!promoExpired` bu SHARTDA ATAYLAB YOʻQ.
+   *
+   * Taymer foydalanuvchi sahifada turganda nolga yetsa, blok
+   * yoʻqolmaydi — u "Aksiya yakunlandi" holatiga oʻtadi. Kartalarni
+   * oʻsha holda qoldirish yolgʻon vaʼda boʻlardi, blokni jimgina
+   * oʻchirib yuborish esa sahifani foydalanuvchi koʻz oldida
+   * sakratardi.
+   *
+   * KEYINGI yuklanishda blok umuman boʻlmaydi: `activePromo` soʻrovi
+   * `ends_at > now` boʻyicha filtrlaydi, yaʼni tugagan aksiya
+   * `null` qaytaradi.
+   */
+  const showPromo = !!activePromo && promoProducts.length > 0;
   const storeName = settings?.store_name?.trim() || 'OpenShop';
 
   return (
-    <div className={cx(shell, 'py-4 pb-6 lg:py-6')}>
+    /*
+      Sahifa UCH qismdan iborat: `shell` → chetdan-chetga tasma → `shell`.
+
+      "Hozir trendda" bloki butun kenglikni egallashi kerak, `shell` esa
+      max-width va yon toʻldirish beradi. Uni ICHKARIDAN kengaytirish
+      uchun `w-screen` + `translateX(-50%)` kerak boʻlardi — lekin
+      transform oʻz ichidagi barcha fixed elementlar uchun "containing
+      block" yaratadi (`pageVariants` izohida tasvirlangan nuqson) va
+      `w-screen` gorizontal scrollbar hosil qiladi.
+
+      Shuning uchun tasma shunchaki `shell` dan TASHQARIDA turadi —
+      hech qanday hiyla kerak emas.
+    */
+    <>
+      <div className={cx(shell, 'py-4 lg:py-6')}>
       {/*
         Bosh sahifada `<h1>` UMUMAN YO'Q edi.
         (Tekshirildi: `document.querySelectorAll('h1').length === 0`.)
@@ -290,140 +319,100 @@ export function HomePage() {
         <FallbackHero storeName={storeName} />
       )}
 
+      {/* ── Ishonch plitkalari ───────────────────────────────────── */}
+      <TrustTiles />
+
       {/* ── Kategoriyalar ────────────────────────────────────────── */}
       {categories.length > 0 && (
-        <nav aria-label="Kategoriyalar" className="mt-5">
-          {/* Mobil: ikonka lentasi */}
-          <div className="no-scrollbar snap-x-start -mx-4 flex gap-3.5 overflow-x-auto px-4 pb-1 md:hidden">
-            {categories.slice(0, 12).map((c) => (
-              <Link
-                key={c.id}
-                to={`/category/${c.slug}`}
-                /*
-                  Bosishga javob — sensorli qurilmada bu yagona qaytar
-                  aloqa (hover yoʻq). CSS `active:` yetarli: JS kerak emas,
-                  `prefers-reduced-motion` esa global qoida bilan
-                  oʻtish vaqtini nolga tushiradi.
-                */
-                className={cx(
-                  'flex w-[4.25rem] shrink-0 flex-col items-center gap-1.5 rounded-control',
-                  'transition-transform duration-150 ease-standard active:scale-95',
-                  focusRing
-                )}
-                aria-current={undefined}
-              >
-                <span className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border border-ink-200 bg-white">
-                  {c.image_url ? (
-                    <Img src={c.image_url} alt="" className="h-full w-full" sizes="56px" iconClassName="h-5 w-5" />
-                  ) : (
-                    <LayoutGrid className="h-5 w-5 text-ink-400" />
-                  )}
-                </span>
-                <span className="line-clamp-2 text-center text-[11px] font-medium leading-tight text-ink-700">
-                  {c.name}
-                </span>
-              </Link>
-            ))}
-          </div>
-
-          {/*
-            Planshet/desktop: kartalar.
-
-            `tab` da 5 ustun va kattaroq ikonka — 820–1023px oralig'ida
-            4 ustunli tor kartalar kenglikni behuda sarflardi.
-          */}
-          <div className="hidden gap-3 md:grid md:grid-cols-4 tab:grid-cols-5 tab:gap-4 lg:grid-cols-6 xl:grid-cols-8">
-            {categories.slice(0, 8).map((c) => (
-              <Link
-                key={c.id}
-                to={`/category/${c.slug}`}
-                className={cx(
-                  card,
-                  'group flex items-center gap-2.5 p-2.5 transition-[border-color,box-shadow] hover:border-ink-300 hover:shadow-card',
-                  // Planshetda kartalar vertikal — kengroq ikonka va
-                  // markazlashgan matn. `lg` da yana ixcham gorizontal
-                  // koʻrinishga qaytadi, chunki u yerda 6–8 ustun bor.
-                  'tab:flex-col tab:items-center tab:gap-2 tab:p-4 lg:flex-row lg:items-center lg:gap-2.5 lg:p-2.5',
-                  'transition-transform duration-150 ease-standard active:scale-[0.97]',
-                  focusRing
-                )}
-              >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-control bg-ink-50 tab:h-14 tab:w-14 tab:rounded-full lg:h-10 lg:w-10 lg:rounded-control">
-                  {c.image_url ? (
-                    <Img src={c.image_url} alt="" className="h-full w-full" sizes="56px" iconClassName="h-5 w-5" />
-                  ) : (
-                    <LayoutGrid className="h-4 w-4 text-ink-400 tab:h-5 tab:w-5 lg:h-4 lg:w-4" />
-                  )}
-                </span>
-                <span className="line-clamp-2 text-xs font-medium leading-tight text-ink-800 tab:text-center tab:text-sm lg:text-left lg:text-xs">
-                  {c.name}
-                </span>
-              </Link>
-            ))}
-          </div>
-        </nav>
+        <section className="mt-6 md:mt-9" aria-labelledby="categories-heading">
+          <SectionHeader
+            id="categories-heading"
+            eyebrow="Katalog"
+            title="Kategoriyalar"
+            actionHref="/catalog"
+            actionLabel="Barchasi"
+          />
+          <CategoryStrip categories={categories} />
+        </section>
       )}
 
-      {/* ── Aksiya ───────────────────────────────────────────────── */}
+      </div>
+
+      {/* ── Aksiya — chetdan-chetga sahna ────────────────────────── */}
       {showPromo && activePromo && (
-        <AnimatedSection className="mt-8 md:mt-12">
-          <PromoSection
+        <AnimatedSection className="mt-6 md:mt-9">
+          <PromoStage
             promo={activePromo}
             products={promoProducts}
             highlighted={highlighted === SECTION.promo}
+            expired={promoExpired}
             onExpire={() => setPromoExpired(true)}
           />
         </AnimatedSection>
       )}
 
-      {/* ── Hozir trendda ────────────────────────────────────────── */}
+      <div className={cx(shell)}>
+
+      </div>
+
+      {/* ── Hozir trendda — chetdan-chetga studiya tasmasi ────────── */}
       {trending.length > 0 && (
-        <AnimatedSection className="mt-8 md:mt-12">
-          <section aria-labelledby="trending-heading">
-            <SectionHeader
-              id="trending-heading"
-              eyebrow="Koʻp koʻrilgan"
-              eyebrowIcon={Flame}
-              title="Hozir trendda"
-              subtitle="Xaridorlar hozir eng koʻp ochayotgan mahsulotlar"
-              actionHref="/catalog"
-              actionLabel="Butun katalog"
-            />
-            {/*
-              EDITORIAL KOMPOZITSIYA — ataylab boshqa bo'limlarga o'xshamaydi.
+        <AnimatedSection className="mt-6 md:mt-9">
+          {/*
+            Fon `ink-950` — `ink-900` dan atigi 10 birlik toʻqroq.
+            Sahifadagi boshqa toʻq bloklar (hero, aksiya, footer)
+            `ink-900` da; teng boʻlsa ular bitta uzun qora maydonga
+            qoʻshilib ketardi. Farq chegarani koʻrsatadi, yangi ohang
+            kiritmaydi.
+          */}
+          <section
+            aria-labelledby="trending-heading"
+            className="relative isolate overflow-hidden bg-ink-950"
+          >
+            <AuroraBackground />
+            <div className={cx(shell, 'py-8 md:py-12')}>
+              <SectionHeader
+                id="trending-heading"
+                eyebrow="Koʻp koʻrilgan"
+                eyebrowIcon={Flame}
+                title="Hozir trendda"
+                subtitle="Xaridorlar hozir eng koʻp ochayotgan mahsulotlar"
+                actionHref="/catalog"
+                actionLabel="Butun katalog"
+                tone="onDark"
+              />
+              {/*
+                EDITORIAL KOMPOZITSIYA — ataylab boshqa boʻlimlarga
+                oʻxshamaydi. Telefon: bitta spotlight + qolganlari
+                karusel. `tab` dan boshlab: chapda katta spotlight,
+                oʻngda 4 ta oddiy karta 2×2.
+              */}
+              <div className="mt-5 tab:grid tab:grid-cols-3 tab:gap-5">
+                <div className="tab:col-span-1">
+                  <SpotlightCard product={trending[0]} priority />
+                </div>
 
-              Telefon: bitta spotlight + qolganlari karusel (barmoq uchun
-              eng qulay shakl).
-              `tab` dan boshlab: chapda katta spotlight, o'ngda 4 ta oddiy
-              karta 2×2 bo'lib turadi — ya'ni bir xil o'lchamdagi kartalar
-              qatori o'rniga aniq ierarxiya paydo bo'ladi.
-            */}
-            <div className="mt-5 tab:grid tab:grid-cols-3 tab:gap-5">
-              <div className="tab:col-span-1">
-                <SpotlightCard product={trending[0]} priority />
-              </div>
+                <div className="mt-4 hidden tab:col-span-2 tab:mt-0 tab:grid tab:grid-cols-2 tab:gap-5">
+                  {trending.slice(1, 5).map((p) => (
+                    <ProductCard key={p.id} product={p} />
+                  ))}
+                </div>
 
-              {/* Planshet/desktop: qo'llab-quvvatlovchi kartalar */}
-              <div className="mt-4 hidden tab:col-span-2 tab:mt-0 tab:grid tab:grid-cols-2 tab:gap-5">
-                {trending.slice(1, 5).map((p) => (
-                  <ProductCard key={p.id} product={p} />
-                ))}
-              </div>
-
-              {/* Telefon: qolganlari surib ko'riladi */}
-              <div className="mt-4 tab:hidden">
-                <ProductCarousel
-                  products={trending.slice(1)}
-                  seeAllHref="/catalog"
-                  seeAllLabel="Butun katalogni koʻrish"
-                  ariaLabel="Hozir trenddagi boshqa mahsulotlar"
-                />
+                <div className="mt-4 tab:hidden">
+                  <ProductCarousel
+                    products={trending.slice(1)}
+                    seeAllHref="/catalog"
+                    seeAllLabel="Butun katalogni koʻrish"
+                    ariaLabel="Hozir trenddagi boshqa mahsulotlar"
+                  />
+                </div>
               </div>
             </div>
           </section>
         </AnimatedSection>
       )}
 
+      <div className={cx(shell, 'pb-6')}>
       {/* ── Xit mahsulotlar ──────────────────────────────────────── */}
       <LoadMoreSection
         id={SECTION.bestsellers}
@@ -447,10 +436,132 @@ export function HomePage() {
         seeAllHref="/new"
         highlighted={highlighted === SECTION.fresh}
       />
-    </div>
+      </div>
+    </>
   );
 }
 
+/* ── Ishonch plitkalari ──────────────────────────────────────────── */
+
+/**
+ * Hero ostidagi uchta qisqa vaʼda.
+ *
+ * ── NEGA BU YERDA MATN, `[STATIC: …]` BELGISI EMAS ──────────────────
+ *
+ * Uchala vaʼda ham `staticPages.ts` da yozilgan shartlarning qisqa
+ * takrori: `/delivery` — "Toshkent shahri: odatda 1 ish kuni ichida"
+ * va "Viloyatlar: 2–3 ish kuni"; `/returns` — "14 kun ichida
+ * qaytarish"; `/about` — "Har bir mahsulot rasmiy kafolat taloni
+ * bilan". Yaʼni bu oʻylab topilgan daʼvo emas, mavjud siyosatning
+ * sarlavhasi.
+ *
+ * Dizaynda ular ATAYLAB belgilanmagan (sariq punktir yoʻq) — chunki
+ * bu sahifa kompozitsiyasining oʻz matni, maʼlumot emas. Ayni naqsh
+ * `ProductPage` dagi ishonch blokida allaqachon ishlatilgan.
+ *
+ * Yetkazib berish NARXI bu yerda YOʻQ va boʻlmasligi kerak: u
+ * sozlamalardan keladi va faqat `quoteDelivery` orqali koʻrsatiladi.
+ */
+const TRUST_TILES = [
+  { icon: Truck, title: 'Toshkentda 1 kunda', body: 'Viloyatlarga 2–3 kun' },
+  { icon: RotateCcw, title: '14 kun', body: 'ichida qaytarish' },
+  { icon: ShieldCheck, title: 'Rasmiy', body: 'kafolat' },
+] as const;
+
+function TrustTiles() {
+  return (
+    <ul className="mt-3 grid grid-cols-3 gap-2 md:gap-3">
+      {TRUST_TILES.map(({ icon: Icon, title, body }) => (
+        <li
+          key={title}
+          className={cx(
+            card,
+            'shadow-glass',
+            // Telefonda ustun (ikonka tepada), 820 dan boshlab qator —
+            // tor ekranda uch ustunli gorizontal plitka matnni ikki
+            // harfdan keyin sindirardi.
+            'flex flex-col items-start gap-2 p-2.5 tab:flex-row tab:items-center tab:gap-3 tab:p-4'
+          )}
+        >
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-orange-50 text-orange-700 tab:h-10 tab:w-10">
+            <Icon className="h-4 w-4 tab:h-4.5 tab:w-4.5" aria-hidden="true" />
+          </span>
+          <span className="min-w-0 text-xs leading-tight text-ink-700 tab:text-sm">
+            <b className="block text-sm font-semibold text-ink-900 tab:text-base">{title}</b>
+            {body}
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/* ── Kategoriya lentasi ──────────────────────────────────────────── */
+
+/**
+ * Yumaloq plitkalar, BARCHA oʻlchamda gorizontal suriladi.
+ *
+ * Ilgari ikkita alohida maket bor edi: telefonda lenta, planshet va
+ * kompyuterda esa 4–8 ustunli toʻr. Ular bir xil maʼlumotni ikki xil
+ * shaklda koʻrsatardi va toʻr varianti kategoriyalar sonini 8 ta bilan
+ * cheklardi — 9-chisi jimgina yoʻqolardi.
+ *
+ * Bitta lenta har uchala oʻlchamda ishlaydi va hech qanday kategoriya
+ * yoʻqolmaydi: roʻyxat uzun boʻlsa surib koʻriladi.
+ *
+ * Rasm boʻlmasa — 2×2 kub motivi. Bu ilovaning oʻz belgisi
+ * (`CatalogCubes`, splash, 404 dagi kub tili), yaʼni neytral
+ * "rasm yoʻq" ikonkasidan koʻra doʻkonning oʻziga tegishli.
+ */
+function CategoryStrip({ categories }: { categories: Category[] }) {
+  return (
+    <nav
+      aria-label="Kategoriyalar"
+      className="no-scrollbar snap-x-start -mx-4 mt-3 flex gap-3 overflow-x-auto px-4 pb-1 sm:-mx-5 sm:px-5 lg:-mx-8 lg:gap-5 lg:px-8"
+    >
+      {categories.map((c) => (
+        <Link
+          key={c.id}
+          to={`/category/${c.slug}`}
+          className={cx(
+            'flex w-[4.5rem] shrink-0 flex-col items-center gap-2 rounded-control tab:w-[6.5rem]',
+            'transition-transform duration-150 ease-standard hover:-translate-y-0.5 active:scale-95',
+            'motion-reduce:transition-none motion-reduce:hover:translate-y-0',
+            focusRing
+          )}
+        >
+          <span
+            className={cx(
+              card,
+              'flex h-16 w-16 items-center justify-center overflow-hidden rounded-full shadow-card tab:h-[5.75rem] tab:w-[5.75rem]'
+            )}
+          >
+            {c.image_url ? (
+              <Img src={c.image_url} alt="" className="h-full w-full" sizes="92px" iconClassName="h-5 w-5" />
+            ) : (
+              <CubeMark />
+            )}
+          </span>
+          <span className="line-clamp-2 text-center text-xs font-medium leading-tight text-ink-800 tab:text-sm">
+            {c.name}
+          </span>
+        </Link>
+      ))}
+    </nav>
+  );
+}
+
+/** Rasmsiz kategoriya uchun 2×2 kub — ilovaning oʻz belgisi. */
+function CubeMark() {
+  return (
+    <span aria-hidden="true" className="relative block h-[40%] w-[40%]">
+      <span className="absolute left-0 top-0 h-[44%] w-[44%] rounded-[3px] bg-orange-600" />
+      <span className="absolute right-0 top-0 h-[44%] w-[44%] rounded-[3px] bg-orange-300" />
+      <span className="absolute bottom-0 left-0 h-[44%] w-[44%] rounded-[3px] bg-orange-300" />
+      <span className="absolute bottom-0 right-0 h-[44%] w-[44%] rounded-[3px] bg-orange-600" />
+    </span>
+  );
+}
 
 /**
  * Banner boʻlmaganda koʻrsatiladigan hero.
@@ -535,89 +646,6 @@ function FallbackHero({ storeName }: { storeName: string }) {
   );
 }
 
-/* ── Aksiya boʻlimi ──────────────────────────────────────────────── */
-
-/**
- * Aksiya boʻlimi qolgan boʻlimlardan vizual jihatdan ajralib turishi kerak,
- * lekin YANGI rang kiritmasdan: toʻq neytral fon + mavjud brend toʻq sariq
- * urgʻusi. Shu bilan u "boshqa sayt"dek emas, xuddi shu saytning kuchaytirilgan
- * bloki boʻlib koʻrinadi.
- */
-function PromoSection({
-  promo, products, highlighted, onExpire,
-}: {
-  promo: Promotion;
-  products: Product[];
-  highlighted: boolean;
-  onExpire: () => void;
-}) {
-  return (
-    <section
-      id={SECTION.promo}
-      aria-labelledby="promo-heading"
-      className={cx(
-        'relative isolate scroll-mt-28 overflow-hidden rounded-surface bg-ink-900 p-5 transition-shadow duration-500 sm:p-7 lg:p-9',
-        highlighted && 'ring-2 ring-orange-500 ring-offset-4 ring-offset-ink-50'
-      )}
-    >
-      {/*
-        Aksiya bloki "voqea"ga o'xshashi kerak, shunchaki to'q qutiga emas.
-        Nur qatlami `-z-10` da, matn ustiga tushmaydi va hech qanday
-        `fixed` elementni o'ramaydi (bo'limda `isolate` bor, shuning
-        uchun manfiy z-index shu blokdan tashqariga chiqmaydi).
-
-        Hero bilan AYNI komponent: ikkala to'q yuza bir xil tilda
-        nafas oladi.
-      */}
-      <AuroraBackground />
-
-      <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-5">
-        <div className="min-w-0">
-          <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-orange-400">
-            <span
-              aria-hidden="true"
-              className="flex h-5 w-5 items-center justify-center rounded-full bg-orange-500/20 ring-1 ring-orange-500/40"
-            >
-              <Flame className="h-3 w-3" />
-            </span>
-            Aksiya
-          </p>
-          <h2
-            id="promo-heading"
-            className="mt-2 text-display-sm text-white md:text-display-md lg:text-[2.25rem] lg:leading-[1.12]"
-          >
-            {promo.title}
-          </h2>
-          <p className="mt-2 max-w-xl text-sm leading-relaxed text-white/65">
-            {promo.description?.trim() || `Cheklangan muddat — ${promo.discount_percentage}% gacha chegirma`}
-          </p>
-        </div>
-
-        {/* Sanoq — blokning ikkinchi vizual tayanchi, shuning uchun u
-            o'z "yuzasi"da turadi va shunchaki matn bo'lib qolmaydi. */}
-        <div className="flex flex-col items-start gap-2 rounded-card border border-white/10 bg-white/[0.06] p-3 sm:items-end sm:p-4">
-          {promo.end_date && (
-            <span className="text-[10px] uppercase tracking-[0.16em] text-white/45">Tugashiga qoldi</span>
-          )}
-          <CountdownTimer endDate={promo.end_date} onExpire={onExpire} tone="light" />
-        </div>
-      </div>
-
-      <div className="mt-5">
-        <ProductCarousel
-          products={products}
-          seeAllHref="/promotions"
-          seeAllLabel="Barcha aksiyalarni koʻrish"
-          ariaLabel="Aksiyadagi mahsulotlar"
-        />
-      </div>
-
-      <Link to="/promotions" className={cx(button('primary', 'md'), 'mt-4 w-full sm:hidden')}>
-        Barchasini koʻrish <ArrowRight className="h-4 w-4" />
-      </Link>
-    </section>
-  );
-}
 
 /* ── "Yana koʻrish" boʻlimi ──────────────────────────────────────── */
 
@@ -638,7 +666,7 @@ function LoadMoreSection({
   if (!loading && !error && products.length === 0) return null;
 
   return (
-    <AnimatedSection className="mt-8 md:mt-12">
+    <AnimatedSection className="mt-6 md:mt-9">
       <section
         id={id}
         aria-labelledby={`${id}-heading`}

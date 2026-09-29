@@ -292,12 +292,37 @@ export default {
           '0%, 100%': { transform: 'scale(1)' },
           '50%': { transform: 'scale(1.04)' },
         },
+        /*
+         * Aksiya blokidagi shaffof 3D kublar.
+         *
+         * IKKI ALOHIDA ANIMATSIYA, ATAYLAB: `cube-spin` ichki qatlamni
+         * aylantiradi (`preserve-3d` zanjiri), `cube-bob` esa tashqi
+         * qatlamni suzdiradi. Bitta elementda ikkalasini birlashtirib
+         * boʻlmaydi — `transform` bitta xossa va keyingi animatsiya
+         * oldingisini butunlay almashtirardi.
+         *
+         * Ikkalasi ham ≥12s (talab: doimiy halqa faqat shundan sekin).
+         * Faqat `transform` — blur yoʻq, shuning uchun ular kompozitor
+         * oqimida ishlaydi va layoutni qayta hisoblatmaydi.
+         */
+        'cube-spin': {
+          from: { transform: 'rotateX(-22deg) rotateY(0deg)' },
+          to: { transform: 'rotateX(-22deg) rotateY(360deg)' },
+        },
+        'cube-bob': {
+          from: { transform: 'translate3d(0, -10px, 0) rotate(-6deg)' },
+          to: { transform: 'translate3d(0, 10px, 0) rotate(6deg)' },
+        },
       },
       animation: {
         shimmer: 'shimmer 1.6s infinite',
         'spin-slow': 'spin-slow 24s linear infinite',
         float: 'float 4s ease-in-out infinite',
         'hero-drift': 'hero-drift 24s ease-in-out infinite',
+        // Davomiylik va kechikish har bir kubda alohida (inline style) —
+        // toʻrttasi bir vaqtda "nafas olmasligi" kerak.
+        'cube-spin': 'cube-spin 24s linear infinite',
+        'cube-bob': 'cube-bob 14s cubic-bezier(0.65, 0, 0.35, 1) infinite alternate',
       },
     },
   },
