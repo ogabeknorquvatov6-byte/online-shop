@@ -402,7 +402,7 @@ function StaticPage({ path }: { path: StaticPagePath }) {
         <div className="mt-8 space-y-7">
           {page.sections.map((section) => (
             <section key={section.heading}>
-              <h2 className="text-lg font-semibold text-ink-900">{section.heading}</h2>
+              <h2 className="text-xl font-semibold text-ink-900">{section.heading}</h2>
               {section.body && <p className="mt-2 text-sm leading-relaxed text-ink-600">{section.body}</p>}
               {section.items && (
                 <ul className="mt-3 space-y-2">
@@ -420,7 +420,7 @@ function StaticPage({ path }: { path: StaticPagePath }) {
 
         <div className="mt-10 rounded-card border border-ink-200 bg-white p-5">
           <p className="text-sm font-semibold text-ink-900">Savolingiz qoldimi?</p>
-          <p className="mt-1 text-sm text-ink-500">Operatorlarimiz har kuni 09:00–21:00 oraligʻida javob beradi.</p>
+          <p className="mt-1 text-sm text-ink-600">Operatorlarimiz har kuni 09:00–21:00 oraligʻida javob beradi.</p>
           <Link to="/contact" className="mt-3 inline-flex text-sm font-semibold text-orange-700 hover:underline">
             Biz bilan bogʻlanish →
           </Link>
@@ -496,7 +496,7 @@ function NotFound() {
           transition={{ ...MOTION.story, duration: 0.5, delay: 0.1 }}
           className="relative"
         >
-          <p className="mt-8 text-[11px] font-semibold uppercase tracking-[0.16em] text-orange-400">
+          <p className="mt-8 text-xs font-semibold uppercase tracking-[0.16em] text-orange-400">
             Xato 404
           </p>
           <h1 className="mt-2.5 text-display-sm text-white sm:text-display-md lg:text-display-lg">
