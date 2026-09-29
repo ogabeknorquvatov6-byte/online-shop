@@ -765,7 +765,22 @@ export function ProductGrid({
  * Matn rasm USTIDA, pastdan qorayadigan parda bilan — shuning uchun
  * kompozitsiya jurnaldagi kabi koʻrinadi, katalog qatoridek emas.
  */
-export function SpotlightCard({ product, priority }: { product: Product; priority?: boolean }) {
+export function SpotlightCard({
+  product,
+  priority,
+  /**
+   * Chegirma nishonining oʻlchami.
+   *
+   * Aksiya "sahna" kartasida nishon blokning ASOSIY xabari, shuning
+   * uchun u kattalashadi. Ilgari sahna kartasi oʻz nishonini ustidan
+   * qoʻshardi va natijada ikkita bir xil `−N%` yonma-yon turardi.
+   */
+  discountSize = 'md',
+}: {
+  product: Product;
+  priority?: boolean;
+  discountSize?: 'md' | 'xl';
+}) {
   const reduce = useReducedMotion();
   /* Uchish AYNAN rasmdan boshlansin — grid kartochkasidagi kabi. */
   const mediaRef = useRef<HTMLDivElement>(null);
@@ -801,7 +816,7 @@ export function SpotlightCard({ product, priority }: { product: Product; priorit
       />
 
       {discount != null && (
-        <span className={discountBadge('md', 'absolute left-4 top-4')}>−{discount}%</span>
+        <span className={discountBadge(discountSize, 'absolute left-4 top-4 z-10')}>−{discount}%</span>
       )}
 
       <div className="relative p-5 sm:p-6">

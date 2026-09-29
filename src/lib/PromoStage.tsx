@@ -8,7 +8,7 @@ import { SectionHeader } from './SectionHeader';
 import { AuroraBackground } from './AuroraBackground';
 import { PromoCubes } from './PromoCubes';
 import { SECTION } from './sections';
-import { button, cx, discountBadge, shell } from './design';
+import { button, cx, shell } from './design';
 import { stockState } from './productUtils';
 
 /*
@@ -149,35 +149,22 @@ export function PromoStage({
  *
  * `SpotlightCard` ning oʻzi ishlatiladi: u allaqachon toʻq fonda
  * rasm+parda+narx kompozitsiyasini beradi va savat amali ham oʻsha
- * `CartAction` dan keladi. Bu yerda faqat chegirma "muhri" qoʻshiladi —
- * u aksiya blokining asosiy xabari.
+ * `CartAction` dan keladi. Bu yerda faqat ikkita farq bor: chegirma
+ * nishoni kattalashadi va tejaladigan SUMMA qoʻshiladi — foiz emas,
+ * aynan soʻm, chunki aksiya blokining xabari shu.
  */
 function StageCard({ product }: { product: Product }) {
-  const percent = discountPercent(product.price, product.old_price);
   const saving = product.old_price != null ? product.old_price - product.price : 0;
 
   return (
     <div className="relative">
-      <SpotlightCard product={product} priority />
-
       {/*
-        Katta "−N%" — sahna kartasining oʻng tepasida.
-
-        `SpotlightCard` oʻzining kichik nishonini CHAP tepada chizadi;
-        bu esa undan ikki barobar katta va boshqa burchakda, shuning
-        uchun ular ustma-ust tushmaydi va takror boʻlib koʻrinmaydi.
+        Chegirma nishoni `SpotlightCard` ning OʻZIDA chiziladi, faqat
+        kattaroq oʻlchamda. Ilgari bu yerda ikkinchi nishon
+        qoʻshilardi va natijada bitta kartada ikkita bir xil `−N%`
+        yonma-yon turardi (brauzerda koʻrildi).
       */}
-      {percent != null && (
-        <span
-          aria-hidden="true"
-          className={cx(
-            discountBadge('md', 'absolute right-4 top-4 z-10 text-display-md leading-none'),
-            'px-3 py-2'
-          )}
-        >
-          −{percent}%
-        </span>
-      )}
+      <SpotlightCard product={product} priority discountSize="xl" />
 
       {saving > 0 && (
         <span className="absolute bottom-4 right-4 z-10 rounded-full bg-emerald-700 px-3 py-1 text-xs font-semibold tabular-nums text-white">

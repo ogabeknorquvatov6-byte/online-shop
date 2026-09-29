@@ -71,56 +71,69 @@ export function CountdownTimer({
 
   if (!remaining) return null;
 
-  const units = [
-    { label: 'kun', value: remaining.d },
-    { label: 'soat', value: remaining.h },
-    { label: 'daq', value: remaining.m },
-    { label: 'son', value: remaining.s },
-  ];
-
-  const box =
-    tone === 'dark'
-      ? 'bg-ink-900 text-white'
-      : 'bg-white/15 text-white ring-1 ring-inset ring-white/25 backdrop-blur-sm';
-  const sub = tone === 'dark' ? 'text-ink-400' : 'text-white/60';
-
   if (expired) {
     return (
-      <span className={cx('inline-flex items-center rounded-full bg-ink-100 px-3 py-1 text-xs font-medium text-ink-500', className)}>
+      <span className={cx('inline-flex items-center rounded-full bg-ink-100 px-3 py-1 text-xs font-medium text-ink-600', className)}>
         Aksiya yakunlandi
       </span>
     );
   }
 
+  const onDark = tone === 'light';
+  /*
+   * ── BITTA QATOR, TOʻRTTA QUTI EMAS ──────────────────────────────
+   *
+   * Ilgari har bir birlik oʻz qutisida turardi: 4 ta 44px quti, ichida
+   * 14px raqam va 10px yorliq. Natijada taymer "vidjet" boʻlib
+   * koʻrinardi va aksiya blokidagi sarlavha bilan bir ovozda emas,
+   * undan alohida gapirardi. Yorliqlar 10px edi — shkalada yoʻq qiymat.
+   *
+   * Endi u bitta qator: katta raqamlar (28px, kompyuterda 40px —
+   * shkaladagi qadamlar) va ular orasida kichik yorliqlar. Taymer
+   * blokning IKKINCHI sarlavhasiga aylanadi.
+   *
+   * SONIYALAR ALOHIDA RANGDA: faqat oʻsha raqam har soniyada
+   * oʻzgaradi. Rang koʻzni aynan harakat boʻladigan joyga olib
+   * boradi, qolgan uchtasi sokin turadi.
+   */
+  const num = 'text-display-md lg:text-display-lg leading-none tabular-nums';
+  const lbl = cx('text-sm font-medium', onDark ? 'text-ink-300' : 'text-ink-600');
+  const sep = cx('leading-none', onDark ? 'text-white/40' : 'text-ink-300');
+
   return (
     <div
-      className={cx('flex items-center gap-1.5', className)}
+      className={cx(
+        'inline-flex flex-wrap items-baseline gap-x-3 gap-y-1.5 rounded-card px-4 py-3.5',
+        onDark
+          ? 'border border-white/10 bg-white/5 text-white'
+          : 'border border-ink-200 bg-ink-50 text-ink-900',
+        className
+      )}
       role="timer"
-      aria-label={`Aksiya tugashiga ${remaining.d} kun ${remaining.h} soat qoldi`}
+      aria-label={`Aksiya tugashiga ${remaining.d} kun ${remaining.h} soat ${remaining.m} daqiqa qoldi`}
     >
-      {units.map((u, i) => (
-        <div key={u.label} className="flex items-center gap-1.5">
-          <div className={cx('flex w-[2.75rem] flex-col items-center rounded-control py-1.5', box)}>
-            {/*
-              Raqamlar `AnimatePresence` bilan almashadi — sekundlar
-              jimgina o'zgarish o'rniga yuqoriga siljib ketadi. Bu aksiya
-              blokidagi yagona doimiy harakat va u "vaqt ketyapti" degan
-              hissni beradi. Komponent allaqachon mavjud, yangi animatsiya
-              qoidalari kiritilmaydi.
-            */}
-            <AnimatedNumber
-              value={String(u.value).padStart(2, '0')}
-              className="text-sm font-bold leading-none tabular-nums"
-            />
-            <span className={cx('mt-0.5 text-[10px] leading-none', sub)}>{u.label}</span>
-          </div>
-          {i < units.length - 1 && (
-            <span aria-hidden="true" className={cx('-mt-2 text-sm font-bold', tone === 'dark' ? 'text-ink-300' : 'text-white/40')}>
-              :
-            </span>
-          )}
-        </div>
-      ))}
+      <span className={cx('text-xs uppercase tracking-[0.12em]', onDark ? 'text-white/70' : 'text-ink-600')}>
+        Tugashiga
+      </span>
+
+      <span className="flex items-baseline gap-1.5 font-bold">
+        {/*
+          Raqamlar `AnimatedNumber` bilan almashadi — jimgina
+          oʻzgarish oʻrniga yuqoriga siljib ketadi. Komponent
+          allaqachon mavjud, yangi animatsiya qoidasi kiritilmaydi.
+        */}
+        <AnimatedNumber value={remaining.d} className={num} />
+        <span className={lbl}>kun</span>
+
+        <AnimatedNumber value={String(remaining.h).padStart(2, '0')} className={cx(num, 'ml-1.5')} />
+        <span aria-hidden="true" className={sep}>:</span>
+        <AnimatedNumber value={String(remaining.m).padStart(2, '0')} className={num} />
+        <span aria-hidden="true" className={sep}>:</span>
+        <AnimatedNumber
+          value={String(remaining.s).padStart(2, '0')}
+          className={cx(num, onDark ? 'text-orange-300' : 'text-orange-700')}
+        />
+      </span>
     </div>
   );
 }

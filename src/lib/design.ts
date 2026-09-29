@@ -159,7 +159,7 @@ export function iconButton(size: 'sm' | 'md' = 'md', extra?: string): string {
  * One height (44px) so labels, inputs and buttons align in any grid.
  */
 export const inputBase =
-  'h-11 w-full rounded-control border bg-white px-3.5 text-sm text-ink-900 placeholder:text-ink-400 ' +
+  'h-11 w-full rounded-control border bg-white px-3.5 text-sm text-ink-900 placeholder:text-ink-500 ' +
   'transition-colors duration-150 outline-none focus:ring-2 focus:ring-offset-0 disabled:bg-ink-50 disabled:text-ink-400';
 
 export const inputIdle = 'border-ink-200 focus:border-orange-500 focus:ring-orange-500/20';
@@ -171,7 +171,7 @@ export function input(invalid?: boolean, extra?: string): string {
 
 export function textarea(invalid?: boolean, extra?: string): string {
   return cx(
-    'w-full resize-none rounded-control border bg-white px-3.5 py-3 text-sm text-ink-900 placeholder:text-ink-400',
+    'w-full resize-none rounded-control border bg-white px-3.5 py-3 text-sm text-ink-900 placeholder:text-ink-500',
     'transition-colors duration-150 outline-none focus:ring-2 disabled:bg-ink-50',
     invalid ? inputInvalid : inputIdle,
     extra
@@ -302,6 +302,21 @@ export const discountBadgeSize = {
    */
   sm: 'px-1.5 py-0.5 text-xs leading-5',
   md: 'px-2 py-1 text-xs',
+  /*
+   * `xl` — aksiya "sahna" kartasi uchun.
+   *
+   * O'lcham SHU YERDA, chaqiruv joyida `extra` bilan emas: `extra`
+   * ga `text-display-md` berilsa class ro'yxatida `text-xs` ham,
+   * `text-display-md` ham turardi. Ikkalasi bitta utility,
+   * spetsifikatsiyasi teng — g'olib CSS faylidagi tartib bilan
+   * aniqlanadi va amalda `text-xs` yutib, nishon kichik bo'lib
+   * qolgandi (brauzerda ko'rildi: sahna nishoni oddiysidan
+   * farq qilmasdi).
+   *
+   * Ayni to'qnashuv `buttonSize.card` va `buttonVariant.success`
+   * izohlarida ham tasvirlangan — bu uchinchi marta.
+   */
+  xl: 'px-3 py-2 text-display-md leading-none',
 } as const;
 
 export function discountBadge(

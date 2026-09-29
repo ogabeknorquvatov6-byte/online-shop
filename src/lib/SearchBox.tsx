@@ -135,7 +135,7 @@ export function DesktopSearch() {
             transition={{ duration: DURATION.ui, ease: EASE.standard }}
             className={cx(popSurface, 'absolute left-0 right-0 top-full z-40 mt-2 overflow-hidden p-2')}
           >
-            <p className="px-2 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-ink-400">
+            <p className="px-2 py-1.5 text-xs font-semibold uppercase tracking-wide text-ink-600">
               Soʻnggi qidiruvlar
             </p>
             {recent.slice(0, 6).map((term) => (

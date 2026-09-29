@@ -184,7 +184,7 @@ export function SearchPage() {
             {recent.length > 0 && (
               <section className="mb-7">
                 <div className="mb-2.5 flex items-center justify-between">
-                  <h2 className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-ink-400">
+                  <h2 className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-600">
                     <Clock className="h-3.5 w-3.5" /> Soʻnggi qidiruvlar
                   </h2>
                   <button
@@ -223,7 +223,7 @@ export function SearchPage() {
             {/* Ommabop bo'limlar */}
             {categories.length > 0 && (
               <section className="mb-7">
-                <h2 className="mb-2.5 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-ink-400">
+                <h2 className="mb-2.5 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-600">
                   <LayoutGrid className="h-3.5 w-3.5" /> Boʻlimlar
                 </h2>
                 <div className="flex flex-wrap gap-2">
@@ -246,7 +246,7 @@ export function SearchPage() {
 
             {/* Ommabop brendlar — eng ko'p sotilgan mahsulotlar asosida */}
             <section className="mb-7">
-              <h2 className="mb-2.5 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-ink-400">
+              <h2 className="mb-2.5 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink-600">
                 <TrendingUp className="h-3.5 w-3.5" /> Ommabop brendlar
               </h2>
               {brandsLoading ? (

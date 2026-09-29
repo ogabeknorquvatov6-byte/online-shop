@@ -298,7 +298,7 @@ export function CatalogNavSheet({ open, onClose }: { open: boolean; onClose: () 
                                 onClick={close}
                                 className={cx('flex min-h-[3rem] items-center gap-3 px-4 py-3 active:bg-ink-50', focusRing)}
                               >
-                                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-control bg-ink-50 text-[11px] font-bold uppercase text-ink-500">
+                                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-control bg-ink-50 text-xs font-bold uppercase text-ink-600">
                                   {b.name.slice(0, 2)}
                                 </span>
                                 <span className="min-w-0 flex-1 truncate text-sm text-ink-800">{b.name}</span>

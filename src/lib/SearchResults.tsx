@@ -138,7 +138,7 @@ export function SearchResultsBody({
     <div className={dense ? 'py-2' : 'py-3'}>
       {categories.length > 0 && (
         <div className={dense ? 'px-3 pb-3' : 'px-4 pb-3'}>
-          <p className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-ink-400">Kategoriyalar</p>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-600">Kategoriyalar</p>
           <div className="flex flex-wrap gap-1.5">
             {categories.map((c) => {
               flatIdx += 1;
@@ -168,7 +168,7 @@ export function SearchResultsBody({
 
       {brands.length > 0 && (
         <div className={dense ? 'px-3 pb-3' : 'px-4 pb-3'}>
-          <p className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-ink-400">Brendlar</p>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-600">Brendlar</p>
           <div className="flex flex-wrap gap-1.5">
             {brands.map((b) => {
               flatIdx += 1;
@@ -198,7 +198,7 @@ export function SearchResultsBody({
 
       {products.length > 0 && (
         <div className={dense ? 'px-1.5' : 'px-2'}>
-          <p className={cx('mb-1 text-[11px] font-semibold uppercase tracking-wide text-ink-400', dense ? 'px-2' : 'px-2')}>
+          <p className={cx('mb-1 text-xs font-semibold uppercase tracking-wide text-ink-600', dense ? 'px-2' : 'px-2')}>
             Mahsulotlar
           </p>
           <div className={dense ? '' : 'max-h-80 overflow-y-auto'}>
