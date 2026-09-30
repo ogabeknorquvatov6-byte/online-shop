@@ -114,6 +114,7 @@ function Routes() {
     default: content = <NotFound />;
   }
 
+
   return (
     <div className="flex min-h-screen flex-col bg-ink-50">
       <Header onCartClick={openCart} />
@@ -554,3 +555,4 @@ export default function App() {
     </AuthProvider>
   );
 }
+

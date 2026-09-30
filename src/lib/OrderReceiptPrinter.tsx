@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { animate, motion, useMotionValue, useReducedMotion, useSpring, useTransform } from 'motion/react';
 import { RotateCcw, Scissors } from 'lucide-react';
 import { formatPrice, formatOrderDate, ORDER_STATUS_LABELS } from './types';
-import { EASE } from './motion';
+import { EASE, springOptions } from './motion';
 import { cx, focusRing } from './design';
 import { playMotor, playFeedTick, playStopClick, playFiberSnap, playTear, type StopSound } from './receiptAudio';
 
@@ -385,9 +385,12 @@ const PILL =
   'inline-flex min-h-[2.75rem] items-center gap-2 rounded-full border border-ink-200 bg-white px-4 text-sm font-medium text-ink-700 transition-colors hover:border-orange-300 hover:bg-orange-50 hover:text-orange-700';
 
 /* Qogʻoz kengligi — barcha koʻrinishlarda bir xil. */
-const PAPER_W = 'w-[15.5rem] min-[380px]:w-[16.5rem] sm:w-[17.5rem] lg:w-[18.5rem]';
-/* Korpus qogʻozdan kengroq — qogʻoz uning old tomoniga tushadi. */
-const BODY_W = 'w-[19rem] min-[380px]:w-[20rem] sm:w-[21rem] lg:w-[22rem]';
+const PAPER_W = 'w-[14.5rem] min-[380px]:w-[15.5rem] sm:w-[16.5rem]';
+/*
+ * Korpus endi TAILWIND KENGLIGI EMAS — u 3D quti va oʻlchami `BOX`
+ * dan (320px, dizayndagi OSChek bilan bir xil). Konteyner butun
+ * kenglikni oladi, quti esa uning markazida turadi.
+ */
 
 /* ── MASHINA + QOGʻOZ ─────────────────────────────────────────────── */
 
@@ -547,7 +550,7 @@ function PrinterStage({
         Qog'oz korpus USTIGA chiqadi (`z-20`) va manfiy chekinish bilan
         tepadagi tirqishga kiritiladi — orada tirqish qolmaydi.
       */}
-      <div className={cx('relative z-20 -mt-[5.4rem]', PAPER_W)}>
+      <div className={cx('relative z-20', PAPER_W)} style={{ marginTop: -PAPER_LIFT }}>
         <motion.div
           onPointerDown={down}
           onPointerMove={move}
@@ -636,81 +639,256 @@ function PrinterStage({
 }
 
 /*
- * MASHINA KORPUSI.
+ * ── MASHINA KORPUSI — HAQIQIY 3D QUTI ───────────────────────────────
  *
- * Havola rasmdagi shakl: qora-grafit korpus, yumaloqlangan ustki
- * qopqoq, old tomonda toʻq sariq yorugʻlik chizigʻi va OpenShop
- * yozuvi. Qogʻoz USTKI tirqishdan chiqadi.
+ * Ilgari korpus TEKIS edi: ikkita div va gradientlar chuqurlikni
+ * TAQLID qilardi. Yon tomondan qaralganda u qogʻoz boʻlagiga
+ * aylanardi — ayniqsa telefon egilganda, chunki hech narsa
+ * oʻzgarmasdi.
  *
- * Hammasi CSS — rasm ham, SVG ham, canvas ham yoʻq.
+ * Endi bu oltita yuzli quti: old panel, ustki qopqoq, ikkita yon,
+ * orqa va polga tushgan soya. Kamera `rotateX(-20°) rotateY(-14°)` —
+ * quti biroz yuqoridan va chapdan koʻrinadi, yaʼni ustki qopqoq ham,
+ * oʻng yon ham bir vaqtda koʻzga tashlanadi.
+ *
+ * FAQAT TRANSFORM. Rasm, SVG yoki canvas yoʻq; blur ham yoʻq —
+ * poldagi soya statik radial gradient.
+ *
+ * OʻLCHAMLAR dizayndagi OSChek bilan bir xil: 320 × 104 × 210.
  */
+
+/** Korpus oʻlchamlari (px). Yuzlarning `translateZ` i shulardan. */
+const BOX = { w: 320, h: 104, d: 210 } as const;
+
+/*
+ * Konteyner balandligi va qogʻoz siljishi — BRAUZERDA OʻLCHANGAN.
+ *
+ * 3D quti proyeksiyasi 207px joy egallaydi (old panel eng pastda).
+ * Ilgari bu yerda 150 turardi va old panel konteynerdan 56px pastga
+ * chiqib, kesilib qolgandi.
+ *
+ * `PAPER_LIFT` — qogʻoz konteyner tubidan shuncha YUQORIGA koʻtariladi,
+ * shunda uning tepasi aynan tirqishga tushadi. Ikkala qiymat bir-biriga
+ * bogʻliq, shuning uchun ular yonma-yon turadi: birini oʻzgartirsangiz
+ * ikkinchisini ham qayta oʻlchash kerak.
+ */
+const BODY_H = 210;
+const PAPER_LIFT = 146;
+
+/** Kameraning tinch holati (daraja). */
+const CAM = { rx: -20, ry: -14 } as const;
+
+/** Kursor ostida kamera shuncha ogʻadi (daraja). */
+const CAM_SWING = 9;
+
+/** Yirtish plankasi tishlari — `clip-path` bilan, qoʻshimcha elementsiz. */
+const TEETH = (() => {
+  const pts = ['0 0', '100% 0', '100% 40%'];
+  for (let x = 98.5; x > 0; x -= 1.5) {
+    pts.push(`${x.toFixed(1)}% 100%`, `${(x - 0.75).toFixed(2)}% 40%`);
+  }
+  pts.push('0 40%');
+  return `polygon(${pts.join(', ')})`;
+})();
+
+/** Barcha yuzlar 0×0 "oʻq" nuqtasiga nisbatan joylashadi. */
+const FACE = 'pointer-events-none absolute';
+
 function PrinterBody({ feeding, reduce }: { feeding: boolean; reduce: boolean }) {
+  /*
+   * Kamera burchagi kursor bilan ±9° ogʻadi.
+   *
+   * `useMotionValue` + `useSpring`: React qayta render QILMAYDI,
+   * qiymat toʻgʻridan-toʻgʻri DOMʼga yoziladi. Aynan shu naqsh
+   * mahsulot kartochkasidagi tilt uchun ham ishlatilgan.
+   */
+  const rawX = useMotionValue<number>(CAM.rx);
+  const rawY = useMotionValue<number>(CAM.ry);
+  const rx = useSpring(rawX, springOptions.soft);
+  const ry = useSpring(rawY, springOptions.soft);
+
+  const follow = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (reduce) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    const nx = (e.clientX - r.left) / r.width - 0.5;
+    const ny = (e.clientY - r.top) / r.height - 0.5;
+    rawY.set(CAM.ry + nx * 2 * CAM_SWING);
+    rawX.set(CAM.rx - ny * 2 * CAM_SWING);
+  };
+  const rest = () => {
+    rawX.set(CAM.rx);
+    rawY.set(CAM.ry);
+  };
+
   return (
-    <div className={cx('relative z-10', BODY_W)}>
-      {/* Ustki qopqoq — qog'oz shu yerdan chiqadi. */}
-      <div
-        className={cx(
-          'relative mx-auto h-9 w-[94%] rounded-t-[1.1rem]',
-          'bg-gradient-to-b from-[#4a4642] via-[#312e2b] to-[#1c1a19]',
-          'shadow-[inset_0_1px_0_rgba(255,255,255,0.14)]'
-        )}
+    <div
+      className="relative z-10 w-full"
+      style={{ height: BODY_H, perspective: 1100, perspectiveOrigin: '50% 28%' }}
+      onPointerMove={(e) => { if (e.pointerType !== 'touch') follow(e); }}
+      onPointerLeave={rest}
+      onPointerCancel={rest}
+      aria-hidden="true"
+    >
+      {/*
+        3D OʻQ — 0×0 nuqta. Barcha yuzlar shunga nisbatan quriladi.
+        `preserve-3d` zanjiri shu yerdan boshlanadi va yuzlargacha
+        uzilmaydi (dizayn qoidasi).
+      */}
+      <motion.div
+        className="absolute left-1/2"
+        style={{
+          width: 0,
+          height: 0,
+          // Quti oʻz balandligining yarmicha pastga tushiriladi, shunda
+          // ustki qopqoq konteyner tepasida qoladi va qogʻoz tirqishdan
+          // chiqqandek koʻrinadi.
+          // Quti oʻqi konteyner tepasidan shuncha pastda. Konteyner
+          // faqat PASTGA oʻsdi (150 → 210), shuning uchun bu qiymat
+          // oʻzgarmaydi va quti joyidan qimirlamaydi.
+          top: 92,
+          transformStyle: 'preserve-3d',
+          rotateX: reduce ? CAM.rx : rx,
+          rotateY: reduce ? CAM.ry : ry,
+        }}
       >
-        {/* Qopqoq choki — ikki bo'lak orasidagi ingichka ajratuvchi. */}
-        <span className="absolute inset-x-5 top-2 h-px bg-black/45" />
-        <span className="absolute inset-x-5 top-[9px] h-px bg-white/[0.06]" />
+        {/* Polga tushgan soya — quti "oʻtiradi", osilib turmaydi. */}
+        <span
+          className={FACE}
+          style={{
+            left: -230, top: -160, width: 460, height: 320,
+            transform: 'rotateX(90deg) translateZ(-54px)',
+            background:
+              'radial-gradient(ellipse at 50% 50%, rgb(24 23 22 / .38) 0%, rgb(24 23 22 / .16) 38%, rgb(24 23 22 / 0) 68%)',
+          }}
+        />
 
-        {/* Qog'oz tirqishi */}
+        {/* Orqa yuz */}
+        <span
+          className={FACE}
+          style={{
+            left: -BOX.w / 2, top: -BOX.h / 2, width: BOX.w, height: BOX.h,
+            transform: 'rotateY(180deg) translateZ(105px)',
+            borderRadius: '0 0 18px 18px',
+            background: '#161514',
+          }}
+        />
+
+        {/* Chap yon */}
+        <span
+          className={FACE}
+          style={{
+            left: -105, top: -BOX.h / 2, width: BOX.d, height: BOX.h,
+            transform: 'rotateY(-90deg) translateZ(160px)',
+            borderRadius: '0 0 16px 16px',
+            background: 'linear-gradient(90deg, #1b1a18, #2b2826 70%, #211f1d)',
+          }}
+        />
+
+        {/* Oʻng yon */}
+        <span
+          className={FACE}
+          style={{
+            left: -105, top: -BOX.h / 2, width: BOX.d, height: BOX.h,
+            transform: 'rotateY(90deg) translateZ(160px)',
+            borderRadius: '0 0 16px 16px',
+            background: 'linear-gradient(90deg, #211f1d, #2b2826 30%, #1b1a18)',
+          }}
+        />
+
+        {/* ── USTKI QOPQOQ — qogʻoz shu yerdan chiqadi ───────────── */}
         <div
-          className={cx(
-            'absolute inset-x-6 bottom-2 h-[9px] overflow-hidden rounded-[2px] bg-[#050505]',
-            'shadow-[inset_0_2px_5px_rgba(0,0,0,0.95),inset_0_-1px_0_rgba(255,255,255,0.09)]'
-          )}
+          className={FACE}
+          style={{
+            left: -BOX.w / 2, top: -BOX.d / 2, width: BOX.w, height: BOX.d,
+            transform: 'rotateX(90deg) translateZ(52px)',
+            borderRadius: '22px 22px 6px 6px',
+            background: 'linear-gradient(180deg, #2a2725 0%, #3d3936 55%, #4a4642 100%)',
+            boxShadow: 'inset 0 0 0 1px rgb(255 255 255 / .05)',
+          }}
         >
-          {feeding && !reduce && (
-            <motion.span
-              initial={{ x: '-45%' }}
-              animate={{ x: '145%' }}
-              transition={{ duration: 0.36, repeat: Infinity, ease: EASE.inOut }}
-              className="absolute inset-y-0 w-10 bg-gradient-to-r from-transparent via-orange-400/40 to-transparent"
-            />
-          )}
-        </div>
-      </div>
+          {/* Qopqoq choki */}
+          <span className="absolute left-[18px] right-[18px] top-[58px] h-px bg-black/45" />
+          <span className="absolute left-[18px] right-[18px] top-[59px] h-px bg-white/[0.06]" />
 
-      {/* Old panel */}
-      <div
-        className={cx(
-          'relative rounded-[1.15rem] px-5 pb-5 pt-4',
-          'bg-gradient-to-b from-[#343130] via-[#211f1e] to-[#0f0e0e]',
-          'shadow-[0_22px_34px_-20px_rgba(23,20,17,0.85),inset_0_1px_0_rgba(255,255,255,0.1)]'
-        )}
-      >
-        <p className="text-center text-[15px] font-semibold tracking-tight text-white/90">
-          Open<span className="text-orange-500">Shop</span>
-        </p>
-
-        {/*
-          To'q sariq yorug'lik chizig'i — havola rasmdagi eng tanish
-          belgi. Bosish paytida yorqinroq yonadi; bu alohida animatsiya
-          emas, holatdan kelib chiqadi, ya'ni u ham sinxron.
-        */}
-        <div className="mt-3 flex justify-center">
+          {/* Tutqich */}
           <span
-            className={cx(
-              'block h-[3px] w-24 rounded-full bg-orange-500 transition-opacity duration-150',
-              feeding && !reduce ? 'opacity-100' : 'opacity-60'
+            className="absolute left-[132px] top-[22px] h-2 w-14 rounded-full bg-black/35"
+            style={{ boxShadow: 'inset 0 1px 2px rgb(0 0 0 / .6)' }}
+          />
+
+          {/* Qogʻoz tirqishi — bosish paytida ichida toʻq sariq nur yuguradi */}
+          <span
+            className="absolute left-7 right-7 top-[162px] h-3 overflow-hidden rounded-[3px] bg-[#050505]"
+            style={{ boxShadow: 'inset 0 3px 6px rgb(0 0 0 / .95), 0 1px 0 rgb(255 255 255 / .08)' }}
+          >
+            {feeding && !reduce && (
+              <motion.span
+                initial={{ x: '-60%' }}
+                animate={{ x: '360%' }}
+                transition={{ duration: 0.36, repeat: Infinity, ease: EASE.inOut }}
+                className="absolute inset-y-0 w-14 bg-gradient-to-r from-transparent via-orange-400/45 to-transparent"
+              />
             )}
+          </span>
+
+          {/*
+            YIRTISH PLANKASI — tishli metall qirra. Qogʻoz aynan shu
+            qirraga bosib uziladi, shuning uchun u tirqishdan darhol
+            keyin turadi.
+          */}
+          <span
+            className="absolute left-[26px] right-[26px] top-[176px] h-[5px]"
+            style={{ background: 'linear-gradient(180deg, #b9b6b0, #6d6a65)', clipPath: TEETH }}
+          />
+        </div>
+
+        {/* ── OLD PANEL ───────────────────────────────────────────── */}
+        <div
+          className={cx(FACE, 'flex flex-col items-center justify-center gap-3')}
+          style={{
+            left: -BOX.w / 2, top: -BOX.h / 2, width: BOX.w, height: BOX.h,
+            transform: 'translateZ(105px)',
+            borderRadius: '4px 4px 20px 20px',
+            background: 'linear-gradient(180deg, #3b3734 0%, #242220 45%, #141312 100%)',
+            boxShadow: 'inset 0 1px 0 rgb(255 255 255 / .12), inset 0 -2px 0 rgb(0 0 0 / .4)',
+          }}
+        >
+          <span className="text-base font-semibold tracking-tight text-white/90">
+            Open<span className="text-orange-500">Shop</span>
+          </span>
+
+          {/*
+            Toʻq sariq yorugʻlik chizigʻi — bosish paytida yorqinroq
+            yonadi. Alohida animatsiya EMAS, holatdan kelib chiqadi,
+            yaʼni tirqishdagi nur bilan sinxron.
+          */}
+          <span
+            className="block h-[3px] rounded-full bg-orange-500 transition-[opacity,box-shadow] duration-150"
             style={{
+              width: 104,
+              opacity: feeding && !reduce ? 1 : 0.6,
               boxShadow: feeding
                 ? '0 0 14px 2px rgba(249,115,22,0.75)'
                 : '0 0 8px 1px rgba(249,115,22,0.4)',
             }}
           />
-        </div>
-      </div>
 
-      {/* Yuzaga tushgan soya — mashinani "o'tqazadi". */}
-      <span className="pointer-events-none absolute inset-x-10 -bottom-2 h-3 rounded-[50%] bg-ink-900/30 blur-md" />
+          {/* FEED tugmasi (bezak) */}
+          <span
+            className="absolute bottom-[18px] right-[22px] h-[18px] w-[18px] rounded-full"
+            style={{
+              background: 'radial-gradient(circle at 40% 35%, #3a3633, #121110)',
+              boxShadow: '0 0 0 2px #0b0a0a, inset 0 1px 0 rgb(255 255 255 / .1)',
+            }}
+          />
+
+          {/* Quvvat chirogʻi */}
+          <span
+            className="absolute bottom-6 left-6 h-1.5 w-1.5 rounded-full bg-[#22c55e]"
+            style={{ boxShadow: '0 0 6px 1px rgb(34 197 94 / .6)' }}
+          />
+        </div>
+      </motion.div>
     </div>
   );
 }
