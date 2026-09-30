@@ -254,29 +254,19 @@ export const glassTone = {
   light: 'border-white/70 bg-white/70 backdrop-blur-md',
 } as const;
 
-/* ── Shisha tasma ────────────────────────────────────────────────────────
+/* ── Toʻq tasma ──────────────────────────────────────────────────────────
  * Bosh sahifadagi chetdan-chetga boʻlimlar (aksiya, "Hozir trendda").
  *
- * ── NEGA OQ, TOʻQ EMAS ───────────────────────────────────────────────
+ * Fon `ink-950` — dizayn prototipida oʻlchangan qiymat
+ * (`rgb(14,14,13)`). Hero va footer `ink-900` da; 10 birlik farq
+ * chegarani koʻrsatadi, yangi ohang kiritmaydi: teng boʻlsa ular bitta
+ * uzun qora maydonga qoʻshilib ketardi.
  *
- * Bu bloklar avval `ink-950` edi. Toʻq tasma eʼtiborni yaxshi tortadi,
- * lekin sahifada ikkita katta qora maydon paydo boʻlardi va ular
- * orasidagi oq kontent "tirqish"dek koʻrinardi — ritm blokdan emas,
- * qorayishdan kelib chiqardi.
- *
- * Ochiq shisha tasma boshqacha ishlaydi: u sahifadan AJRALADI, lekin
- * uni ikkiga BOʻLMAYDI. Ajralish uchta narsadan keladi va uchalasi ham
- * nozik:
- *   1. iliq gradient (brend rangining eng ochiq pogʻonasi)
- *   2. tepa va past qirradagi ingichka chiziq
- *   3. ostidan oʻtadigan aurora va kublar
- *
- * Matn endi toʻq (`ink-900`), yaʼni kontrast oq fonda hisoblanadi —
- * bu ilovaning qolgan qismidagi bilan bir xil qoida.
+ * Tasma ICHIDAGI panellar shisha boʻladi (`glassTone.dark`) — ostidan
+ * aurora va aylanuvchi kublar oʻtadi va blur ularni yumshatadi. Yaʼni
+ * "shisha" bu yerda yuzaning OʻZI emas, uning ustidagi bloklar.
  */
-export const glassBand =
-  'relative isolate overflow-hidden border-y border-ink-200/70 ' +
-  'bg-gradient-to-b from-orange-50/70 via-white to-ink-50';
+export const darkBand = 'relative isolate overflow-hidden bg-ink-950';
 
 export function glassPanel(tone: keyof typeof glassTone = 'neutral', extra?: string): string {
   return cx('rounded-card border shadow-glass', glassTone[tone], extra);

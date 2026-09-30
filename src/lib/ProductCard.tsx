@@ -837,7 +837,10 @@ export function SpotlightCard({
           </p>
         )}
 
-        <h3 className="mt-2 text-display-sm text-white">
+        {/* 28px — dizaynda oʻlchandi. Spotlight boʻlimning "bosh"
+            mahsuloti, shuning uchun uning nomi oddiy kartochkadagidan
+            (14px) ancha baland ovozda. */}
+        <h3 className="mt-2 text-display-md text-white">
           <Link
             to={`/product/${product.slug}`}
             className={cx('line-clamp-2 rounded-sm before:absolute before:inset-0 before:content-[""]', focusRing)}

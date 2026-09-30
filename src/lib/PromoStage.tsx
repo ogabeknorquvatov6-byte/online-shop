@@ -8,7 +8,7 @@ import { SectionHeader } from './SectionHeader';
 import { AuroraBackground } from './AuroraBackground';
 import { PromoCubes } from './PromoCubes';
 import { SECTION } from './sections';
-import { button, cx, glassBand, shell } from './design';
+import { button, cx, darkBand, shell } from './design';
 import { stockState } from './productUtils';
 
 /*
@@ -65,14 +65,14 @@ export function PromoStage({
       id={SECTION.promo}
       aria-labelledby="promo-heading"
       className={cx(
-        // Chetdan-chetga OCHIQ shisha tasma — "Hozir trendda" bilan
-        // bir xil yuza, lekin mazmuni boshqa: u eʼtibor, bu esa taklif.
-        glassBand,
+        // Chetdan-chetga toʻq tasma — "Hozir trendda" bilan bir xil
+        // yuza, lekin mazmuni boshqa: u eʼtibor, bu esa taklif.
+        darkBand,
         'scroll-mt-28 transition-shadow duration-500',
         highlighted && 'ring-2 ring-inset ring-orange-500'
       )}
     >
-      <AuroraBackground tone="light" />
+      <AuroraBackground />
       {/* Kublar faqat taymer ishlayotganda — yakunlangan aksiyada blok
           sokin boʻlishi kerak, bayram emas. */}
       {!expired && <PromoCubes />}
@@ -97,6 +97,8 @@ export function PromoStage({
                   subtitle={promo.description?.trim() || undefined}
                   actionHref="/promotions"
                   actionLabel="Barchasini koʻrish"
+                  tone="onDark"
+                  titleSize="lg"
                 />
 
                 {/*
@@ -106,11 +108,11 @@ export function PromoStage({
                 */}
                 {promo.end_date && (
                   <div className="mt-5">
-                    <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink-600">
+                    <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/50">
                       Tugashiga qoldi
                     </p>
                     <div className="mt-2">
-                      <CountdownTimer endDate={promo.end_date} onExpire={onExpire} />
+                      <CountdownTimer endDate={promo.end_date} onExpire={onExpire} tone="light" />
                     </div>
                   </div>
                 )}
@@ -190,13 +192,13 @@ function PromoFinished() {
     <div className="flex flex-wrap items-center gap-4">
       <span
         aria-hidden="true"
-        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ink-100 text-ink-600"
+        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10 text-ink-300"
       >
         <Clock className="h-4.5 w-4.5" />
       </span>
       <div className="min-w-0 flex-1">
-        <p className="text-base font-bold text-ink-900">Aksiya yakunlandi</p>
-        <p className="mt-0.5 text-sm text-ink-600">Narxlar odatiy holatga qaytdi.</p>
+        <p className="text-base font-bold text-white">Aksiya yakunlandi</p>
+        <p className="mt-0.5 text-sm text-ink-300">Narxlar odatiy holatga qaytdi.</p>
       </div>
       <Link to="/catalog" className={cx(button('primary', 'md'), 'shrink-0')}>
         Katalogga oʻtish <ArrowRight className="h-4 w-4" />

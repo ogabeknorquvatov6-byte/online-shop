@@ -19,6 +19,7 @@ export function SectionHeader({
   actionLabel,
   action,
   tone = 'default',
+  titleSize = 'md',
 }: {
   id?: string;
   eyebrow?: string;
@@ -30,6 +31,14 @@ export function SectionHeader({
   action?: ReactNode;
   /** `onDark` — toʻq fonli bloklar ichida (masalan aksiya boʻlimi). */
   tone?: 'default' | 'onDark';
+  /**
+   * Sarlavha oʻlchami.
+   *
+   * `md` (28px) — barcha oddiy boʻlimlar. `lg` (40px) faqat AKSIYA
+   * bloki uchun: dizaynda oʻlchandi, u sahifadagi eng baland ovoz va
+   * shuning uchun bir pogʻona kattaroq. Uchinchi oʻlcham yoʻq.
+   */
+  titleSize?: 'md' | 'lg';
 }) {
   const onDark = tone === 'onDark';
 
@@ -68,8 +77,16 @@ export function SectionHeader({
           </p>
         )}
         {/* 28px — barcha oʻlchamlarda bir xil (dizayn: `h2` 28px).
-            Ilgari 24 → 32 → 36px edi, yaʼni shkalada yoʻq ikkita qiymat. */}
-        <h2 id={id} className={cx('mt-1.5 text-display-md', onDark && 'text-white')}>
+            Ilgari 24 → 32 → 36px edi, yaʼni shkalada yoʻq ikkita qiymat.
+            Aksiya bloki 40px (`lg`) — u ham dizaynda oʻlchangan. */}
+        <h2
+          id={id}
+          className={cx(
+            'mt-1.5',
+            titleSize === 'lg' ? 'text-display-lg' : 'text-display-md',
+            onDark && 'text-white'
+          )}
+        >
           {title}
         </h2>
         {subtitle && (

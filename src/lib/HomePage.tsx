@@ -21,9 +21,8 @@ import { AuroraBackground } from './AuroraBackground';
 import { MOTION } from './motion';
 import { useSeo, useSiteJsonLd } from './seo';
 import { SECTION, consumeSection, scrollToSection, type SectionId } from './sections';
-import { button, card, cx, focusRing, glassBand, shell, skeleton } from './design';
+import { button, card, cx, darkBand, focusRing, shell, skeleton } from './design';
 import { Img } from './Img';
-import { HeroShowcase } from './HeroShowcase';
 import { PromoStage } from './PromoStage';
 
 const PAGE_FIRST = 12;
@@ -275,48 +274,39 @@ export function HomePage() {
     <>
       <div className={cx(shell, 'py-4 lg:py-6')}>
       {/*
-        Bosh sahifada `<h1>` UMUMAN YO'Q edi.
-        (Tekshirildi: `document.querySelectorAll('h1').length === 0`.)
+        Yashirin `<h1>` OLIB TASHLANDI.
 
-        Bu ikki tomondan zarar: skrinrider foydalanuvchisi sahifaning nima
-        ekanini bilmaydi va sarlavhalar ierarxiyasi darhol `<h2>` dan
-        boshlanadi; qidiruv tizimi esa saytning eng muhim sahifasida
-        asosiy sarlavhani topa olmaydi.
-
-        Sarlavha KO'RINMAYDI — hero ataylab faqat rasmdan iborat va u
-        yerga matn qo'yish dizaynni buzadi. `sr-only` esa aynan shu holat
-        uchun: mazmun yordamchi texnologiyalar uchun bor, ko'z uchun yo'q.
+        U hero faqat rasmdan iborat boʻlgan davrdan qolgan edi: sahifada
+        koʻrinadigan sarlavha yoʻqligi uchun `sr-only` sarlavha
+        qoʻyilgandi. Endi hero oʻz sarlavhasini KOʻRSATADI, yaʼni
+        ikkinchisi ortiqcha — va ikkita `<h1>` skrinrider uchun
+        sahifaning "mavzusi" ikkita degan maʼnoni berardi.
       */}
-      <h1 className="sr-only">
-        {storeName} — Oʻzbekistondagi online-doʻkon: telefonlar, noutbuklar, audio va maishiy texnika
-      </h1>
 
-      {/* ── Hero: FAQAT rasm ─────────────────────────────────────── */}
+      {/* ── Hero ─────────────────────────────────────────────────── */}
       {loading ? (
-        /* Skeleton balandligi HeroShowcase bilan AYNAN bir xil — aks
-           holda yuklanish tugagach sahifa sakrardi (CLS). */
+        /* Skeleton balandligi hero bilan AYNAN bir xil — aks holda
+           yuklanish tugagach sahifa sakrardi (CLS). */
         <div
           className={cx(
             'w-full rounded-surface',
             'h-[clamp(21rem,64vw+5rem,26rem)] tab:h-[clamp(24rem,42vw+6rem,30rem)] lg:h-[clamp(28rem,34vw+8rem,34rem)]',
-            // `lg:max-h-[62vh]` HeroShowcase bilan bir xil boʻlishi shart —
-            // aks holda yuklanish tugagach past ekranlarda sahifa sakraydi.
             'lg:max-h-[62vh]',
             skeleton
           )}
         />
-      ) : banners.length > 0 ? (
-        <HeroShowcase banners={banners} />
       ) : (
         /*
-         * Banner yoʻq boʻlsa ilgari bu yerda UMUMAN hech narsa
-         * chizilmasdi va bosh sahifa toʻgʻridan-toʻgʻri kategoriya
-         * lentasidan boshlanardi — yangi yoki sozlanmagan doʻkon
-         * birinchi ekranda boʻm-boʻsh koʻrinardi. Endi doʻkon oʻz
-         * nomi va taklifi bilan ochiladi; rasm talab qilinmaydi,
-         * shuning uchun u har doim ishlaydi.
+         * Hero HAR DOIM bitta kompozitsiya — dizayndagi toʻq blok:
+         * ustki yozuv, uch qatorli sarlavha, taklif va ikkita amal.
+         *
+         * Banner bor boʻlsa uning RASMI yon tomonda koʻrsatiladi;
+         * boʻlmasa blok rasmsiz ishlayveradi. Ilgari bu yerda ikkita
+         * butunlay boshqa hero bor edi (karusel yoki zaxira blok) va
+         * doʻkon banner qoʻshgan/oʻchirgan zahoti bosh sahifaning
+         * birinchi ekrani tanib boʻlmas darajada oʻzgarardi.
          */
-        <FallbackHero storeName={storeName} />
+        <Hero storeName={storeName} banner={banners[0] ?? null} />
       )}
 
       {/* ── Ishonch plitkalari ───────────────────────────────────── */}
@@ -338,22 +328,6 @@ export function HomePage() {
 
       </div>
 
-      {/* ── Aksiya — chetdan-chetga sahna ────────────────────────── */}
-      {showPromo && activePromo && (
-        <AnimatedSection className="mt-6 md:mt-9">
-          <PromoStage
-            promo={activePromo}
-            products={promoProducts}
-            highlighted={highlighted === SECTION.promo}
-            expired={promoExpired}
-            onExpire={() => setPromoExpired(true)}
-          />
-        </AnimatedSection>
-      )}
-
-      <div className={cx(shell)}>
-
-      </div>
 
       {/* ── Hozir trendda — chetdan-chetga studiya tasmasi ────────── */}
       {trending.length > 0 && (
@@ -364,8 +338,8 @@ export function HomePage() {
             turadi, shuning uchun farq MAZMUNDA boʻlishi kerak, yuzada
             emas.
           */}
-          <section aria-labelledby="trending-heading" className={glassBand}>
-            <AuroraBackground tone="light" />
+          <section aria-labelledby="trending-heading" className={darkBand}>
+            <AuroraBackground />
             <div className={cx(shell, 'py-8 md:py-12')}>
               <SectionHeader
                 id="trending-heading"
@@ -375,6 +349,7 @@ export function HomePage() {
                 subtitle="Xaridorlar hozir eng koʻp ochayotgan mahsulotlar"
                 actionHref="/catalog"
                 actionLabel="Butun katalog"
+                tone="onDark"
               />
               {/*
                 EDITORIAL KOMPOZITSIYA — ataylab boshqa boʻlimlarga
@@ -420,6 +395,22 @@ export function HomePage() {
         highlighted={highlighted === SECTION.bestsellers}
       />
 
+      </div>
+
+      {/* ── Aksiya — chetdan-chetga sahna ────────────────────────── */}
+      {showPromo && activePromo && (
+        <AnimatedSection className="mt-6 md:mt-9">
+          <PromoStage
+            promo={activePromo}
+            products={promoProducts}
+            highlighted={highlighted === SECTION.promo}
+            expired={promoExpired}
+            onExpire={() => setPromoExpired(true)}
+          />
+        </AnimatedSection>
+      )}
+
+      <div className={cx(shell, 'pb-6')}>
       {/* ── Yangi kelganlar ──────────────────────────────────────── */}
       <LoadMoreSection
         id={SECTION.fresh}
@@ -559,83 +550,139 @@ function CubeMark() {
 }
 
 /**
- * Banner boʻlmaganda koʻrsatiladigan hero.
+ * ── HERO ───────────────────────────────────────────────────────────
  *
- * Ataylab RASMSIZ: doʻkon hali sozlanmagan boʻlishi mumkin, shuning uchun
- * bu blok hech qanday yuklangan kontentga bogʻliq emas va har doim
- * ishlaydi. Fon — bitta CSS gradient (rasm ham, blur ham, zarracha effekt
- * ham yoʻq), shuning uchun u oʻrta darajali telefonda ham tekin.
+ * Toʻq blok: ustki yozuv → uch qatorli sarlavha → taklif → ikkita amal,
+ * yonida rasm. Oʻlchamlar dizayn prototipida oʻlchangan:
+ *   fon      ink-900          sarlavha  Onest 40px, ls −0.035em
+ *   padding  28/40/56px       ustun     1fr | 1.1fr + 1fr (tab+)
+ *   rasm     170/300/360px    gap       20 / 40px
  *
- * Ranglar mavjud identikadan: toʻq neytral yuza (`ink-900` — aynan aksiya
- * boʻlimidagi kabi) va yagona brend urgʻusi (toʻq sariq).
+ * ── NEGA KARUSEL EMAS ──────────────────────────────────────────────
+ *
+ * Ilgari bu yerda ikkita butunlay boshqa hero bor edi: banner bor
+ * boʻlsa — rasm karuseli, boʻlmasa — matnli zaxira blok. Yaʼni doʻkon
+ * banner qoʻshgan yoki oʻchirgan zahoti bosh sahifaning birinchi
+ * ekrani tanib boʻlmas darajada oʻzgarardi.
+ *
+ * Endi kompozitsiya BITTA va u har doim bir xil gapiradi. Banner
+ * maʼlumoti yoʻqolmaydi — uning rasmi yon tomonda turadi; banner
+ * boʻlmasa oʻsha joy shunchaki chizilmaydi.
  */
-function FallbackHero({ storeName }: { storeName: string }) {
+function Hero({ storeName, banner }: { storeName: string; banner: Banner | null }) {
   const reduce = useReducedMotion();
+
   /*
    * Kirish xoreografiyasi — STORY darajasi, lekin mazmun KUTMAYDI:
    * har bir qator oʻz joyida turadi va faqat ustidan yumshoq
-   * ochiladi. Kechikishlar kichik (0.06s qadam), shuning uchun
-   * butun ketma-ketlik ~0.35s ichida tugaydi.
+   * ochiladi. Qadam 60ms, yaʼni butun ketma-ketlik ~0.36s da tugaydi.
    */
   const line = (delay: number) => ({
-    initial: reduce ? { opacity: 0 } : { opacity: 0, y: 14 },
+    initial: reduce ? { opacity: 0 } : { opacity: 0, y: 12 },
     animate: { opacity: 1, y: 0 },
-    transition: { ...MOTION.story, duration: 0.5, delay: reduce ? 0 : delay },
+    transition: { ...MOTION.story, delay: reduce ? 0 : delay },
   });
+
+  const image = banner?.image_url ?? null;
 
   return (
     <section className="relative isolate overflow-hidden rounded-surface bg-ink-900">
-      {/*
-        Ichki nur — matn va CTA ortidan "to'kiladi".
-
-        Ilgari bu yerda ikkita QIMIRLAMAS blur dog'i turardi. Endi ular
-        `AuroraBackground` ichida va juda sekin suzadi: ranglar ham,
-        joylashuv ham o'sha-o'sha, faqat fon endi qotib qolmagan.
-      */}
+      {/* Aurora — hero va aksiya bloki AYNI komponentda nafas oladi. */}
       <AuroraBackground />
 
-      <div className="relative px-5 py-10 sm:px-8 sm:py-14 lg:px-12 lg:py-20">
-        {/* Nuqta — Sparkles ikonkasi o'rniga. Sokinroq va urg'u rangini
-            aynan NUR sifatida ko'rsatadi. */}
-        <motion.p
-          {...line(0)}
-          className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-orange-400"
-        >
-          <span className="h-1.5 w-1.5 rounded-full bg-orange-400 shadow-[0_0_8px_rgba(251,146,60,0.9)]" />
-          {storeName}
-        </motion.p>
-
-        <motion.p
-          {...line(0.06)}
-          className="mt-3 max-w-[17rem] text-display-md text-white sm:max-w-xl sm:text-display-lg lg:max-w-3xl lg:text-[3.5rem] lg:leading-[1.05] lg:tracking-[-0.03em]"
-        >
-          Texnika va kundalik hayot uchun kerakli hamma narsa
-        </motion.p>
-
-        <motion.p
-          {...line(0.12)}
-          className="mt-3 max-w-sm text-sm leading-relaxed text-white/65 sm:max-w-md sm:text-base lg:max-w-xl lg:text-lg"
-        >
-          Rasmiy kafolat, halol narx va Oʻzbekiston boʻylab tez yetkazib berish.
-        </motion.p>
-
-        <motion.div {...line(0.18)} className="mt-6 flex flex-wrap gap-3 sm:mt-8">
-          <Link
-            to="/catalog"
-            className={cx(button('primary', 'lg'), 'shadow-[0_8px_24px_-8px_rgba(234,97,0,0.9)]')}
+      <div
+        className={cx(
+          'relative grid items-center gap-5 px-5 pb-5 pt-7',
+          'tab:gap-10 tab:px-8 tab:py-10',
+          'lg:px-14 lg:py-14',
+          image && 'tab:grid-cols-[1.1fr_1fr]'
+        )}
+      >
+        <div className="min-w-0">
+          {/* Nuqta — brend rangini aynan NUR sifatida koʻrsatadi. */}
+          <motion.p
+            {...line(0)}
+            className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-orange-400"
           >
-            Katalogni koʻrish <ArrowRight className="h-4 w-4" />
-          </Link>
-          <Link
-            to="/promotions"
-            className={cx(
-              button('outline', 'lg'),
-              'border-white/25 bg-white/10 text-white hover:border-white/40 hover:bg-white/15'
-            )}
+            <span
+              aria-hidden="true"
+              className="h-1.5 w-1.5 rounded-full bg-orange-400 shadow-[0_0_8px_rgba(251,146,60,0.9)]"
+            />
+            {storeName}
+          </motion.p>
+
+          {/*
+            SARLAVHA — sahifaning yagona `h1` i.
+
+            Ilgari u `sr-only` edi va hero faqat rasmdan iborat boʻlgani
+            uchun ekranda hech qanday sarlavha koʻrinmasdi. Endi u
+            koʻrinadi va shu sababli alohida yashirin sarlavha ham
+            kerak emas.
+
+            Uch qator ATAYLAB alohida `span` — ular birin-ketin (60ms
+            qadam) ochiladi. Uchinchi qator `orange-300` da: u
+            doʻkonning asosiy vaʼdasi.
+          */}
+          <h1 className="mt-3.5 text-display-lg leading-[1.06] tracking-[-0.035em] text-white">
+            <motion.span {...line(0.06)} className="block">Yangi texnika.</motion.span>
+            <motion.span {...line(0.12)} className="block">Halol narx.</motion.span>
+            <motion.span {...line(0.18)} className="block text-orange-300">
+              Toshkentda&nbsp;— ertagayoq.
+            </motion.span>
+          </h1>
+
+          <motion.p
+            {...line(0.24)}
+            className="mt-3.5 max-w-[27.5rem] text-base leading-relaxed text-white/75"
           >
-            Aksiyalar
-          </Link>
-        </motion.div>
+            Telefonlar, noutbuklar va maishiy texnika rasmiy kafolat bilan.
+            Viloyatlarga 2–3 kunda.
+          </motion.p>
+
+          <motion.div {...line(0.3)} className="mt-5 flex flex-wrap gap-2.5">
+            <Link
+              to="/catalog"
+              className={cx(
+                button('primary', 'lg'),
+                // Qalinlik + brend nuri: bu sahifadagi asosiy amal.
+                'shadow-press shadow-[0_8px_24px_-8px_rgba(234,97,0,0.9)]'
+              )}
+            >
+              Katalogni koʻrish <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              to="/promotions"
+              className={cx(
+                button('outline', 'lg'),
+                'border-white/25 bg-white/10 text-white hover:border-white/40 hover:bg-white/15'
+              )}
+            >
+              Aksiyalar
+            </Link>
+          </motion.div>
+        </div>
+
+        {/*
+          Banner rasmi. Bannerning MATNI bu yerda koʻrsatilmaydi —
+          sarlavha allaqachon chapda turibdi va ikkitasi bir vaqtda
+          ikki xil daʼvo qilardi. Rasm esa doʻkonning oʻz mahsuloti
+          va u kompozitsiyaga qoʻshimcha maʼno beradi.
+        */}
+        {image && (
+          <motion.div
+            {...line(0.24)}
+            className="relative h-[10.625rem] overflow-hidden rounded-card tab:h-[18.75rem] lg:h-[22.5rem]"
+          >
+            <Img
+              src={image}
+              alt={banner?.title ?? ''}
+              priority
+              sizes="(min-width: 1024px) 40vw, (min-width: 820px) 45vw, 92vw"
+              className="h-full w-full"
+              imgClassName="h-full w-full object-cover"
+            />
+          </motion.div>
+        )}
       </div>
     </section>
   );
